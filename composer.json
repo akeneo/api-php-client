@@ -1,0 +1,34 @@
+{
+  "name": "akeneo/api-php-client",
+  "description": "Akeneo PIM client for the API",
+  "license": "OSL-3.0",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Akeneo",
+      "homepage": "http://www.akeneo.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Akeneo\\": "src/Akeneo/"
+    }
+  },
+  "require": {
+    "php": ">=5.6",
+    "psr/http-message": "^1.0",
+    "php-http/httplug": "^1.0",
+    "php-http/message": "^1.0",
+    "php-http/discovery": "^1.0",
+    "php-http/message-factory": "^v1.0",
+    "php-http/multipart-stream-builder": "^0.2",
+    "php-http/client-implementation": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.7.*",
+    "phpspec/phpspec": "3.2.*"
+  },
+  "suggest": {
+    "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
+  }
+}
