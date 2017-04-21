@@ -26,7 +26,7 @@ class CategoryApiSpec extends ObjectBehavior
         $categories = $this->getSampleOfCategories();
 
         $uriGenerator
-            ->generate(Route::CATEGORIES, [])
+            ->generate(CategoryApi::CATEGORIES_PATH, [], [])
             ->shouldBeCalled()
             ->willReturn($uri);
 
@@ -47,7 +47,7 @@ class CategoryApiSpec extends ObjectBehavior
         $parameters = ['misc' => 1];
 
         $uriGenerator
-            ->generate(Route::CATEGORIES, ['limit' => $limit, 'with_count' => $withCount, 'misc' => 1])
+            ->generate(CategoryApi::CATEGORIES_PATH, [], ['limit' => $limit, 'with_count' => $withCount, 'misc' => 1])
             ->shouldBeCalled()
             ->willReturn($uri);
 

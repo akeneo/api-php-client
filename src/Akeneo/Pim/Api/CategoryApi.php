@@ -3,18 +3,17 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Routing\Route;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 
 /**
- * Class CategoryApi
- *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class CategoryApi implements CategoryApiInterface
 {
+    const CATEGORIES_PATH = 'api/rest/v1/categories';
+
     /** @var ResourceClientInterface */
     protected $resourceClient;
 
@@ -54,7 +53,7 @@ class CategoryApi implements CategoryApiInterface
             $parameters['with_count'] = $withCount;
         }
 
-        $uri = $this->uriGenerator->generate(Route::CATEGORIES, $parameters);
+        $uri = $this->uriGenerator->generate(static::CATEGORIES_PATH, [], $parameters);
 
         return $this->resourceClient->getResource($uri);
     }
