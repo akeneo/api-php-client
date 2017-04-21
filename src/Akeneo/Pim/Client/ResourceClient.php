@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\Client;
 
-use Akeneo\Pim\HttpClient\HttpClient;
+use Akeneo\Pim\HttpClient\HttpClientInterface;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -11,13 +11,13 @@ use Akeneo\Pim\HttpClient\HttpClient;
  */
 class ResourceClient implements ResourceClientInterface
 {
-    /** @var HttpClient */
+    /** @var HttpClientInterface */
     protected $httpClient;
 
     /**
-     * @param HttpClient $httpClient
+     * @param HttpClientInterface $httpClient
      */
-    public function __construct(HttpClient $httpClient)
+    public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
     }
