@@ -34,15 +34,17 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategories($limit = null, $withCount = null, array $parameters = [])
+    public function getCategories($limit = null, $withCount = null, array $additionalQueryParameters = [])
     {
-        if (array_key_exists('limit', $parameters)) {
-            throw new \InvalidArgumentException('The parameter "limit" should not be directly defined in parameters');
+        if (array_key_exists('limit', $additionalQueryParameters)) {
+            throw new \InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters');
         }
 
-        if (array_key_exists('with_count', $parameters)) {
-            throw new \InvalidArgumentException('The parameter "with_count" should not be directly defined in parameters');
+        if (array_key_exists('with_count', $additionalQueryParameters)) {
+            throw new \InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters');
         }
+
+        $parameters = $additionalQueryParameters;
 
         if (null !== $limit) {
             $parameters['limit'] = $limit;

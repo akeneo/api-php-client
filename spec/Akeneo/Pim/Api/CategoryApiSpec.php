@@ -59,12 +59,12 @@ class CategoryApiSpec extends ObjectBehavior
         $this->getCategories($limit, $withCount, $parameters)->shouldReturn($categories);
     }
 
-    function it_throws_an_exception_if_limit_is_defined_in_parameters_to_get_categories()
+    function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_categories()
     {
         $this->shouldThrow('\InvalidArgumentException')->during('getCategories', [10, null, ['limit' => null]]);
     }
 
-    function it_throws_an_exception_if_with_count_is_defined_in_parameters_to_get_categories()
+    function it_throws_an_exception_if_with_count_is_defined_in_additional_parameters_to_get_categories()
     {
         $this->shouldThrow('\InvalidArgumentException')->during('getCategories', [null, false, ['with_count' => null]]);
     }

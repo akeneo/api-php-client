@@ -14,11 +14,11 @@ interface CategoryApiInterface
     /**
      * Get a list of categories
      *
-     * @param int   $limit      The maximum number of categories returned per response
-     * @param bool  $withCount  Set to true to return the count of products in the response
-     * @param array $parameters Others parameters
+     * @param int   $limit                     The maximum number of categories returned per response
+     * @param bool  $withCount                 Set to true to return the count of products in the response
+     * @param array $additionalQueryParameters Additional query parameters
      *
      * @return mixed
      */
-    public function getCategories($limit = null, $withCount = null, array $parameters = []);
+    public function getCategories($limit = null, $withCount = null, array $additionalQueryParameters = []);
 }
