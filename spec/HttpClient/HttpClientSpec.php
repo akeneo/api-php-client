@@ -1,0 +1,77 @@
+<?php
+
+namespace spec\Akeneo\Pim\HttpClient;
+
+use Akeneo\Pim\Exception\HttpException;
+use Http\Client\HttpClient;
+use Http\Message\RequestFactory;
+use PhpSpec\ObjectBehavior;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class HttpClientSpec extends ObjectBehavior
+{
+    function let(
+        HttpClient $httpClient,
+        RequestFactory $requestFactory
+    ) {
+        $this->beConstructedWith($httpClient, $requestFactory);
+    }
+
+    function it_is_initializable()
+    {
+        $this->shouldHaveType('Akeneo\Pim\HttpClient\HttpClient');
+        $this->shouldImplement('Akeneo\Pim\HttpClient\HttpClientInterface');
+    }
+
+    function it_sends_a_successful_request(
+        $requestFactory,
+        $httpClient,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $requestFactory->createRequest(
+            'POST',
+            'http://akeneo.com/api/rest/v1/products/foo',
+            ['Content-Type' => 'application/json'],
+            '{"identifier": "foo"}'
+        )->willReturn($request);
+
+        $httpClient->sendRequest($request)->willReturn($response);
+
+        $this->sendRequest(
+            'POST',
+            'http://akeneo.com/api/rest/v1/products/foo',
+            ['Content-Type' => 'application/json'],
+            '{"identifier": "foo"}'
+        )->shouldReturn($response);
+    }
+
+    function it_throws_an_exception_when_failing_request(
+        $requestFactory,
+        $httpClient,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $requestFactory->createRequest(
+            'POST',
+            'http://akeneo.com/api/rest/v1/products/foo',
+            ['Content-Type' => 'application/json'],
+            '{"identifier": "foo"}'
+        )->willReturn($request);
+
+        $httpClient->sendRequest($request)->willReturn($response);
+
+        $response->getStatusCode()->willReturn(500);
+        $response->getReasonPhrase()->willReturn('Server error');
+
+        $this
+            ->shouldThrow(HttpException::class)
+            ->during('sendRequest', [
+                'POST',
+                'http://akeneo.com/api/rest/v1/products/foo',
+                ['Content-Type' => 'application/json'],
+                '{"identifier": "foo"}'
+            ]);
+    }
+}
