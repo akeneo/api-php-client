@@ -7,7 +7,7 @@ A simple PHP client to use the Akeneo PIM API.
 * PHP >= 5.6
 * Composer 
 
-# Installation instructions
+# Installation
 
 We use HTTPPlug as the HTTP client abstraction layer.
 In this example, we will use [Guzzle](https://github.com/guzzle/guzzle) v6 as the HTTP client implementation.
@@ -25,6 +25,23 @@ $ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter
 ```
 
 If you want to use another HTTP client implementation, you can check [here](https://packagist.org/providers/php-http/client-implementation) the full list of HTTP client implementations. 
+
+# Getting started
+
+```php
+<?php
+
+require_once '/vendor/autoload.php';
+
+$clientBuilder = new \Akeneo\Pim\Client\AkeneoPimClientBuilder('http://localhost/', 'client_id', 'secret', 'admin', 'admin');
+$client = $clientBuilder->build();
+
+$categories = $client->getCategoryApi()->getCategories();
+
+foreach ($categories->getItems() as $category) {
+    //...
+}
+```
 
 ## License
 
