@@ -2,18 +2,25 @@
 
 namespace spec\Akeneo\Pim\Pagination;
 
+use Akeneo\Pim\HttpClient\HttpClientInterface;
 use Akeneo\Pim\Pagination\Page;
+use Akeneo\Pim\Pagination\PageFactory;
 use PhpSpec\ObjectBehavior;
 
 class PageFactorySpec extends ObjectBehavior
 {
+    public function let(HttpClientInterface $httpClient)
+    {
+        $this->beConstructedWith($httpClient);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Akeneo\Pim\Pagination\PageFactory');
         $this->shouldHaveType('Akeneo\Pim\Pagination\PageFactoryInterface');
     }
 
-    function it_creates_a_page_with_all_links()
+    function it_creates_a_page_with_all_links($httpClient)
     {
         $data = [
             '_links'      => [
@@ -42,7 +49,8 @@ class PageFactorySpec extends ObjectBehavior
         $this->createPage($data)->shouldReturnAnInstanceOf(Page::class);
         $this->createPage($data)->shouldBeLike(
             new Page(
-                'http://akeneo.com/self',
+                new PageFactory($httpClient->getWrappedObject()),
+                $httpClient->getWrappedObject(),
                 'http://akeneo.com/first',
                 'http://akeneo.com/previous',
                 'http://akeneo.com/next',
@@ -55,7 +63,7 @@ class PageFactorySpec extends ObjectBehavior
         );
     }
 
-    function it_creates_a_page_without_next_and_previous_links()
+    function it_creates_a_page_without_next_and_previous_links($httpClient)
     {
         $data = [
             '_links'      => [
@@ -78,7 +86,8 @@ class PageFactorySpec extends ObjectBehavior
         $this->createPage($data)->shouldReturnAnInstanceOf(Page::class);
         $this->createPage($data)->shouldBeLike(
             new Page(
-                'http://akeneo.com/self',
+                new PageFactory($httpClient->getWrappedObject()),
+                $httpClient->getWrappedObject(),
                 'http://akeneo.com/first',
                 null,
                 null,
@@ -91,7 +100,7 @@ class PageFactorySpec extends ObjectBehavior
         );
     }
 
-    function it_creates_a_page_without_count()
+    function it_creates_a_page_without_count($httpClient)
     {
         $data = [
             '_links'      => [
@@ -119,7 +128,8 @@ class PageFactorySpec extends ObjectBehavior
         $this->createPage($data)->shouldReturnAnInstanceOf(Page::class);
         $this->createPage($data)->shouldBeLike(
             new Page(
-                'http://akeneo.com/self',
+                new PageFactory($httpClient->getWrappedObject()),
+                $httpClient->getWrappedObject(),
                 'http://akeneo.com/first',
                 'http://akeneo.com/previous',
                 'http://akeneo.com/next',

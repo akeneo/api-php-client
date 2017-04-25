@@ -2,8 +2,10 @@
 
 namespace Akeneo\Pim\Pagination;
 
+use Akeneo\Pim\HttpClient\HttpClientInterface;
+
 /**
- * Page represents a list of resources, with the different links to the other related page.
+ * Page represents a list of paginated resources.
  *
  * @author    Alexandre Hocquard <alexandre.hocquard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
@@ -11,8 +13,11 @@ namespace Akeneo\Pim\Pagination;
  */
 class Page
 {
-    /** @var string */
-    protected $selfLink;
+    /** @var PageFactoryInterface */
+    protected $pageFactory;
+
+    /** @var HttpClientInterface */
+    protected $httpClient;
 
     /** @var string */
     protected $firstLink;
@@ -30,16 +35,18 @@ class Page
     protected $items;
 
     /**
-     * @param string      $selfLink
-     * @param string      $firstLink
-     * @param string|null $previousLink
-     * @param string|null $nextLink
-     * @param int|null    $count
-     * @param array       $items
+     * @param PageFactoryInterface $pageFactory
+     * @param HttpClientInterface  $httpClient
+     * @param string               $firstLink
+     * @param string|null          $previousLink
+     * @param string|null          $nextLink
+     * @param int|null             $count
+     * @param array                $items
      */
-    public function __construct($selfLink, $firstLink, $previousLink, $nextLink, $count, array $items)
+    public function __construct(PageFactoryInterface $pageFactory, HttpClientInterface $httpClient, $firstLink, $previousLink, $nextLink, $count, array $items)
     {
-        $this->selfLink = $selfLink;
+        $this->pageFactory = $pageFactory;
+        $this->httpClient = $httpClient;
         $this->firstLink = $firstLink;
         $this->previousLink = $previousLink;
         $this->nextLink = $nextLink;
@@ -48,35 +55,33 @@ class Page
     }
 
     /**
-     * @return string
+     * Returns the first page of the list of resources.
+     *
+     * @return Page
      */
-    public function getSelfLink()
+    public function getFirstPage()
     {
-        return $this->selfLink;
+        return $this->getPage($this->firstLink);
     }
 
     /**
-     * @return string
+     * Returns the previous page of the list of resources if it exists, null otherwise.
+     *
+     * @return Page|null
      */
-    public function getFirstLink()
+    public function getPreviousPage()
     {
-        return $this->firstLink;
+        return $this->hasPreviousPage() ? $this->getPage($this->previousLink) : null;
     }
 
     /**
-     * @return string|null
+     * Returns the previous page of the list of resources if it exists, null otherwise.
+     *
+     * @return Page|null
      */
-    public function getPreviousLink()
+    public function getNextPage()
     {
-        return $this->previousLink;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getNextLink()
-    {
-        return $this->nextLink;
+        return $this->hasNextPage() ? $this->getPage($this->nextLink) : null;
     }
 
     /**
@@ -93,5 +98,62 @@ class Page
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Returns true if a next page exists, false either.
+     *
+     * @return bool
+     */
+    public function hasNextPage()
+    {
+        return null !== $this->nextLink;
+    }
+
+    /**
+     * Returns true if a previous page exists, false either.
+     *
+     * @return bool
+     */
+    public function hasPreviousPage()
+    {
+        return null !== $this->previousLink;
+    }
+
+    /**
+     * Returns the link to the next page.
+     * If there is no next page, returns null.
+     *
+     * @return null|string
+     */
+    public function getNextLink()
+    {
+        return $this->nextLink;
+    }
+
+    /**
+     * Returns the link to the previous page.
+     * If there is no previous page, returns null.
+     *
+     * @return null|string
+     */
+    public function getPreviousLink()
+    {
+        return $this->previousLink;
+    }
+
+    /**
+     * Returns the page given a complete uri.
+     *
+     * @param string $uri
+     *
+     * @return Page
+     */
+     protected function getPage($uri)
+    {
+        $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        return $this->pageFactory->createPage($data);
     }
 }
