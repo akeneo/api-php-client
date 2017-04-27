@@ -40,4 +40,16 @@ interface CategoryApiInterface
      * @throws HttpException
      */
     public function createCategory($code, array $data = []);
+
+    /**
+     * Creates a category if the category does not exist yet, otherwise updates partially the category.
+     *
+     * @param string $code code of the category to create or update
+     * @param array  $data data of the category to create or update
+     *
+     * @throws HttpException
+     *
+     * @return int returns either http code 201 if the category has been created or 204 if it has been updated
+     */
+    public function partialUpdateCategory($code, array $data = []);
 }

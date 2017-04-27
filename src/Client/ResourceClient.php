@@ -88,4 +88,22 @@ class ResourceClient implements ResourceClientInterface
             json_encode($body)
         );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partialUpdateResource($uri, array $uriParameters = [], array $body = [])
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return $response->getStatusCode();
+    }
 }

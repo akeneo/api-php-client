@@ -56,4 +56,17 @@ interface ResourceClientInterface
      * @throws HttpException
      */
     public function createResource($uri, array $uriParameters = [], array $body = []);
+
+    /**
+     * Creates a resource if the resource does not exist yet, otherwise updates partially the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters Uri parameters of the resources
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException
+     *
+     * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
+     */
+    public function partialUpdateResource($uri, array $uriParameters = [], array $body = []);
 }

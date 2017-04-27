@@ -57,4 +57,12 @@ class CategoryApi implements CategoryApiInterface
 
         $this->resourceClient->createResource(static::CATEGORIES_PATH, [], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partialUpdateCategory($code, array $data = [])
+    {
+        return $this->resourceClient->partialUpdateResource(static::CATEGORY_PATH, [$code], $data);
+    }
 }

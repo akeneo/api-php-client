@@ -75,4 +75,13 @@ class CategoryApiSpec extends ObjectBehavior
             'createCategory', ['master', ['code' => 'master', 'parent' => 'foo']]
         );
     }
+
+    function it_updates_partially_a_category($resourceClient)
+    {
+        $resourceClient
+            ->partialUpdateResource(CategoryApi::CATEGORY_PATH, ['master'], ['parent' => 'foo'])
+            ->shouldBeCalled();
+
+        $this->partialUpdateCategory('master', ['parent' => 'foo']);
+    }
 }
