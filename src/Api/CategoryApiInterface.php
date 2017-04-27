@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Api;
 
+use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Pagination\Page;
 
 /**
@@ -24,7 +25,19 @@ interface CategoryApiInterface
      *                               This parameter could decrease drastically the performance when set to true.
      * @param array $queryParameters Additional query parameters to pass in the request
      *
+     * @throws HttpException
+     *
      * @return Page
      */
     public function getCategories($limit = 10, $withCount = false, array $queryParameters = []);
+
+    /**
+     * Creates a category.
+     *
+     * @param string $code code of the category to create
+     * @param array  $data data of the category to create
+     *
+     * @throws HttpException
+     */
+    public function createCategory($code, array $data = []);
 }

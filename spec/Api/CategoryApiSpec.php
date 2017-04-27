@@ -55,4 +55,24 @@ class CategoryApiSpec extends ObjectBehavior
 
         $this->getCategories(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
+
+    function it_creates_a_category($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                CategoryApi::CATEGORIES_PATH,
+                [],
+                ['code' => 'master', 'parent' => 'foo']
+            )
+            ->shouldBeCalled();
+
+        $this->createCategory('master', ['parent' => 'foo']);
+    }
+
+    function it_throws_an_exception_when_code_provided_in_data_when_creating_a_category($resourceClient)
+    {
+        $this->shouldThrow('\InvalidArgumentException')->during(
+            'createCategory', ['master', ['code' => 'master', 'parent' => 'foo']]
+        );
+    }
 }
