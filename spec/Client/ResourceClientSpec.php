@@ -92,7 +92,7 @@ JSON;
         $this->getResources('api/rest/v1/categories', [], 10, true, ['foo' => 'bar'])->shouldReturn($resources);
     }
 
-    function it_returns_a_list_of_categories_without_limit_and_count(
+    function it_returns_a_list_of_resources_without_limit_and_count(
         $httpClient,
         $uriGenerator,
         ResponseInterface $response,
@@ -118,6 +118,69 @@ JSON;
             ->willReturn(json_encode($resources));
 
         $this->getResources('api/rest/v1/categories', [], null, null, ['foo' => 'bar'])->shouldReturn($resources);
+    }
+
+    function it_creates_a_resource(
+        $httpClient,
+        $uriGenerator
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/categories';
+
+        $uriGenerator
+            ->generate('api/rest/v1/categories', [])
+            ->willReturn($uri);
+
+        $httpClient
+            ->sendRequest('POST', $uri, ['Content-Type' => 'application/json'], '{"code":"master"}')
+            ->shouldBeCalled();
+
+        $this->createResource(
+            'api/rest/v1/categories',
+            [],
+            [
+                '_links' => [
+                    'self' => [
+                        'href' => 'http://akeneo.com/self',
+                    ],
+                ],
+                'code'   => 'master',
+            ]
+        );
+    }
+
+    function it_updates_partially_a_resource(
+        $httpClient,
+        $uriGenerator,
+        ResponseInterface $response
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/categories/master';
+
+        $uriGenerator
+            ->generate('api/rest/v1/categories/%s', ['master'])
+            ->willReturn($uri);
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/json'], '{"parent":"foo"}')
+            ->willReturn($response);
+
+        $response
+            ->getStatusCode()
+            ->willReturn(201);
+
+        $this
+            ->partialUpdateResource(
+                'api/rest/v1/categories/%s',
+                ['master'],
+                [
+                    '_links' => [
+                        'self' => [
+                            'href' => 'http://akeneo.com/self',
+                        ],
+                    ],
+                    'parent' => 'foo'
+                ]
+            )
+            ->shouldReturn(201);
     }
 
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()

@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Client;
 
+use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Pagination\Page;
 
 /**
@@ -20,6 +21,8 @@ interface ResourceClientInterface
      * @param array  $uriParameters   Uri parameters of the resources
      * @param array  $queryParameters Query parameters of the request
      *
+     * @throws HttpException
+     *
      * @return array
      */
     public function getResource($uri, array $uriParameters = [], array $queryParameters = []);
@@ -37,8 +40,33 @@ interface ResourceClientInterface
      * @param array    $queryParameters Additional query parameters of the request
      *
      * @throws \InvalidArgumentException
+     * @throws HttpException
      *
      * @return array
      */
     public function getResources($uri, array $uriParameters = [], $limit = 10, $withCount = false, array $queryParameters = []);
+
+    /**
+     * Creates a resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters Uri parameters of the resources
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException
+     */
+    public function createResource($uri, array $uriParameters = [], array $body = []);
+
+    /**
+     * Creates a resource if the resource does not exist yet, otherwise updates partially the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters Uri parameters of the resources
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException
+     *
+     * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
+     */
+    public function partialUpdateResource($uri, array $uriParameters = [], array $body = []);
 }

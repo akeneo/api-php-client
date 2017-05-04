@@ -72,4 +72,38 @@ class ResourceClient implements ResourceClientInterface
 
         return $this->getResource($uri, $uriParameters, $queryParameters);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createResource($uri, array $uriParameters = [], array $body = [])
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $this->httpClient->sendRequest(
+            'POST',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partialUpdateResource($uri, array $uriParameters = [], array $body = [])
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return $response->getStatusCode();
+    }
 }

@@ -15,6 +15,7 @@ use Akeneo\Pim\Routing\UriGeneratorInterface;
  */
 class CategoryApi implements CategoryApiInterface
 {
+    const CATEGORY_PATH = 'api/rest/v1/categories/%s';
     const CATEGORIES_PATH = 'api/rest/v1/categories';
 
     /** @var ResourceClientInterface */
@@ -41,5 +42,27 @@ class CategoryApi implements CategoryApiInterface
         $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createCategory($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        $this->resourceClient->createResource(static::CATEGORIES_PATH, [], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partialUpdateCategory($code, array $data = [])
+    {
+        return $this->resourceClient->partialUpdateResource(static::CATEGORY_PATH, [$code], $data);
     }
 }
