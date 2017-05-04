@@ -30,6 +30,7 @@ class PageSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType('Akeneo\Pim\Pagination\Page');
+        $this->shouldImplement('Akeneo\Pim\Pagination\PageInterface');
     }
 
     function it_gets_next_page(

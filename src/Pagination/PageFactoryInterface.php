@@ -16,7 +16,7 @@ interface PageFactoryInterface
      *
      * @param array $data body of the response
      *
-     * @return Page
+     * @return PageInterface
      */
     public function createPage(array $data);
 }

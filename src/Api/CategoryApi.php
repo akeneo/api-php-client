@@ -4,6 +4,9 @@ namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\Pagination\PaginationParameter;
+use Akeneo\Pim\Pagination\PaginationType;
+use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 
 /**
@@ -24,14 +27,22 @@ class CategoryApi implements CategoryApiInterface
     /** @var PageFactoryInterface */
     protected $pageFactory;
 
+    /** @var ResourceCursorFactoryInterface */
+    protected $cursorFactory;
+
     /**
-     * @param ResourceClientInterface $resourceClient
-     * @param  PageFactoryInterface   $pageFactory
+     * @param ResourceClientInterface        $resourceClient
+     * @param PageFactoryInterface           $pageFactory
+     * @param ResourceCursorFactoryInterface $cursorFactory
      */
-    public function __construct(ResourceClientInterface $resourceClient, PageFactoryInterface $pageFactory)
-    {
+    public function __construct(
+        ResourceClientInterface $resourceClient,
+        PageFactoryInterface $pageFactory,
+        ResourceCursorFactoryInterface $cursorFactory
+    ) {
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
+        $this->cursorFactory = $cursorFactory;
     }
 
     /**
@@ -42,6 +53,16 @@ class CategoryApi implements CategoryApiInterface
         $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCategoryCursor($pageSize = 10, array $queryParameters = [])
+    {
+        $firstPage = $this->getCategories($pageSize, false, $queryParameters);
+
+        return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
 
     /**
