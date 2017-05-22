@@ -11,10 +11,10 @@ namespace Akeneo\Pim\Pagination;
  */
 class ResourceCursor implements ResourceCursorInterface
 {
-    /** @var Page */
+    /** @var PageInterface */
     protected $currentPage;
 
-    /** @var Page */
+    /** @var PageInterface */
     protected $firstPage;
 
     /** @var int */
@@ -25,8 +25,6 @@ class ResourceCursor implements ResourceCursorInterface
 
     /** @var int */
     protected $totalIndex = 0;
-
-
 
     /**
      * @param int           $pageSize
