@@ -4,10 +4,8 @@ namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PaginationParameter;
 use Akeneo\Pim\Pagination\PaginationType;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Routing\UriGeneratorInterface;
 
 /**
  * API implementation to manage the categories.
@@ -48,7 +46,7 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategories($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
         $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);
 
@@ -58,9 +56,9 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategoryCursor($pageSize = 10, array $queryParameters = [])
+    public function all($pageSize = 10, array $queryParameters = [])
     {
-        $firstPage = $this->getCategories($pageSize, false, $queryParameters);
+        $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
@@ -68,7 +66,7 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function createCategory($code, array $data = [])
+    public function create($code, array $data = [])
     {
         if (array_key_exists('code', $data)) {
             throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
@@ -82,7 +80,7 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function partialUpdateCategory($code, array $data = [])
+    public function upsert($code, array $data = [])
     {
         return $this->resourceClient->partialUpdateResource(static::CATEGORY_PATH, [$code], $data);
     }
