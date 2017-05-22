@@ -11,7 +11,7 @@ use Akeneo\Pim\HttpClient\HttpClientInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Page
+class Page implements PageInterface
 {
     /** @var PageFactoryInterface */
     protected $pageFactory;
@@ -55,9 +55,7 @@ class Page
     }
 
     /**
-     * Returns the first page of the list of resources.
-     *
-     * @return Page
+     * {@inheritdoc}
      */
     public function getFirstPage()
     {
@@ -65,9 +63,7 @@ class Page
     }
 
     /**
-     * Returns the previous page of the list of resources if it exists, null otherwise.
-     *
-     * @return Page|null
+     * {@inheritdoc}
      */
     public function getPreviousPage()
     {
@@ -75,9 +71,7 @@ class Page
     }
 
     /**
-     * Returns the previous page of the list of resources if it exists, null otherwise.
-     *
-     * @return Page|null
+     * {@inheritdoc}
      */
     public function getNextPage()
     {
@@ -85,7 +79,7 @@ class Page
     }
 
     /**
-     * @return int|null
+     * {@inheritdoc}
      */
     public function getCount()
     {
@@ -93,7 +87,7 @@ class Page
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getItems()
     {
@@ -101,9 +95,7 @@ class Page
     }
 
     /**
-     * Returns true if a next page exists, false either.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasNextPage()
     {
@@ -111,9 +103,7 @@ class Page
     }
 
     /**
-     * Returns true if a previous page exists, false either.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasPreviousPage()
     {
@@ -121,10 +111,7 @@ class Page
     }
 
     /**
-     * Returns the link to the next page.
-     * If there is no next page, returns null.
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
     public function getNextLink()
     {
@@ -132,10 +119,7 @@ class Page
     }
 
     /**
-     * Returns the link to the previous page.
-     * If there is no previous page, returns null.
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
     public function getPreviousLink()
     {
@@ -147,9 +131,9 @@ class Page
      *
      * @param string $uri
      *
-     * @return Page
+     * @return PageInterface
      */
-     protected function getPage($uri)
+    protected function getPage($uri)
     {
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
         $data = json_decode($response->getBody()->getContents(), true);

@@ -3,15 +3,18 @@
 namespace Akeneo\Pim\Pagination;
 
 /**
- * This class contains the list of parameters to use for the pagination of the API.
+ * Cursor interface  iterate over a list of resources.
  *
  * @author    Alexandre Hocquard <alexandre.hocquard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class PaginationParameters
+interface ResourceCursorInterface extends \Iterator
 {
-    const SEARCH = 'search';
-    const LIMIT = 'limit';
-    const WITH_COUNT = 'with_count';
+    /**
+     * Get the number of resources per page.
+     *
+     * @return int
+     */
+    public function getPageSize();
 }

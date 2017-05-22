@@ -17,7 +17,7 @@ class PageFactorySpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType('Akeneo\Pim\Pagination\PageFactory');
-        $this->shouldHaveType('Akeneo\Pim\Pagination\PageFactoryInterface');
+        $this->shouldImplement('Akeneo\Pim\Pagination\PageFactoryInterface');
     }
 
     function it_creates_a_page_with_all_links($httpClient)

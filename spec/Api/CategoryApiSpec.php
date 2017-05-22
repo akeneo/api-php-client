@@ -5,16 +5,20 @@ namespace spec\Akeneo\Pim\Api;
 use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Pagination\Page;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\Pagination\PageInterface;
+use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\Pagination\ResourceCursorInterface;
 use Akeneo\Pim\Routing\Route;
 use PhpSpec\ObjectBehavior;
 
 class CategoryApiSpec extends ObjectBehavior
 {
-    function let(ResourceClientInterface $resourceClient, PageFactoryInterface $pageFactory)
-    {
-        $this->beConstructedWith($resourceClient, $pageFactory);
+    function let(ResourceClientInterface $resourceClient,
+                 PageFactoryInterface $pageFactory,
+                 ResourceCursorFactoryInterface $cursorFactory
+    ) {
+        $this->beConstructedWith($resourceClient, $pageFactory, $cursorFactory);
     }
 
     function it_is_initializable()
@@ -23,7 +27,7 @@ class CategoryApiSpec extends ObjectBehavior
         $this->shouldImplement(CategoryApiInterface::class);
     }
 
-    function it_returns_a_list_of_categories_with_default_parameters($resourceClient, $pageFactory, Page $page)
+    function it_returns_a_list_of_categories_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
             ->getResources(CategoryApi::CATEGORIES_PATH, [], 10, false, [])
@@ -34,7 +38,7 @@ class CategoryApiSpec extends ObjectBehavior
         $this->getCategories()->shouldReturn($page);
     }
 
-    function it_returns_a_list_of_categories_with_limit_and_count($resourceClient, $pageFactory, Page $page)
+    function it_returns_a_list_of_categories_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
             ->getResources(CategoryApi::CATEGORIES_PATH, [], 10, true, [])
@@ -45,7 +49,25 @@ class CategoryApiSpec extends ObjectBehavior
         $this->getCategories(10, true)->shouldReturn($page);
     }
 
-    function it_returns_a_list_of_categories_with_additional_query_parameters($resourceClient, $pageFactory, Page $page)
+    function it_returns_a_cursor_on_the_list_of_categories(
+        $resourceClient,
+        $pageFactory,
+        $cursorFactory,
+        PageInterface $page,
+        ResourceCursorInterface $cursor
+    ) {
+        $resourceClient
+            ->getResources(CategoryApi::CATEGORIES_PATH, [], 10, false, [])
+            ->willReturn([]);
+
+        $pageFactory->createPage([])->willReturn($page);
+
+        $cursorFactory->createCursor(10, $page)->willReturn($cursor);
+
+        $this->getCategoryCursor(10, [])->shouldReturn($cursor);
+    }
+
+    function it_returns_a_list_of_categories_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
             ->getResources(CategoryApi::CATEGORIES_PATH, [], null, null, ['foo' => 'bar'])

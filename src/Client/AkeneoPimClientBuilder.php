@@ -7,6 +7,7 @@ use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\Pagination\PageFactory;
+use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
 use Akeneo\Pim\Security\Authentication;
 use Http\Discovery\HttpClientDiscovery;
@@ -77,7 +78,9 @@ class AkeneoPimClientBuilder
         $pageFactory = new PageFactory($authenticatedHttpClient);
         $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $pageFactory);
 
-        $client = new AkeneoPimClient(new CategoryApi($resourceClient, $pageFactory));
+        $cursorFactory = new ResourceCursorFactory();
+
+        $client = new AkeneoPimClient(new CategoryApi($resourceClient, $pageFactory, $cursorFactory));
 
         return $client;
     }

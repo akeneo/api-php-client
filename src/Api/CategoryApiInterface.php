@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Pagination\Page;
+use Akeneo\Pim\Pagination\PageInterface;
 
 /**
  * API to manage the categories.
@@ -19,17 +20,29 @@ interface CategoryApiInterface
      * Consequently, this method does not return all the categories.
      *
      * @param int   $limit           The maximum number of categories to return.
-     *                               Do note that the server has a default value if you don't specify anything.
-     *                               The server has a maximum limit allowed as well.
+     *                               Do note that the server has a maximum limit allowed.
      * @param bool  $withCount       Set to true to return the total count of categories.
      *                               This parameter could decrease drastically the performance when set to true.
      * @param array $queryParameters Additional query parameters to pass in the request
      *
      * @throws HttpException
      *
-     * @return Page
+     * @return PageInterface
      */
     public function getCategories($limit = 10, $withCount = false, array $queryParameters = []);
+
+    /**
+     * Gets a cursor to iterate over a list of categories.
+     *
+     * @param int   $pageSize        The size of the page returned by the server.
+     *                               Do note that the server has a maximum limit allowed.
+     * @param array $queryParameters Additional query parameters to pass in the request
+     *
+     * @throws HttpException
+     *
+     * @return PageInterface
+     */
+    public function getCategoryCursor($pageSize = 10, array $queryParameters = []);
 
     /**
      * Creates a category.
