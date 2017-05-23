@@ -9,6 +9,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
+use Akeneo\Pim\Api\ProductApiInterface;
 
 /**
  * This class is the implementation of the client to use the Akeneo PIM API.
@@ -19,6 +20,9 @@ use Akeneo\Pim\Api\MediaFileApiInterface;
  */
 class AkeneoPimClient implements AkeneoPimClientInterface
 {
+    /** @var ProductApiInterface */
+    protected $productApi;
+
     /** @var CategoryApiInterface */
     protected $categoryApi;
 
@@ -41,6 +45,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     protected $channelApi;
 
     /**
+     * @param ProductApiInterface         $productApi
      * @param CategoryApiInterface        $categoryApi
      * @param AttributeApiInterface       $attributeApi
      * @param AttributeOptionApiInterface $attributeOptionApi
@@ -50,6 +55,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param ChannelApiInterface         $channelApi
      */
     public function __construct(
+        ProductApiInterface $productApi,
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
@@ -59,6 +65,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         ChannelApiInterface $channelApi
     )
     {
+        $this->productApi = $productApi;
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
         $this->attributeOptionApi = $attributeOptionApi;
@@ -66,6 +73,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->mediaFileAPi = $mediaFileAPi;
         $this->localeApi = $localeApi;
         $this->channelApi = $channelApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductAPi()
+    {
+        return $this->productApi;
     }
 
     /**
