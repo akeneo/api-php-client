@@ -7,6 +7,7 @@ use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\FamilyApi;
+use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\MediaFileApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
@@ -89,7 +90,8 @@ class AkeneoPimClientBuilder
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
-            new MediaFileApi($resourceClient, $pageFactory, $cursorFactory)
+            new MediaFileApi($resourceClient, $pageFactory, $cursorFactory),
+            new LocaleApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
         return $client;
