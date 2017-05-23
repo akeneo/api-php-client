@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Api\AttributeApiInterface;
+use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 
 /**
@@ -20,17 +21,23 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var AttributeApiInterface */
     protected $attributeApi;
 
+    /** @var AttributeOptionApiInterface */
+    protected $attributeOptionApi;
+
     /**
-     * @param CategoryApiInterface  $categoryApi
-     * @param AttributeApiInterface $attributeApi
+     * @param CategoryApiInterface        $categoryApi
+     * @param AttributeApiInterface       $attributeApi
+     * @param AttributeOptionApiInterface $attributeOptionApi
      */
     public function __construct(
         CategoryApiInterface $categoryApi,
-        AttributeApiInterface $attributeApi
+        AttributeApiInterface $attributeApi,
+        AttributeOptionApiInterface $attributeOptionApi
     )
     {
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
+        $this->attributeOptionApi = $attributeOptionApi;
     }
 
     /**
@@ -47,5 +54,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAttributeApi()
     {
         return $this->attributeApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeOptionApi()
+    {
+        return $this->attributeOptionApi;
     }
 }

@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Api\AttributeApiInterface;
+use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 
 /**
@@ -27,4 +28,11 @@ interface AkeneoPimClientInterface
      * @return AttributeApiInterface
      */
     public function getAttributeApi();
+
+    /**
+     * Gets the attribute option API.
+     *
+     * @return AttributeOptionApiInterface
+     */
+    public function getAttributeOptionApi();
 }
