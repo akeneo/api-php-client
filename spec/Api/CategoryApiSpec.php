@@ -4,6 +4,9 @@ namespace spec\Akeneo\Pim\Api;
 
 use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\CreatableResourceInterface;
+use Akeneo\Pim\Api\ListableResourceInterface;
+use Akeneo\Pim\Api\UpsertableResourceInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
@@ -25,6 +28,9 @@ class CategoryApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(CategoryApi::class);
         $this->shouldImplement(CategoryApiInterface::class);
+        $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
+        $this->shouldImplement(CreatableResourceInterface::class);
     }
 
     function it_returns_a_list_of_categories_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
@@ -35,7 +41,7 @@ class CategoryApiSpec extends ObjectBehavior
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->getCategories()->shouldReturn($page);
+        $this->listPerPage()->shouldReturn($page);
     }
 
     function it_returns_a_list_of_categories_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
@@ -46,7 +52,7 @@ class CategoryApiSpec extends ObjectBehavior
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->getCategories(10, true)->shouldReturn($page);
+        $this->listPerPage(10, true)->shouldReturn($page);
     }
 
     function it_returns_a_cursor_on_the_list_of_categories(
@@ -64,7 +70,7 @@ class CategoryApiSpec extends ObjectBehavior
 
         $cursorFactory->createCursor(10, $page)->willReturn($cursor);
 
-        $this->getCategoryCursor(10, [])->shouldReturn($cursor);
+        $this->all(10, [])->shouldReturn($cursor);
     }
 
     function it_returns_a_list_of_categories_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
@@ -75,7 +81,7 @@ class CategoryApiSpec extends ObjectBehavior
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->getCategories(null, null, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
 
     function it_creates_a_category($resourceClient)
@@ -86,15 +92,15 @@ class CategoryApiSpec extends ObjectBehavior
                 [],
                 ['code' => 'master', 'parent' => 'foo']
             )
-            ->shouldBeCalled();
+            ->willReturn(201);
 
-        $this->createCategory('master', ['parent' => 'foo']);
+        $this->create('master', ['parent' => 'foo'])->shouldReturn(201);
     }
 
     function it_throws_an_exception_when_code_provided_in_data_when_creating_a_category($resourceClient)
     {
         $this->shouldThrow('\InvalidArgumentException')->during(
-            'createCategory', ['master', ['code' => 'master', 'parent' => 'foo']]
+            'create', ['master', ['code' => 'master', 'parent' => 'foo']]
         );
     }
 
@@ -102,8 +108,8 @@ class CategoryApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->partialUpdateResource(CategoryApi::CATEGORY_PATH, ['master'], ['parent' => 'foo'])
-            ->shouldBeCalled();
+            ->willReturn(204);
 
-        $this->partialUpdateCategory('master', ['parent' => 'foo']);
+        $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);
     }
 }

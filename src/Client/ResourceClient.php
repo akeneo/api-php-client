@@ -81,12 +81,14 @@ class ResourceClient implements ResourceClientInterface
         unset($body['_links']);
 
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $this->httpClient->sendRequest(
+        $response = $this->httpClient->sendRequest(
             'POST',
             $uri,
             ['Content-Type' => 'application/json'],
             json_encode($body)
         );
+
+        return $response->getStatusCode();
     }
 
     /**
