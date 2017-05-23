@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Client;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -36,6 +37,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var LocaleApiInterface */
     protected $localeApi;
 
+    /** @var ChannelApiInterface */
+    protected $channelApi;
+
     /**
      * @param CategoryApiInterface        $categoryApi
      * @param AttributeApiInterface       $attributeApi
@@ -43,6 +47,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param FamilyApiInterface          $familyApi
      * @param MediaFileApiInterface       $mediaFileAPi
      * @param LocaleApiInterface          $localeApi
+     * @param ChannelApiInterface         $channelApi
      */
     public function __construct(
         CategoryApiInterface $categoryApi,
@@ -50,7 +55,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AttributeOptionApiInterface $attributeOptionApi,
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $mediaFileAPi,
-        LocaleApiInterface $localeApi
+        LocaleApiInterface $localeApi,
+        ChannelApiInterface $channelApi
     )
     {
         $this->categoryApi = $categoryApi;
@@ -59,6 +65,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->familyApi = $familyApi;
         $this->mediaFileAPi = $mediaFileAPi;
         $this->localeApi = $localeApi;
+        $this->channelApi = $channelApi;
     }
 
     /**
@@ -107,5 +114,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getLocaleAPi()
     {
         return $this->localeApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChannelAPi()
+    {
+        return $this->channelApi;
     }
 }

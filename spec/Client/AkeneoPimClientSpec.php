@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\Client;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -20,10 +21,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
         AttributeOptionApiInterface $attributeOptionApi,
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $mediaFileApi,
-        LocaleApiInterface $localeApi
+        LocaleApiInterface $localeApi,
+        ChannelApiInterface $channelApi
     )
     {
-        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi, $localeApi);
+        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi, $localeApi, $channelApi);
     }
 
     function it_is_initializable()
@@ -60,5 +62,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_locale_api($localeApi)
     {
         $this->getLocaleApi()->shouldReturn($localeApi);
+    }
+
+    function it_gets_channel_api($channelApi)
+    {
+        $this->getChannelApi()->shouldReturn($channelApi);
     }
 }

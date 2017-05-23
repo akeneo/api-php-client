@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Client;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 
@@ -58,4 +59,11 @@ interface AkeneoPimClientInterface
      * @return LocaleApiInterface
      */
     public function getLocaleAPi();
+
+    /**
+     * Gets the channel API
+     *
+     * @return ChannelApiInterface
+     */
+    public function getChannelAPi();
 }
