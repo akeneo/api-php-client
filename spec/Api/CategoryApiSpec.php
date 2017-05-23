@@ -92,9 +92,9 @@ class CategoryApiSpec extends ObjectBehavior
                 [],
                 ['code' => 'master', 'parent' => 'foo']
             )
-            ->shouldBeCalled();
+            ->willReturn(201);
 
-        $this->create('master', ['parent' => 'foo']);
+        $this->create('master', ['parent' => 'foo'])->shouldReturn(201);
     }
 
     function it_throws_an_exception_when_code_provided_in_data_when_creating_a_category($resourceClient)
@@ -108,8 +108,8 @@ class CategoryApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->partialUpdateResource(CategoryApi::CATEGORY_PATH, ['master'], ['parent' => 'foo'])
-            ->shouldBeCalled();
+            ->willReturn(204);
 
-        $this->upsert('master', ['parent' => 'foo']);
+        $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);
     }
 }

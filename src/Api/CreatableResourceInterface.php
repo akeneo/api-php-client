@@ -18,6 +18,8 @@ interface CreatableResourceInterface
      * @param array  $data data of the resource to create
      *
      * @throws HttpException
+     *
+     * @return int returns 201 if the resource has been created
      */
     public function create($code, array $data = []);
 }

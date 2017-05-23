@@ -74,7 +74,7 @@ class CategoryApi implements CategoryApiInterface
 
         $data['code'] = $code;
 
-        $this->resourceClient->createResource(static::CATEGORIES_PATH, [], $data);
+        return $this->resourceClient->createResource(static::CATEGORIES_PATH, [], $data);
     }
 
     /**

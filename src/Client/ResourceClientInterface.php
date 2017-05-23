@@ -54,6 +54,8 @@ interface ResourceClientInterface
      * @param array  $body          Body of the request
      *
      * @throws HttpException
+     *
+     * @return int status code of the response to know if the resource has been created (code 201)
      */
     public function createResource($uri, array $uriParameters = [], array $body = []);
 
