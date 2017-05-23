@@ -35,4 +35,11 @@ interface AkeneoPimClientInterface
      * @return AttributeOptionApiInterface
      */
     public function getAttributeOptionApi();
+
+    /**
+     * Gets the family API.
+     *
+     * @return AttributeOptionApiInterface
+     */
+    public function getFamilyApi();
 }

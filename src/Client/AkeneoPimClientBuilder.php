@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\AttributeApi;
 use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\CategoryApi;
+use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\Pagination\PageFactory;
@@ -85,7 +86,8 @@ class AkeneoPimClientBuilder
         $client = new AkeneoPimClient(
             new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
-            new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory)
+            new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
+            new FamilyApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
         return $client;

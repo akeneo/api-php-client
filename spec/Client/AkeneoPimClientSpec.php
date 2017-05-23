@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\Client;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Client\AkeneoPimClient;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
 use PhpSpec\ObjectBehavior;
@@ -14,10 +15,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function let(
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
-        AttributeOptionApiInterface $attributeOptionApi
+        AttributeOptionApiInterface $attributeOptionApi,
+        FamilyApiInterface $familyApi
     )
     {
-        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi);
+        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi);
     }
 
     function it_is_initializable()
@@ -39,5 +41,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_attribute_option_api($attributeOptionApi)
     {
         $this->getAttributeOptionApi()->shouldReturn($attributeOptionApi);
+    }
+
+    function it_gets_family_api($familyApi)
+    {
+        $this->getFamilyApi()->shouldReturn($familyApi);
     }
 }
