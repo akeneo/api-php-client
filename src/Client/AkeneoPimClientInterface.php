@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Client;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
+use Akeneo\Pim\Api\MediaFileApiInterface;
 
 /**
  * Client to use the Akeneo PIM API.
@@ -42,4 +43,11 @@ interface AkeneoPimClientInterface
      * @return AttributeOptionApiInterface
      */
     public function getFamilyApi();
+
+    /**
+     * Gets the media file API.
+     *
+     * @return MediaFileApiInterface
+     */
+    public function getMediaFileApi();
 }

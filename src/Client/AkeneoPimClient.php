@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\MediaFileApiInterface;
 
 /**
  * This class is the implementation of the client to use the Akeneo PIM API.
@@ -28,23 +29,29 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var FamilyApiInterface */
     protected $familyApi;
 
+    /** @var MediaFileApiInterface */
+    protected $mediaFileAPi;
+
     /**
      * @param CategoryApiInterface        $categoryApi
      * @param AttributeApiInterface       $attributeApi
      * @param AttributeOptionApiInterface $attributeOptionApi
      * @param FamilyApiInterface          $familyApi
+     * @param MediaFileApiInterface       $mediaFileAPi
      */
     public function __construct(
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
-        FamilyApiInterface $familyApi
+        FamilyApiInterface $familyApi,
+        MediaFileApiInterface $mediaFileAPi
     )
     {
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
         $this->attributeOptionApi = $attributeOptionApi;
         $this->familyApi = $familyApi;
+        $this->mediaFileAPi = $mediaFileAPi;
     }
 
     /**
@@ -77,5 +84,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getFamilyApi()
     {
         return $this->familyApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMediaFileApi()
+    {
+        return $this->mediaFileAPi;
     }
 }

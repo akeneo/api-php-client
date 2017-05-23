@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Client\AkeneoPimClient;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
 use PhpSpec\ObjectBehavior;
@@ -16,10 +17,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
-        FamilyApiInterface $familyApi
+        FamilyApiInterface $familyApi,
+        MediaFileApiInterface $mediaFileApi
     )
     {
-        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi);
+        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi);
     }
 
     function it_is_initializable()
@@ -46,5 +48,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_family_api($familyApi)
     {
         $this->getFamilyApi()->shouldReturn($familyApi);
+    }
+
+    function it_gets_media_file_api($mediaFileApi)
+    {
+        $this->getMediaFileApi()->shouldReturn($mediaFileApi);
     }
 }
