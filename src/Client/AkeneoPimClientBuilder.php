@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Client;
 
+use Akeneo\Pim\Api\AttributeApi;
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
@@ -80,7 +81,10 @@ class AkeneoPimClientBuilder
 
         $cursorFactory = new ResourceCursorFactory();
 
-        $client = new AkeneoPimClient(new CategoryApi($resourceClient, $pageFactory, $cursorFactory));
+        $client = new AkeneoPimClient(
+            new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
+            new AttributeApi($resourceClient, $pageFactory, $cursorFactory)
+        );
 
         return $client;
     }
