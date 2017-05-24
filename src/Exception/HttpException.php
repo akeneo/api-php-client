@@ -26,7 +26,8 @@ class HttpException extends \RuntimeException
      * @param ResponseInterface $response response of the failing request
      * @param \Exception|null   $previous previous exception
      */
-    public function __construct($message, RequestInterface $request, ResponseInterface $response, \Exception $previous = null) {
+    public function __construct($message, RequestInterface $request, ResponseInterface $response, \Exception $previous = null)
+    {
         parent::__construct($message, $response->getStatusCode(), $previous);
 
         $this->request = $request;

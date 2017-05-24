@@ -63,8 +63,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         MediaFileApiInterface $mediaFileAPi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi
-    )
-    {
+    ) {
         $this->productApi = $productApi;
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
