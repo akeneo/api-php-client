@@ -29,6 +29,25 @@ class AttributeApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_an_attribute($resourceClient)
+    {
+        $attributeCode = 'foo';
+        $attribute = [
+            'code' => 'foo',
+            'type' => 'pim_catalog_text',
+            'unique' => false,
+            'labels' => [
+                'en_US' => 'Foo',
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(AttributeApi::ATTRIBUTE_PATH, [$attributeCode])
+            ->willReturn($attribute);
+
+        $this->get($attributeCode)->shouldReturn($attribute);
+    }
+
     function it_returns_a_list_of_attributes_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
