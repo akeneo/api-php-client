@@ -12,6 +12,18 @@ namespace Akeneo\Pim\Api;
 interface AttributeOptionApiInterface
 {
     /**
+     * Gets a single attribute option.
+     *
+     * @param string $attributeCode Code of the attribute
+     * @param string $code          Code of the attribute option
+     *
+     * @throws HttpException
+     *
+     * @return array
+     */
+    public function get($attributeCode, $code);
+
+    /**
      * Gets a list of attribute options by returning the first page.
      * Consequently, this method does not return all the attribute options.
      *
