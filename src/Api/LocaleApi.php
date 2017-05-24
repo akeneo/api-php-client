@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class LocaleApi implements LocaleApiInterface
 {
     const LOCALES_PATH = 'api/rest/v1/locales';
+    const LOCALE_PATH = 'api/rest/v1/locales/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class LocaleApi implements LocaleApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::LOCALE_PATH, [$code]);
     }
 
     /**

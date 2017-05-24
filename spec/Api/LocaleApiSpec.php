@@ -29,6 +29,21 @@ class LocaleApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_a_locale($resourceClient)
+    {
+        $localeCode = 'en_US';
+        $locale = [
+            'code' => 'en_US',
+            'enabled' => true,
+        ];
+
+        $resourceClient
+            ->getResource(LocaleApi::LOCALE_PATH, [$localeCode])
+            ->willReturn($locale);
+
+        $this->get($localeCode)->shouldReturn($locale);
+    }
+
     function it_returns_a_list_of_locales_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
