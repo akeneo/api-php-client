@@ -7,7 +7,7 @@ use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
 /**
- * API implementation to manage the locales
+ * API implementation to manage the locales.
  *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)

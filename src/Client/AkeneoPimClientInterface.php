@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
+use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 
@@ -42,7 +43,7 @@ interface AkeneoPimClientInterface
     /**
      * Gets the family API.
      *
-     * @return AttributeOptionApiInterface
+     * @return FamilyApiInterface
      */
     public function getFamilyApi();
 
@@ -54,14 +55,14 @@ interface AkeneoPimClientInterface
     public function getMediaFileApi();
 
     /**
-     * Gets the locale API
+     * Gets the locale API.
      *
      * @return LocaleApiInterface
      */
     public function getLocaleAPi();
 
     /**
-     * Gets the channel API
+     * Gets the channel API.
      *
      * @return ChannelApiInterface
      */

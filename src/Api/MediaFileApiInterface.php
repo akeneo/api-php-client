@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 /**
- * Class MediaFileApiInterface
+ * API to manage the media files.
  *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)

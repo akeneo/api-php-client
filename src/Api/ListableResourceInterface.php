@@ -7,7 +7,7 @@ use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
 
 /**
- * API that can fetch a list of resources
+ * API that can fetch a list of resources.
  *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +23,7 @@ interface ListableResourceInterface
      *                               Do note that the server has a maximum limit allowed.
      * @param bool  $withCount       Set to true to return the total count of resources.
      *                               This parameter could decrease drastically the performance when set to true.
-     * @param array $queryParameters Additional query parameters to pass in the request
+     * @param array $queryParameters Additional query parameters to pass in the request.
      *
      * @throws HttpException
      *

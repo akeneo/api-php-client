@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 /**
- * API to manage the attribute options
+ * API to manage the attribute options.
  *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)

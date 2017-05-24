@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 /**
- * API that can fetch a single resource
+ * API that can fetch a single resource.
  *
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
