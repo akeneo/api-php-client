@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class ProductApi implements ProductApiInterface
 {
     const PRODUCTS_PATH = 'api/rest/v1/products';
+    const PRODUCT_PATH = 'api/rest/v1/products/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class ProductApi implements ProductApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::PRODUCT_PATH, [$code]);
     }
 
     /**
