@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class MediaFileApi implements MediaFileApiInterface
 {
     const MEDIA_FILES_PATH = 'api/rest/v1/media-files';
+    const MEDIA_FILE_PATH = 'api/rest/v1/media-files/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class MediaFileApi implements MediaFileApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::MEDIA_FILE_PATH, [$code]);
     }
 
     /**
