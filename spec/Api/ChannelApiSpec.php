@@ -29,6 +29,24 @@ class ChannelApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_a_channel($resourceClient)
+    {
+        $channelCode = 'foo';
+        $channel = [
+            'code' => 'foo',
+            'category_tree' => 'master',
+            'labels' => [
+                'en_US' => 'Foo',
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(ChannelApi::CHANNEL_PATH, [$channelCode])
+            ->willReturn($channel);
+
+        $this->get($channelCode)->shouldReturn($channel);
+    }
+
     function it_returns_a_list_of_channels_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient

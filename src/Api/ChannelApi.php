@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class ChannelApi implements ChannelApiInterface
 {
     const CHANNELS_PATH = 'api/rest/v1/channels';
+    const CHANNEL_PATH = 'api/rest/v1/channels/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class ChannelApi implements ChannelApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::CHANNEL_PATH, [$code]);
     }
 
     /**
