@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class FamilyApi implements FamilyApiInterface
 {
     const FAMILIES_PATH = 'api/rest/v1/families';
+    const FAMILY_PATH = 'api/rest/v1/families/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class FamilyApi implements FamilyApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::FAMILY_PATH, [$code]);
     }
 
     /**
