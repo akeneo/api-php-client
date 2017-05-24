@@ -9,6 +9,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
+use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Client\AkeneoPimClient;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
 use PhpSpec\ObjectBehavior;
@@ -16,6 +17,7 @@ use PhpSpec\ObjectBehavior;
 class AkeneoPimClientSpec extends ObjectBehavior
 {
     function let(
+        ProductApiInterface $productApi,
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
@@ -25,13 +27,18 @@ class AkeneoPimClientSpec extends ObjectBehavior
         ChannelApiInterface $channelApi
     )
     {
-        $this->beConstructedWith($categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi, $localeApi, $channelApi);
+        $this->beConstructedWith($productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi, $localeApi, $channelApi);
     }
 
     function it_is_initializable()
     {
         $this->shouldImplement(AkeneoPimClientInterface::class);
         $this->shouldHaveType(AkeneoPimClient::class);
+    }
+
+    function it_gets_product_api($productApi)
+    {
+        $this->getProductApi()->shouldReturn($productApi);
     }
 
     function it_gets_category_api($categoryApi)

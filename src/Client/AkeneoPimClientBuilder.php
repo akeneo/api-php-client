@@ -10,6 +10,7 @@ use Akeneo\Pim\Api\ChannelApi;
 use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\MediaFileApi;
+use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\Pagination\PageFactory;
@@ -87,6 +88,7 @@ class AkeneoPimClientBuilder
         $cursorFactory = new ResourceCursorFactory();
 
         $client = new AkeneoPimClient(
+            new ProductApi($resourceClient, $pageFactory, $cursorFactory),
             new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),

@@ -9,6 +9,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
+use Akeneo\Pim\Api\ProductApiInterface;
 
 /**
  * Client to use the Akeneo PIM API.
@@ -19,6 +20,13 @@ use Akeneo\Pim\Api\MediaFileApiInterface;
  */
 interface AkeneoPimClientInterface
 {
+    /**
+     * Gets the product API
+     *
+     * @return ProductApiInterface
+     */
+    public function getProductAPi();
+
     /**
      * Gets the category API.
      *
