@@ -98,4 +98,24 @@ class ProductApiSpec extends ObjectBehavior
 
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
+
+    function it_creates_a_product($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                ProductApi::PRODUCTS_PATH,
+                [],
+                ['identifier' => 'foo', 'family' => 'bar']
+            )
+            ->willReturn(201);
+
+        $this->create('foo', ['family' => 'bar'])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_when_identifier_provided_in_data_when_creating_a_product()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->during(
+            'create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]
+        );
+    }
 }
