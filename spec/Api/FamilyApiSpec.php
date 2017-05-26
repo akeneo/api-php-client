@@ -98,4 +98,24 @@ class FamilyApiSpec extends ObjectBehavior
 
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
+
+    function it_creates_a_family($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                FamilyApi::FAMILIES_PATH,
+                [],
+                ['code' => 'foo', 'attribute_as_label' => 'name']
+            )
+            ->willReturn(201);
+
+        $this->create('foo', ['attribute_as_label' => 'name'])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_when_code_provided_in_data_when_creating_a_family()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->during(
+            'create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]
+        );
+    }
 }
