@@ -98,4 +98,24 @@ class AttributeApiSpec extends ObjectBehavior
 
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
+
+    function it_creates_an_attribute($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                AttributeApi::ATTRIBUTES_PATH,
+                [],
+                ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar']
+            )
+            ->willReturn(201);
+
+        $this->create('foo', ['type' => 'pim_catalog_text', 'group' => 'bar'])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_when_code_provided_in_data_when_creating_an_attribute()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->during(
+            'create', ['foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar']]
+        );
+    }
 }
