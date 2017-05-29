@@ -11,5 +11,4 @@ namespace Akeneo\Pim\Api;
  */
 interface MediaFileApiInterface extends ListableResourceInterface
 {
-
 }

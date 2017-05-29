@@ -17,12 +17,12 @@ use Akeneo\Pim\Pagination\PageFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
 use Akeneo\Pim\Security\Authentication;
+use Http\Client\HttpClient as Client;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\RequestFactory;
 use Http\Message\StreamFactory;
-use Http\Client\HttpClient as Client;
 
 /**
  * Builder of the class AkeneoPimClient.

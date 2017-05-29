@@ -56,5 +56,4 @@ class HttpExceptionHandler
 
         return $response;
     }
-
 }

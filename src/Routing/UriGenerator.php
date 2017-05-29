@@ -35,7 +35,7 @@ class UriGenerator implements UriGeneratorInterface
 
         $queryParameters = $this->booleanQueryParametersAsString($queryParameters);
 
-        if (isset($queryParameters[PaginationParameter::SEARCH]))  {
+        if (isset($queryParameters[PaginationParameter::SEARCH])) {
             $queryParameters[PaginationParameter::SEARCH] = json_encode($queryParameters[PaginationParameter::SEARCH]);
         }
 
@@ -55,7 +55,7 @@ class UriGenerator implements UriGeneratorInterface
      */
     protected function booleanQueryParametersAsString(array $queryParameters)
     {
-        return array_map(function($queryParameters) {
+        return array_map(function ($queryParameters) {
             if (!is_bool($queryParameters)) {
                 return $queryParameters;
             }
@@ -76,7 +76,7 @@ class UriGenerator implements UriGeneratorInterface
      */
     protected function encodeUriParameters(array $uriParameters)
     {
-        return array_map(function($uriParameter) {
+        return array_map(function ($uriParameter) {
             $uriParameter = rawurlencode($uriParameter);
 
             return preg_replace('~\%2F~', '/', $uriParameter);

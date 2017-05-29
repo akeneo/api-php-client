@@ -35,7 +35,6 @@ class AuthenticatedHttpClient implements HttpClientInterface
     /** @var string */
     protected $refreshToken;
 
-
     /**
      * @param HttpClient                 $basicHttpClient
      * @param AuthenticationApiInterface $authenticationApi
@@ -49,7 +48,6 @@ class AuthenticatedHttpClient implements HttpClientInterface
         $this->basicHttpClient = $basicHttpClient;
         $this->authenticationApi = $authenticationApi;
         $this->authentication = $authentication;
-
     }
 
     /**
