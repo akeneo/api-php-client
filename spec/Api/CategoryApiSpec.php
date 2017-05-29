@@ -33,6 +33,24 @@ class CategoryApiSpec extends ObjectBehavior
         $this->shouldImplement(CreatableResourceInterface::class);
     }
 
+    function it_returns_a_category($resourceClient)
+    {
+        $categoryCode = 'foo';
+        $category = [
+            'code' => 'foo',
+            'parent' => null,
+            'labels' => [
+                'en_US' => 'Foo',
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(CategoryApi::CATEGORY_PATH, [$categoryCode])
+            ->willReturn($category);
+
+        $this->get($categoryCode)->shouldReturn($category);
+    }
+
     function it_returns_a_list_of_categories_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient

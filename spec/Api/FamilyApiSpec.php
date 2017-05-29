@@ -29,6 +29,25 @@ class FamilyApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_a_family($resourceClient)
+    {
+        $familyCode = 'mugs';
+        $family = [
+            'code' => 'mugs',
+            'attributes' => [
+                'foo',
+                'bar',
+            ],
+            'attribute_as_label' => 'name',
+        ];
+
+        $resourceClient
+            ->getResource(FamilyApi::FAMILY_PATH, [$familyCode])
+            ->willReturn($family);
+
+        $this->get($familyCode)->shouldReturn($family);
+    }
+
     function it_returns_a_list_of_families_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient

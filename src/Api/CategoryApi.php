@@ -46,6 +46,14 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
+    public function get($code)
+    {
+        return $this->resourceClient->getResource(static::CATEGORY_PATH, [$code]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
         $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);

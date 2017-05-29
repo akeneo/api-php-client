@@ -29,6 +29,25 @@ class ProductApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_a_product($resourceClient)
+    {
+        $productCode = 'foo';
+        $product = [
+            'identifier' => 'foo',
+            'family' => 'tshirts',
+            'enabled' => true,
+            'categories' => [
+                'bar'
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(ProductApi::PRODUCT_PATH, [$productCode])
+            ->willReturn($product);
+
+        $this->get($productCode)->shouldReturn($product);
+    }
+
     function it_returns_a_list_of_products_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient

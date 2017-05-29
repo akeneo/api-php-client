@@ -29,6 +29,22 @@ class MediaFileApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
     }
 
+    function it_returns_a_media_file($resourceClient)
+    {
+        $mediaFileCode = '3/e/42.jpg';
+        $mediaFile = [
+            'code' => '3/e/42.jpg',
+            'original_filename' => '42.jpg',
+            'mime_type' => 'image/jpeg',
+        ];
+
+        $resourceClient
+            ->getResource(MediaFileApi::MEDIA_FILE_PATH, [$mediaFileCode])
+            ->willReturn($mediaFile);
+
+        $this->get($mediaFileCode)->shouldReturn($mediaFile);
+    }
+
     function it_returns_a_list_of_media_files_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient

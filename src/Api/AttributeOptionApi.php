@@ -16,6 +16,7 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 class AttributeOptionApi implements AttributeOptionApiInterface
 {
     const ATTRIBUTE_OPTIONS_PATH = 'api/rest/v1/attributes/%s/options';
+    const ATTRIBUTE_OPTION_PATH = 'api/rest/v1/attributes/%s/options/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -39,6 +40,14 @@ class AttributeOptionApi implements AttributeOptionApiInterface
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($attributeCode, $code)
+    {
+        return $this->resourceClient->getResource(static::ATTRIBUTE_OPTION_PATH, [$attributeCode, $code]);
     }
 
     /**

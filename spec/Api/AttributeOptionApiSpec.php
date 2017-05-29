@@ -27,6 +27,27 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $this->shouldImplement(AttributeOptionApiInterface::class);
     }
 
+    function it_returns_an_attribute_option($resourceClient)
+    {
+        $attributeCode = 'foo';
+        $attributeOptionCode = 'bar';
+
+        $attributeOption = [
+            'code' => 'foo',
+            'attribute' => 'bar',
+            'sort_order' => 2,
+            'labels' => [
+                'en_US' => 'Foo',
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(AttributeOptionApi::ATTRIBUTE_OPTION_PATH, [$attributeCode, $attributeOptionCode])
+            ->willReturn($attributeOption);
+
+        $this->get($attributeCode, $attributeOptionCode)->shouldReturn($attributeOption);
+    }
+
     function it_returns_a_list_of_attribute_options_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $attributeCode = 'foo_1';
