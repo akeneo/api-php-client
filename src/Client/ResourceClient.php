@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\HttpClient\HttpClientInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 
 /**
@@ -21,16 +21,22 @@ class ResourceClient implements ResourceClientInterface
     /** @var UriGeneratorInterface */
     protected $uriGenerator;
 
+    /** @var MultipartStreamBuilderFactory */
+    protected $multipartStreamBuilderFactory;
+
     /**
-     * @param HttpClientInterface   $httpClient
-     * @param UriGeneratorInterface $uriGenerator
+     * @param HttpClientInterface           $httpClient
+     * @param UriGeneratorInterface         $uriGenerator
+     * @param MultipartStreamBuilderFactory $multipartStreamBuilderFactory
      */
     public function __construct(
         HttpClientInterface $httpClient,
-        UriGeneratorInterface $uriGenerator
+        UriGeneratorInterface $uriGenerator,
+        MultipartStreamBuilderFactory $multipartStreamBuilderFactory
     ) {
         $this->httpClient = $httpClient;
         $this->uriGenerator = $uriGenerator;
+        $this->multipartStreamBuilderFactory = $multipartStreamBuilderFactory;
     }
 
     /**
@@ -87,6 +93,32 @@ class ResourceClient implements ResourceClientInterface
             ['Content-Type' => 'application/json'],
             json_encode($body)
         );
+
+        return $response->getStatusCode();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createMultipartResource($uri, array $uriParameters = [], array $requestParts = [])
+    {
+        $streamBuilder =  $this->multipartStreamBuilderFactory->create();
+
+        foreach ($requestParts as $requestPart) {
+            if (!isset($requestPart['name']) || !isset($requestPart['contents'])) {
+                throw new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part');
+            }
+
+            $options = isset($requestPart['options']) ? $requestPart['options'] : [];
+            $streamBuilder->addResource($requestPart['name'], $requestPart['contents'], $options);
+        }
+
+        $multipartStream = $streamBuilder->build();
+        $boundary = $streamBuilder->getBoundary();
+        $headers = ['Content-Type' => sprintf('multipart/form-data; boundary="%s"', $boundary)];
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+
+        $response = $this->httpClient->sendRequest('POST', $uri, $headers, $multipartStream);
 
         return $response->getStatusCode();
     }

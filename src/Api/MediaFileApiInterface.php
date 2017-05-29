@@ -11,4 +11,16 @@ namespace Akeneo\Pim\Api;
  */
 interface MediaFileApiInterface extends ListableResourceInterface, GettableResourceInterface
 {
+    /**
+     * Creates a new media file and associates it to a resource.
+     *
+     * @param string|resource $mediaFile File path or resource of the media file
+     * @param array           $data      The data of the resource to which the media file will be associated
+     *
+     * @throws HttpException
+     * @throws \RuntimeException if the file could not be opened
+     *
+     * @return int returns 201 if the media file has been created
+     */
+    public function create($mediaFile, array $data);
 }
