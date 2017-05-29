@@ -118,4 +118,14 @@ class ProductApiSpec extends ObjectBehavior
             ->shouldThrow(new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
             ->during('create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]);
     }
+
+    function it_updates_partially_a_product($resourceClient)
+    {
+        $resourceClient
+            ->partialUpdateResource(ProductApi::PRODUCT_PATH, ['foo'], ['identifier' => 'foo' , 'family' => 'bar'])
+            ->willReturn(204);
+
+        $this->upsert('foo', ['identifier' => 'foo' , 'family' => 'bar'])
+            ->shouldReturn(204);
+    }
 }
