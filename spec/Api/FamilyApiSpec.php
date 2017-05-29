@@ -112,10 +112,10 @@ class FamilyApiSpec extends ObjectBehavior
         $this->create('foo', ['attribute_as_label' => 'name'])->shouldReturn(201);
     }
 
-    function it_throws_an_exception_when_code_provided_in_data_when_creating_a_family()
+    function it_throws_an_exception_if_code_is_provided_in_data_when_creating_a_family()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
-            'create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]
-        );
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]);
     }
 }

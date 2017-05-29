@@ -120,17 +120,17 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $this->create('bar', 'foo', ['sort_order' => 2])->shouldReturn(201);
     }
 
-    function it_throws_an_exception_when_code_provided_in_data_when_creating_an_attribute_option()
+    function it_throws_an_exception_if_attribute_option_code_is_provided_in_data_when_creating_an_attribute_option()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
-            'create', ['foo', 'bar', ['code' => 'foo', 'sort_order' => 2]]
-        );
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['foo', 'bar', ['code' => 'foo', 'sort_order' => 2]]);
     }
 
-    function it_throws_an_exception_when_attribute_provided_in_data_when_creating_an_attribute_option()
+    function it_throws_an_exception_if_attribute_code_is_provided_in_data_when_creating_an_attribute_option()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
-            'create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]
-        );
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
+            ->during('create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]);
     }
 }

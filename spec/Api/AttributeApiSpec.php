@@ -112,9 +112,9 @@ class AttributeApiSpec extends ObjectBehavior
         $this->create('foo', ['type' => 'pim_catalog_text', 'group' => 'bar'])->shouldReturn(201);
     }
 
-    function it_throws_an_exception_when_code_provided_in_data_when_creating_an_attribute()
+    function it_throws_an_exception_if_code_is_provided_in_data_when_creating_an_attribute()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
+        $this->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))->during(
             'create', ['foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar']]
         );
     }

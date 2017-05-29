@@ -115,11 +115,11 @@ class CategoryApiSpec extends ObjectBehavior
         $this->create('master', ['parent' => 'foo'])->shouldReturn(201);
     }
 
-    function it_throws_an_exception_when_code_provided_in_data_when_creating_a_category($resourceClient)
+    function it_throws_an_exception_if_code_is_provided_in_data_when_creating_a_category($resourceClient)
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
-            'create', ['master', ['code' => 'master', 'parent' => 'foo']]
-        );
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['master', ['code' => 'master', 'parent' => 'foo']]);
     }
 
     function it_updates_partially_a_category($resourceClient)

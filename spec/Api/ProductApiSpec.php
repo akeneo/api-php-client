@@ -112,10 +112,10 @@ class ProductApiSpec extends ObjectBehavior
         $this->create('foo', ['family' => 'bar'])->shouldReturn(201);
     }
 
-    function it_throws_an_exception_when_identifier_provided_in_data_when_creating_a_product()
+    function it_throws_an_exception_if_identifier_is_provided_in_data_when_creating_a_product()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during(
-            'create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]
-        );
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
+            ->during('create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]);
     }
 }
