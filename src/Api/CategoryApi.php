@@ -92,4 +92,12 @@ class CategoryApi implements CategoryApiInterface
     {
         return $this->resourceClient->partialUpdateResource(static::CATEGORY_PATH, [$code], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($categories)
+    {
+        return $this->resourceClient->partialUpdateResources(static::CATEGORIES_PATH, [], $categories);
+    }
 }
