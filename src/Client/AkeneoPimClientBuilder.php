@@ -83,7 +83,7 @@ class AkeneoPimClientBuilder
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $this->authentication);
 
         $pageFactory = new PageFactory($authenticatedHttpClient);
-        $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $pageFactory);
+        $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $this->streamFactory);
 
         $cursorFactory = new ResourceCursorFactory();
 

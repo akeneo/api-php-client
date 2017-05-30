@@ -5,6 +5,8 @@ namespace Akeneo\Pim\Client;
 use Akeneo\Pim\HttpClient\HttpClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\Stream\UpsertListResourcesResponse;
+use Http\Message\StreamFactory;
 
 /**
  * Generic client to execute common request on resources.
@@ -21,16 +23,22 @@ class ResourceClient implements ResourceClientInterface
     /** @var UriGeneratorInterface */
     protected $uriGenerator;
 
+    /** @var  StreamFactory */
+    protected $streamFactory;
+
     /**
      * @param HttpClientInterface   $httpClient
      * @param UriGeneratorInterface $uriGenerator
+     * @param StreamFactory         $streamFactory
      */
     public function __construct(
         HttpClientInterface $httpClient,
-        UriGeneratorInterface $uriGenerator
+        UriGeneratorInterface $uriGenerator,
+        StreamFactory $streamFactory
     ) {
         $this->httpClient = $httpClient;
         $this->uriGenerator = $uriGenerator;
+        $this->streamFactory = $streamFactory;
     }
 
     /**
@@ -107,5 +115,32 @@ class ResourceClient implements ResourceClientInterface
         );
 
         return $response->getStatusCode();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function partialUpdateResources($uri, array $uriParameters = [], $resources = [])
+    {
+        $streamFunction = function() use ($resources) {
+            $isFirstLine = true;
+            foreach ($resources as $resource) {
+                unset($resource['_links']);
+                yield ($isFirstLine ? '' : PHP_EOL) . json_encode($resource);
+                $isFirstLine = false;
+            }
+        };
+
+        $streamedBody = $this->streamFactory->createStream($streamFunction());
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/vnd.akeneo.collection+json'],
+            $streamedBody
+        );
+
+        return new UpsertListResourcesResponse($response->getBody());
     }
 }

@@ -18,7 +18,7 @@ interface ResourceClientInterface
      * Gets a resource.
      *
      * @param string $uri             URI of the resource
-     * @param array  $uriParameters   Uri parameters of the resources
+     * @param array  $uriParameters   URI parameters of the resource
      * @param array  $queryParameters Query parameters of the request
      *
      * @throws HttpException
@@ -31,7 +31,7 @@ interface ResourceClientInterface
      * Gets a list of resources.
      *
      * @param string   $uri             URI of the resource
-     * @param array    $uriParameters   URI parameters of the request
+     * @param array    $uriParameters   URI parameters of the resource
      * @param int      $limit           The maximum number of resources to return.
      *                                  Do note that the server has a default value if you don't specify anything.
      *                                  The server has a maximum limit allowed as well.
@@ -50,7 +50,7 @@ interface ResourceClientInterface
      * Creates a resource.
      *
      * @param string $uri           URI of the resource
-     * @param array  $uriParameters Uri parameters of the resources
+     * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
      *
      * @throws HttpException
@@ -60,10 +60,10 @@ interface ResourceClientInterface
     public function createResource($uri, array $uriParameters = [], array $body = []);
 
     /**
-     * Creates a resource if the resource does not exist yet, otherwise updates partially the resource.
+     * Creates a resource if it does not exist yet, otherwise updates partially the resource.
      *
      * @param string $uri           URI of the resource
-     * @param array  $uriParameters Uri parameters of the resources
+     * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
      *
      * @throws HttpException
@@ -71,4 +71,17 @@ interface ResourceClientInterface
      * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
      */
     public function partialUpdateResource($uri, array $uriParameters = [], array $body = []);
+
+    /**
+     * Updates or creates several resources.
+     *
+     * @param string             $uri           URI of the resource
+     * @param array              $uriParameters URI parameters of the resource
+     * @param array|\Traversable $resources     array of resources to create or update
+     *
+     * @throws HttpException
+     *
+     * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
+     */
+    public function partialUpdateResources($uri, array $uriParameters = [], $resources = []);
 }
