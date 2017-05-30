@@ -128,4 +128,13 @@ class ProductApiSpec extends ObjectBehavior
         $this->upsert('foo', ['identifier' => 'foo' , 'family' => 'bar'])
             ->shouldReturn(204);
     }
+
+    function it_deletes_a_product($resourceClient)
+    {
+        $resourceClient
+            ->deleteResource(ProductApi::PRODUCT_PATH, ['foo'])
+            ->willReturn(204);
+
+        $this->delete('foo')->shouldReturn(204);
+    }
 }
