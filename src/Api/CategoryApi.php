@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PaginationType;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
 /**
@@ -91,5 +90,13 @@ class CategoryApi implements CategoryApiInterface
     public function upsert($code, array $data = [])
     {
         return $this->resourceClient->upsertResource(static::CATEGORY_PATH, [$code], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($categories)
+    {
+        return $this->resourceClient->upsertResourceList(static::CATEGORIES_PATH, [], $categories);
     }
 }
