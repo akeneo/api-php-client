@@ -71,7 +71,6 @@ class AuthenticatedHttpClient implements HttpClientInterface
             $headers['Authorization'] =  sprintf('Bearer %s', $this->accessToken);
             $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
-            // TODO : cannot work without PIM-6387
             $tokens = $this->authenticationApi->authenticateByRefreshToken(
                 $this->authentication->getClientId(),
                 $this->authentication->getSecret(),

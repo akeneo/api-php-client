@@ -2,25 +2,36 @@
 
 namespace spec\Akeneo\Pim\Client;
 
+use Akeneo\Pim\Client\ResourceClient;
+use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
+use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
+use Http\Message\StreamFactory;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 class ResourceClientSpec extends ObjectBehavior
 {
-    function let(HttpClient $httpClient, UriGeneratorInterface $uriGenerator, MultipartStreamBuilderFactory $multipartStreamBuilderFactory)
-    {
-        $this->beConstructedWith($httpClient, $uriGenerator, $multipartStreamBuilderFactory);
+    function let(
+        HttpClient $httpClient,
+        UriGeneratorInterface $uriGenerator,
+        MultipartStreamBuilderFactory $multipartStreamBuilderFactory,
+        StreamFactory $streamFactory,
+        UpsertResourceListResponseFactory $responseFactory
+    ) {
+        $this->beConstructedWith($httpClient, $uriGenerator, $multipartStreamBuilderFactory, $streamFactory, $responseFactory);
     }
 
     function it_is_initializable()
     {
-        $this->shouldImplement('Akeneo\Pim\Client\ResourceClientInterface');
-        $this->shouldHaveType('Akeneo\Pim\Client\ResourceClient');
+        $this->shouldImplement(ResourceClientInterface::class);
+        $this->shouldHaveType(ResourceClient::class);
     }
 
     function it_gets_resource($httpClient, $uriGenerator, ResponseInterface $response, StreamInterface $responseBody)
@@ -188,14 +199,67 @@ JSON;
             ->shouldReturn(201);
     }
 
+    function it_upserts_a_list_of_resources(
+        $httpClient,
+        $uriGenerator,
+        $streamFactory,
+        $responseFactory,
+        StreamInterface $requestBodyStream,
+        StreamInterface $responseBodyStream,
+        UpsertResourceListResponse $listResponse,
+        ResponseInterface $response
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/categories';
+
+        $uriGenerator
+            ->generate('api/rest/v1/categories', [])
+            ->willReturn($uri);
+
+        $streamFactory->createStream(Argument::type(\Generator::class))->willReturn($requestBodyStream);
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/vnd.akeneo.collection+json'], $requestBodyStream)
+            ->willReturn($response);
+
+        $response
+            ->getBody()
+            ->willReturn($responseBodyStream);
+
+        $responseFactory->create($responseBodyStream)->willReturn($listResponse);
+
+        $this
+            ->upsertResourceList(
+                'api/rest/v1/categories',
+                [],
+                [
+                    ['code'=> 'category_1'],
+                    ['code'=> 'category_2'],
+                    ['code'=> 'category_3'],
+                    ['code'=> 'category_4'],
+                ]
+            )
+            ->shouldReturn($listResponse);
+    }
+
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during('getResources', ['', [], null, null, ['limit' => null]]);
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters'))
+            ->during('getResources', ['', [], null, null, ['limit' => null]]);
     }
 
     function it_throws_an_exception_if_with_count_is_defined_in_additional_parameters_to_get_resources()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during('getResources', ['', [], null, null, ['with_count' => null]]);
+        $this
+            ->shouldthrow(new \InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters'))
+            ->during('getResources', ['', [], null, null, ['with_count' => null]]);
+    }
+
+    function it_throws_an_exception_if_resources_is_not_an_array_and_not_traversable_when_upserting_a_list_of_resources()
+    {
+        $this
+            ->shouldthrow(new \InvalidArgumentException('The parameter "resources" must be an array or Traversable.'))
+            ->during('upsertResourceList', ['api/rest/v1/categories', [], 'foo']);
     }
 
     function it_creates_a_multipart_resource(

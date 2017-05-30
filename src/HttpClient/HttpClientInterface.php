@@ -4,6 +4,7 @@ namespace Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Exception\HttpException;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -18,10 +19,10 @@ interface HttpClientInterface
     /**
      * Sends a request.
      *
-     * @param string              $httpMethod HTTP method to use
-     * @param string|UriInterface $uri        uri of the request
-     * @param array               $headers    headers of the request
-     * @param string              $body       body of the request
+     * @param string                      $httpMethod HTTP method to use
+     * @param string|UriInterface         $uri        URI of the request
+     * @param array                       $headers    headers of the request
+     * @param string|StreamInterface|null $body       body of the request
      *
      * @throws HttpException
      *

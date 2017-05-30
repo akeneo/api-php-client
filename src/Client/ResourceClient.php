@@ -5,6 +5,8 @@ namespace Akeneo\Pim\Client;
 use Akeneo\Pim\HttpClient\HttpClientInterface;
 use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
+use Http\Message\StreamFactory;
 
 /**
  * Generic client to execute common request on resources.
@@ -24,19 +26,31 @@ class ResourceClient implements ResourceClientInterface
     /** @var MultipartStreamBuilderFactory */
     protected $multipartStreamBuilderFactory;
 
+    /** @var StreamFactory */
+    protected $streamFactory;
+
+    /** @var UpsertResourceListResponseFactory */
+    protected $upsertListResponseFactory;
+
     /**
-     * @param HttpClientInterface           $httpClient
-     * @param UriGeneratorInterface         $uriGenerator
-     * @param MultipartStreamBuilderFactory $multipartStreamBuilderFactory
+     * @param HttpClientInterface               $httpClient
+     * @param UriGeneratorInterface             $uriGenerator
+     * @param MultipartStreamBuilderFactory     $multipartStreamBuilderFactory
+     * @param StreamFactory                     $streamFactory
+     * @param UpsertResourceListResponseFactory $upsertListResponseFactory
      */
     public function __construct(
         HttpClientInterface $httpClient,
         UriGeneratorInterface $uriGenerator,
-        MultipartStreamBuilderFactory $multipartStreamBuilderFactory
+        MultipartStreamBuilderFactory $multipartStreamBuilderFactory,
+        StreamFactory $streamFactory,
+        UpsertResourceListResponseFactory $upsertListResponseFactory
     ) {
         $this->httpClient = $httpClient;
         $this->uriGenerator = $uriGenerator;
         $this->multipartStreamBuilderFactory = $multipartStreamBuilderFactory;
+        $this->streamFactory = $streamFactory;
+        $this->upsertListResponseFactory = $upsertListResponseFactory;
     }
 
     /**
@@ -139,6 +153,40 @@ class ResourceClient implements ResourceClientInterface
         );
 
         return $response->getStatusCode();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertResourceList($uri, array $uriParameters = [], $resources = [])
+    {
+        if (!is_array($resources) && !$resources instanceof \Traversable) {
+            throw new \InvalidArgumentException('The parameter "resources" must be an array or Traversable.');
+        }
+
+        $streamFunction = function() use ($resources) {
+            $isFirstLine = true;
+            foreach ($resources as $resource) {
+                if (!is_array($resource)) {
+                    throw new \InvalidArgumentException('The parameter "resources" must be an array of array.');
+                }
+                unset($resource['_links']);
+                yield ($isFirstLine ? '' : PHP_EOL) . json_encode($resource);
+                $isFirstLine = false;
+            }
+        };
+
+        $streamedBody = $this->streamFactory->createStream($streamFunction());
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/vnd.akeneo.collection+json'],
+            $streamedBody
+        );
+
+        return $this->upsertListResponseFactory->create($response->getBody());
     }
 
     /**
