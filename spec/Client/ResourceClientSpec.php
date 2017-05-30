@@ -3,18 +3,18 @@
 namespace spec\Akeneo\Pim\Client;
 
 use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\Pagination\Page;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Http\Message\MultipartStream\MultipartStreamBuilder;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 class ResourceClientSpec extends ObjectBehavior
 {
-    function let(HttpClient $httpClient, UriGeneratorInterface $uriGenerator)
+    function let(HttpClient $httpClient, UriGeneratorInterface $uriGenerator, MultipartStreamBuilderFactory $multipartStreamBuilderFactory)
     {
-        $this->beConstructedWith($httpClient, $uriGenerator);
+        $this->beConstructedWith($httpClient, $uriGenerator, $multipartStreamBuilderFactory);
     }
 
     function it_is_initializable()
@@ -191,6 +191,87 @@ JSON;
     function it_throws_an_exception_if_with_count_is_defined_in_additional_parameters_to_get_resources()
     {
         $this->shouldThrow('\InvalidArgumentException')->during('getResources', ['', [], null, null, ['with_count' => null]]);
+    }
+
+    function it_creates_a_multipart_resource(
+        $httpClient,
+        $uriGenerator,
+        $multipartStreamBuilderFactory,
+        ResponseInterface $response,
+        MultipartStreamBuilder $multipartStreamBuilder
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/media-files';
+        $boundary = '59282643a51ca1.81601629';
+        $product = '{"identifier":"foo","attribute":"picture","scope":"e-commerce","locale":"en_US"}';
+        $fileResource = '42';
+        $multipartStream = 'stream';
+        $requestParts = [
+            [
+                'name' => 'product',
+                'contents' => $product,
+            ],
+            [
+                'name' => 'file',
+                'contents' => $fileResource,
+            ]
+        ];
+
+        $uriGenerator->generate('api/rest/v1/media-files', [])->willReturn($uri);
+
+        $multipartStreamBuilderFactory->create()->willReturn($multipartStreamBuilder);
+
+        $multipartStreamBuilder->build()->willReturn($multipartStream);
+        $multipartStreamBuilder->addResource('product', $product, [])->shouldBeCalled();
+        $multipartStreamBuilder->addResource('file', $fileResource, [])->shouldBeCalled();
+        $multipartStreamBuilder->getBoundary()->willReturn($boundary);
+
+        $headers = ['Content-Type' => sprintf('multipart/form-data; boundary="%s"', $boundary)];
+
+        $response->getStatusCode()->willReturn(201);
+
+        $httpClient
+            ->sendRequest('POST', $uri, $headers, $multipartStream)
+            ->willReturn($response);
+
+        $this
+            ->createMultipartResource('api/rest/v1/media-files', [], $requestParts)
+            ->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_if_a_request_part_is_invalid_when_creating_a_multipart_resource(
+        $multipartStreamBuilderFactory,
+        MultipartStreamBuilder $multipartStreamBuilder
+    ) {
+        $multipartStreamBuilderFactory->create()->willReturn($multipartStreamBuilder);
+
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
+            ->during('createMultipartResource', [
+                'api/rest/v1/media-files',
+                [],
+                [
+                    [
+                        'name' => 'product',
+                        'contents' => 'foo',
+                    ],
+                    [
+                        'name' => 'file',
+                    ]
+                ]
+            ]);
+
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
+            ->during('createMultipartResource', [
+                'api/rest/v1/media-files',
+                [],
+                [
+                    [
+                        'name' => null,
+                        'contents' => 'foo',
+                    ]
+                ]
+            ]);
     }
 
     protected function getSampleOfResources()

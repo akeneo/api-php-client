@@ -36,7 +36,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     protected $familyApi;
 
     /** @var MediaFileApiInterface */
-    protected $mediaFileAPi;
+    protected $productMediaFileApi;
 
     /** @var LocaleApiInterface */
     protected $localeApi;
@@ -50,7 +50,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param AttributeApiInterface       $attributeApi
      * @param AttributeOptionApiInterface $attributeOptionApi
      * @param FamilyApiInterface          $familyApi
-     * @param MediaFileApiInterface       $mediaFileAPi
+     * @param MediaFileApiInterface       $productMediaFileApi
      * @param LocaleApiInterface          $localeApi
      * @param ChannelApiInterface         $channelApi
      */
@@ -60,7 +60,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
         FamilyApiInterface $familyApi,
-        MediaFileApiInterface $mediaFileAPi,
+        MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi
     ) {
@@ -69,7 +69,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->attributeApi = $attributeApi;
         $this->attributeOptionApi = $attributeOptionApi;
         $this->familyApi = $familyApi;
-        $this->mediaFileAPi = $mediaFileAPi;
+        $this->productMediaFileApi = $productMediaFileApi;
         $this->localeApi = $localeApi;
         $this->channelApi = $channelApi;
     }
@@ -77,7 +77,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductAPi()
+    public function getProductApi()
     {
         return $this->productApi;
     }
@@ -117,15 +117,15 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getMediaFileApi()
+    public function getProductMediaFileApi()
     {
-        return $this->mediaFileAPi;
+        return $this->productMediaFileApi;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLocaleAPi()
+    public function getLocaleApi()
     {
         return $this->localeApi;
     }
@@ -133,7 +133,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getChannelAPi()
+    public function getChannelApi()
     {
         return $this->channelApi;
     }

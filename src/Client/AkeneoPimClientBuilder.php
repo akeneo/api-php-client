@@ -9,10 +9,11 @@ use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\ChannelApi;
 use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\Api\LocaleApi;
-use Akeneo\Pim\Api\MediaFileApi;
+use Akeneo\Pim\Api\ProductMediaFileApi;
 use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
+use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Pagination\PageFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
@@ -82,9 +83,10 @@ class AkeneoPimClientBuilder
         $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $this->authentication);
 
-        $pageFactory = new PageFactory($authenticatedHttpClient);
-        $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $pageFactory);
+        $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->streamFactory);
+        $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $multipartStreamBuilderFactory);
 
+        $pageFactory = new PageFactory($authenticatedHttpClient);
         $cursorFactory = new ResourceCursorFactory();
 
         $client = new AkeneoPimClient(
@@ -93,7 +95,7 @@ class AkeneoPimClientBuilder
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
-            new MediaFileApi($resourceClient, $pageFactory, $cursorFactory),
+            new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory),
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory)
         );

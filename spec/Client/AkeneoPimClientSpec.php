@@ -22,12 +22,12 @@ class AkeneoPimClientSpec extends ObjectBehavior
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
         FamilyApiInterface $familyApi,
-        MediaFileApiInterface $mediaFileApi,
+        MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi
     )
     {
-        $this->beConstructedWith($productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $mediaFileApi, $localeApi, $channelApi);
+        $this->beConstructedWith($productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
     }
 
     function it_is_initializable()
@@ -61,9 +61,9 @@ class AkeneoPimClientSpec extends ObjectBehavior
         $this->getFamilyApi()->shouldReturn($familyApi);
     }
 
-    function it_gets_media_file_api($mediaFileApi)
+    function it_gets_product_media_file_api($productMediaFileApi)
     {
-        $this->getMediaFileApi()->shouldReturn($mediaFileApi);
+        $this->getProductMediaFileApi()->shouldReturn($productMediaFileApi);
     }
 
     function it_gets_locale_api($localeApi)

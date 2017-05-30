@@ -56,11 +56,11 @@ interface AkeneoPimClientInterface
     public function getFamilyApi();
 
     /**
-     * Gets the media file API.
+     * Gets the product media file API.
      *
      * @return MediaFileApiInterface
      */
-    public function getMediaFileApi();
+    public function getProductMediaFileApi();
 
     /**
      * Gets the locale API.
