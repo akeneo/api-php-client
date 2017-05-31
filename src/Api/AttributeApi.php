@@ -91,4 +91,12 @@ class AttributeApi implements AttributeApiInterface
     {
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_PATH, [$code], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($attributes)
+    {
+        return $this->resourceClient->upsertResourceList(static::ATTRIBUTES_PATH, [], $attributes);
+    }
 }

@@ -10,6 +10,7 @@ use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class AttributeApiSpec extends ObjectBehavior
@@ -128,5 +129,27 @@ class AttributeApiSpec extends ObjectBehavior
         $this
             ->upsert('foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar'])
             ->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_attributes($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient
+            ->upsertResourceList(
+                AttributeApi::ATTRIBUTES_PATH,
+                [],
+                [
+                    ['code' => 'attribute_1'],
+                    ['code' => 'attribute_2'],
+                    ['code' => 'attribute_3'],
+                ]
+            )
+            ->willReturn($response);
+
+        $this
+            ->upsertList([
+                ['code' => 'attribute_1'],
+                ['code' => 'attribute_2'],
+                ['code' => 'attribute_3'],
+            ])->shouldReturn($response);
     }
 }
