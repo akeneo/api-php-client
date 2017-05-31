@@ -153,7 +153,7 @@ JSON;
         );
     }
 
-    function it_updates_partially_a_resource(
+    function it_upserts_a_resource(
         $httpClient,
         $uriGenerator,
         ResponseInterface $response
@@ -173,7 +173,7 @@ JSON;
             ->willReturn(201);
 
         $this
-            ->partialUpdateResource(
+            ->upsertResource(
                 'api/rest/v1/categories/%s',
                 ['master'],
                 [

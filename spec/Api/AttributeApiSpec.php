@@ -119,10 +119,10 @@ class AttributeApiSpec extends ObjectBehavior
         );
     }
 
-    function it_updates_partially_an_attribute($resourceClient)
+    function it_upserts_an_attribute($resourceClient)
     {
         $resourceClient
-            ->partialUpdateResource(AttributeApi::ATTRIBUTE_PATH, ['foo'], ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar'])
+            ->upsertResource(AttributeApi::ATTRIBUTE_PATH, ['foo'], ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar'])
             ->willReturn(204);
 
         $this

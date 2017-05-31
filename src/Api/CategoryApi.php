@@ -90,6 +90,6 @@ class CategoryApi implements CategoryApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->partialUpdateResource(static::CATEGORY_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::CATEGORY_PATH, [$code], $data);
     }
 }

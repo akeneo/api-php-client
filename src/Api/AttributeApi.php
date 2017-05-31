@@ -89,6 +89,6 @@ class AttributeApi implements AttributeApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->partialUpdateResource(static::ATTRIBUTE_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::ATTRIBUTE_PATH, [$code], $data);
     }
 }

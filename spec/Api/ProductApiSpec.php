@@ -119,10 +119,10 @@ class ProductApiSpec extends ObjectBehavior
             ->during('create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]);
     }
 
-    function it_updates_partially_a_product($resourceClient)
+    function it_upserts_a_product($resourceClient)
     {
         $resourceClient
-            ->partialUpdateResource(ProductApi::PRODUCT_PATH, ['foo'], ['identifier' => 'foo' , 'family' => 'bar'])
+            ->upsertResource(ProductApi::PRODUCT_PATH, ['foo'], ['identifier' => 'foo' , 'family' => 'bar'])
             ->willReturn(204);
 
         $this->upsert('foo', ['identifier' => 'foo' , 'family' => 'bar'])

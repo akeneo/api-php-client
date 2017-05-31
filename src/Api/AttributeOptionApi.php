@@ -95,6 +95,6 @@ class AttributeOptionApi implements AttributeOptionApiInterface
      */
     public function upsert($attributeCode, $attributeOptionCode, array $data = [])
     {
-        return $this->resourceClient->partialUpdateResource(static::ATTRIBUTE_OPTION_PATH, [$attributeCode, $attributeOptionCode], $data);
+        return $this->resourceClient->upsertResource(static::ATTRIBUTE_OPTION_PATH, [$attributeCode, $attributeOptionCode], $data);
     }
 }

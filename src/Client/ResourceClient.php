@@ -126,7 +126,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function partialUpdateResource($uri, array $uriParameters = [], array $body = [])
+    public function upsertResource($uri, array $uriParameters = [], array $body = [])
     {
         unset($body['_links']);
 

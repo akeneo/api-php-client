@@ -119,10 +119,10 @@ class FamilyApiSpec extends ObjectBehavior
             ->during('create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]);
     }
 
-    function it_updates_partially_a_family($resourceClient)
+    function it_upserts_a_family($resourceClient)
     {
         $resourceClient
-            ->partialUpdateResource(FamilyApi::FAMILY_PATH, ['foo'], ['code' => 'foo' , 'attribute_as_label' => 'sku'])
+            ->upsertResource(FamilyApi::FAMILY_PATH, ['foo'], ['code' => 'foo' , 'attribute_as_label' => 'sku'])
             ->willReturn(204);
 
         $this->upsert('foo', ['code' => 'foo' , 'attribute_as_label' => 'sku'])

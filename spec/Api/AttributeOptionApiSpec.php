@@ -134,10 +134,10 @@ class AttributeOptionApiSpec extends ObjectBehavior
             ->during('create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]);
     }
 
-    function it_updates_partially_an_attribute_option($resourceClient)
+    function it_upserts_an_attribute_option($resourceClient)
     {
         $resourceClient
-            ->partialUpdateResource(
+            ->upsertResource(
                 AttributeOptionApi::ATTRIBUTE_OPTION_PATH,
                 ['foo', 'bar'],
                 ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42]

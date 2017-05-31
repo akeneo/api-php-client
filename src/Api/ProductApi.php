@@ -89,6 +89,6 @@ class ProductApi implements ProductApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->partialUpdateResource(static::PRODUCT_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::PRODUCT_PATH, [$code], $data);
     }
 }

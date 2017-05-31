@@ -89,6 +89,6 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->partialUpdateResource(static::FAMILY_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::FAMILY_PATH, [$code], $data);
     }
 }
