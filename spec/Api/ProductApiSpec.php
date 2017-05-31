@@ -10,6 +10,7 @@ use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class ProductApiSpec extends ObjectBehavior
@@ -136,5 +137,27 @@ class ProductApiSpec extends ObjectBehavior
             ->willReturn(204);
 
         $this->delete('foo')->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_products($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient
+            ->upsertResourceList(
+                ProductApi::PRODUCTS_PATH,
+                [],
+                [
+                    ['identifier' => 'identifier_1'],
+                    ['identifier' => 'identifier_2'],
+                    ['identifier' => 'identifier_3'],
+                ]
+            )
+            ->willReturn($response);
+
+        $this
+            ->upsertList([
+                ['identifier' => 'identifier_1'],
+                ['identifier' => 'identifier_2'],
+                ['identifier' => 'identifier_3'],
+            ])->shouldReturn($response);
     }
 }
