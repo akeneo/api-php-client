@@ -69,4 +69,18 @@ class AttributeApi implements AttributeApiInterface
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->createResource(static::ATTRIBUTES_PATH, [], $data);
+    }
 }

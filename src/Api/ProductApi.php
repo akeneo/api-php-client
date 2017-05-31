@@ -69,4 +69,18 @@ class ProductApi implements ProductApiInterface
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($code, array $data = [])
+    {
+        if (array_key_exists('identifier', $data)) {
+            throw new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter');
+        }
+
+        $data['identifier'] = $code;
+
+        return $this->resourceClient->createResource(static::PRODUCTS_PATH, [], $data);
+    }
 }

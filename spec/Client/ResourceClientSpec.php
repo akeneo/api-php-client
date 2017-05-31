@@ -122,7 +122,8 @@ JSON;
 
     function it_creates_a_resource(
         $httpClient,
-        $uriGenerator
+        $uriGenerator,
+        ResponseInterface $response
     ) {
         $uri = 'http://akeneo.com/api/rest/v1/categories';
 
@@ -130,9 +131,13 @@ JSON;
             ->generate('api/rest/v1/categories', [])
             ->willReturn($uri);
 
+        $response
+            ->getStatusCode()
+            ->willReturn(201);
+
         $httpClient
             ->sendRequest('POST', $uri, ['Content-Type' => 'application/json'], '{"code":"master"}')
-            ->shouldBeCalled();
+            ->willReturn($response);
 
         $this->createResource(
             'api/rest/v1/categories',

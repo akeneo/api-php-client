@@ -70,4 +70,23 @@ class AttributeOptionApi implements AttributeOptionApiInterface
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($attributeCode, $attributeOptionCode, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        if (array_key_exists('attribute', $data)) {
+            throw new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $attributeOptionCode;
+        $data['attribute'] = $attributeCode;
+
+        return $this->resourceClient->createResource(static::ATTRIBUTE_OPTIONS_PATH, [$attributeCode], $data);
+    }
 }

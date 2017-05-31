@@ -53,4 +53,17 @@ interface AttributeOptionApiInterface
      * @return ResourceCursorInterface
      */
     public function all($attributeCode, $pageSize = 10, array $queryParameters = []);
+
+    /**
+     * Creates an attribute option.
+     *
+     * @param string $attributeCode       code of the attribute
+     * @param string $attributeOptionCode code of the attribute option to create
+     * @param array  $data                data of the attribute option to create
+     *
+     * @throws HttpException
+     *
+     * @return int returns 201 if the attribute option has been created
+     */
+    public function create($attributeCode, $attributeOptionCode, array $data = []);
 }

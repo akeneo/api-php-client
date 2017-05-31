@@ -106,4 +106,31 @@ class AttributeOptionApiSpec extends ObjectBehavior
 
         $this->listPerPage($attributeCode, null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
+
+    function it_creates_an_attribute_option($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH,
+                ['bar'],
+                ['code' => 'foo', 'attribute' => 'bar', 'sort_order' => 2]
+            )
+            ->willReturn(201);
+
+        $this->create('bar', 'foo', ['sort_order' => 2])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_if_attribute_option_code_is_provided_in_data_when_creating_an_attribute_option()
+    {
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['foo', 'bar', ['code' => 'foo', 'sort_order' => 2]]);
+    }
+
+    function it_throws_an_exception_if_attribute_code_is_provided_in_data_when_creating_an_attribute_option()
+    {
+        $this
+            ->shouldThrow(new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
+            ->during('create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]);
+    }
 }
