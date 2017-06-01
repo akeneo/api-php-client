@@ -303,6 +303,25 @@ JSON;
             ->shouldReturn(204);
     }
 
+    function it_gets_a_streamed_resource(
+        $httpClient,
+        $uriGenerator,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/media-files/42.jpg/download';
+
+        $uriGenerator
+            ->generate('api/rest/v1/media-files/%s/download', ['42.jpg'])
+            ->willReturn($uri);
+
+        $httpClient->sendRequest('GET', $uri, ['Accept' => '*/*'])->willReturn($response);
+
+        $response->getBody()->willReturn($responseBody);
+
+        $this->getStreamedResource('api/rest/v1/media-files/%s/download', ['42.jpg'])->shouldReturn($responseBody);
+    }
+
     protected function getSampleOfResources()
     {
         return [

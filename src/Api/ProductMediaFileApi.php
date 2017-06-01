@@ -17,6 +17,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
 {
     const MEDIA_FILES_PATH = 'api/rest/v1/media-files';
     const MEDIA_FILE_PATH = 'api/rest/v1/media-files/%s';
+    const MEDIA_FILE_DOWNLOAD_PATH = 'api/rest/v1/media-files/%s/download';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -95,5 +96,13 @@ class ProductMediaFileApi implements MediaFileApiInterface
         ];
 
         return $this->resourceClient->createMultipartResource(static::MEDIA_FILES_PATH, [], $requestParts);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function download($code)
+    {
+        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_PATH, [$code]);
     }
 }

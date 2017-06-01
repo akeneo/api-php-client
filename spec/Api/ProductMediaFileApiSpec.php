@@ -11,6 +11,7 @@ use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
+use Psr\Http\Message\StreamInterface;
 
 class ProductMediaFileApiSpec extends ObjectBehavior
 {
@@ -137,5 +138,14 @@ class ProductMediaFileApiSpec extends ObjectBehavior
                     'locale'     => 'en_US',
                 ]
             ]);
+    }
+
+    function it_downloads_a_media_file($resourceClient, StreamInterface $streamBody)
+    {
+        $resourceClient
+            ->getStreamedResource(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_PATH, ['42.jpg'])
+            ->willReturn($streamBody);
+
+        $this->download('42.jpg')->shouldReturn($streamBody);
     }
 }
