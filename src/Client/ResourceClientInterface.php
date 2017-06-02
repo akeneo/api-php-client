@@ -56,7 +56,7 @@ interface ResourceClientInterface
      *
      * @throws HttpException
      *
-     * @return int status code of the response to know if the resource has been created (code 201)
+     * @return int Status code 201 indicating that the resource has been well created.
      */
     public function createResource($uri, array $uriParameters = [], array $body = []);
 
@@ -82,7 +82,8 @@ interface ResourceClientInterface
      *
      * @throws HttpException
      *
-     * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
+     * @return int Status code 201 indicating that the resource has been well created.
+     *             Status code 204 indicating that the resource has been well updated.
      */
     public function upsertResource($uri, array $uriParameters = [], array $body = []);
 

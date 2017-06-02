@@ -21,7 +21,7 @@ interface CreatableResourceInterface
      *
      * @throws HttpException
      *
-     * @return int returns 201 if the resource has been created
+     * @return int Status code 201 indicating that the resource has been well created.
      */
     public function create($code, array $data = []);
 }

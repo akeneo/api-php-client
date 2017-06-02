@@ -21,7 +21,8 @@ interface UpsertableResourceInterface
      *
      * @throws HttpException
      *
-     * @return int returns either http code 201 if the resource has been created or 204 if it has been updated
+     * @return int Status code 201 indicating that the resource has been well created.
+     *             Status code 204 indicating that the resource has been well updated.
      */
     public function upsert($code, array $data = []);
 }
