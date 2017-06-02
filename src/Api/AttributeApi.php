@@ -15,8 +15,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class AttributeApi implements AttributeApiInterface
 {
-    const ATTRIBUTES_PATH = 'api/rest/v1/attributes';
-    const ATTRIBUTE_PATH = 'api/rest/v1/attributes/%s';
+    const ATTRIBUTES_URI = 'api/rest/v1/attributes';
+    const ATTRIBUTE_URI = 'api/rest/v1/attributes/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +47,7 @@ class AttributeApi implements AttributeApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::ATTRIBUTE_PATH, [$code]);
+        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code]);
     }
 
     /**
@@ -55,7 +55,7 @@ class AttributeApi implements AttributeApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::ATTRIBUTES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::ATTRIBUTES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -81,7 +81,7 @@ class AttributeApi implements AttributeApiInterface
 
         $data['code'] = $code;
 
-        return $this->resourceClient->createResource(static::ATTRIBUTES_PATH, [], $data);
+        return $this->resourceClient->createResource(static::ATTRIBUTES_URI, [], $data);
     }
 
     /**
@@ -89,7 +89,7 @@ class AttributeApi implements AttributeApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::ATTRIBUTE_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::ATTRIBUTE_URI, [$code], $data);
     }
 
     /**
@@ -97,6 +97,6 @@ class AttributeApi implements AttributeApiInterface
      */
     public function upsertList($attributes)
     {
-        return $this->resourceClient->upsertResourceList(static::ATTRIBUTES_PATH, [], $attributes);
+        return $this->resourceClient->upsertResourceList(static::ATTRIBUTES_URI, [], $attributes);
     }
 }

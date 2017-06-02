@@ -15,8 +15,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class LocaleApi implements LocaleApiInterface
 {
-    const LOCALES_PATH = 'api/rest/v1/locales';
-    const LOCALE_PATH = 'api/rest/v1/locales/%s';
+    const LOCALES_URI = 'api/rest/v1/locales';
+    const LOCALE_URI = 'api/rest/v1/locales/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +47,7 @@ class LocaleApi implements LocaleApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::LOCALE_PATH, [$code]);
+        return $this->resourceClient->getResource(static::LOCALE_URI, [$code]);
     }
 
     /**
@@ -55,7 +55,7 @@ class LocaleApi implements LocaleApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::LOCALES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::LOCALES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }

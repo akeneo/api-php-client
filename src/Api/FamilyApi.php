@@ -15,8 +15,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class FamilyApi implements FamilyApiInterface
 {
-    const FAMILIES_PATH = 'api/rest/v1/families';
-    const FAMILY_PATH = 'api/rest/v1/families/%s';
+    const FAMILIES_URI = 'api/rest/v1/families';
+    const FAMILY_URI = 'api/rest/v1/families/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +47,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::FAMILY_PATH, [$code]);
+        return $this->resourceClient->getResource(static::FAMILY_URI, [$code]);
     }
 
     /**
@@ -55,7 +55,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::FAMILIES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::FAMILIES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -81,7 +81,7 @@ class FamilyApi implements FamilyApiInterface
 
         $data['code'] = $code;
 
-        return $this->resourceClient->createResource(static::FAMILIES_PATH, [], $data);
+        return $this->resourceClient->createResource(static::FAMILIES_URI, [], $data);
     }
 
     /**
@@ -89,7 +89,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::FAMILY_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::FAMILY_URI, [$code], $data);
     }
 
     /**
@@ -97,6 +97,6 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsertList($families)
     {
-        return $this->resourceClient->upsertResourceList(static::FAMILIES_PATH, [], $families);
+        return $this->resourceClient->upsertResourceList(static::FAMILIES_URI, [], $families);
     }
 }

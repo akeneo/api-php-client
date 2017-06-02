@@ -41,7 +41,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ProductMediaFileApi::MEDIA_FILE_PATH, [$mediaFileCode])
+            ->getResource(ProductMediaFileApi::MEDIA_FILE_URI, [$mediaFileCode])
             ->willReturn($mediaFile);
 
         $this->get($mediaFileCode)->shouldReturn($mediaFile);
@@ -50,7 +50,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_returns_a_list_of_media_files_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductMediaFileApi::MEDIA_FILES_PATH, [], 10, false, [])
+            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -61,7 +61,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_returns_a_list_of_media_files_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductMediaFileApi::MEDIA_FILES_PATH, [], 10, true, [])
+            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -77,7 +77,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(ProductMediaFileApi::MEDIA_FILES_PATH, [], 10, false, [])
+            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -90,7 +90,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_returns_a_list_of_media_files_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductMediaFileApi::MEDIA_FILES_PATH, [], null, null, ['foo' => 'bar'])
+            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -124,7 +124,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         ]]);
 
         $resourceClient
-            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_PATH, [], $requestParts)
+            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
             ->willReturn($response);
 
         $this->create($fileResource, $product)
@@ -213,7 +213,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_downloads_a_media_file($resourceClient, StreamInterface $streamBody)
     {
         $resourceClient
-            ->getStreamedResource(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_PATH, ['42.jpg'])
+            ->getStreamedResource(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, ['42.jpg'])
             ->willReturn($streamBody);
 
         $this->download('42.jpg')->shouldReturn($streamBody);

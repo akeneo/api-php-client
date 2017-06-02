@@ -15,8 +15,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class ProductApi implements ProductApiInterface
 {
-    const PRODUCTS_PATH = 'api/rest/v1/products';
-    const PRODUCT_PATH = 'api/rest/v1/products/%s';
+    const PRODUCTS_URI = 'api/rest/v1/products';
+    const PRODUCT_URI = 'api/rest/v1/products/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +47,7 @@ class ProductApi implements ProductApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::PRODUCT_PATH, [$code]);
+        return $this->resourceClient->getResource(static::PRODUCT_URI, [$code]);
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductApi implements ProductApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::PRODUCTS_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::PRODUCTS_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -83,7 +83,7 @@ class ProductApi implements ProductApiInterface
 
         $data['identifier'] = $code;
 
-        return $this->resourceClient->createResource(static::PRODUCTS_PATH, [], $data);
+        return $this->resourceClient->createResource(static::PRODUCTS_URI, [], $data);
     }
 
     /**
@@ -91,7 +91,7 @@ class ProductApi implements ProductApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::PRODUCT_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::PRODUCT_URI, [$code], $data);
     }
 
     /**
@@ -99,7 +99,7 @@ class ProductApi implements ProductApiInterface
      */
     public function delete($code)
     {
-        return $this->resourceClient->deleteResource(static::PRODUCT_PATH, [$code]);
+        return $this->resourceClient->deleteResource(static::PRODUCT_URI, [$code]);
     }
 
     /**
@@ -107,6 +107,6 @@ class ProductApi implements ProductApiInterface
      */
     public function upsertList($products)
     {
-        return $this->resourceClient->upsertResourceList(static::PRODUCTS_PATH, [], $products);
+        return $this->resourceClient->upsertResourceList(static::PRODUCTS_URI, [], $products);
     }
 }

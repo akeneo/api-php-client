@@ -16,9 +16,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ProductMediaFileApi implements MediaFileApiInterface
 {
-    const MEDIA_FILES_PATH = 'api/rest/v1/media-files';
-    const MEDIA_FILE_PATH = 'api/rest/v1/media-files/%s';
-    const MEDIA_FILE_DOWNLOAD_PATH = 'api/rest/v1/media-files/%s/download';
+    const MEDIA_FILES_URI = 'api/rest/v1/media-files';
+    const MEDIA_FILE_URI = 'api/rest/v1/media-files/%s';
+    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/media-files/%s/download';
     const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
 
     /** @var ResourceClientInterface */
@@ -50,7 +50,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::MEDIA_FILE_PATH, [$code]);
+        return $this->resourceClient->getResource(static::MEDIA_FILE_URI, [$code]);
     }
 
     /**
@@ -58,7 +58,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::MEDIA_FILES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::MEDIA_FILES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -97,7 +97,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
             ]
         ];
 
-        $response = $this->resourceClient->createMultipartResource(static::MEDIA_FILES_PATH, [], $requestParts);
+        $response = $this->resourceClient->createMultipartResource(static::MEDIA_FILES_URI, [], $requestParts);
 
         return $this->extractCodeFromCreationResponse($response);
     }
@@ -107,7 +107,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     public function download($code)
     {
-        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_PATH, [$code]);
+        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code]);
     }
 
     /**
