@@ -3,6 +3,7 @@
 namespace spec\Akeneo\Pim\Api;
 
 use Akeneo\Pim\Api\AuthenticationApi;
+use Akeneo\Pim\Api\AuthenticationApiInterface;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use PhpSpec\ObjectBehavior;
@@ -18,8 +19,8 @@ class AuthenticationApiSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Akeneo\Pim\Api\AuthenticationApi');
-        $this->shouldImplement('Akeneo\Pim\Api\AuthenticationApiInterface');
+        $this->shouldHaveType(AuthenticationApi::class);
+        $this->shouldImplement(AuthenticationApiInterface::class);
     }
 
     function it_authenticates_with_the_password_grant_type(

@@ -4,6 +4,8 @@ namespace spec\Akeneo\Pim\Pagination;
 
 use Akeneo\Pim\Pagination\Page;
 use Akeneo\Pim\Pagination\PageInterface;
+use Akeneo\Pim\Pagination\ResourceCursor;
+use Akeneo\Pim\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
 
 class ResourceCursorSpec extends ObjectBehavior
@@ -15,8 +17,8 @@ class ResourceCursorSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Akeneo\Pim\Pagination\ResourceCursor');
-        $this->shouldImplement('Akeneo\Pim\Pagination\ResourceCursorInterface');
+        $this->shouldHaveType(ResourceCursor::class);
+        $this->shouldImplement(ResourceCursorInterface::class);
     }
 
     function it_is_iterable($firstPage, Page $secondPage)

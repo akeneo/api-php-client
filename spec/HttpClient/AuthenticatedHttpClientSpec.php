@@ -4,8 +4,9 @@ namespace spec\Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Api\AuthenticationApiInterface;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
+use Akeneo\Pim\HttpClient\HttpClientInterface;
 use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
@@ -22,8 +23,8 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Akeneo\Pim\HttpClient\AuthenticatedHttpClient');
-        $this->shouldImplement('Akeneo\Pim\HttpClient\HttpClientInterface');
+        $this->shouldHaveType(AuthenticatedHttpClient::class);
+        $this->shouldImplement(HttpClientInterface::class);
     }
 
     function it_sends_an_authenticated_and_successful_request_when_access_token_is_defined(

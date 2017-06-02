@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\Pagination;
 use Akeneo\Pim\HttpClient\HttpClientInterface;
 use Akeneo\Pim\Pagination\Page;
 use Akeneo\Pim\Pagination\PageFactory;
+use Akeneo\Pim\Pagination\PageFactoryInterface;
 use PhpSpec\ObjectBehavior;
 
 class PageFactorySpec extends ObjectBehavior
@@ -16,8 +17,8 @@ class PageFactorySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Akeneo\Pim\Pagination\PageFactory');
-        $this->shouldImplement('Akeneo\Pim\Pagination\PageFactoryInterface');
+        $this->shouldHaveType(PageFactory::class);
+        $this->shouldImplement(PageFactoryInterface::class);
     }
 
     function it_creates_a_page_with_all_links($httpClient)
