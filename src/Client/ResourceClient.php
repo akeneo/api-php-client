@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\HttpClient\HttpClientInterface;
-use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Psr\Http\Message\StreamInterface;

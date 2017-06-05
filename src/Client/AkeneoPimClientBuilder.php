@@ -13,7 +13,7 @@ use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\Api\ProductMediaFileApi;
 use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Pagination\PageFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;

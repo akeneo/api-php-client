@@ -5,7 +5,7 @@ namespace spec\Akeneo\Pim\Client;
 use Akeneo\Pim\Client\ResourceClient;
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
