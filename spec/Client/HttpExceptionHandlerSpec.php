@@ -8,7 +8,7 @@ use Akeneo\Pim\Exception\NotFoundHttpException;
 use Akeneo\Pim\Exception\ServerErrorHttpException;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\HttpClient\HttpExceptionHandler;
+use Akeneo\Pim\Client\HttpExceptionHandler;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

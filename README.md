@@ -38,7 +38,7 @@ If you don't have any client id, let's take a look at [this page](https://api.ak
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$clientBuilder = new \Akeneo\Pim\Client\AkeneoPimClientBuilder('http://localhost/');
+$clientBuilder = new \Akeneo\Pim\AkeneoPimClientBuilder('http://localhost/');
 $client = $clientBuilder->buildAuthenticatedByPassword('client_id', 'secret', 'admin', 'admin');
 ```
 

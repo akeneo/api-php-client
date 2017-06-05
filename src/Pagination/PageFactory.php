@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\Pagination;
 
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\HttpClientInterface;
 
 /**
  * Factory to create a page object representing a list of resources.

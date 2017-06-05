@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\Pagination;
 
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\HttpClientInterface;
 
 /**
  * Page represents a list of paginated resources.

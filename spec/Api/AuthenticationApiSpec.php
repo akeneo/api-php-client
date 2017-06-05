@@ -4,7 +4,7 @@ namespace spec\Akeneo\Pim\Api;
 
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\AuthenticationApiInterface;
-use Akeneo\Pim\HttpClient\HttpClient;
+use Akeneo\Pim\Client\HttpClient;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;

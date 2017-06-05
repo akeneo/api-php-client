@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\HttpClient;
+namespace Akeneo\Pim\Client;
 
 use Http\Client\HttpClient as Client;
 use Http\Message\RequestFactory;

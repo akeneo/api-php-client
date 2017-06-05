@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\HttpClient;
+namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
 use Psr\Http\Message\ResponseInterface;

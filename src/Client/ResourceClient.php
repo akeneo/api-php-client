@@ -3,9 +3,8 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Client\HttpClientInterface;
-use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Psr\Http\Message\StreamInterface;
 

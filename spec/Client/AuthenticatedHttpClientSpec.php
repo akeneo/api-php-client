@@ -4,9 +4,9 @@ namespace spec\Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Api\AuthenticationApiInterface;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
-use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
-use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\AuthenticatedHttpClient;
+use Akeneo\Pim\Client\HttpClient;
+use Akeneo\Pim\Client\HttpClientInterface;
 use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;

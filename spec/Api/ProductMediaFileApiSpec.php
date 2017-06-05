@@ -171,7 +171,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         $response->getHeaders()->willReturn(['Location' => '']);
 
         $resourceClient
-            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_PATH, [], $requestParts)
+            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
             ->willReturn($response);
 
         $this
@@ -203,7 +203,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         $response->getHeaders()->willReturn(['Location' => ['http://localhost/api/rest/v1/products/foo']]);
 
         $resourceClient
-            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_PATH, [], $requestParts)
+            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
             ->willReturn($response);
 
         $this

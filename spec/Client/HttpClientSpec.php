@@ -3,7 +3,7 @@
 namespace spec\Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Exception\HttpException;
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\HttpClientInterface;
 use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use PhpSpec\ObjectBehavior;
@@ -22,7 +22,7 @@ class HttpClientSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(\Akeneo\Pim\HttpClient\HttpClient::class);
+        $this->shouldHaveType(\Akeneo\Pim\Client\HttpClient::class);
         $this->shouldImplement(HttpClientInterface::class);
     }
 

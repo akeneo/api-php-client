@@ -2,7 +2,7 @@
 
 namespace spec\Akeneo\Pim\Pagination;
 
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\HttpClientInterface;
 use Akeneo\Pim\Pagination\Page;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
