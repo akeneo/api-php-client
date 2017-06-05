@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\Api;
 use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -123,14 +124,14 @@ class AttributeOptionApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_attribute_option_code_is_provided_in_data_when_creating_an_attribute_option()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
             ->during('create', ['foo', 'bar', ['code' => 'foo', 'sort_order' => 2]]);
     }
 
     function it_throws_an_exception_if_attribute_code_is_provided_in_data_when_creating_an_attribute_option()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
             ->during('create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]);
     }
 

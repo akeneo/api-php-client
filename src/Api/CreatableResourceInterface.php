@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 
 /**
  * API that can create a resource.
@@ -19,7 +20,8 @@ interface CreatableResourceInterface
      * @param string $code code of the resource to create
      * @param array  $data data of the resource to create
      *
-     * @throws HttpException
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the parameter "code" is defined in the data parameter.
      *
      * @return int Status code 201 indicating that the resource has been well created.
      */

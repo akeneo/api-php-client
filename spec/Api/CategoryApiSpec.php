@@ -9,6 +9,7 @@ use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Api\UpsertableResourceInterface;
 use Akeneo\Pim\Api\UpsertableResourceListInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -121,7 +122,7 @@ class CategoryApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_code_is_provided_in_data_when_creating_a_category($resourceClient)
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
             ->during('create', ['master', ['code' => 'master', 'parent' => 'foo']]);
     }
 

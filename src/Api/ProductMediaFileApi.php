@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\RuntimeException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -80,7 +81,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     {
         if (is_string($mediaFile)) {
             if (!is_readable($mediaFile)) {
-                throw new \RuntimeException(sprintf('The file "%s" could not be read.', $mediaFile));
+                throw new RuntimeException(sprintf('The file "%s" could not be read.', $mediaFile));
             }
 
             $mediaFile = fopen($mediaFile, 'rb');
@@ -115,7 +116,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      *
      * @param ResponseInterface $response
      *
-     * @throws \RuntimeException if unable to extract the code
+     * @throws RuntimeException if unable to extract the code
      *
      * @return mixed
      */
@@ -124,12 +125,12 @@ class ProductMediaFileApi implements MediaFileApiInterface
         $headers = $response->getHeaders();
 
         if (!isset($headers['Location'][0])) {
-            throw new \RuntimeException('The response does not contain the URI of the created media-file.');
+            throw new RuntimeException('The response does not contain the URI of the created media-file.');
         }
 
         $matches = [];
         if (1 !== preg_match(static::MEDIA_FILE_URI_CODE_REGEX, $headers['Location'][0], $matches)) {
-            throw new \RuntimeException('Unable to find the code in the URI of the created media-file.');
+            throw new RuntimeException('Unable to find the code in the URI of the created media-file.');
         }
 
         return $matches['code'];

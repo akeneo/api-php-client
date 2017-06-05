@@ -19,7 +19,7 @@ interface UpsertableResourceInterface
      * @param string $code code of the resource to create or update
      * @param array  $data data of the resource to create or update
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return int Status code 201 indicating that the resource has been well created.
      *             Status code 204 indicating that the resource has been well updated.

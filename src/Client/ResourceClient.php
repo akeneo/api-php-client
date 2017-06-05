@@ -2,7 +2,8 @@
 
 namespace Akeneo\Pim\Client;
 
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
+use Akeneo\Pim\Client\HttpClientInterface;
 use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
@@ -69,11 +70,11 @@ class ResourceClient implements ResourceClientInterface
         array $queryParameters = []
     ) {
         if (array_key_exists('limit', $queryParameters)) {
-            throw new \InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters');
+            throw new InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters');
         }
 
         if (array_key_exists('with_count', $queryParameters)) {
-            throw new \InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters');
+            throw new InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters');
         }
 
         if (null !== $limit) {
@@ -114,7 +115,7 @@ class ResourceClient implements ResourceClientInterface
 
         foreach ($requestParts as $requestPart) {
             if (!isset($requestPart['name']) || !isset($requestPart['contents'])) {
-                throw new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part');
+                throw new InvalidArgumentException('The keys "name" and "contents" must be defined for each request part');
             }
 
             $options = isset($requestPart['options']) ? $requestPart['options'] : [];
@@ -153,7 +154,7 @@ class ResourceClient implements ResourceClientInterface
     public function upsertResourceList($uri, array $uriParameters = [], $resources = [])
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
-            throw new \InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
+            throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
         }
 
         if (is_array($resources)) {
@@ -161,7 +162,7 @@ class ResourceClient implements ResourceClientInterface
             $isFirstLine = true;
             foreach ($resources as $resource) {
                 if (!is_array($resource)) {
-                    throw new \InvalidArgumentException('The parameter "resources" must be an array of array.');
+                    throw new InvalidArgumentException('The parameter "resources" must be an array of array.');
                 }
                 unset($resource['_links']);
                 $body .= ($isFirstLine ? '' : PHP_EOL) . json_encode($resource);

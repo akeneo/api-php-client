@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\AttributeApi;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -115,7 +116,7 @@ class AttributeApiSpec extends ObjectBehavior
 
     function it_throws_an_exception_if_code_is_provided_in_data_when_creating_an_attribute()
     {
-        $this->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))->during(
+        $this->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))->during(
             'create', ['foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar']]
         );
     }

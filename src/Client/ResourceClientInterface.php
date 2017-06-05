@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -22,7 +23,7 @@ interface ResourceClientInterface
      * @param array  $uriParameters   URI parameters of the resource
      * @param array  $queryParameters Query parameters of the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return array
      */
@@ -40,8 +41,8 @@ interface ResourceClientInterface
      *                                  This parameter could decrease drastically the performance when set to true.
      * @param array    $queryParameters Additional query parameters of the request
      *
-     * @throws \InvalidArgumentException
-     * @throws HttpException
+     * @throws InvalidArgumentException If a query parameter is invalid.
+     * @throws HttpException            If the request failed.
      *
      * @return array
      */
@@ -54,7 +55,7 @@ interface ResourceClientInterface
      * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return int Status code 201 indicating that the resource has been well created.
      */
@@ -67,7 +68,8 @@ interface ResourceClientInterface
      * @param array  $uriParameters URI parameters of the resources
      * @param array  $requestParts  Parts of the request. Each part is defined with "name", "contents", and "options"
      *
-     * @throws HttpException
+     * @throws InvalidArgumentException If a given request part is invalid.
+     * @throws HttpException            If the request failed.
      *
      * @return ResponseInterface the response of the creation request
      */
@@ -80,7 +82,7 @@ interface ResourceClientInterface
      * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return int Status code 201 indicating that the resource has been well created.
      *             Status code 204 indicating that the resource has been well updated.
@@ -95,7 +97,8 @@ interface ResourceClientInterface
      * @param array|StreamInterface $resources     array of resources to create or update.
      *                                             You can pass your own StreamInterface implementation as well.
      *
-     * @throws HttpException
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the resources or any part thereof are invalid.
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
@@ -107,7 +110,7 @@ interface ResourceClientInterface
      * @param string $uri           URI of the resource to delete
      * @param array  $uriParameters URI parameters of the resource
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed
      *
      * @return int Status code 204 indicating that the resource has been well deleted
      */
@@ -119,7 +122,7 @@ interface ResourceClientInterface
      * @param string $uri           URI of the resource
      * @param array  $uriParameters URI parameters of the resource
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed
      *
      * @return StreamInterface
      */

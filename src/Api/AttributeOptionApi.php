@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -77,11 +78,11 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     public function create($attributeCode, $attributeOptionCode, array $data = [])
     {
         if (array_key_exists('code', $data)) {
-            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
         }
 
         if (array_key_exists('attribute', $data)) {
-            throw new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter');
         }
 
         $data['code'] = $attributeOptionCode;

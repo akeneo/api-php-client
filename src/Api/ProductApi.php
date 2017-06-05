@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -78,7 +79,7 @@ class ProductApi implements ProductApiInterface
     public function create($code, array $data = [])
     {
         if (array_key_exists('identifier', $data)) {
-            throw new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter');
         }
 
         $data['identifier'] = $code;

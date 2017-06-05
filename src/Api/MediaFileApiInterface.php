@@ -2,6 +2,9 @@
 
 namespace Akeneo\Pim\Api;
 
+use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\RuntimeException;
+
 /**
  * API to manage the media files.
  *
@@ -17,8 +20,8 @@ interface MediaFileApiInterface extends ListableResourceInterface, GettableResou
      * @param string|resource $mediaFile File path or resource of the media file
      * @param array           $data      The data of the resource to which the media file will be associated
      *
-     * @throws HttpException
-     * @throws \RuntimeException if the file could not be opened
+     * @throws HttpException    If the request failed.
+     * @throws RuntimeException If the file could not be opened.
      *
      * @return string returns the code of created media file
      */

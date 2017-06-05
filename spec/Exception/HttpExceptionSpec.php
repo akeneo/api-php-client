@@ -2,6 +2,7 @@
 
 namespace spec\Akeneo\Pim\Exception;
 
+use Akeneo\Pim\Exception\ExceptionInterface;
 use Akeneo\Pim\Exception\HttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
@@ -18,6 +19,7 @@ class HttpExceptionSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(HttpException::class);
+        $this->shouldImplement(ExceptionInterface::class);
     }
 
     function it_exposes_the_status_code_of_the_response($response)

@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Api\ProductMediaFileApi;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\RuntimeException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -134,7 +135,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_the_file_is_unreadable_when_creating_a_media_file()
     {
         $this
-            ->shouldThrow(new \RuntimeException('The file "/foo.bar" could not be read.'))
+            ->shouldThrow(new RuntimeException('The file "/foo.bar" could not be read.'))
             ->during('create', [
                 '/foo.bar',
                 [
@@ -174,7 +175,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->willReturn($response);
 
         $this
-            ->shouldThrow(new \RuntimeException('The response does not contain the URI of the created media-file.'))
+            ->shouldThrow(new RuntimeException('The response does not contain the URI of the created media-file.'))
             ->during('create', [$fileResource, $product]);
     }
 
@@ -206,7 +207,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->willReturn($response);
 
         $this
-            ->shouldThrow(new \RuntimeException('Unable to find the code in the URI of the created media-file.'))
+            ->shouldThrow(new RuntimeException('Unable to find the code in the URI of the created media-file.'))
             ->during('create', [$fileResource, $product]);
     }
 

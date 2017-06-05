@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -116,7 +117,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_identifier_is_provided_in_data_when_creating_a_product()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
             ->during('create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]);
     }
 
