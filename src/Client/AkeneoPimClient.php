@@ -10,6 +10,7 @@ use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
+use Akeneo\Pim\Security\Authentication;
 
 /**
  * This class is the implementation of the client to use the Akeneo PIM API.
@@ -20,6 +21,9 @@ use Akeneo\Pim\Api\ProductApiInterface;
  */
 class AkeneoPimClient implements AkeneoPimClientInterface
 {
+    /** @var Authentication */
+    protected $authentication;
+
     /** @var ProductApiInterface */
     protected $productApi;
 
@@ -45,6 +49,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     protected $channelApi;
 
     /**
+     * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
      * @param CategoryApiInterface        $categoryApi
      * @param AttributeApiInterface       $attributeApi
@@ -55,6 +60,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param ChannelApiInterface         $channelApi
      */
     public function __construct(
+        Authentication $authentication,
         ProductApiInterface $productApi,
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
@@ -64,6 +70,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi
     ) {
+        $this->authentication = $authentication;
         $this->productApi = $productApi;
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
@@ -72,6 +79,22 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->productMediaFileApi = $productMediaFileApi;
         $this->localeApi = $localeApi;
         $this->channelApi = $channelApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getToken()
+    {
+        return $this->authentication->getAccessToken();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRefreshToken()
+    {
+        return $this->authentication->getRefreshToken();
     }
 
     /**

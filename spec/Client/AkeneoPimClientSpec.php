@@ -12,11 +12,13 @@ use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Client\AkeneoPimClient;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
+use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 
 class AkeneoPimClientSpec extends ObjectBehavior
 {
     function let(
+        Authentication $authentication,
         ProductApiInterface $productApi,
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
@@ -27,13 +29,27 @@ class AkeneoPimClientSpec extends ObjectBehavior
         ChannelApiInterface $channelApi
     )
     {
-        $this->beConstructedWith($productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
+        $this->beConstructedWith($authentication, $productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
     }
 
     function it_is_initializable()
     {
         $this->shouldImplement(AkeneoPimClientInterface::class);
         $this->shouldHaveType(AkeneoPimClient::class);
+    }
+
+    function it_gets_access_token($authentication)
+    {
+        $authentication->getAccessToken()->willReturn('foo');
+
+        $this->getToken()->shouldReturn('foo');
+    }
+
+    function it_gets_refresh_token($authentication)
+    {
+        $authentication->getRefreshToken()->willReturn('bar');
+
+        $this->getRefreshToken()->shouldReturn('bar');
     }
 
     function it_gets_product_api($productApi)

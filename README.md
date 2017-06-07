@@ -33,8 +33,8 @@ If you want to use another HTTP client implementation, you can check [here](http
 
 require_once '/vendor/autoload.php';
 
-$clientBuilder = new \Akeneo\Pim\Client\AkeneoPimClientBuilder('http://localhost/', 'client_id', 'secret', 'admin', 'admin');
-$client = $clientBuilder->build();
+$clientBuilder = new \Akeneo\Pim\Client\AkeneoPimClientBuilder('http://localhost/');
+$client = $clientBuilder->buildAuthenticatedByPassword('client_id', 'secret', 'admin', 'admin');
 
 $categories = $client->getCategoryApi()->getCategories();
 

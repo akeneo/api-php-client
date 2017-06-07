@@ -4,6 +4,7 @@ namespace spec\Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Api\AuthenticationApiInterface;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
@@ -25,6 +26,28 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
         $this->shouldImplement('Akeneo\Pim\HttpClient\HttpClientInterface');
     }
 
+    function it_sends_an_authenticated_and_successful_request_when_access_token_is_defined(
+        $httpClient,
+        $authentication,
+        ResponseInterface $response
+    ) {
+        $authentication->getAccessToken()->willReturn('bar');
+
+        $httpClient->sendRequest(
+            'POST',
+            'http://akeneo.com/api/rest/v1/products/foo',
+            ['Content-Type' => 'application/json', 'Authorization' => 'Bearer bar'],
+            '{"identifier": "foo"}'
+        )->willReturn($response);
+
+        $this->sendRequest(
+            'POST',
+            'http://akeneo.com/api/rest/v1/products/foo',
+            ['Content-Type' => 'application/json'],
+            '{"identifier": "foo"}'
+        )->shouldReturn($response);
+    }
+
     function it_sends_an_authenticated_and_successful_request_at_first_call(
         $httpClient,
         $authenticationApi,
@@ -35,6 +58,7 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
         $authentication->getSecret()->willReturn('secret');
         $authentication->getUsername()->willReturn('julia');
         $authentication->getPassword()->willReturn('julia_pwd');
+        $authentication->getAccessToken()->willReturn(null, 'foo');
 
         $authenticationApi
             ->authenticateByPassword('client_id', 'secret', 'julia', 'julia_pwd')
@@ -45,6 +69,16 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
                 'scope'         => null,
                 'refresh_token' => 'bar',
             ]);
+
+        $authentication
+            ->setAccessToken('foo')
+            ->shouldBeCalled()
+            ->willReturn($authentication);
+
+        $authentication
+            ->setRefreshToken('bar')
+            ->shouldBeCalled()
+            ->willReturn($authentication);
 
         $httpClient->sendRequest(
             'POST',
@@ -71,31 +105,8 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
         $authentication->getSecret()->willReturn('secret');
         $authentication->getUsername()->willReturn('julia');
         $authentication->getPassword()->willReturn('julia_pwd');
-
-        $authenticationApi
-            ->authenticateByPassword('client_id', 'secret', 'julia', 'julia_pwd')
-            ->willReturn([
-                'access_token'  => 'foo',
-                'expires_in'    => 3600,
-                'token_type'    => 'bearer',
-                'scope'         => null,
-                'refresh_token' => 'bar',
-            ]);
-
-        $httpClient->sendRequest(
-            'POST',
-            'http://akeneo.com/api/rest/v1/products/foo',
-            ['Content-Type' => 'application/json', 'Authorization' => 'Bearer foo'],
-            '{"identifier": "foo"}'
-        );
-
-        // initialize the state of the client at first call with the access token
-        $this->sendRequest(
-            'POST',
-            'http://akeneo.com/api/rest/v1/products/foo',
-            ['Content-Type' => 'application/json'],
-            '{"identifier": "foo"}'
-        );
+        $authentication->getAccessToken()->willReturn('foo', 'foo', 'baz');
+        $authentication->getRefreshToken()->willReturn('bar');
 
         $httpClient->sendRequest(
             'POST',
@@ -113,6 +124,16 @@ class AuthenticatedHttpClientSpec extends ObjectBehavior
                 'scope'         => null,
                 'refresh_token' => 'foz',
             ]);
+
+        $authentication
+            ->setAccessToken('baz')
+            ->shouldBeCalled()
+            ->willReturn($authentication);
+
+        $authentication
+            ->setRefreshToken('foz')
+            ->shouldBeCalled()
+            ->willReturn($authentication);
 
         $httpClient->sendRequest(
             'POST',

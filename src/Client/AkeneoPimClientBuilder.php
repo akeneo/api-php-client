@@ -38,12 +38,6 @@ class AkeneoPimClientBuilder
     /** @var string */
     protected $baseUri;
 
-    /** @var Authentication */
-    protected $authentication;
-
-    /** @var array */
-    protected $options;
-
     /** @var Client */
     protected $httpClient;
 
@@ -55,33 +49,62 @@ class AkeneoPimClientBuilder
 
     /**
      * @param string $baseUri  Base uri to request the API
-     * @param string $clientId Client id to use for the authentication
-     * @param string $secret   Secret associated to the client
-     * @param string $username Username to use for the authentication
-     * @param string $password Password associated to the username
      * @param array  $options  Option to customize Akeneo PIM Client
      */
-    public function __construct($baseUri, $clientId, $secret, $username, $password, $options = [])
+    public function __construct($baseUri, $options = [])
     {
         $this->baseUri = $baseUri;
-        $this->authentication = new Authentication($clientId, $secret, $username, $password);
         $this->httpClient = isset($options['http_client']) ? $options['http_client'] : HttpClientDiscovery::find();
         $this->requestFactory = isset($options['request_factory']) ? $options['request_factory'] : MessageFactoryDiscovery::find();
         $this->streamFactory = isset($options['stream_factory']) ? $options['stream_factory'] : StreamFactoryDiscovery::find();
     }
 
     /**
-     * Build the Akeneo PIM client.
+     * Build the Akeneo PIM client authenticated by user name and password.
+     *
+     * @param string $clientId Client id to use for the authentication
+     * @param string $secret   Secret associated to the client
+     * @param string $username Username to use for the authentication
+     * @param string $password Password associated to the username
      *
      * @return AkeneoPimClientInterface
      */
-    public function build()
+    public function buildAuthenticatedByPassword($clientId, $secret, $username, $password)
+    {
+        $authentication = Authentication::fromPassword($clientId, $secret, $username, $password);
+
+        return $this->buildAuthenticatedClient($authentication);
+    }
+
+    /**
+     * Build the Akeneo PIM client authenticated by token.
+     *
+     * @param string $clientId     Client id to use for the authentication
+     * @param string $secret       Secret associated to the client
+     * @param string $token        Token to use for the authentication
+     * @param string $refreshToken Token to use to refresh the access token
+     *
+     * @return AkeneoPimClientInterface
+     */
+    public function buildAuthenticatedByToken($clientId, $secret, $token, $refreshToken)
+    {
+        $authentication = Authentication::fromToken($clientId, $secret, $token, $refreshToken);
+
+        return $this->buildAuthenticatedClient($authentication);
+    }
+
+    /**
+     * @param Authentication $authentication
+     *
+     * @return AkeneoPimClientInterface
+     */
+    protected function buildAuthenticatedClient(Authentication $authentication)
     {
         $uriGenerator = new UriGenerator($this->baseUri);
 
         $httpClient = new HttpClient($this->httpClient, $this->requestFactory);
         $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
-        $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $this->authentication);
+        $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
 
         $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->streamFactory);
         $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $multipartStreamBuilderFactory);
@@ -90,6 +113,7 @@ class AkeneoPimClientBuilder
         $cursorFactory = new ResourceCursorFactory();
 
         $client = new AkeneoPimClient(
+            $authentication,
             new ProductApi($resourceClient, $pageFactory, $cursorFactory),
             new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
