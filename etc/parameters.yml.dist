@@ -1,9 +1,9 @@
 api:
     baseUri: 'http://akeneo-pim.local'
     credentials:
-        clientId: '1_2c7q3pt2kckksckc0wcc4sokcg4swg4kcggo04skg8kkok40w'
-        secret: '162krw689itcsow4gksksk4ss8wkco40kg0kkoss40884swgs4'
         username: 'admin'
         password: 'admin'
 
-
+pim:
+    install_path: '/home/docker/pim'
+    is_docker: false

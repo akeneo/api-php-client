@@ -4,6 +4,8 @@ namespace Akeneo\Pim\tests\Api;
 
 use Akeneo\Pim\Client\AkeneoPimClientBuilder;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
+use Akeneo\Pim\tests\LocalCredentialGenerator;
+use Akeneo\Pim\tests\LocalDatabaseInstaller;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -14,28 +16,43 @@ use Symfony\Component\Yaml\Yaml;
 abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $config = $this->getConfiguration();
+
+        $installer = new LocalDatabaseInstaller();
+        $installer->install($config['pim']['install_path']);
+    }
+
+    /**
      * @return AkeneoPimClientInterface
      */
     protected function createClient()
     {
-        $config = $this->getApiConfiguration();
-        $credentials = $config['credentials'];
+        $config = $this->getConfiguration();
+
+        $generator = new LocalCredentialGenerator();
+        $credentials = $generator->generate($config['pim']['install_path']);
 
         $clientBuilder = new AkeneoPimClientBuilder(
-            $config['baseUri'],
-            $credentials['clientId'],
+            $config['api']['baseUri'],
+            $credentials['client_id'],
             $credentials['secret'],
-            $credentials['username'],
-            $credentials['password']
+            $config['api']['credentials']['username'],
+            $config['api']['credentials']['password']
         );
 
         return $clientBuilder->build();
     }
 
     /**
+     * @throws \RuntimeException
+     *
      * @return array
      */
-    protected function getApiConfiguration()
+    protected function getConfiguration()
     {
         $configFile = realpath(dirname(__FILE__)).'/../../etc/parameters.yml';
         if (!is_file($configFile)) {
@@ -44,7 +61,7 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 
         $config = Yaml::parse(file_get_contents($configFile));
 
-        return $config['api'];
+        return $config;
     }
 
     /**
