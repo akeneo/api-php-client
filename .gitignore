@@ -3,3 +3,5 @@ vendor
 composer.lock
 /phpspec.yml
 .php_cs.cache
+etc/parameters.yml
+phpunit.xml
