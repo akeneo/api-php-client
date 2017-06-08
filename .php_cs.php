@@ -9,7 +9,5 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->name('*.php')
-            ->notName('*Spec.php')
-            ->notName('*Integration.php')
             ->in(__DIR__ . '/src')
     );
