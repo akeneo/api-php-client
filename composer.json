@@ -11,7 +11,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "Akeneo\\Pim\\": "src/"
+      "Akeneo\\Pim\\": "src/",
+      "Akeneo\\Pim\\tests\\": "tests/"
     }
   },
   "require": {
