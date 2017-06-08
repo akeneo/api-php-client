@@ -1,12 +1,12 @@
 <?php
 
-namespace Akeneo\Pim\tests\integration\Api;
+namespace Akeneo\Pim\tests\Api;
 
 class AttributeApiIntegration extends ApiTestCase
 {
     public function testGet()
     {
-        $api = $this->pimClient->getAttributeApi();
+        $api = $this->createClient()->getAttributeApi();
 
         $attribute = $api->get('camera_brand');
 

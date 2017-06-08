@@ -11,7 +11,7 @@
      stopOnFailure="false"
      syntaxCheck="false">
 
-    <testsuite name="Api_Client_Integration_Test">
-        <directory suffix="Integration.php">tests/integration</directory>
+    <testsuite>
+        <directory suffix="Integration.php">tests/</directory>
     </testsuite>
 </phpunit>

@@ -1,12 +1,12 @@
 <?php
 
-namespace Akeneo\Pim\tests\integration\Api;
+namespace Akeneo\Pim\tests\Api;
 
 class FamilyApiIntegration extends ApiTestCase
 {
     public function testGet()
     {
-        $api = $this->pimClient->getFamilyApi();
+        $api = $this->createClient()->getFamilyApi();
 
         $family = $api->get('mugs');
 

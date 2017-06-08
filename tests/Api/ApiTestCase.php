@@ -1,42 +1,60 @@
 <?php
 
-namespace Akeneo\Pim\tests\integration\Api;
+namespace Akeneo\Pim\tests\Api;
 
 use Akeneo\Pim\Client\AkeneoPimClientBuilder;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
-use SebastianBergmann\Exporter\Exporter;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ApiTestCase extends \PHPUnit_Framework_TestCase
+abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 {
-    /** @var AkeneoPimClientInterface */
-    protected $pimClient;
-
     /**
-     * {@inheritdoc}
+     * @return AkeneoPimClientInterface
      */
-    protected function setUp()
+    protected function createClient()
     {
+        $config = $this->getApiConfiguration();
+        $credentials = $config['credentials'];
+
         $clientBuilder = new AkeneoPimClientBuilder(
-            'http://akeneo-pim.local',
-            '1_2c7q3pt2kckksckc0wcc4sokcg4swg4kcggo04skg8kkok40w',
-            '162krw689itcsow4gksksk4ss8wkco40kg0kkoss40884swgs4',
-            'admin',
-            'admin'
+            $config['baseUri'],
+            $credentials['clientId'],
+            $credentials['secret'],
+            $credentials['username'],
+            $credentials['password']
         );
 
-        $this->pimClient = $clientBuilder->build();
+        return $clientBuilder->build();
     }
 
     /**
+     * @return array
+     */
+    protected function getApiConfiguration()
+    {
+        $configFile = realpath(dirname(__FILE__)).'/../../etc/parameters.yml';
+        if (!is_file($configFile)) {
+            throw new \RuntimeException('The configuration file parameters.yml is missing');
+        }
+
+        $config = Yaml::parse(file_get_contents($configFile));
+
+        return $config['api'];
+    }
+
+    /**
+     * Assert that all the expected data of a response body are the same in an actual one.
+     * The actual response body can contains more data than the expected one.
+     *
      * @param array $expectedResponseBody
      * @param array $actualResponseBody
      */
-    protected function assertSameResponseBody(array $expectedResponseBody, array $actualResponseBody)
+    public function assertSameResponseBody(array $expectedResponseBody, array $actualResponseBody)
     {
         $differences = $this->computeArrayDiff($expectedResponseBody, $actualResponseBody);
 
