@@ -83,4 +83,12 @@ class ProductApi implements ProductApiInterface
 
         return $this->resourceClient->createResource(static::PRODUCTS_PATH, [], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsert($code, array $data = [])
+    {
+        return $this->resourceClient->upsertResource(static::PRODUCT_PATH, [$code], $data);
+    }
 }

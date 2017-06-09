@@ -122,10 +122,10 @@ class CategoryApiSpec extends ObjectBehavior
             ->during('create', ['master', ['code' => 'master', 'parent' => 'foo']]);
     }
 
-    function it_updates_partially_a_category($resourceClient)
+    function it_upserts_a_category($resourceClient)
     {
         $resourceClient
-            ->partialUpdateResource(CategoryApi::CATEGORY_PATH, ['master'], ['parent' => 'foo'])
+            ->upsertResource(CategoryApi::CATEGORY_PATH, ['master'], ['parent' => 'foo'])
             ->willReturn(204);
 
         $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);

@@ -83,4 +83,12 @@ class FamilyApi implements FamilyApiInterface
 
         return $this->resourceClient->createResource(static::FAMILIES_PATH, [], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsert($code, array $data = [])
+    {
+        return $this->resourceClient->upsertResource(static::FAMILY_PATH, [$code], $data);
+    }
 }

@@ -118,4 +118,15 @@ class AttributeApiSpec extends ObjectBehavior
             'create', ['foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar']]
         );
     }
+
+    function it_upserts_an_attribute($resourceClient)
+    {
+        $resourceClient
+            ->upsertResource(AttributeApi::ATTRIBUTE_PATH, ['foo'], ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar'])
+            ->willReturn(204);
+
+        $this
+            ->upsert('foo', ['code' => 'foo', 'type' => 'pim_catalog_text', 'group' => 'bar'])
+            ->shouldReturn(204);
+    }
 }

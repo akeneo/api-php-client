@@ -82,5 +82,5 @@ interface ResourceClientInterface
      *
      * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
      */
-    public function partialUpdateResource($uri, array $uriParameters = [], array $body = []);
+    public function upsertResource($uri, array $uriParameters = [], array $body = []);
 }

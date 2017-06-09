@@ -66,4 +66,17 @@ interface AttributeOptionApiInterface
      * @return int returns 201 if the attribute option has been created
      */
     public function create($attributeCode, $attributeOptionCode, array $data = []);
+
+    /**
+     * Creates an attribute option if it does not exist yet, otherwise updates partially the attribute option.
+     *
+     * @param string $attributeCode       code of the attribute
+     * @param string $attributeOptionCode code of the attribute option to create or update
+     * @param array  $data                data of the attribute option to create or update
+     *
+     * @throws HttpException
+     *
+     * @return int returns either http code 201 if the attribute option has been created or 204 if it has been updated
+     */
+    public function upsert($attributeCode, $attributeOptionCode, array $data = []);
 }

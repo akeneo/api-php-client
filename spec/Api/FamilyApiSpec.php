@@ -118,4 +118,14 @@ class FamilyApiSpec extends ObjectBehavior
             ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
             ->during('create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]);
     }
+
+    function it_upserts_a_family($resourceClient)
+    {
+        $resourceClient
+            ->upsertResource(FamilyApi::FAMILY_PATH, ['foo'], ['code' => 'foo' , 'attribute_as_label' => 'sku'])
+            ->willReturn(204);
+
+        $this->upsert('foo', ['code' => 'foo' , 'attribute_as_label' => 'sku'])
+            ->shouldReturn(204);
+    }
 }
