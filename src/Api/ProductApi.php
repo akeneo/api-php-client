@@ -91,4 +91,12 @@ class ProductApi implements ProductApiInterface
     {
         return $this->resourceClient->upsertResource(static::PRODUCT_PATH, [$code], $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($code)
+    {
+        return $this->resourceClient->deleteResource(static::PRODUCT_PATH, [$code]);
+    }
 }

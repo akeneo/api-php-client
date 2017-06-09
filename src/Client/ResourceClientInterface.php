@@ -83,4 +83,16 @@ interface ResourceClientInterface
      * @return int status code of the response to know if the resource has been created (code 201) or updated (code 204)
      */
     public function upsertResource($uri, array $uriParameters = [], array $body = []);
+
+    /**
+     * Deletes a resource.
+     *
+     * @param string $uri           URI of the resource to delete
+     * @param array  $uriParameters URI parameters of the resource
+     *
+     * @throws HttpException
+     *
+     * @return int Status code 204 indicating that the resource has been well deleted
+     */
+    public function deleteResource($uri, array $uriParameters = []);
 }

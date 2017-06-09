@@ -140,4 +140,16 @@ class ResourceClient implements ResourceClientInterface
 
         return $response->getStatusCode();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteResource($uri, array $uriParameters = [])
+    {
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+
+        $response = $this->httpClient->sendRequest('DELETE', $uri);
+
+        return $response->getStatusCode();
+    }
 }

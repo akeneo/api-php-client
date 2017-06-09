@@ -279,6 +279,30 @@ JSON;
             ]);
     }
 
+    function it_deletes_a_resource(
+        $httpClient,
+        $uriGenerator,
+        ResponseInterface $response
+    ) {
+        $uri = 'api/rest/v1/products/foo';
+
+        $uriGenerator
+            ->generate('api/rest/v1/products/%s', ['foo'])
+            ->willReturn($uri);
+
+        $httpClient
+            ->sendRequest('DELETE', $uri)
+            ->willReturn($response);
+
+        $response
+            ->getStatusCode()
+            ->willReturn(204);
+
+        $this
+            ->deleteResource('api/rest/v1/products/%s', ['foo'])
+            ->shouldReturn(204);
+    }
+
     protected function getSampleOfResources()
     {
         return [
