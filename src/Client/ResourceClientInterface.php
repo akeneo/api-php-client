@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Generic client interface to execute common request on resources.
@@ -95,4 +96,16 @@ interface ResourceClientInterface
      * @return int Status code 204 indicating that the resource has been well deleted
      */
     public function deleteResource($uri, array $uriParameters = []);
+
+    /**
+     * Gets a streamed resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resources
+     *
+     * @throws HttpException
+     *
+     * @return StreamInterface
+     */
+    public function getStreamedResource($uri, array $uriParameters = []);
 }

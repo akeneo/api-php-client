@@ -152,4 +152,15 @@ class ResourceClient implements ResourceClientInterface
 
         return $response->getStatusCode();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStreamedResource($uri, array $uriParameters = [])
+    {
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
+
+        return $response->getBody();
+    }
 }
