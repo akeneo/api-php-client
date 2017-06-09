@@ -18,6 +18,7 @@ use Akeneo\Pim\Pagination\PageFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
 use Akeneo\Pim\Security\Authentication;
+use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Http\Client\HttpClient as Client;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
@@ -84,7 +85,14 @@ class AkeneoPimClientBuilder
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $this->authentication);
 
         $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->streamFactory);
-        $resourceClient = new ResourceClient($authenticatedHttpClient, $uriGenerator, $multipartStreamBuilderFactory);
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $resourceClient = new ResourceClient(
+            $authenticatedHttpClient,
+            $uriGenerator,
+            $multipartStreamBuilderFactory,
+            $this->streamFactory,
+            $upsertListResponseFactory
+        );
 
         $pageFactory = new PageFactory($authenticatedHttpClient);
         $cursorFactory = new ResourceCursorFactory();

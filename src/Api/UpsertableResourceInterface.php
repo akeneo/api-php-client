@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\Api;
 
+use Akeneo\Pim\Exception\HttpException;
+
 /**
  * API that can "upsert" a resource.
  *

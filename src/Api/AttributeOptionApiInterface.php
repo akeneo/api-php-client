@@ -2,6 +2,10 @@
 
 namespace Akeneo\Pim\Api;
 
+use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Pagination\PageInterface;
+use Akeneo\Pim\Pagination\ResourceCursorInterface;
+
 /**
  * API to manage the attribute options.
  *

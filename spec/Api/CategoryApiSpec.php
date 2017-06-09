@@ -7,12 +7,14 @@ use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\CreatableResourceInterface;
 use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Api\UpsertableResourceInterface;
+use Akeneo\Pim\Api\UpsertableResourceListInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
 use Akeneo\Pim\Routing\Route;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class CategoryApiSpec extends ObjectBehavior
@@ -31,6 +33,7 @@ class CategoryApiSpec extends ObjectBehavior
         $this->shouldImplement(ListableResourceInterface::class);
         $this->shouldImplement(UpsertableResourceInterface::class);
         $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceListInterface::class);
     }
 
     function it_returns_a_category($resourceClient)
@@ -129,5 +132,27 @@ class CategoryApiSpec extends ObjectBehavior
             ->willReturn(204);
 
         $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_categories($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient
+            ->upsertResourceList(
+                CategoryApi::CATEGORIES_PATH,
+                [],
+                [
+                    ['code' => 'category_1'],
+                    ['code' => 'category_2'],
+                    ['code' => 'category_3'],
+                ]
+            )
+            ->willReturn($response);
+
+        $this
+            ->upsertList([
+                ['code' => 'category_1'],
+                ['code' => 'category_2'],
+                ['code' => 'category_3'],
+            ])->shouldReturn($response);
     }
 }
