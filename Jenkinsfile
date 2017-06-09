@@ -28,6 +28,13 @@ stage("Checkout") {
         deleteDir()
         checkout scm
         stash "php-api-client"
+
+       checkout([$class: 'GitSCM',
+         branches: [[name: '1.7']],
+         userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+       ])
+
+       stash "pim_community_dev"
     }
 
     checkouts = [:];
