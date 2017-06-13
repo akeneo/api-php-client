@@ -4,6 +4,8 @@ namespace Akeneo\Pim\tests\Api;
 
 use Akeneo\Pim\Client\AkeneoPimClientBuilder;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
+use Akeneo\Pim\tests\DockerCredentialGenerator;
+use Akeneo\Pim\tests\DockerDatabaseInstaller;
 use Akeneo\Pim\tests\LocalCredentialGenerator;
 use Akeneo\Pim\tests\LocalDatabaseInstaller;
 use Symfony\Component\Yaml\Yaml;
@@ -22,8 +24,9 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     {
         $config = $this->getConfiguration();
 
-        $installer = new LocalDatabaseInstaller();
-        $installer->install($config['pim']['install_path']);
+        //$installer = new LocalDatabaseInstaller();
+        $installer = new DockerDatabaseInstaller();
+        $installer->install($config['pim']['install_path'], ['docker_name' => $config['pim']['docker_name']]);
     }
 
     /**
@@ -33,8 +36,9 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     {
         $config = $this->getConfiguration();
 
-        $generator = new LocalCredentialGenerator();
-        $credentials = $generator->generate($config['pim']['install_path']);
+        //$generator = new LocalCredentialGenerator();
+        $generator = new DockerCredentialGenerator();
+        $credentials = $generator->generate($config['pim']['install_path'], ['docker_name' => $config['pim']['docker_name']]);
 
         $clientBuilder = new AkeneoPimClientBuilder(
             $config['api']['baseUri'],
