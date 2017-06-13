@@ -54,7 +54,7 @@ class HttpExceptionHandler
         }
 
         if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
-            throw new ClientErrorHttpException($response->getReasonPhrase(), $request, $response);
+            throw new ClientErrorHttpException($response->getReasonPhrase() . '---' . $request->getBody(). '---'. $response->getBody(), $request, $response);
         }
 
         if ($response->getStatusCode() >= 500 && $response->getStatusCode() < 600) {
