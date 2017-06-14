@@ -1,0 +1,10 @@
+api:
+    baseUri: 'http://pcd.dev'
+    credentials:
+        username: 'admin'
+        password: 'admin'
+
+pim:
+    install_path: '/Users/ahocquard/Workspace/akeneo/pcd'
+    is_docker: false
+    docker_name: akeneo-pim

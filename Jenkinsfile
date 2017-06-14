@@ -5,7 +5,7 @@ def supportedPhpVersions = ["5.6", "7.0", "7.1"]
 def launchUnitTests = "yes"
 def launchIntegrationTests = "no"
 def clients = ["php-http/guzzle5-adapter", "php-http/guzzle6-adapter"]
-// def pimVersion = "1.7"
+def pimVersion = "1.7"
 
 stage("Checkout") {
     milestone 1
@@ -28,15 +28,25 @@ stage("Checkout") {
         deleteDir()
         checkout scm
         stash "php-api-client"
+
+       checkout([$class: 'GitSCM',
+         branches: [[name: '1.7']],
+         userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+       ])
+
+       stash "pim_community_dev_${pimVersion.replaceAll('.', '')}"
     }
 
+
+
     checkouts = [:];
+    checkouts["pim_community_dev_${pimVersion.replaceAll('.', '')"] = {runCheckoutPim("5.6", pimVersion)};
     for (client in clients) {
         for (phpVersion in supportedPhpVersions) {
             def currentVersion = phpVersion
             def currentClient = client
 
-            checkouts["${client.replaceAll('/', '-')}-${phpVersion}"] = {runCheckout(currentVersion, currentClient)}
+            checkouts["${client.replaceAll('/', '-')}-${phpVersion}"] = {runCheckoutClient(currentVersion, currentClient)}
         }
     }
 
@@ -76,7 +86,31 @@ if (launchIntegrationTests.equals("yes")) {
     }
 }
 
-def runCheckout(phpVersion, client) {
+def runCheckoutPim(phpVersion, pimVersion) {
+    node('docker') {
+        deleteDir()
+        try {
+            docker.image("carcel/php:${phpVersion}").inside("-v /home/akeneo/.composer:/home/docker/.composer") {
+                unstash "pim_community_dev_${pimVersion.replaceAll('.', '')}"
+
+                sh "composer require \"akeneo/catalogs\":\"dev-master\" --ignore-platform-reqs --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+                sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
+                sh "sed -i 's/database_host:     localhost/database_host:     mysql/' app/config/parameters.yml"
+                sh "sed -i \"s@installer_data: .*@installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/small/fixtures'@\" app/config/pim_parameters.yml"
+
+                stash "pim_community_dev_${pimVersion.replaceAll('.', '')}"
+            }
+        } finally {
+            sh "docker stop \$(docker ps -a -q) || true"
+            sh "docker rm \$(docker ps -a -q) || true"
+            sh "docker volume rm \$(docker volume ls -q) || true"
+
+            deleteDir()
+        }
+    }
+}
+
+def runCheckoutClient(phpVersion, client) {
     node('docker') {
         deleteDir()
         try {
@@ -150,12 +184,14 @@ def runIntegrationTest(phpVersion, client) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("carcel/php:${phpVersion}").inside() {
-                unstash "php-api-client_${client.replaceAll('/', '-')}_php-${phpVersion}"
+            docker.image("mysql:5.5").withRun("--name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim", "--sql_mode=ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION") {
+                docker.image("carcel/php:${phpVersion}").inside("--link mysql:mysql -v /home/akeneo/.composer:/home/akeneo/.composer -e COMPOSER_HOME=/home/akeneo/.composer") {
+                    unstash "php-api-client_${client.replaceAll('/', '-')}_php-${phpVersion}"
 
-                sh "mkdir -p build/logs/"
+                    sh "mkdir -p build/logs/"
 
-                sh "./bin/phpunit -c app/phpunit.xml.dist --log-junit build/logs/phpunit_integration.xml"
+                    sh "./bin/phpunit -c app/phpunit.xml.dist --log-junit build/logs/phpunit_integration.xml"
+                }
             }
         } finally {
             sh "docker stop \$(docker ps -a -q) || true"
@@ -168,4 +204,47 @@ def runIntegrationTest(phpVersion, client) {
             deleteDir()
         }
     }
+
+        node('docker') {
+            deleteDir()
+            try {
+                docker.image("mongo:2.4").withRun("--name mongodb", "--smallfiles") {
+                    docker.image("mysql:5.5").withRun("--name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim", "--sql_mode=ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION") {
+                        docker.image("carcel/php:${phpVersion}").inside("--link mysql:mysql --link mongodb:mongodb -v /home/akeneo/.composer:/home/akeneo/.composer -e COMPOSER_HOME=/home/akeneo/.composer") {
+                            unstash "pim_community_dev"
+
+                            if (phpVersion != "5.6") {
+                                sh "composer require --no-update --ignore-platform-reqs alcaeus/mongo-php-adapter"
+                            }
+
+                            sh "composer update --ignore-platform-reqs --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+                            sh "cp app/config/parameters_test.yml.dist app/config/parameters_test.yml"
+                            sh "sed -i 's/database_host:     localhost/database_host:     mysql/' app/config/parameters_test.yml"
+                            sh "sed -i \"s@installer_data:    PimInstallerBundle:minimal@installer_data: '%kernel.root_dir%/../features/Context/catalog/footwear'@\" app/config/parameters_test.yml"
+
+                            // Activate MongoDB if needed
+                            if ('odm' == storage) {
+                               sh "sed -i \"s@// new Doctrine@new Doctrine@g\" app/AppKernel.php"
+                               sh "sed -i \"s@# mongodb_database: .*@mongodb_database: akeneo_pim@g\" app/config/pim_parameters.yml"
+                               sh "sed -i \"s@# mongodb_server: .*@mongodb_server: 'mongodb://mongodb:27017'@g\" app/config/pim_parameters.yml"
+                               sh "printf \"    pim_catalog_product_storage_driver: doctrine/mongodb-odm\n\" >> app/config/parameters_test.yml"
+                            }
+
+                            sh "./app/console --env=test pim:install --force"
+
+                            sh "mkdir -p app/build/logs/"
+                            sh "./bin/phpunit -c app/phpunit.xml.dist --testsuite ${testSuiteName} --log-junit app/build/logs/phpunit_integration.xml"
+                        }
+                    }
+                }
+            } finally {
+                sh "docker stop \$(docker ps -a -q) || true"
+                sh "docker rm \$(docker ps -a -q) || true"
+                sh "docker volume rm \$(docker volume ls -q) || true"
+                sh "sed -i \"s/testcase name=\\\"/testcase name=\\\"[php-${phpVersion}-${storage}-${testSuiteName}] /\" app/build/logs/*.xml"
+
+                junit "app/build/logs/*.xml"
+                deleteDir()
+            }
+        }
 }
