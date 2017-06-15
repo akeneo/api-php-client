@@ -29,12 +29,6 @@ class AuthenticatedHttpClient implements HttpClientInterface
     /** @var Authentication */
     protected $authentication;
 
-    /** @var string */
-    protected $accessToken;
-
-    /** @var string */
-    protected $refreshToken;
-
     /**
      * @param HttpClient                 $basicHttpClient
      * @param AuthenticationApiInterface $authenticationApi
@@ -55,7 +49,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
      */
     public function sendRequest($httpMethod, $uri, array $headers = [], $body = null)
     {
-        if (null === $this->accessToken) {
+        if (null === $this->authentication->getAccessToken()) {
             $tokens = $this->authenticationApi->authenticateByPassword(
                 $this->authentication->getClientId(),
                 $this->authentication->getSecret(),
@@ -63,25 +57,27 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 $this->authentication->getPassword()
             );
 
-            $this->accessToken = $tokens['access_token'];
-            $this->refreshToken = $tokens['refresh_token'];
+            $this->authentication
+                ->setAccessToken($tokens['access_token'])
+                ->setRefreshToken($tokens['refresh_token']);
         }
 
         try {
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->accessToken);
+            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
             $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
             $tokens = $this->authenticationApi->authenticateByRefreshToken(
                 $this->authentication->getClientId(),
                 $this->authentication->getSecret(),
-                $this->refreshToken
+                $this->authentication->getRefreshToken()
             );
 
-            $this->accessToken = $tokens['access_token'];
-            $this->refreshToken = $tokens['refresh_token'];
+            $this->authentication
+                ->setAccessToken($tokens['access_token'])
+                ->setRefreshToken($tokens['refresh_token']);
 
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->accessToken);
-            $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
+            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
+            $response =  $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         }
 
         return $response;

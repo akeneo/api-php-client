@@ -23,18 +23,52 @@ class Authentication
     /** @var string */
     protected $password;
 
+    /** @var string */
+    protected $accessToken;
+
+    /** @var string */
+    protected $refreshToken;
+
+    protected function __construct()
+    {
+    }
+
     /**
      * @param string $clientId
      * @param string $secret
      * @param string $username
      * @param string $password
+     *
+     * @return Authentication
      */
-    public function __construct($clientId, $secret, $username, $password)
+    public static function fromPassword($clientId, $secret, $username, $password)
     {
-        $this->clientId = $clientId;
-        $this->secret = $secret;
-        $this->username = $username;
-        $this->password = $password;
+        $authentication = new static();
+        $authentication->clientId = $clientId;
+        $authentication->secret = $secret;
+        $authentication->username = $username;
+        $authentication->password = $password;
+
+        return $authentication;
+    }
+
+    /**
+     * @param string $clientId
+     * @param string $secret
+     * @param string $accessToken
+     * @param string $refreshToken
+     *
+     * @return Authentication
+     */
+    public static function fromToken($clientId, $secret, $accessToken, $refreshToken)
+    {
+        $authentication = new static();
+        $authentication->clientId = $clientId;
+        $authentication->secret = $secret;
+        $authentication->accessToken = $accessToken;
+        $authentication->refreshToken = $refreshToken;
+
+        return $authentication;
     }
 
     /**
@@ -67,5 +101,45 @@ class Authentication
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
+    }
+
+    /**
+     * @param string $accessToken
+     *
+     * @return Authentication
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * @param string $refreshToken
+     *
+     * @return Authentication
+     */
+    public function setRefreshToken($refreshToken)
+    {
+        $this->refreshToken = $refreshToken;
+
+        return $this;
     }
 }

@@ -21,6 +21,20 @@ use Akeneo\Pim\Api\ProductApiInterface;
 interface AkeneoPimClientInterface
 {
     /**
+     * Gets the authentication access token
+     *
+     * @return null|string
+     */
+    public function getToken();
+
+    /**
+     * Gets the authentication refresh token
+     *
+     * @return null|string
+     */
+    public function getRefreshToken();
+
+    /**
      * Gets the product API
      *
      * @return ProductApiInterface
