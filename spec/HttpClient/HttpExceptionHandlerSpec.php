@@ -4,6 +4,7 @@ namespace spec\Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Exception\BadRequestHttpException;
 use Akeneo\Pim\Exception\ClientErrorHttpException;
+use Akeneo\Pim\Exception\NotFoundHttpException;
 use Akeneo\Pim\Exception\ServerErrorHttpException;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
@@ -35,7 +36,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->during('transformResponseToException', [$request, $response]);
     }
 
-    function it_throws_bad_request_exception_when_status_code_401(
+    function it_throws_unauthorized_request_exception_when_status_code_401(
         RequestInterface $request,
         ResponseInterface $response
     ) {
@@ -45,6 +46,23 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new UnauthorizedHttpException(
                     'Unauthorized request exception',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_not_found_exception_when_status_code_404(
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $response->getStatusCode()->willReturn(404);
+        $response->getReasonPhrase()->willReturn('Resource not found exception');
+        $this
+            ->shouldThrow(
+                new NotFoundHttpException(
+                    'Resource not found exception',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -73,12 +91,12 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         RequestInterface $request,
         ResponseInterface $response
     ) {
-        $response->getStatusCode()->willReturn(404);
-        $response->getReasonPhrase()->willReturn('Not found');
+        $response->getStatusCode()->willReturn(405);
+        $response->getReasonPhrase()->willReturn('Not allowed');
         $this
             ->shouldThrow(
                 new ClientErrorHttpException(
-                    'Not found',
+                    'Not allowed',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )

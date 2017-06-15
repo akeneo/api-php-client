@@ -4,6 +4,7 @@ namespace Akeneo\Pim\HttpClient;
 
 use Akeneo\Pim\Exception\BadRequestHttpException;
 use Akeneo\Pim\Exception\ClientErrorHttpException;
+use Akeneo\Pim\Exception\NotFoundHttpException;
 use Akeneo\Pim\Exception\ServerErrorHttpException;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
@@ -26,6 +27,8 @@ class HttpExceptionHandler
      * @param ResponseInterface $response Response of the call
      *
      * @throws BadRequestHttpException           If response status code is a 400
+     * @throws UnauthorizedHttpException         If response status code is a 401
+     * @throws NotFoundHttpException             If response status code is a 404
      * @throws UnprocessableEntityHttpException  If response status code is a 422
      * @throws ClientErrorHttpException          If response status code is a 4xx
      * @throws ServerErrorHttpException          If response status code is a 5xx
@@ -40,6 +43,10 @@ class HttpExceptionHandler
 
         if (401 === $response->getStatusCode()) {
             throw new UnauthorizedHttpException($response->getReasonPhrase(), $request, $response);
+        }
+
+        if (404 === $response->getStatusCode()) {
+            throw new NotFoundHttpException($response->getReasonPhrase(), $request, $response);
         }
 
         if (422 === $response->getStatusCode()) {
