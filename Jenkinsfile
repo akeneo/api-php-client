@@ -5,20 +5,26 @@ def supportedPhpVersions = ["5.6", "7.0", "7.1"]
 def launchUnitTests = "yes"
 def launchIntegrationTests = "no"
 def clients = ["php-http/guzzle5-adapter", "php-http/guzzle6-adapter"]
-// def pimVersion = "1.7"
+def pimVersion = "1.7"
+
+
+def clientTest = [
+    "php-http/guzzle5-adapter": ["phpVersion": [php5.6]],
+    "php-http/guzzle6-adapter":
+]
 
 stage("Checkout") {
     milestone 1
     if (env.BRANCH_NAME =~ /^PR-/) {
         userInput = input(message: 'Launch tests?', parameters: [
             choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
-            // choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
+            choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
             string(defaultValue: 'php-http/guzzle5-adapter,php-http/guzzle6-adapter', description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
             // choice(choices: '1.7', description: 'PIM version to run integration tests with', name: 'pimVersion'),
         ])
 
         launchUnitTests = userInput['launchUnitTests']
-        // launchIntegrationTests = userInput['launchIntegrationTests']
+        launchIntegrationTests = userInput['launchIntegrationTests']
         clients = userInput['clients'].tokenize(',')
         // pimVersion = userInput['pimVersion']
     }
@@ -28,15 +34,25 @@ stage("Checkout") {
         deleteDir()
         checkout scm
         stash "php-api-client"
+
+       checkout([$class: 'GitSCM',
+         branches: [[name: '1.7']],
+         userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+       ])
+
+       stash "pim_community_dev_${pimVersion}"
     }
 
+
+
     checkouts = [:];
+    checkouts["pim_community_dev_${pimVersion}"] = {runCheckoutPim("5.6", pimVersion)};
     for (client in clients) {
         for (phpVersion in supportedPhpVersions) {
             def currentVersion = phpVersion
             def currentClient = client
 
-            checkouts["${client.replaceAll('/', '-')}-${phpVersion}"] = {runCheckout(currentVersion, currentClient)}
+            checkouts["${client.replaceAll('/', '-')}-${phpVersion}"] = {runCheckoutClient(currentVersion, currentClient)}
         }
     }
 
@@ -68,23 +84,49 @@ if (launchIntegrationTests.equals("yes")) {
                 def currentVersion = phpVersion
                 def currentClient = client
 
-                tasks["phpunit-${phpVersion}"-${client}] = {runIntegrationTest(currentVersion, currentClient)}
+                tasks["phpunit-${phpVersion}-${client}"] = {runIntegrationTest(currentVersion, currentClient)}
             }
         }
 
-        // parallel tasks
+        parallel tasks
     }
 }
 
-def runCheckout(phpVersion, client) {
+def runCheckoutPim(phpVersion, pimVersion) {
+    node('docker') {
+        deleteDir()
+        try {
+            docker.image("carcel/php:${phpVersion}").inside("-v /home/akeneo/.composer:/home/docker/.composer") {
+                unstash "pim_community_dev_${pimVersion}"
+
+                sh "composer require \"akeneo/catalogs\":\"dev-API-175\" --ignore-platform-reqs --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+                sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
+                sh "sed -i 's/database_host:     localhost/database_host:     mysql/' app/config/parameters.yml"
+                sh "sed -i \"s@installer_data: .*@installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'@\" app/config/pim_parameters.yml"
+
+                stash "pim_community_dev_${pimVersion}"
+            }
+        } finally {
+            sh "docker stop \$(docker ps -a -q) || true"
+            sh "docker rm \$(docker ps -a -q) || true"
+            sh "docker volume rm \$(docker volume ls -q) || true"
+
+            deleteDir()
+        }
+    }
+}
+
+def runCheckoutClient(phpVersion, client) {
     node('docker') {
         deleteDir()
         try {
             docker.image("carcel/php:${phpVersion}").inside("-v /home/akeneo/.composer:/home/docker/.composer") {
                 unstash "php-api-client"
 
-                sh "composer require ${client}"
+                sh "composer require ${client} guzzlehttp/psr7"
                 sh "composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+
+                sh "cp etc/parameters.yml.dist etc/parameters.yml"
 
                 stash "php-api-client_${client.replaceAll('/', '-')}_php-${phpVersion}"
             }
@@ -150,19 +192,25 @@ def runIntegrationTest(phpVersion, client) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("carcel/php:${phpVersion}").inside() {
+            sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim -d mysql:5.5 --sql-mode=ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+            dir('pim') {
+                unstash "pim_community_dev_1.7"
+                sh "docker run --name akeneo-pim --link mysql:mysql -v \$(pwd):/home/docker/pim -d carcel/akeneo-apache:php-5.6"
+                sh "docker exec akeneo-pim pim/app/console pim:install -e prod"
+            }
+
+            docker.image("carcel/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker") {
                 unstash "php-api-client_${client.replaceAll('/', '-')}_php-${phpVersion}"
-
                 sh "mkdir -p build/logs/"
-
-                sh "./bin/phpunit -c app/phpunit.xml.dist --log-junit build/logs/phpunit_integration.xml"
+                sh "sudo ./bin/phpunit -c phpunit.xml.dist --log-junit build/logs/phpunit_integration.xml"
             }
         } finally {
             sh "docker stop \$(docker ps -a -q) || true"
             sh "docker rm \$(docker ps -a -q) || true"
             sh "docker volume rm \$(docker volume ls -q) || true"
 
-            sh "find build/logs/ -name \"*.xml\" | xargs sed -i \"s/testcase name=\\\"/testcase name=\\\"[php-${phpVersion}-${client}] /\""
+            sh "find build/logs/ -name \"*.xml\" | xargs sed -i \"s/testcase name=\\\"/testcase name=\\\"[php-${phpVersion}-${client.replaceAll('/', '-')}] /\""
             junit "build/logs/*.xml"
 
             deleteDir()
