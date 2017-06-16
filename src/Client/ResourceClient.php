@@ -164,7 +164,7 @@ class ResourceClient implements ResourceClientInterface
             throw new \InvalidArgumentException('The parameter "resources" must be an array or Traversable.');
         }
 
-        $streamFunction = function() use ($resources) {
+        $streamFunction = function () use ($resources) {
             $isFirstLine = true;
             foreach ($resources as $resource) {
                 if (!is_array($resource)) {
