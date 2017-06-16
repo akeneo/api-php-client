@@ -3,24 +3,31 @@
 namespace Akeneo\Pim\tests;
 
 /**
- * Aims to install fixtures on a local PIM installation.
+ * Aims to install fixtures on PIM installation inside a docker.
  *
  * @author    Alexandre Hocquard <alexandre.hocquard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class LocalDatabaseInstaller implements DatabaseInstallerInterface
+class DockerDatabaseInstaller implements DatabaseInstallerInterface
 {
+    /** @var string */
+    protected $dockerName;
+
+    /**
+     * @param string $dockerName
+     */
+    public function __construct($dockerName)
+    {
+        $this->dockerName = $dockerName;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function install($path)
     {
-        if (!is_dir($path)) {
-            throw new \RuntimeException(sprintf('Parameter "path" is not a directory or does not exist, "%s" given.', $path));
-        }
-
-        $command = sprintf('php %s/app/console pim:installer:db -e prod', $path);
+        $command = sprintf('docker exec %s php %s/app/console pim:installer:db -e prod', $this->dockerName, $path);
 
         $output = [];
         exec(escapeshellcmd($command), $output, $status);
