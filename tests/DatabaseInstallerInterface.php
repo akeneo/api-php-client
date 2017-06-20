@@ -15,9 +15,8 @@ interface DatabaseInstallerInterface
      * Install the database of the PIM.
      *
      * @param string $path    path to Akeneo PIM application
-     * @param array  $options additional options to install the PIM
      *
      * @throws \RuntimeException if an error occured during the PIM install
      */
-    public function install($path, array $options = []);
+    public function install($path);
 }

@@ -15,11 +15,10 @@ interface CredentialGeneratorInterface
      * Generates credentials on the PIM.
      *
      * @param string $path    path to Akeneo PIM application
-     * @param array  $options additional options to generate the credentials
      *
      * @throws \RuntimeException if an error occured during the generation process
      *
      * @return array credentials on the form ['client_id' => 'client', 'secret' => 'secret']
      */
-    public function generate($path, array $options = []);
+    public function generate($path);
 }
