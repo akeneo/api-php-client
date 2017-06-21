@@ -1,13 +1,13 @@
 # PHP Akeneo PIM API
 
-A simple PHP client to use the Akeneo PIM API.
+A simple PHP client to use the [Akeneo PIM API](https://api.akeneo.com/).
 
-# Requirements
+## Requirements
 
 * PHP >= 5.6
 * Composer 
 
-# Installation
+## Installation
 
 We use HTTPPlug as the HTTP client abstraction layer.
 In this example, we will use [Guzzle](https://github.com/guzzle/guzzle) v6 as the HTTP client implementation.
@@ -26,23 +26,109 @@ $ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter
 
 If you want to use another HTTP client implementation, you can check [here](https://packagist.org/providers/php-http/client-implementation) the full list of HTTP client implementations. 
 
-# Getting started
+## Getting started
+
+### Initialise the client
+You first need to initialise the client with your credentials client id/secret and with your user/password.
+
+If you don't have any client id, let's a look at [this page](https://api.akeneo.com/documentation/security.html#authentication) to create it.
 
 ```php
 <?php
 
-require_once '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $clientBuilder = new \Akeneo\Pim\Client\AkeneoPimClientBuilder('http://localhost/');
 $client = $clientBuilder->buildAuthenticatedByPassword('client_id', 'secret', 'admin', 'admin');
+```
 
-$categories = $client->getCategoryApi()->getCategories();
+You can authenticate to the client with your token/refresh token as well.
+```php
+<?php
 
-foreach ($categories->getItems() as $category) {
-    //...
+require_once __DIR__ . '/vendor/autoload.php';
+
+$client = $clientBuilder->buildAuthenticatedByToken('client_id', 'secret', 'token', 'refresh_token');
+```
+
+Getting the token and refresh token is as simple as:
+```php
+$client->getToken();
+$client->getRefreshToken();
+```
+
+### Get a product
+
+```php
+$product = $client->getProductApi()->get('top');
+echo $product['identifier']; // display "top"
+```
+
+### Get a list of products
+
+#### By getting pages
+
+```php
+$searchBuilder = new new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder->addFilter('enabled', '=', true);
+$searchFilters = $searchBuilder->getFilters();
+
+$firstPage = $client->getProductApi()->listPerPage(50, true, ['search' => $searchFilters]);
+
+echo $page->getCount();
+
+foreach ($page->getItems() as $product) {
+    // do your stuff here
+    echo $product['identifier'];
+}
+
+$nextPage = $page->getNextPage();
+
+$firstPage = $nextPage->getPreviousPage();
+```
+
+#### By getting a cursor 
+
+```php
+$searchBuilder = new new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder->addFilter('enabled', '=', true);
+$searchFilters = $searchBuilder->getFilters();
+
+$products = $client->getProductApi()->all(50, ['search' => $searchFilters]);
+foreach ($products as $product) {
+    // do your stuff here
+    echo $product['identifier'];
 }
 ```
 
-## License
+### Create a product
 
-`php-api-client` is licensed under the Open Software License version 3.0 - see the LICENSE file for details
+```php
+$client->getProductApi()->create('top', ['enabled' => true]);
+```
+
+### Upsert a product
+
+```php
+$client->getProductApi()->upsert('top', ['family' => 'tshirt']);
+```
+
+### Upsert a list of of products
+
+```php
+$client->getProductApi()->upsertList([
+    [
+        'identifier' => 'top',
+        'family' => 'tshirt',
+    ],
+    [
+        'identifier' => 'cap',
+        'categories' => ['hat'],
+    ],
+]);
+```
+
+## Support
+
+If you find a bug or want to submit an improvement, don't hesitate to raise an issue on Github.
+Also, you can ask questions and discuss about the PHP client with the community in the [Slack User Group](https://akeneopim-ug.slack.com/messages/web-api/).
