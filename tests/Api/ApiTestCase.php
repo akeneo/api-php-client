@@ -57,16 +57,6 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return UriGeneratorInterface
-     */
-    protected function getUriGenerator()
-    {
-        $config = $this->getConfiguration();
-
-        return new UriGenerator($config['api']['baseUri']);
-    }
-
-    /**
      * @throws \RuntimeException
      *
      * @return array
@@ -85,53 +75,83 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * Assert that all the expected data of a content of a resource are the same in an actual one.
-     * The actual content can contains more data than the expected one.
+     * An associative array can contain more elements than expected, but an numeric key array must be strictly identical.
      *
      * @param array $expectedContent
      * @param array $actualContent
      */
-    public function assertSameContent(array $expectedContent, array $actualContent)
+    protected function assertSameContent(array $expectedContent, array $actualContent)
     {
-        $differences = $this->computeArrayDiff($expectedContent, $actualContent);
+        $expectedContent = $this->sortResourceContent($expectedContent);
+        $actualContent = $this->sortResourceContent($actualContent);
 
-        if (! empty($differences)) {
-            $this->fail(
-                'Failed asserting that the content has the expected body.'
-                .PHP_EOL
-                .'Differences between expected and actual content :'
-                .PHP_EOL
-                .var_export($differences, true)
-            );
-        }
+        $expectedContent = $this->mergeResourceContents($actualContent, $expectedContent);
+
+        $this->assertSame($expectedContent, $actualContent);
     }
 
     /**
-     * @param array $expectedValues
-     * @param array $actualValues
+     * Recursively merge an expected content in a actual one to be able to compare them.
+     * Numeric key arrays are kept identical.
+     *
+     * @param array $actualContent
+     * @param array $expectedContent
      *
      * @return array
      */
-    protected function computeArrayDiff(array $expectedValues, array $actualValues)
+    private function mergeResourceContents(array $actualContent, array $expectedContent)
     {
-        $differences = [];
-
-        foreach ($expectedValues as $key => $expectedValue) {
-            if (!array_key_exists($key, $actualValues)) {
-                $differences[$key] = $expectedValue;
-            } elseif (is_array($expectedValue)) {
-                if (is_array($actualValues[$key])) {
-                    $embeddedDifferences = $this->computeArrayDiff($expectedValue, $actualValues[$key]);
-                    if (!empty($embeddedDifferences)) {
-                        $differences[$key] = $embeddedDifferences;
-                    }
-                } else {
-                    $differences[$key] = $expectedValue;
-                }
-            } elseif ($expectedValue !== $actualValues[$key]) {
-                $differences[$key] = $expectedValue;
+        foreach ($expectedContent as $key => $value) {
+            if (is_array($value) && isset($actualContent[$key]) && is_array($actualContent[$key])) {
+                $expectedContent[$key] = $this->mergeResourceContents($actualContent[$key], $expectedContent[$key]);
             }
         }
 
-        return $differences;
+        if ($this->isAssociativeArray($expectedContent)) {
+            $mergedContent = array_merge($actualContent, $expectedContent);
+        } else {
+            $mergedContent = $expectedContent;
+        }
+
+        return $mergedContent;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return bool True if the array is associative (i.e. at least one key is a string)
+     */
+    private function isAssociativeArray(array $array)
+    {
+        foreach (array_keys($array) as $key) {
+            if (is_string($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Sort a resource content to be able to compare it with another one.
+     * The order of elements in an associative array is important in PHPUnit but not for us.
+     * So we force the order of the associative arrays to be identical to be able to use them in a PHPUnit assertion.
+     * This sort has no consequences for sequential arrays with numeric keys.
+     *
+     * @param array $resourceContent
+     *
+     * @return array Sorted resource content
+     */
+    private function sortResourceContent(array $resourceContent)
+    {
+        ksort($resourceContent);
+
+        foreach ($resourceContent as $key => $value) {
+            if (is_array($value)) {
+                $resourceContent[$key] = $this->sortResourceContent($value);
+            }
+        }
+
+        return $resourceContent;
     }
 }
