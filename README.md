@@ -31,7 +31,7 @@ If you want to use another HTTP client implementation, you can check [here](http
 ### Initialise the client
 You first need to initialise the client with your credentials client id/secret and with your user/password.
 
-If you don't have any client id, let's a look at [this page](https://api.akeneo.com/documentation/security.html#authentication) to create it.
+If you don't have any client id, let's take a look at [this page](https://api.akeneo.com/documentation/security.html#authentication) to create it.
 
 ```php
 <?php
@@ -69,7 +69,7 @@ echo $product['identifier']; // display "top"
 #### By getting pages
 
 ```php
-$searchBuilder = new new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
@@ -90,7 +90,7 @@ $firstPage = $nextPage->getPreviousPage();
 #### By getting a cursor 
 
 ```php
-$searchBuilder = new new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
