@@ -12,16 +12,14 @@ class DownloadProductMediaFileApiIntegration extends ApiTestCase
         $api = $this->createClient()->getProductMediaFileApi();
         $expectedMediaFile = realpath(__DIR__ . '/../../fixtures/akeneo.png');
 
-        $api->create($expectedMediaFile, [
+        $mediaFileCode = $api->create($expectedMediaFile, [
             'identifier' => 'medium_boot',
             'attribute'  => 'side_view',
             'scope'      => null,
             'locale'     => null,
         ]);
 
-        // TODO: use code returned by creation when API-263 done
-        $mediaFiles = $api->listPerPage()->getItems();
-        $mediaFile = $api->download($mediaFiles[4]['code']);
+        $mediaFile = $api->download($mediaFileCode);
 
         $this->assertInstanceOf(StreamInterface::class, $mediaFile);
         $this->assertSame(file_get_contents($expectedMediaFile), $mediaFile->getContents());

@@ -20,7 +20,7 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
             'locale'     => null,
         ]);
 
-        $this->assertSame(201, $response);
+        $this->assertSame(MediaSanitizer::MEDIA_ATTRIBUTE_DATA_COMPARISON, MediaSanitizer::sanitize($response));
 
         $mediaFiles = $api->listPerPage(10)->getItems();
 
