@@ -79,7 +79,7 @@ class ProductApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_PATH, [], 10, false, [])
+            ->getResources(ProductApi::PRODUCTS_PATH, [], 10, false, ['pagination_type' => 'search_after'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
