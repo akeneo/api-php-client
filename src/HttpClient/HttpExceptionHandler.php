@@ -38,29 +38,43 @@ class HttpExceptionHandler
     public function transformResponseToException(RequestInterface $request, ResponseInterface $response)
     {
         if (400 === $response->getStatusCode()) {
-            throw new BadRequestHttpException($response->getReasonPhrase(), $request, $response);
+            throw new BadRequestHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if (401 === $response->getStatusCode()) {
-            throw new UnauthorizedHttpException($response->getReasonPhrase(), $request, $response);
+            throw new UnauthorizedHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if (404 === $response->getStatusCode()) {
-            throw new NotFoundHttpException($response->getReasonPhrase(), $request, $response);
+            throw new NotFoundHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if (422 === $response->getStatusCode()) {
-            throw new UnprocessableEntityHttpException($response->getReasonPhrase(), $request, $response);
+            throw new UnprocessableEntityHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
-            throw new ClientErrorHttpException($response->getReasonPhrase(), $request, $response);
+            throw new ClientErrorHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if ($response->getStatusCode() >= 500 && $response->getStatusCode() < 600) {
-            throw new ServerErrorHttpException($response->getReasonPhrase(), $request, $response);
+            throw new ServerErrorHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         return $response;
+    }
+
+    /**
+     * Returns the response message, or the reason phrase if there is none.
+     *
+     * @param ResponseInterface $response
+     *
+     * @return string
+     */
+    protected function getResponseMessage(ResponseInterface $response)
+    {
+        $decodedBody = json_decode($response->getBody()->getContents(), true);
+
+        return isset($decodedBody['message']) ? $decodedBody['message'] : $response->getReasonPhrase();
     }
 }

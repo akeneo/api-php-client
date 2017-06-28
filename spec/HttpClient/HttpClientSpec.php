@@ -8,6 +8,7 @@ use Http\Message\RequestFactory;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class HttpClientSpec extends ObjectBehavior
 {
@@ -51,7 +52,8 @@ class HttpClientSpec extends ObjectBehavior
         $requestFactory,
         $httpClient,
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $requestFactory->createRequest(
             'POST',
@@ -63,7 +65,8 @@ class HttpClientSpec extends ObjectBehavior
         $httpClient->sendRequest($request)->willReturn($response);
 
         $response->getStatusCode()->willReturn(500);
-        $response->getReasonPhrase()->willReturn('Server error');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 500, "message": "Internal error."}');
 
         $this
             ->shouldThrow(HttpException::class)

@@ -11,6 +11,7 @@ use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class HttpExceptionHandlerSpec extends ObjectBehavior
 {
@@ -21,14 +22,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_bad_request_exception_when_status_code_400(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(400);
-        $response->getReasonPhrase()->willReturn('Bad request exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 401, "message": "The request is invalid"}');
         $this
             ->shouldThrow(
                 new BadRequestHttpException(
-                    'Bad request exception',
+                    'The request is invalid',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -38,14 +41,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_unauthorized_request_exception_when_status_code_401(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(401);
-        $response->getReasonPhrase()->willReturn('Unauthorized request exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 401, "message": "The access token provided has expired."}');
         $this
             ->shouldThrow(
                 new UnauthorizedHttpException(
-                    'Unauthorized request exception',
+                    'The access token provided has expired.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -55,14 +60,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_not_found_exception_when_status_code_404(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(404);
-        $response->getReasonPhrase()->willReturn('Resource not found exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 404, "message": "Category \"noname\" does not exists."}');
         $this
             ->shouldThrow(
                 new NotFoundHttpException(
-                    'Resource not found exception',
+                    'Category "noname" does not exists.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -72,14 +79,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_bad_request_exception_when_status_code_422(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(422);
-        $response->getReasonPhrase()->willReturn('Unprocessable entity exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 422, "message": "Invalid data."}');
         $this
             ->shouldThrow(
                 new UnprocessableEntityHttpException(
-                    'Unprocessable entity exception',
+                    'Invalid data.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -89,14 +98,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_bad_request_exception_when_status_code_4xx(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(405);
-        $response->getReasonPhrase()->willReturn('Not allowed');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 405, "message": "Not allowed."}');
         $this
             ->shouldThrow(
                 new ClientErrorHttpException(
-                    'Not allowed',
+                    'Not allowed.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -106,14 +117,16 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
 
     function it_throws_bad_request_exception_when_status_code_5xx(
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        StreamInterface $responseBody
     ) {
         $response->getStatusCode()->willReturn(500);
-        $response->getReasonPhrase()->willReturn('Server error');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 500, "message": "Internal error."}');
         $this
             ->shouldThrow(
                 new ServerErrorHttpException(
-                    'Server error',
+                    'Internal error.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -125,5 +138,45 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
     {
         $response->getStatusCode()->willReturn(200);
         $this->transformResponseToException($request, $response)->shouldReturn($response);
+    }
+
+    function it_builds_exception_with_reason_phrase_when_response_has_no_message(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(400);
+        $response->getReasonPhrase()->willReturn('Bad request exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 400}');
+        $this
+            ->shouldThrow(
+                new BadRequestHttpException(
+                    'Bad request exception',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_builds_exception_with_reason_phrase_when_response_is_not_a_valid_json(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(422);
+        $response->getReasonPhrase()->willReturn('Unprocessable entity exception');
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('not json');
+        $this
+            ->shouldThrow(
+                new UnprocessableEntityHttpException(
+                    'Unprocessable entity exception',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
     }
 }

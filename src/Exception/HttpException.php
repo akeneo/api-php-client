@@ -53,24 +53,4 @@ class HttpException extends \RuntimeException
     {
         return $this->response;
     }
-
-    /**
-     * Returns the HTTP status code of the response.
-     *
-     * @return integer
-     */
-    public function getStatusCode()
-    {
-        return $this->response->getStatusCode();
-    }
-
-    /**
-     * Returns the body's content of the response.
-     *
-     * @return string
-     */
-    public function getResponseBody()
-    {
-        return $this->response->getBody()->getContents();
-    }
 }
