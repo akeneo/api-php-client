@@ -49,15 +49,47 @@ class AkeneoPimClientBuilder
     protected $streamFactory;
 
     /**
-     * @param string $baseUri  Base uri to request the API
-     * @param array  $options  Option to customize Akeneo PIM Client
+     * @param string $baseUri Base uri to request the API
      */
-    public function __construct($baseUri, $options = [])
+    public function __construct($baseUri)
     {
         $this->baseUri = $baseUri;
-        $this->httpClient = isset($options['http_client']) ? $options['http_client'] : HttpClientDiscovery::find();
-        $this->requestFactory = isset($options['request_factory']) ? $options['request_factory'] : MessageFactoryDiscovery::find();
-        $this->streamFactory = isset($options['stream_factory']) ? $options['stream_factory'] : StreamFactoryDiscovery::find();
+    }
+
+    /**
+     * @param Client $httpClient
+     *
+     * @return AkeneoPimClientBuilder
+     */
+    public function setHttpClient(Client $httpClient)
+    {
+        $this->httpClient = $httpClient;
+
+        return $this;
+    }
+
+    /**
+     * @param RequestFactory $requestFactory
+     *
+     * @return AkeneoPimClientBuilder
+     */
+    public function setRequestFactory($requestFactory)
+    {
+        $this->requestFactory = $requestFactory;
+
+        return $this;
+    }
+
+    /**
+     * @param StreamFactory $streamFactory
+     *
+     * @return AkeneoPimClientBuilder
+     */
+    public function setStreamFactory($streamFactory)
+    {
+        $this->streamFactory = $streamFactory;
+
+        return $this;
     }
 
     /**
@@ -103,17 +135,17 @@ class AkeneoPimClientBuilder
     {
         $uriGenerator = new UriGenerator($this->baseUri);
 
-        $httpClient = new HttpClient($this->httpClient, $this->requestFactory);
+        $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory());
         $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
 
-        $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->streamFactory);
+        $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->getStreamFactory());
         $upsertListResponseFactory = new UpsertResourceListResponseFactory();
         $resourceClient = new ResourceClient(
             $authenticatedHttpClient,
             $uriGenerator,
             $multipartStreamBuilderFactory,
-            $this->streamFactory,
+            $this->getStreamFactory(),
             $upsertListResponseFactory
         );
 
@@ -133,5 +165,41 @@ class AkeneoPimClientBuilder
         );
 
         return $client;
+    }
+
+    /**
+     * @return Client
+     */
+    protected function getHttpClient()
+    {
+        if (null === $this->httpClient) {
+            $this->httpClient = HttpClientDiscovery::find();
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
+     * @return RequestFactory
+     */
+    protected function getRequestFactory()
+    {
+        if (null === $this->requestFactory) {
+            $this->requestFactory = MessageFactoryDiscovery::find();
+        }
+
+        return $this->requestFactory;
+    }
+
+    /**
+     * @return StreamFactory
+     */
+    public function getStreamFactory()
+    {
+        if (null === $this->streamFactory) {
+            $this->streamFactory = StreamFactoryDiscovery::find();
+        }
+
+        return $this->streamFactory;
     }
 }
