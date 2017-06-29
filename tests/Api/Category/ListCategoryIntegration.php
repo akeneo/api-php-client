@@ -34,6 +34,7 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertTrue($secondPage->hasPreviousPage());
         $this->assertTrue($secondPage->hasNextPage());
         $this->assertSame($baseUri . '/api/rest/v1/categories?page=1&limit=2&with_count=false', $secondPage->getPreviousLink());
+        $this->assertSame($baseUri . '/api/rest/v1/categories?page=3&limit=2&with_count=false', $secondPage->getNextLink());
 
         $categories = $secondPage->getItems();
         $this->assertCount(2 ,$categories);
@@ -44,6 +45,8 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertInstanceOf(PageInterface::class, $lastPage);
         $this->assertTrue($lastPage->hasPreviousPage());
         $this->assertFalse($lastPage->hasNextPage());
+        $this->assertSame($baseUri . '/api/rest/v1/categories?page=2&limit=2&with_count=false', $lastPage->getPreviousLink());
+        $this->assertNull($lastPage->getNextLink());
         $this->assertNull($lastPage->getNextPage());
 
         $categories = $lastPage->getItems();
@@ -52,11 +55,7 @@ class ListCategoryIntegration extends ApiTestCase
 
         $previousPage = $lastPage->getPreviousPage();
         $this->assertInstanceOf(PageInterface::class, $previousPage);
-
-        $categories = $previousPage->getItems();
-        $this->assertCount(2 ,$categories);
-        $this->assertSameContent($expectedCategories[2], $categories[0]);
-        $this->assertSameContent($expectedCategories[3], $categories[1]);
+        $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
     public function testListPerPageWithCount()
@@ -91,34 +90,26 @@ class ListCategoryIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getCategoryApi();
         $categories = $api->all();
-        $expectedCategories = $this->getExpectedCategories();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $categories);
 
-        $categoriesCount = 0;
-        foreach ($categories as $key => $category) {
-            $this->assertSameContent($expectedCategories[$key], $category);
-            $categoriesCount++;
-        }
+        $categories = iterator_to_array($categories);
 
-        $this->assertSame(5, $categoriesCount);
+        $this->assertCount(5, $categories);
+        $this->assertSameContent($this->getExpectedCategories(), $categories);
     }
 
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getCategoryApi();
         $categories = $api->all(10, ['foo' => 'bar']);
-        $expectedCategories = $this->getExpectedCategories();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $categories);
 
-        $categoriesCount = 0;
-        foreach ($categories as $key => $category) {
-            $this->assertSameContent($expectedCategories[$key], $category);
-            $categoriesCount++;
-        }
+        $categories = iterator_to_array($categories);
 
-        $this->assertSame(5, $categoriesCount);
+        $this->assertCount(5, $categories);
+        $this->assertSameContent($this->getExpectedCategories(), $categories);
     }
 
     /**

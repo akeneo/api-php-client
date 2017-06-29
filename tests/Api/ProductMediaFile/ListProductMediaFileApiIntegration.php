@@ -37,6 +37,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
         $this->assertTrue($secondPage->hasPreviousPage());
         $this->assertTrue($secondPage->hasNextPage());
         $this->assertSame($baseUri . '/api/rest/v1/media-files?page=1&limit=2&with_count=false', $secondPage->getPreviousLink());
+        $this->assertSame($baseUri . '/api/rest/v1/media-files?page=3&limit=2&with_count=false', $secondPage->getNextLink());
 
         $mediaFiles = $secondPage->getItems();
 
@@ -55,12 +56,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
 
         $previousPage = $lastPage->getPreviousPage();
         $this->assertInstanceOf(PageInterface::class, $secondPage);
-
-        $mediaFiles = $previousPage->getItems();
-
-        $this->assertCount(2 ,$mediaFiles);
-        $this->assertSameContent($expectedMediaFiles[2], $this->sanitizeMediaFile($mediaFiles[0]));
-        $this->assertSameContent($expectedMediaFiles[3], $this->sanitizeMediaFile($mediaFiles[1]));
+        $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
     public function testListPerPageWithCount()
