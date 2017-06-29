@@ -145,7 +145,6 @@ class AkeneoPimClientBuilder
             $authenticatedHttpClient,
             $uriGenerator,
             $multipartStreamBuilderFactory,
-            $this->getStreamFactory(),
             $upsertListResponseFactory
         );
 

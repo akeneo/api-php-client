@@ -6,7 +6,7 @@ use Akeneo\Pim\tests\Api\ApiTestCase;
 
 class UpsertListCategoryIntegration extends ApiTestCase
 {
-    public function testUpsertListSuccessful()
+    public function testUpsertListFromArraySuccessful()
     {
         $api = $this->createClient()->getCategoryApi();
 
@@ -32,19 +32,52 @@ class UpsertListCategoryIntegration extends ApiTestCase
         $this->assertInstanceOf('\Iterator', $response);
 
         $responseLines = iterator_to_array($response);
-        $this->assertCount(2, $responseLines);
 
         $this->assertSame([
-            'line'        => 1,
-            'code'        => 'sandals',
-            'status_code' => 204,
-        ], $responseLines[1]);
+            1 => [
+                'line'        => 1,
+                'code'        => 'sandals',
+                'status_code' => 204,
+            ],
+            2 => [
+                'line'        => 2,
+                'code'        => 'booties',
+                'status_code' => 201,
+            ]
+        ], $responseLines);
+    }
+
+    public function testUpsertListFromStreamSuccessful()
+    {
+        $resourcesContent =
+<<<JSON
+{"code":"sandals","parent":"winter_collection","labels":{"en_US":"Sandals","fr_FR":"Sandales"}}
+{"code":"booties","parent":"summer_collection","labels":{"en_US":"Booties","fr_FR":"Bottines"}}
+JSON;
+        $resources = fopen('php://memory', 'w+');
+        fwrite($resources, $resourcesContent);
+        rewind($resources);
+
+        $streamedResources = $this->getStreamFactory()->createStream($resources);
+        $api = $this->createClient()->getCategoryApi();
+        $response = $api->upsertList($streamedResources);
+
+        $this->assertInstanceOf('\Iterator', $response);
+
+        $responseLines = iterator_to_array($response);
 
         $this->assertSame([
-            'line'        => 2,
-            'code'        => 'booties',
-            'status_code' => 201,
-        ], $responseLines[2]);
+            1 => [
+                'line'        => 1,
+                'code'        => 'sandals',
+                'status_code' => 204,
+            ],
+            2 => [
+                'line'        => 2,
+                'code'        => 'booties',
+                'status_code' => 201,
+            ]
+        ], $responseLines);
     }
 
     public function testUpsertListFailed()
@@ -72,18 +105,18 @@ class UpsertListCategoryIntegration extends ApiTestCase
         $this->assertInstanceOf('\Iterator', $response);
 
         $responseLines = iterator_to_array($response);
-        $this->assertCount(2, $responseLines);
 
         $this->assertSame([
-            'line'        => 1,
-            'status_code' => 422,
-            'message'     => 'Code is missing.',
-        ], $responseLines[1]);
-
-        $this->assertSame([
-            'line'        => 2,
-            'status_code' => 413,
-            'message' => 'Line is too long.',
-        ], $responseLines[2]);
+            1 => [
+                'line'        => 1,
+                'status_code' => 422,
+                'message'     => 'Code is missing.',
+            ],
+            2 => [
+                'line'        => 2,
+                'status_code' => 413,
+                'message'     => 'Line is too long.',
+            ]
+        ], $responseLines);
     }
 }
