@@ -34,6 +34,7 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertTrue($secondPage->hasPreviousPage());
         $this->assertTrue($secondPage->hasNextPage());
         $this->assertSame($baseUri . '/api/rest/v1/locales?page=1&limit=3&with_count=false', $secondPage->getPreviousLink());
+        $this->assertSame($baseUri . '/api/rest/v1/locales?page=3&limit=3&with_count=false', $secondPage->getNextLink());
 
         $locales = $secondPage->getItems();
         $this->assertCount(3 ,$locales);
@@ -44,18 +45,15 @@ class ListLocaleApiIntegration extends ApiTestCase
         $lastPage = $secondPage->getNextPage();
         $this->assertInstanceOf(PageInterface::class, $lastPage);
         $this->assertTrue($lastPage->hasPreviousPage());
+        $this->assertSame($baseUri . '/api/rest/v1/locales?page=2&limit=3&with_count=false', $lastPage->getPreviousLink());
         $this->assertFalse($lastPage->hasNextPage());
+        $this->assertNull($lastPage->getNextLink());
         $this->assertNull($lastPage->getNextPage());
         $this->assertCount(0 ,$lastPage->getItems());
 
         $previousPage = $lastPage->getPreviousPage();
         $this->assertInstanceOf(PageInterface::class, $previousPage);
-
-        $locales = $previousPage->getItems();
-        $this->assertCount(3 ,$locales);
-        $this->assertSameContent($expectedLocales[3], $locales[0]);
-        $this->assertSameContent($expectedLocales[4], $locales[1]);
-        $this->assertSameContent($expectedLocales[5], $locales[2]);
+        $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
     public function testListPerPageWithCount()
@@ -90,34 +88,26 @@ class ListLocaleApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getLocaleApi();
         $locales = $api->all();
-        $expectedLocales = $this->getExpectedLocales();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $locales);
 
-        $localesCount = 0;
-        foreach ($locales as $key => $locale) {
-            $this->assertSameContent($expectedLocales[$key], $locale);
-            $localesCount++;
-        }
+        $locales = iterator_to_array($locales);
 
-        $this->assertSame(6, $localesCount);
+        $this->assertCount(6, $locales);
+        $this->assertSameContent($locales, $this->getExpectedLocales());
     }
 
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getLocaleApi();
         $locales = $api->all(10, ['foo' => 'bar']);
-        $expectedLocales = $this->getExpectedLocales();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $locales);
 
-        $localesCount = 0;
-        foreach ($locales as $key => $locale) {
-            $this->assertSameContent($expectedLocales[$key], $locale);
-            $localesCount++;
-        }
+        $locales = iterator_to_array($locales);
 
-        $this->assertSame(6, $localesCount);
+        $this->assertCount(6, $locales);
+        $this->assertSameContent($locales, $this->getExpectedLocales());
     }
 
     public function testSearchEnabledLocales()
