@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Api;
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * API implementation to manage the media files for the products.
@@ -18,6 +19,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     const MEDIA_FILES_PATH = 'api/rest/v1/media-files';
     const MEDIA_FILE_PATH = 'api/rest/v1/media-files/%s';
     const MEDIA_FILE_DOWNLOAD_PATH = 'api/rest/v1/media-files/%s/download';
+    const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -95,7 +97,9 @@ class ProductMediaFileApi implements MediaFileApiInterface
             ]
         ];
 
-        return $this->resourceClient->createMultipartResource(static::MEDIA_FILES_PATH, [], $requestParts);
+        $response = $this->resourceClient->createMultipartResource(static::MEDIA_FILES_PATH, [], $requestParts);
+
+        return $this->extractCodeFromCreationResponse($response);
     }
 
     /**
@@ -104,5 +108,30 @@ class ProductMediaFileApi implements MediaFileApiInterface
     public function download($code)
     {
         return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_PATH, [$code]);
+    }
+
+    /**
+     * Extracts the code of a media-file from a creation response.
+     *
+     * @param ResponseInterface $response
+     *
+     * @throws \RuntimeException if unable to extract the code
+     *
+     * @return mixed
+     */
+    protected function extractCodeFromCreationResponse(ResponseInterface $response)
+    {
+        $headers = $response->getHeaders();
+
+        if (!isset($headers['Location'][0])) {
+            throw new \RuntimeException('The response does not contain the URI of the created media-file.');
+        }
+
+        $matches = [];
+        if (1 !== preg_match(static::MEDIA_FILE_URI_CODE_REGEX, $headers['Location'][0], $matches)) {
+            throw new \RuntimeException('Unable to find the code in the URI of the created media-file.');
+        }
+
+        return $matches['code'];
     }
 }

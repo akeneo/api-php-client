@@ -304,7 +304,7 @@ JSON;
 
         $this
             ->createMultipartResource('api/rest/v1/media-files', [], $requestParts)
-            ->shouldReturn(201);
+            ->shouldReturn($response);
     }
 
     function it_throws_an_exception_if_a_request_part_is_invalid_when_creating_a_multipart_resource(

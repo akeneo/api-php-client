@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -68,7 +69,7 @@ interface ResourceClientInterface
      *
      * @throws HttpException
      *
-     * @return int status code of the response to know if the resource has been created (code 201)
+     * @return ResponseInterface the response of the creation request
      */
     public function createMultipartResource($uri, array $uriParameters = [], array $requestParts = []);
 

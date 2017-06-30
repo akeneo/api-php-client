@@ -20,7 +20,7 @@ interface MediaFileApiInterface extends ListableResourceInterface, GettableResou
      * @throws HttpException
      * @throws \RuntimeException if the file could not be opened
      *
-     * @return int returns 201 if the media file has been created
+     * @return string returns the code of created media file
      */
     public function create($mediaFile, array $data);
 }

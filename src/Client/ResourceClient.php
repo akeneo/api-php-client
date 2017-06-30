@@ -132,9 +132,7 @@ class ResourceClient implements ResourceClientInterface
         $headers = ['Content-Type' => sprintf('multipart/form-data; boundary="%s"', $boundary)];
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
 
-        $response = $this->httpClient->sendRequest('POST', $uri, $headers, $multipartStream);
-
-        return $response->getStatusCode();
+        return $this->httpClient->sendRequest('POST', $uri, $headers, $multipartStream);
     }
 
     /**
