@@ -11,4 +11,15 @@ namespace Akeneo\Pim\Exception;
  */
 class UnprocessableEntityHttpException extends ClientErrorHttpException
 {
+    /**
+     * Returns the errors of the response if there are any
+     *
+     * @return array
+     */
+    public function getResponseErrors()
+    {
+        $decodedBody = json_decode($this->getResponse()->getBody()->getContents(), true);
+
+        return isset($decodedBody['errors']) ? $decodedBody['errors'] : [];
+    }
 }
