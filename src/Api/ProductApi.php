@@ -65,6 +65,8 @@ class ProductApi implements ProductApiInterface
      */
     public function all($pageSize = 10, array $queryParameters = [])
     {
+        $queryParameters['pagination_type'] = 'search_after';
+
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
