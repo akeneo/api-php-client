@@ -4,12 +4,12 @@ namespace Akeneo\Pim\tests\Api;
 
 use Akeneo\Pim\Client\AkeneoPimClientBuilder;
 use Akeneo\Pim\Client\AkeneoPimClientInterface;
-use Akeneo\Pim\Routing\UriGenerator;
-use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\tests\DockerCredentialGenerator;
 use Akeneo\Pim\tests\DockerDatabaseInstaller;
 use Akeneo\Pim\tests\LocalCredentialGenerator;
 use Akeneo\Pim\tests\LocalDatabaseInstaller;
+use Http\Discovery\StreamFactoryDiscovery;
+use Http\Message\StreamFactory;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -71,6 +71,14 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
         $config = Yaml::parse(file_get_contents($configFile));
 
         return $config;
+    }
+
+    /**
+     * @return StreamFactory
+     */
+    public function getStreamFactory()
+    {
+        return StreamFactoryDiscovery::find();
     }
 
     /**

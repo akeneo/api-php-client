@@ -89,9 +89,10 @@ interface ResourceClientInterface
     /**
      * Updates or creates several resources.
      *
-     * @param string             $uri           URI of the resource
-     * @param array              $uriParameters URI parameters of the resource
-     * @param array|\Traversable $resources     array of resources to create or update
+     * @param string                $uri           URI of the resource
+     * @param array                 $uriParameters URI parameters of the resource
+     * @param array|StreamInterface $resources     array of resources to create or update.
+     *                                             You can pass your own StreamInterface implementation as well.
      *
      * @throws HttpException
      *

@@ -10,9 +10,7 @@ use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
-use Http\Message\StreamFactory;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -22,10 +20,9 @@ class ResourceClientSpec extends ObjectBehavior
         HttpClient $httpClient,
         UriGeneratorInterface $uriGenerator,
         MultipartStreamBuilderFactory $multipartStreamBuilderFactory,
-        StreamFactory $streamFactory,
         UpsertResourceListResponseFactory $responseFactory
     ) {
-        $this->beConstructedWith($httpClient, $uriGenerator, $multipartStreamBuilderFactory, $streamFactory, $responseFactory);
+        $this->beConstructedWith($httpClient, $uriGenerator, $multipartStreamBuilderFactory, $responseFactory);
     }
 
     function it_is_initializable()
@@ -199,12 +196,10 @@ JSON;
             ->shouldReturn(201);
     }
 
-    function it_upserts_a_list_of_resources(
+    function it_upserts_a_list_of_resources_from_an_array(
         $httpClient,
         $uriGenerator,
-        $streamFactory,
         $responseFactory,
-        StreamInterface $requestBodyStream,
         StreamInterface $responseBodyStream,
         UpsertResourceListResponse $listResponse,
         ResponseInterface $response
@@ -215,10 +210,17 @@ JSON;
             ->generate('api/rest/v1/categories', [])
             ->willReturn($uri);
 
-        $streamFactory->createStream(Argument::type(\Generator::class))->willReturn($requestBodyStream);
+        $body =
+<<<JSON
+{"code":"category_1"}
+{"code":"category_2"}
+{"code":"category_3"}
+{"code":"category_4"}
+JSON;
 
         $httpClient
-            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/vnd.akeneo.collection+json'], $requestBodyStream)
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/vnd.akeneo.collection+json'], $body)
+            ->shouldBeCalled()
             ->willReturn($response);
 
         $response
@@ -241,6 +243,37 @@ JSON;
             ->shouldReturn($listResponse);
     }
 
+    function it_upserts_a_list_of_resources_from_an_stream(
+        $httpClient,
+        $uriGenerator,
+        $responseFactory,
+        StreamInterface $responseBodyStream,
+        StreamInterface $resourcesStream,
+        UpsertResourceListResponse $listResponse,
+        ResponseInterface $response
+    )
+    {
+        $uri = 'http://akeneo.com/api/rest/v1/categories';
+
+        $uriGenerator
+            ->generate('api/rest/v1/categories', [])
+            ->willReturn($uri);
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/vnd.akeneo.collection+json'], $resourcesStream)
+            ->willReturn($response);
+
+        $response
+            ->getBody()
+            ->willReturn($responseBodyStream);
+
+        $responseFactory->create($responseBodyStream)->willReturn($listResponse);
+
+        $this
+            ->upsertResourceList('api/rest/v1/categories', [], $resourcesStream)
+            ->shouldReturn($listResponse);
+    }
+
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()
     {
         $this
@@ -255,10 +288,10 @@ JSON;
             ->during('getResources', ['', [], null, null, ['with_count' => null]]);
     }
 
-    function it_throws_an_exception_if_resources_is_not_an_array_and_not_traversable_when_upserting_a_list_of_resources()
+    function it_throws_an_exception_if_resources_is_not_an_array_and_not_a_stream_when_upserting_a_list_of_resources()
     {
         $this
-            ->shouldthrow(new \InvalidArgumentException('The parameter "resources" must be an array or Traversable.'))
+            ->shouldthrow(new \InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.'))
             ->during('upsertResourceList', ['api/rest/v1/categories', [], 'foo']);
     }
 

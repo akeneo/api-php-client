@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Exception\HttpException;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API that can "upsert" a list of resources.
@@ -16,7 +17,7 @@ interface UpsertableResourceListInterface
     /**
      * Updates or creates several resources.
      *
-     * @param array|\Traversable $resources array or Traversable object containing the resources to create or update
+     * @param array|StreamInterface $resources array or StreamInterface object containing the resources to create or update
      *
      * @throws HttpException
      *
