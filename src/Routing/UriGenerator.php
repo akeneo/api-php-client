@@ -2,8 +2,6 @@
 
 namespace Akeneo\Pim\Routing;
 
-use Akeneo\Pim\Pagination\PaginationParameter;
-
 /**
  * Generate a complete uri from a base path, uri parameters, and query parameters.
  *
@@ -35,8 +33,8 @@ class UriGenerator implements UriGeneratorInterface
 
         $queryParameters = $this->booleanQueryParametersAsString($queryParameters);
 
-        if (isset($queryParameters[PaginationParameter::SEARCH])) {
-            $queryParameters[PaginationParameter::SEARCH] = json_encode($queryParameters[PaginationParameter::SEARCH]);
+        if (isset($queryParameters['search'])) {
+            $queryParameters['search'] = json_encode($queryParameters['search']);
         }
 
         if (!empty($queryParameters)) {

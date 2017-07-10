@@ -15,7 +15,11 @@ class ListCategoryIntegration extends ApiTestCase
         $expectedCategories = $this->getExpectedCategories();
         $baseUri = $this->getConfiguration()['api']['baseUri'];
 
-        $firstPage = $api->listPerPage(2);
+        $firstPage = $api
+            ->listPerPage()
+            ->limit(2)
+            ->get();
+
         $this->assertInstanceOf(PageInterface::class, $firstPage);
         $this->assertNull($firstPage->getCount());
         $this->assertNull($firstPage->getPreviousLink());
@@ -63,7 +67,12 @@ class ListCategoryIntegration extends ApiTestCase
         $api = $this->createClient()->getCategoryApi();
         $baseUri = $this->getConfiguration()['api']['baseUri'];
 
-        $firstPage = $api->listPerPage(2, true);
+        $firstPage = $api
+            ->listPerPage()
+            ->withCount()
+            ->limit(2)
+            ->get();
+
         $this->assertInstanceOf(PageInterface::class, $firstPage);
         $this->assertSame(5, $firstPage->getCount());
         $this->assertSame($baseUri . '/api/rest/v1/categories?page=2&limit=2&with_count=true', $firstPage->getNextLink());
@@ -75,7 +84,12 @@ class ListCategoryIntegration extends ApiTestCase
         $expectedCategories = $this->getExpectedCategories();
         $baseUri = $this->getConfiguration()['api']['baseUri'];
 
-        $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
+        $firstPage = $api
+            ->listPerPage()
+            ->limit(2)
+            ->withoutCount()
+            ->addQueryParameter('foo', 'bar')
+            ->get();
 
         $this->assertInstanceOf(PageInterface::class, $firstPage);
         $this->assertSame($baseUri . '/api/rest/v1/categories?page=2&limit=2&with_count=false&foo=bar', $firstPage->getNextLink());
@@ -89,7 +103,7 @@ class ListCategoryIntegration extends ApiTestCase
     public function testAll()
     {
         $api = $this->createClient()->getCategoryApi();
-        $categories = $api->all();
+        $categories = $api->all()->get();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $categories);
 
@@ -102,7 +116,7 @@ class ListCategoryIntegration extends ApiTestCase
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getCategoryApi();
-        $categories = $api->all(10, ['foo' => 'bar']);
+        $categories = $api->all()->pageSize(10)->addQueryParameter('foo', 'bar')->get();
 
         $this->assertInstanceOf(ResourceCursorInterface::class, $categories);
 
