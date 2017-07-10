@@ -3,8 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\Pagination\RequestBuilder\ResourceRequestBuilderFactory;
 
 /**
  * API implementation to manage the categories.
@@ -21,25 +20,19 @@ class CategoryApi implements CategoryApiInterface
     /** @var ResourceClientInterface */
     protected $resourceClient;
 
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
+    /** @var ResourceRequestBuilderFactory */
+    protected $requestBuilderFactory;
 
     /**
-     * @param ResourceClientInterface        $resourceClient
-     * @param PageFactoryInterface           $pageFactory
-     * @param ResourceCursorFactoryInterface $cursorFactory
+     * @param ResourceClientInterface       $resourceClient
+     * @param ResourceRequestBuilderFactory $requestBuilderFactory
      */
     public function __construct(
         ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        ResourceRequestBuilderFactory $requestBuilderFactory
     ) {
         $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+        $this->requestBuilderFactory = $requestBuilderFactory;
     }
 
     /**
@@ -55,9 +48,7 @@ class CategoryApi implements CategoryApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);
-
-        return $this->pageFactory->createPage($data);
+        return $this->requestBuilderFactory->createListPerPageBuilder(static::CATEGORIES_PATH);
     }
 
     /**
@@ -65,9 +56,7 @@ class CategoryApi implements CategoryApiInterface
      */
     public function all($pageSize = 10, array $queryParameters = [])
     {
-        $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
-
-        return $this->cursorFactory->createCursor($pageSize, $firstPage);
+        return $this->requestBuilderFactory->createListAllBuilder(static::CATEGORIES_PATH);
     }
 
     /**

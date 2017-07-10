@@ -15,6 +15,7 @@ use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
 use Akeneo\Pim\HttpClient\HttpClient;
 use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Pagination\PageFactory;
+use Akeneo\Pim\Pagination\RequestBuilder\ResourceRequestBuilderFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
 use Akeneo\Pim\Security\Authentication;
@@ -151,10 +152,12 @@ class AkeneoPimClientBuilder
         $pageFactory = new PageFactory($authenticatedHttpClient);
         $cursorFactory = new ResourceCursorFactory();
 
+        $requestBuilderFactory = new ResourceRequestBuilderFactory($resourceClient, $pageFactory, $cursorFactory);
+
         $client = new AkeneoPimClient(
             $authentication,
             new ProductApi($resourceClient, $pageFactory, $cursorFactory),
-            new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
+            new CategoryApi($resourceClient, $requestBuilderFactory),
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
