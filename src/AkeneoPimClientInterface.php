@@ -7,6 +7,7 @@ use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
+use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -97,4 +98,11 @@ interface AkeneoPimClientInterface
      * @return ChannelApiInterface
      */
     public function getChannelApi();
+
+    /**
+     * Gets the currency API.
+     *
+     * @return CurrencyApiInterface
+     */
+    public function getCurrencyApi();
 }

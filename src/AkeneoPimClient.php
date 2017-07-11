@@ -7,6 +7,7 @@ use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
+use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -52,6 +53,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var ChannelApiInterface */
     protected $channelApi;
 
+    /** @var CurrencyApiInterface */
+    protected $currencyApi;
+
     /**
      * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
@@ -63,6 +67,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param MediaFileApiInterface       $productMediaFileApi
      * @param LocaleApiInterface          $localeApi
      * @param ChannelApiInterface         $channelApi
+     * @param CurrencyApiInterface        $currencyApi
      */
     public function __construct(
         Authentication $authentication,
@@ -74,7 +79,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
-        ChannelApiInterface $channelApi
+        ChannelApiInterface $channelApi,
+        CurrencyApiInterface $currencyApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -86,6 +92,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->productMediaFileApi = $productMediaFileApi;
         $this->localeApi = $localeApi;
         $this->channelApi = $channelApi;
+        $this->currencyApi = $currencyApi;
     }
 
     /**
@@ -174,5 +181,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getChannelApi()
     {
         return $this->channelApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrencyApi()
+    {
+        return $this->currencyApi;
     }
 }

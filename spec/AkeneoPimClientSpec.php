@@ -9,6 +9,7 @@ use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
+use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -28,10 +29,22 @@ class AkeneoPimClientSpec extends ObjectBehavior
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
-        ChannelApiInterface $channelApi
+        ChannelApiInterface $channelApi,
+        CurrencyApiInterface $currencyApi
     )
     {
-        $this->beConstructedWith($authentication, $productApi, $categoryApi, $attributeApi, $attributeOptionApi, $attributeGroupApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
+        $this->beConstructedWith(
+            $authentication,
+            $productApi,
+            $categoryApi,
+            $attributeApi,
+            $attributeOptionApi,
+            $attributeGroupApi, $familyApi,
+            $productMediaFileApi,
+            $localeApi,
+            $channelApi,
+            $currencyApi
+        );
     }
 
     function it_is_initializable()
@@ -97,5 +110,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_channel_api($channelApi)
     {
         $this->getChannelApi()->shouldReturn($channelApi);
+    }
+
+    function it_gets_currency_api($currencyApi)
+    {
+        $this->getCurrencyApi()->shouldReturn($currencyApi);
     }
 }
