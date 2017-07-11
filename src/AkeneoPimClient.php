@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim;
 
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;

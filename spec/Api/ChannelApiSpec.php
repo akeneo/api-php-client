@@ -41,7 +41,7 @@ class ChannelApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ChannelApi::CHANNEL_PATH, [$channelCode])
+            ->getResource(ChannelApi::CHANNEL_URI, [$channelCode])
             ->willReturn($channel);
 
         $this->get($channelCode)->shouldReturn($channel);
@@ -50,7 +50,7 @@ class ChannelApiSpec extends ObjectBehavior
     function it_returns_a_list_of_channels_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ChannelApi::CHANNELS_PATH, [], 10, false, [])
+            ->getResources(ChannelApi::CHANNELS_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -61,7 +61,7 @@ class ChannelApiSpec extends ObjectBehavior
     function it_returns_a_list_of_channels_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ChannelApi::CHANNELS_PATH, [], 10, true, [])
+            ->getResources(ChannelApi::CHANNELS_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -77,7 +77,7 @@ class ChannelApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(ChannelApi::CHANNELS_PATH, [], 10, false, [])
+            ->getResources(ChannelApi::CHANNELS_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -90,7 +90,7 @@ class ChannelApiSpec extends ObjectBehavior
     function it_returns_a_list_of_channels_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ChannelApi::CHANNELS_PATH, [], null, null, ['foo' => 'bar'])
+            ->getResources(ChannelApi::CHANNELS_URI, [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

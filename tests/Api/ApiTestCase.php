@@ -2,8 +2,8 @@
 
 namespace Akeneo\Pim\tests\Api;
 
-use Akeneo\Pim\Client\AkeneoPimClientBuilder;
-use Akeneo\Pim\Client\AkeneoPimClientInterface;
+use Akeneo\Pim\AkeneoPimClientBuilder;
+use Akeneo\Pim\AkeneoPimClientInterface;
 use Akeneo\Pim\tests\DockerCredentialGenerator;
 use Akeneo\Pim\tests\DockerDatabaseInstaller;
 use Akeneo\Pim\tests\LocalCredentialGenerator;

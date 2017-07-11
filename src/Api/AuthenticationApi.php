@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\Api;
 
-use Akeneo\Pim\HttpClient\HttpClient;
+use Akeneo\Pim\Client\HttpClient;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 
 /**

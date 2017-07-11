@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\HttpClient;
+namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
 use Psr\Http\Message\ResponseInterface;
@@ -24,7 +24,7 @@ interface HttpClientInterface
      * @param array                       $headers    headers of the request
      * @param string|StreamInterface|null $body       body of the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return ResponseInterface
      */

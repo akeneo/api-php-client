@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\Api;
 use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -42,7 +43,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(AttributeOptionApi::ATTRIBUTE_OPTION_PATH, [$attributeCode, $attributeOptionCode])
+            ->getResource(AttributeOptionApi::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode])
             ->willReturn($attributeOption);
 
         $this->get($attributeCode, $attributeOptionCode)->shouldReturn($attributeOption);
@@ -53,7 +54,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH, $attributeCode), [], 10, false, [])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -66,7 +67,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH, $attributeCode), [], 10, true, [])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -84,7 +85,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH, $attributeCode), [], 10, false, [])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -99,7 +100,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH, $attributeCode), [], null, null, ['foo' => 'bar'])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -111,7 +112,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->createResource(
-                AttributeOptionApi::ATTRIBUTE_OPTIONS_PATH,
+                AttributeOptionApi::ATTRIBUTE_OPTIONS_URI,
                 ['bar'],
                 ['code' => 'foo', 'attribute' => 'bar', 'sort_order' => 2]
             )
@@ -123,14 +124,14 @@ class AttributeOptionApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_attribute_option_code_is_provided_in_data_when_creating_an_attribute_option()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
             ->during('create', ['foo', 'bar', ['code' => 'foo', 'sort_order' => 2]]);
     }
 
     function it_throws_an_exception_if_attribute_code_is_provided_in_data_when_creating_an_attribute_option()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter'))
             ->during('create', ['foo', 'bar', ['attribute' => 'bar', 'sort_order' => 2]]);
     }
 
@@ -138,7 +139,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->upsertResource(
-                AttributeOptionApi::ATTRIBUTE_OPTION_PATH,
+                AttributeOptionApi::ATTRIBUTE_OPTION_URI,
                 ['foo', 'bar'],
                 ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42]
             )

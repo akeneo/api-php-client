@@ -2,9 +2,10 @@
 
 namespace spec\Akeneo\Pim\Pagination;
 
-use Akeneo\Pim\HttpClient\HttpClientInterface;
+use Akeneo\Pim\Client\HttpClientInterface;
 use Akeneo\Pim\Pagination\Page;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\Pagination\PageInterface;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -29,8 +30,8 @@ class PageSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Akeneo\Pim\Pagination\Page');
-        $this->shouldImplement('Akeneo\Pim\Pagination\PageInterface');
+        $this->shouldHaveType(Page::class);
+        $this->shouldImplement(PageInterface::class);
     }
 
     function it_gets_next_page(

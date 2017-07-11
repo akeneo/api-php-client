@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -43,7 +44,7 @@ class FamilyApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(FamilyApi::FAMILY_PATH, [$familyCode])
+            ->getResource(FamilyApi::FAMILY_URI, [$familyCode])
             ->willReturn($family);
 
         $this->get($familyCode)->shouldReturn($family);
@@ -52,7 +53,7 @@ class FamilyApiSpec extends ObjectBehavior
     function it_returns_a_list_of_families_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(FamilyApi::FAMILIES_PATH, [], 10, false, [])
+            ->getResources(FamilyApi::FAMILIES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -63,7 +64,7 @@ class FamilyApiSpec extends ObjectBehavior
     function it_returns_a_list_of_families_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(FamilyApi::FAMILIES_PATH, [], 10, true, [])
+            ->getResources(FamilyApi::FAMILIES_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -79,7 +80,7 @@ class FamilyApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(FamilyApi::FAMILIES_PATH, [], 10, false, [])
+            ->getResources(FamilyApi::FAMILIES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -92,7 +93,7 @@ class FamilyApiSpec extends ObjectBehavior
     function it_returns_a_list_of_families_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(FamilyApi::FAMILIES_PATH, [], null, null, ['foo' => 'bar'])
+            ->getResources(FamilyApi::FAMILIES_URI, [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -104,7 +105,7 @@ class FamilyApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->createResource(
-                FamilyApi::FAMILIES_PATH,
+                FamilyApi::FAMILIES_URI,
                 [],
                 ['code' => 'foo', 'attribute_as_label' => 'name']
             )
@@ -116,14 +117,14 @@ class FamilyApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_code_is_provided_in_data_when_creating_a_family()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
             ->during('create', ['foo', ['code' => 'foo', 'attribute_as_label' => 'name']]);
     }
 
     function it_upserts_a_family($resourceClient)
     {
         $resourceClient
-            ->upsertResource(FamilyApi::FAMILY_PATH, ['foo'], ['code' => 'foo' , 'attribute_as_label' => 'sku'])
+            ->upsertResource(FamilyApi::FAMILY_URI, ['foo'], ['code' => 'foo' , 'attribute_as_label' => 'sku'])
             ->willReturn(204);
 
         $this->upsert('foo', ['code' => 'foo' , 'attribute_as_label' => 'sku'])
@@ -134,7 +135,7 @@ class FamilyApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->upsertResourceList(
-                FamilyApi::FAMILIES_PATH,
+                FamilyApi::FAMILIES_URI,
                 [],
                 [
                     ['code' => 'family_1'],

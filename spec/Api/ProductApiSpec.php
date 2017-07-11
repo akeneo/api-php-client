@@ -6,6 +6,7 @@ use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
@@ -43,7 +44,7 @@ class ProductApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ProductApi::PRODUCT_PATH, [$productCode])
+            ->getResource(ProductApi::PRODUCT_URI, [$productCode])
             ->willReturn($product);
 
         $this->get($productCode)->shouldReturn($product);
@@ -52,7 +53,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_returns_a_list_of_products_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_PATH, [], 10, false, [])
+            ->getResources(ProductApi::PRODUCTS_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -63,7 +64,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_returns_a_list_of_products_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_PATH, [], 10, true, [])
+            ->getResources(ProductApi::PRODUCTS_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -79,7 +80,7 @@ class ProductApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_PATH, [], 10, false, ['pagination_type' => 'search_after'])
+            ->getResources(ProductApi::PRODUCTS_URI, [], 10, false, ['pagination_type' => 'search_after'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -92,7 +93,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_returns_a_list_of_products_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_PATH, [], null, null, ['foo' => 'bar'])
+            ->getResources(ProductApi::PRODUCTS_URI, [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -104,7 +105,7 @@ class ProductApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->createResource(
-                ProductApi::PRODUCTS_PATH,
+                ProductApi::PRODUCTS_URI,
                 [],
                 ['identifier' => 'foo', 'family' => 'bar']
             )
@@ -116,14 +117,14 @@ class ProductApiSpec extends ObjectBehavior
     function it_throws_an_exception_if_identifier_is_provided_in_data_when_creating_a_product()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter'))
             ->during('create', ['foo', ['identifier' => 'foo', 'family' => 'bar']]);
     }
 
     function it_upserts_a_product($resourceClient)
     {
         $resourceClient
-            ->upsertResource(ProductApi::PRODUCT_PATH, ['foo'], ['identifier' => 'foo' , 'family' => 'bar'])
+            ->upsertResource(ProductApi::PRODUCT_URI, ['foo'], ['identifier' => 'foo' , 'family' => 'bar'])
             ->willReturn(204);
 
         $this->upsert('foo', ['identifier' => 'foo' , 'family' => 'bar'])
@@ -133,7 +134,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_deletes_a_product($resourceClient)
     {
         $resourceClient
-            ->deleteResource(ProductApi::PRODUCT_PATH, ['foo'])
+            ->deleteResource(ProductApi::PRODUCT_URI, ['foo'])
             ->willReturn(204);
 
         $this->delete('foo')->shouldReturn(204);
@@ -143,7 +144,7 @@ class ProductApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->upsertResourceList(
-                ProductApi::PRODUCTS_PATH,
+                ProductApi::PRODUCTS_URI,
                 [],
                 [
                     ['identifier' => 'identifier_1'],

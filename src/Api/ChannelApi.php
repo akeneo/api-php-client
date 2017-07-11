@@ -15,8 +15,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class ChannelApi implements ChannelApiInterface
 {
-    const CHANNELS_PATH = 'api/rest/v1/channels';
-    const CHANNEL_PATH = 'api/rest/v1/channels/%s';
+    const CHANNELS_URI = 'api/rest/v1/channels';
+    const CHANNEL_URI = 'api/rest/v1/channels/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +47,7 @@ class ChannelApi implements ChannelApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::CHANNEL_PATH, [$code]);
+        return $this->resourceClient->getResource(static::CHANNEL_URI, [$code]);
     }
 
     /**
@@ -55,7 +55,7 @@ class ChannelApi implements ChannelApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::CHANNELS_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::CHANNELS_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }

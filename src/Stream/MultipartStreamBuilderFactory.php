@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\MultipartStream;
+namespace Akeneo\Pim\Stream;
 
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;

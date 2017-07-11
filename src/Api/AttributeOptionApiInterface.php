@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
 
@@ -21,7 +22,7 @@ interface AttributeOptionApiInterface
      * @param string $attributeCode Code of the attribute
      * @param string $code          Code of the attribute option
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return array
      */
@@ -38,7 +39,7 @@ interface AttributeOptionApiInterface
      *                                This parameter could decrease drastically the performance when set to true.
      * @param array  $queryParameters Additional query parameters to pass in the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return PageInterface
      */
@@ -52,7 +53,7 @@ interface AttributeOptionApiInterface
      *                               Do note that the server has a maximum limit allowed.
      * @param array $queryParameters Additional query parameters to pass in the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return ResourceCursorInterface
      */
@@ -65,7 +66,8 @@ interface AttributeOptionApiInterface
      * @param string $attributeOptionCode code of the attribute option to create
      * @param array  $data                data of the attribute option to create
      *
-     * @throws HttpException
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the parameter "code" or "attribute" is defined in the data parameter.
      *
      * @return int returns 201 if the attribute option has been created
      */

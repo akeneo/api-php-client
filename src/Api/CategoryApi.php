@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -15,8 +16,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class CategoryApi implements CategoryApiInterface
 {
-    const CATEGORY_PATH = 'api/rest/v1/categories/%s';
-    const CATEGORIES_PATH = 'api/rest/v1/categories';
+    const CATEGORY_URI = 'api/rest/v1/categories/%s';
+    const CATEGORIES_URI = 'api/rest/v1/categories';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +48,7 @@ class CategoryApi implements CategoryApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::CATEGORY_PATH, [$code]);
+        return $this->resourceClient->getResource(static::CATEGORY_URI, [$code]);
     }
 
     /**
@@ -55,7 +56,7 @@ class CategoryApi implements CategoryApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::CATEGORIES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::CATEGORIES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -76,12 +77,12 @@ class CategoryApi implements CategoryApiInterface
     public function create($code, array $data = [])
     {
         if (array_key_exists('code', $data)) {
-            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
         }
 
         $data['code'] = $code;
 
-        return $this->resourceClient->createResource(static::CATEGORIES_PATH, [], $data);
+        return $this->resourceClient->createResource(static::CATEGORIES_URI, [], $data);
     }
 
     /**
@@ -89,7 +90,7 @@ class CategoryApi implements CategoryApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::CATEGORY_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::CATEGORY_URI, [$code], $data);
     }
 
     /**
@@ -97,6 +98,6 @@ class CategoryApi implements CategoryApiInterface
      */
     public function upsertList($categories)
     {
-        return $this->resourceClient->upsertResourceList(static::CATEGORIES_PATH, [], $categories);
+        return $this->resourceClient->upsertResourceList(static::CATEGORIES_URI, [], $categories);
     }
 }

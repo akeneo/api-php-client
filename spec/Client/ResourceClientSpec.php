@@ -4,8 +4,9 @@ namespace spec\Akeneo\Pim\Client;
 
 use Akeneo\Pim\Client\ResourceClient;
 use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\Exception\InvalidArgumentException;
+use Akeneo\Pim\Client\HttpClient;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Routing\UriGeneratorInterface;
 use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
@@ -277,21 +278,21 @@ JSON;
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()
     {
         $this
-            ->shouldThrow(new \InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters'))
+            ->shouldThrow(new InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters'))
             ->during('getResources', ['', [], null, null, ['limit' => null]]);
     }
 
     function it_throws_an_exception_if_with_count_is_defined_in_additional_parameters_to_get_resources()
     {
         $this
-            ->shouldthrow(new \InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters'))
+            ->shouldthrow(new InvalidArgumentException('The parameter "with_count" should not be defined in the additional query parameters'))
             ->during('getResources', ['', [], null, null, ['with_count' => null]]);
     }
 
     function it_throws_an_exception_if_resources_is_not_an_array_and_not_a_stream_when_upserting_a_list_of_resources()
     {
         $this
-            ->shouldthrow(new \InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.'))
+            ->shouldthrow(new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.'))
             ->during('upsertResourceList', ['api/rest/v1/categories', [], 'foo']);
     }
 
@@ -347,7 +348,7 @@ JSON;
         $multipartStreamBuilderFactory->create()->willReturn($multipartStreamBuilder);
 
         $this
-            ->shouldThrow(new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
+            ->shouldThrow(new InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
             ->during('createMultipartResource', [
                 'api/rest/v1/media-files',
                 [],
@@ -363,7 +364,7 @@ JSON;
             ]);
 
         $this
-            ->shouldThrow(new \InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
+            ->shouldThrow(new InvalidArgumentException('The keys "name" and "contents" must be defined for each request part'))
             ->during('createMultipartResource', [
                 'api/rest/v1/media-files',
                 [],

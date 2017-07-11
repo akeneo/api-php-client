@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\HttpClient;
+namespace Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\BadRequestHttpException;
 use Akeneo\Pim\Exception\ClientErrorHttpException;

@@ -38,7 +38,7 @@ class LocaleApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(LocaleApi::LOCALE_PATH, [$localeCode])
+            ->getResource(LocaleApi::LOCALE_URI, [$localeCode])
             ->willReturn($locale);
 
         $this->get($localeCode)->shouldReturn($locale);
@@ -47,7 +47,7 @@ class LocaleApiSpec extends ObjectBehavior
     function it_returns_a_list_of_locales_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_PATH, [], 10, false, [])
+            ->getResources(LocaleApi::LOCALES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -58,7 +58,7 @@ class LocaleApiSpec extends ObjectBehavior
     function it_returns_a_list_of_locales_with_limit_and_count($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_PATH, [], 10, true, [])
+            ->getResources(LocaleApi::LOCALES_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -74,7 +74,7 @@ class LocaleApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_PATH, [], 10, false, [])
+            ->getResources(LocaleApi::LOCALES_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -87,7 +87,7 @@ class LocaleApiSpec extends ObjectBehavior
     function it_returns_a_list_of_locales_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_PATH, [], null, null, ['foo' => 'bar'])
+            ->getResources(LocaleApi::LOCALES_URI, [], null, null, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

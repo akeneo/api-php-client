@@ -1,7 +1,9 @@
 <?php
 
-namespace spec\Akeneo\Pim\Client;
+namespace spec\Akeneo\Pim;
 
+use Akeneo\Pim\AkeneoPimClient;
+use Akeneo\Pim\AkeneoPimClientInterface;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
@@ -10,8 +12,6 @@ use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
-use Akeneo\Pim\Client\AkeneoPimClient;
-use Akeneo\Pim\Client\AkeneoPimClientInterface;
 use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 

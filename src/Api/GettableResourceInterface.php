@@ -18,7 +18,7 @@ interface GettableResourceInterface
      *
      * @param string $code Code of the resource
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return array
      */

@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -15,8 +16,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class AttributeOptionApi implements AttributeOptionApiInterface
 {
-    const ATTRIBUTE_OPTIONS_PATH = 'api/rest/v1/attributes/%s/options';
-    const ATTRIBUTE_OPTION_PATH = 'api/rest/v1/attributes/%s/options/%s';
+    const ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/attributes/%s/options';
+    const ATTRIBUTE_OPTION_URI = 'api/rest/v1/attributes/%s/options/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +48,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
      */
     public function get($attributeCode, $code)
     {
-        return $this->resourceClient->getResource(static::ATTRIBUTE_OPTION_PATH, [$attributeCode, $code]);
+        return $this->resourceClient->getResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $code]);
     }
 
     /**
@@ -55,7 +56,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
      */
     public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $uri = sprintf(static::ATTRIBUTE_OPTIONS_PATH, $attributeCode);
+        $uri = sprintf(static::ATTRIBUTE_OPTIONS_URI, $attributeCode);
         $data = $this->resourceClient->getResources($uri, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
@@ -77,17 +78,17 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     public function create($attributeCode, $attributeOptionCode, array $data = [])
     {
         if (array_key_exists('code', $data)) {
-            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
         }
 
         if (array_key_exists('attribute', $data)) {
-            throw new \InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "attribute" should not be defined in the data parameter');
         }
 
         $data['code'] = $attributeOptionCode;
         $data['attribute'] = $attributeCode;
 
-        return $this->resourceClient->createResource(static::ATTRIBUTE_OPTIONS_PATH, [$attributeCode], $data);
+        return $this->resourceClient->createResource(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $data);
     }
 
     /**
@@ -95,6 +96,6 @@ class AttributeOptionApi implements AttributeOptionApiInterface
      */
     public function upsert($attributeCode, $attributeOptionCode, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::ATTRIBUTE_OPTION_PATH, [$attributeCode, $attributeOptionCode], $data);
+        return $this->resourceClient->upsertResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode], $data);
     }
 }

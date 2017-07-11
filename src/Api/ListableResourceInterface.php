@@ -25,7 +25,7 @@ interface ListableResourceInterface
      *                               This parameter could decrease drastically the performance when set to true.
      * @param array $queryParameters Additional query parameters to pass in the request.
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return PageInterface
      */
@@ -38,7 +38,7 @@ interface ListableResourceInterface
      *                               Do note that the server has a maximum limit allowed.
      * @param array $queryParameters Additional query parameters to pass in the request
      *
-     * @throws HttpException
+     * @throws HttpException If the request failed.
      *
      * @return ResourceCursorInterface
      */

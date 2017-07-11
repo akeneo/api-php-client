@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim;
 
 use Akeneo\Pim\Api\AttributeApi;
 use Akeneo\Pim\Api\AttributeOptionApi;
@@ -11,13 +11,14 @@ use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\Api\ProductMediaFileApi;
-use Akeneo\Pim\HttpClient\AuthenticatedHttpClient;
-use Akeneo\Pim\HttpClient\HttpClient;
-use Akeneo\Pim\MultipartStream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\Client\AuthenticatedHttpClient;
+use Akeneo\Pim\Client\HttpClient;
+use Akeneo\Pim\Client\ResourceClient;
 use Akeneo\Pim\Pagination\PageFactory;
 use Akeneo\Pim\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\Routing\UriGenerator;
 use Akeneo\Pim\Security\Authentication;
+use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
 use Http\Client\HttpClient as Client;
 use Http\Discovery\HttpClientDiscovery;

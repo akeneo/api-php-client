@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -15,8 +16,8 @@ use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
  */
 class FamilyApi implements FamilyApiInterface
 {
-    const FAMILIES_PATH = 'api/rest/v1/families';
-    const FAMILY_PATH = 'api/rest/v1/families/%s';
+    const FAMILIES_URI = 'api/rest/v1/families';
+    const FAMILY_URI = 'api/rest/v1/families/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
@@ -47,7 +48,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function get($code)
     {
-        return $this->resourceClient->getResource(static::FAMILY_PATH, [$code]);
+        return $this->resourceClient->getResource(static::FAMILY_URI, [$code]);
     }
 
     /**
@@ -55,7 +56,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
-        $data = $this->resourceClient->getResources(static::FAMILIES_PATH, [], $limit, $withCount, $queryParameters);
+        $data = $this->resourceClient->getResources(static::FAMILIES_URI, [], $limit, $withCount, $queryParameters);
 
         return $this->pageFactory->createPage($data);
     }
@@ -76,12 +77,12 @@ class FamilyApi implements FamilyApiInterface
     public function create($code, array $data = [])
     {
         if (array_key_exists('code', $data)) {
-            throw new \InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
         }
 
         $data['code'] = $code;
 
-        return $this->resourceClient->createResource(static::FAMILIES_PATH, [], $data);
+        return $this->resourceClient->createResource(static::FAMILIES_URI, [], $data);
     }
 
     /**
@@ -89,7 +90,7 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsert($code, array $data = [])
     {
-        return $this->resourceClient->upsertResource(static::FAMILY_PATH, [$code], $data);
+        return $this->resourceClient->upsertResource(static::FAMILY_URI, [$code], $data);
     }
 
     /**
@@ -97,6 +98,6 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsertList($families)
     {
-        return $this->resourceClient->upsertResourceList(static::FAMILIES_PATH, [], $families);
+        return $this->resourceClient->upsertResourceList(static::FAMILIES_URI, [], $families);
     }
 }
