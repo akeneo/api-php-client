@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\tests\Api\Attribute;
 
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\tests\Api\ApiTestCase;
 
 class CreateAttributeIntegration extends ApiTestCase
@@ -59,30 +60,37 @@ class CreateAttributeIntegration extends ApiTestCase
         ], $attribute);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
-     */
     public function testCreateAnExistingAttribute()
     {
         $api = $this->createClient()->getAttributeApi();
-        $api->create('name', [
-            'type'                   => 'pim_catalog_text',
-            'group'                  => 'info',
-            'unique'                 => false,
-            'useable_as_grid_filter' => true,
-            'metric_family'          => null,
-            'default_metric_unit'    => null,
-            'reference_data_name'    => null,
-            'max_characters'         => null,
-            'validation_rule'        => null,
-            'validation_regexp'      => null,
-            'sort_order'             => 2,
-            'localizable'            => true,
-            'scopable'               => false,
-            'labels'                 => [
-                'en_US' => 'Name',
-            ],
-        ]);
+
+        try {
+            $api->create('name', [
+                'type'                   => 'pim_catalog_text',
+                'group'                  => 'info',
+                'unique'                 => false,
+                'useable_as_grid_filter' => true,
+                'metric_family'          => null,
+                'default_metric_unit'    => null,
+                'reference_data_name'    => null,
+                'max_characters'         => null,
+                'validation_rule'        => null,
+                'validation_regexp'      => null,
+                'sort_order'             => 2,
+                'localizable'            => true,
+                'scopable'               => false,
+                'labels'                 => [
+                    'en_US' => 'Name',
+                ],
+            ]);
+        } catch (UnprocessableEntityHttpException $exception) {
+            $this->assertSame([
+                [
+                    'property' => 'code',
+                    'message'  => 'This value is already used.',
+                ],
+            ], $exception->getResponseErrors());
+        }
     }
 
     /**

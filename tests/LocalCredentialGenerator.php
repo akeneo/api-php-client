@@ -16,6 +16,8 @@ class LocalCredentialGenerator implements CredentialGeneratorInterface
      */
     public function generate($path)
     {
+        return ['client_id' => '1_49aow5won1k48og8skwowk8ockg44sw00ksoco000koo80s4s', 'secret' => '3h0pvtudfqm88cgcwwsok40ggk8ok8c8c0s0g8o8w8wgowggk4'];
+
         if (!is_dir($path)) {
             throw new \RuntimeException(sprintf('Parameter "path" is not a directory or does not exist, "%s" given.', $path));
         }

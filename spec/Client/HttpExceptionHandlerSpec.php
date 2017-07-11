@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\HttpClient;
+namespace spec\Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\BadRequestHttpException;
 use Akeneo\Pim\Exception\ClientErrorHttpException;
@@ -29,6 +29,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(400);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 401, "message": "The request is invalid"}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new BadRequestHttpException(
@@ -48,6 +49,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(401);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 401, "message": "The access token provided has expired."}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new UnauthorizedHttpException(
@@ -67,6 +69,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(404);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 404, "message": "Category \"noname\" does not exists."}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new NotFoundHttpException(
@@ -86,6 +89,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(422);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 422, "message": "Invalid data."}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new UnprocessableEntityHttpException(
@@ -105,6 +109,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(405);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 405, "message": "Not allowed."}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new ClientErrorHttpException(
@@ -124,6 +129,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(500);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 500, "message": "Internal error."}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new ServerErrorHttpException(
@@ -150,6 +156,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getReasonPhrase()->willReturn('Bad request exception');
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 400}');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new BadRequestHttpException(
@@ -170,6 +177,7 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         $response->getReasonPhrase()->willReturn('Unprocessable entity exception');
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('not json');
+        $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
                 new UnprocessableEntityHttpException(

@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\HttpClient;
+namespace spec\Akeneo\Pim\Client;
 
 use Akeneo\Pim\Api\AuthenticationApiInterface;
 use Akeneo\Pim\Exception\UnauthorizedHttpException;

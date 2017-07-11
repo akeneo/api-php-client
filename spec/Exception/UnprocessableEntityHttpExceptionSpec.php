@@ -24,6 +24,7 @@ class UnprocessableEntityHttpExceptionSpec extends ObjectBehavior
     {
         $response->getStatusCode()->willReturn(422);
         $response->getBody()->willReturn($body);
+        $body->rewind()->shouldBeCalled();
         $body->getContents()->willReturn(
             <<<JSON
     {
@@ -59,6 +60,7 @@ JSON
     {
         $response->getStatusCode()->willReturn(422);
         $response->getBody()->willReturn($body);
+        $body->rewind()->shouldBeCalled();
         $body->getContents()->willReturn(
             <<<JSON
     {
@@ -75,6 +77,7 @@ JSON
         $response->getStatusCode()->willReturn(422);
         $response->getBody()->willReturn($body);
         $body->getContents()->willReturn('Not a json');
+        $body->rewind()->shouldBeCalled();
         $this->getResponseErrors()->shouldReturn([]);
     }
 }
