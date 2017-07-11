@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\tests\Api\AttributeOption;
 
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\tests\Api\ApiTestCase;
 
 class CreateAttributeOptionIntegration extends ApiTestCase
@@ -43,18 +44,25 @@ class CreateAttributeOptionIntegration extends ApiTestCase
         ]);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
-     */
     public function testCreateAnExistingAttributeOption()
     {
         $api = $this->createClient()->getAttributeOptionApi();
-        $api->create('color', 'black', [
-            'sort_order' => 2,
-            'labels'     => [
-                'en_US' => 'Black',
-            ],
-        ]);
+
+        try {
+            $api->create('color', 'black', [
+                'sort_order' => 2,
+                'labels'     => [
+                    'en_US' => 'Black',
+                ],
+            ]);
+        } catch (UnprocessableEntityHttpException $exception) {
+            $this->assertSame([
+                [
+                    'property' => 'code',
+                    'message'  => 'This value is already used.',
+                ],
+            ], $exception->getResponseErrors());
+        }
     }
 
     /**

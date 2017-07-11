@@ -73,7 +73,11 @@ class HttpExceptionHandler
      */
     protected function getResponseMessage(ResponseInterface $response)
     {
-        $decodedBody = json_decode($response->getBody()->getContents(), true);
+        $responseBody = $response->getBody();
+
+        $responseBody->rewind();
+        $decodedBody = json_decode($responseBody->getContents(), true);
+        $responseBody->rewind();
 
         return isset($decodedBody['message']) ? $decodedBody['message'] : $response->getReasonPhrase();
     }

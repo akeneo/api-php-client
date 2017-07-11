@@ -39,7 +39,7 @@ interface AkeneoPimClientInterface
      *
      * @return ProductApiInterface
      */
-    public function getProductAPi();
+    public function getProductApi();
 
     /**
      * Gets the category API.
@@ -81,12 +81,12 @@ interface AkeneoPimClientInterface
      *
      * @return LocaleApiInterface
      */
-    public function getLocaleAPi();
+    public function getLocaleApi();
 
     /**
      * Gets the channel API.
      *
      * @return ChannelApiInterface
      */
-    public function getChannelAPi();
+    public function getChannelApi();
 }

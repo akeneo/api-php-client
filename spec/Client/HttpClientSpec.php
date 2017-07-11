@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\HttpClient;
+namespace spec\Akeneo\Pim\Client;
 
 use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Client\HttpClientInterface;
@@ -68,6 +68,7 @@ class HttpClientSpec extends ObjectBehavior
         $response->getStatusCode()->willReturn(500);
         $response->getBody()->willReturn($responseBody);
         $responseBody->getContents()->willReturn('{"code": 500, "message": "Internal error."}');
+        $responseBody->rewind()->shouldBeCalled();
 
         $this
             ->shouldThrow(HttpException::class)

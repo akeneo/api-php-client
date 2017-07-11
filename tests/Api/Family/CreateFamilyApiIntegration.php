@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\tests\Api\Family;
 
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\tests\Api\ApiTestCase;
 
 class CreateFamilyApiIntegration extends ApiTestCase
@@ -66,38 +67,45 @@ class CreateFamilyApiIntegration extends ApiTestCase
         ], $family);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
-     */
     public function testCreateAnExistingFamily()
     {
         $api = $this->createClient()->getFamilyApi();
-        $api->create('boots', [
-            'attributes' => [
-                'color',
-                'description',
-                'manufacturer',
-                'name',
-                'price',
-            ],
-            'attribute_as_label'     => 'name',
-            'attribute_requirements' => [
-                'ecommerce' => [
+
+        try {
+            $api->create('boots', [
+                'attributes'             => [
                     'color',
                     'description',
+                    'manufacturer',
                     'name',
-                    'sku',
+                    'price',
                 ],
-                'mobile' => [
-                    'name',
-                    'sku',
+                'attribute_as_label'     => 'name',
+                'attribute_requirements' => [
+                    'ecommerce' => [
+                        'color',
+                        'description',
+                        'name',
+                        'sku',
+                    ],
+                    'mobile'    => [
+                        'name',
+                        'sku',
+                    ],
                 ],
-            ],
-            'labels' => [
-                'en_US' => 'Boots',
-                'fr_FR' => 'Bottes',
-            ],
-        ]);
+                'labels'                 => [
+                    'en_US' => 'Boots',
+                    'fr_FR' => 'Bottes',
+                ],
+            ]);
+        } catch (UnprocessableEntityHttpException $exception) {
+            $this->assertSame([
+                [
+                    'property' => 'code',
+                    'message'  => 'This value is already used.',
+                ],
+            ], $exception->getResponseErrors());
+        }
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\tests\Api\Product;
 
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
+
 class CreateProductApiIntegration extends AbstractProductApiTestCase
 {
     public function testCreate()
@@ -64,31 +66,38 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProduct, $product);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
-     */
     public function testCreateAnExistingProduct()
     {
         $api = $this->createClient()->getProductApi();
-        $api->create('black_sneakers', [
-            'enabled'    => false,
-            'family'     => 'sneakers',
-            'categories' => ['summer_collection'],
-            'values'     => [
-                'name' => [
-                    [
-                        'locale' => 'en_US',
-                        'data'   => 'Black sneakers',
-                        'scope'  => null,
+
+        try {
+            $api->create('black_sneakers', [
+                'enabled'    => false,
+                'family'     => 'sneakers',
+                'categories' => ['summer_collection'],
+                'values'     => [
+                    'name' => [
+                        [
+                            'locale' => 'en_US',
+                            'data'   => 'Black sneakers',
+                            'scope'  => null,
+                        ],
+                        [
+                            'data'   => 'Sneakers',
+                            'locale' => 'fr_FR',
+                            'scope'  => null,
+                        ],
                     ],
-                    [
-                        'data'   => 'Sneakers',
-                        'locale' => 'fr_FR',
-                        'scope'  => null,
-                    ],
+                ]
+            ]);
+        } catch (UnprocessableEntityHttpException $exception) {
+            $this->assertSame([
+                [
+                    'property' => 'identifier',
+                    'message'  => 'The value black_sneakers is already set on another product for the unique attribute sku',
                 ],
-            ]
-        ]);
+            ], $exception->getResponseErrors());
+        }
     }
 
     /**

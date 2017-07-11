@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\tests\Api\Category;
 
+use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\tests\Api\ApiTestCase;
 
 class CreateCategoryIntegration extends ApiTestCase
@@ -30,19 +31,26 @@ class CreateCategoryIntegration extends ApiTestCase
         ], $category);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
-     */
     public function testCreateAnExistingCategory()
     {
         $api = $this->createClient()->getCategoryApi();
-        $api->create('summer_collection', [
-            'parent' => '2014_collection',
-            'labels' => [
-                'en_US' => 'Summer collection',
-                'fr_FR' => 'Collection été',
-            ],
-        ]);
+
+        try {
+            $api->create('summer_collection', [
+                'parent' => '2014_collection',
+                'labels' => [
+                    'en_US' => 'Summer collection',
+                    'fr_FR' => 'Collection été',
+                ],
+            ]);
+        } catch (UnprocessableEntityHttpException $exception) {
+            $this->assertSame([
+                [
+                    'property' => 'code',
+                    'message'  => 'This value is already used.',
+                ],
+            ], $exception->getResponseErrors());
+        }
     }
 
     /**
