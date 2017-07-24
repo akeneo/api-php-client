@@ -10,6 +10,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
+use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
 
@@ -105,4 +106,11 @@ interface AkeneoPimClientInterface
      * @return CurrencyApiInterface
      */
     public function getCurrencyApi();
+
+    /**
+     * Gets the measure family API.
+     *
+     * @return MeasureFamilyApiInterface
+     */
+    public function getMeasureFamilyApi();
 }

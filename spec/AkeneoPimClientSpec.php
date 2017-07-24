@@ -12,6 +12,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
+use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Security\Authentication;
@@ -31,6 +32,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi
+        ChannelApiInterface $channelApi,
+        MeasureFamilyApiInterface $measureFamilyApi
     )
     {
         $this->beConstructedWith(
@@ -43,7 +46,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $productMediaFileApi,
             $localeApi,
             $channelApi,
-            $currencyApi
+            $currencyApi,
+            $measureFamilyApi
         );
     }
 
@@ -115,5 +119,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_currency_api($currencyApi)
     {
         $this->getCurrencyApi()->shouldReturn($currencyApi);
+    }
+
+    function it_gets_measure_family_api($measureFamilyApi)
+    {
+        $this->getMeasureFamilyApi()->shouldReturn($measureFamilyApi);
     }
 }

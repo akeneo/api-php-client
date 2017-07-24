@@ -10,6 +10,7 @@ use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
+use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
 use Akeneo\Pim\Security\Authentication;
@@ -56,6 +57,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var CurrencyApiInterface */
     protected $currencyApi;
 
+    /** @var MeasureFamilyApiInterface */
+    protected $measureFamilyApi;
+
     /**
      * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
@@ -68,6 +72,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param LocaleApiInterface          $localeApi
      * @param ChannelApiInterface         $channelApi
      * @param CurrencyApiInterface        $currencyApi
+     * @param MeasureFamilyApiInterface   $measureFamilyApi
      */
     public function __construct(
         Authentication $authentication,
@@ -81,6 +86,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi
+        ChannelApiInterface $channelApi,
+        MeasureFamilyApiInterface $measureFamilyApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -93,6 +100,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->localeApi = $localeApi;
         $this->channelApi = $channelApi;
         $this->currencyApi = $currencyApi;
+        $this->measureFamilyApi = $measureFamilyApi;
     }
 
     /**
@@ -189,5 +197,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getCurrencyApi()
     {
         return $this->currencyApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMeasureFamilyApi()
+    {
+        return $this->measureFamilyApi;
     }
 }
