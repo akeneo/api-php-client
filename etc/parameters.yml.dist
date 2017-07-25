@@ -5,6 +5,6 @@ api:
         password: 'admin'
 
 pim:
-    install_path: '/home/docker/pim'
+    install_path: '/srv/pim'
     is_docker: true
     docker_name: akeneo-pim

@@ -2,7 +2,7 @@
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
-String pimVersion = "1.7"
+def pimVersions = ["1.7", "master"]
 def supportedPhpVersions = ["5.6", "7.0", "7.1"]
 
 def clientConfig = [
@@ -17,13 +17,13 @@ stage("Checkout") {
     milestone 1
     if (env.BRANCH_NAME =~ /^PR-/) {
         userInput = input(message: 'Launch tests?', parameters: [
-            choice(choices: '1.7\nmaster', description: 'PIM edition the tests should run on', name: 'requiredPimVersion'),
+            string(defaultValue: pimVersions.join(','), description: 'PIM edition the tests should run on', name: 'requiredPimVersions'),
             choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
             choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
             string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
         ])
 
-        pimVersion = userInput['requiredPimVersion']
+        pimVersions = userInput['requiredPimVersions'].tokenize(',')
         launchUnitTests = userInput['launchUnitTests']
         launchIntegrationTests = userInput['launchIntegrationTests']
         clients = userInput['clients'].tokenize(',')
@@ -35,12 +35,15 @@ stage("Checkout") {
         checkout scm
         stash "php-api-client"
 
-        deleteDir()
-        checkout([$class: 'GitSCM',
-            branches: [[name: pimVersion]],
-            userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
-        ])
-        stash "pim_community_dev_${pimVersion}"
+        for (pimVersion in pimVersions) {
+            String currentPimVersion = pimVersion
+            deleteDir()
+            checkout([$class: 'GitSCM',
+                branches: [[name: currentPimVersion]],
+                userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+            ])
+            stash "pim_community_dev_${currentPimVersion}"
+        }
     }
 
     checkouts = [:]
@@ -52,15 +55,18 @@ stage("Checkout") {
         for (phpVersion in clientConfig.get(currentClient).get("phpVersion")) {
             String currentPhpVersion = phpVersion
 
-            checkouts["${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runCheckoutClient(currentPhpVersion, currentClient, currentPsrImplem, pimVersion)}
+            checkouts["${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runCheckoutClient(currentPhpVersion, currentClient, currentPsrImplem)}
         }
     }
 
     if (launchIntegrationTests.equals("yes")) {
-        if(pimVersion.equals("master")) {
-            checkouts["pim_community_dev_${pimVersion}"] = {runCheckoutPim18(pimVersion)}
-        } else {
-            checkouts["pim_community_dev_${pimVersion}"] = {runCheckoutPim17(pimVersion)}
+        for (pimVersion in pimVersions) {
+            String currentPimVersion = pimVersion
+            if(pimVersion.equals("master")) {
+                checkouts["pim_community_dev_${pimVersion}"] = {runCheckoutPim18(currentPimVersion)}
+            } else {
+                checkouts["pim_community_dev_${pimVersion}"] = {runCheckoutPim17(currentPimVersion)}
+            }
         }
 
         for (client in clients) {
@@ -70,7 +76,7 @@ stage("Checkout") {
                     String currentPhpVersion = phpVersion
                     String currentPsrImplem = psrImplem
 
-                    checkouts["${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runCheckoutClient(currentPhpVersion, currentClient, currentPsrImplem, pimVersion)}
+                    checkouts["${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runCheckoutClient(currentPhpVersion, currentClient, currentPsrImplem)}
                 }
             }
         }
@@ -99,22 +105,25 @@ if (launchUnitTests.equals("yes")) {
 }
 
 if (launchIntegrationTests.equals("yes")) {
-    stage("Integration tests") {
-        def tasks = [:]
+    for (pimVersion in pimVersions) {
+        String currentPimVersion = pimVersion
+        stage("Integration tests ${currentPimVersion}") {
+            def tasks = [:]
 
-        for (client in clients) {
-            for (phpVersion in clientConfig.get(client).get("phpVersion")) {
-                for (psrImplem in clientConfig.get(client).get("psrImplem")) {
-                    String currentClient = client
-                    String currentPsrImplem = psrImplem
-                    String currentPhpVersion = phpVersion
+            for (client in clients) {
+                for (phpVersion in clientConfig.get(client).get("phpVersion")) {
+                    for (psrImplem in clientConfig.get(client).get("psrImplem")) {
+                        String currentClient = client
+                        String currentPsrImplem = psrImplem
+                        String currentPhpVersion = phpVersion
 
-                    tasks["phpunit-${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runIntegrationTest(currentPhpVersion, currentClient, currentPsrImplem, pimVersion)}
+                        tasks["phpunit-${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runIntegrationTest(currentPhpVersion, currentClient, currentPsrImplem, currentPimVersion)}
+                    }
                 }
             }
-        }
 
-        parallel tasks
+            parallel tasks
+        }
     }
 }
 
@@ -186,9 +195,8 @@ void runCheckoutPim18(String pimVersion) {
  * @param phpVersion PHP version to use to run the composer
  * @param client     name of the HTTP client package to use to checkout
  * @param psrImplem  name of the PSR 7 implementation package to checkout
- * @param pimVersion PIM version to checkout
  */
-void runCheckoutClient(String phpVersion, String client, String psrImplem, String pimVersion) {
+void runCheckoutClient(String phpVersion, String client, String psrImplem) {
     node('docker') {
         deleteDir()
         try {
@@ -199,11 +207,6 @@ void runCheckoutClient(String phpVersion, String client, String psrImplem, Strin
                 sh "composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist"
 
                 sh "cp etc/parameters.yml.dist etc/parameters.yml"
-
-                if(pimVersion.equals("master")){
-                    sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
-                    sh "sed -i \"s#install_path: .*#install_path: '/srv/pim'#g\" etc/parameters.yml"
-                }
 
                 stash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
             }
@@ -304,10 +307,10 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
                     sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim -d mysql:5.7"
                     sh "docker run --name elasticsearch -e ES_JAVA_OPTS=\"-Xms256m -Xmx256m\" -d elasticsearch:5"
                     sh "docker run --name akeneo-pim --link mysql:mysql --link elasticsearch:elasticsearch -v \$(pwd):/srv/pim -w /srv/pim -d akeneo/fpm:php-7.1"
-                    sh "docker run --name akeneo.dev --link akeneo-pim:fpm -v \$(pwd):/srv/pim -v \$(pwd)/docker/httpd.conf:/usr/local/apache2/conf/httpd.conf -v \$(pwd)/docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf -p 8080:80 -w /srv/pim -d httpd:2.4"
+                    sh "docker run --name httpd --link akeneo-pim:fpm -v \$(pwd):/srv/pim -v \$(pwd)/docker/httpd.conf:/usr/local/apache2/conf/httpd.conf -v \$(pwd)/docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf -w /srv/pim -d httpd:2.4"
                 } else {
-                    sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim -d mysql:5.5 --sql-mode=ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-                    sh "docker run --name akeneo-pim --link mysql:mysql -v \$(pwd):/srv/pim  -v \$(pwd)/docker/akeneo.conf:/etc/apache2/sites-available/000-default.conf:ro -w /srv/pim -d akeneo/apache-php:php-5.6"
+                    sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim -d mysql:5.5"
+                    sh "docker run --name akeneo-pim --link mysql:mysql -v \$(pwd):/srv/pim -v \$(pwd)/docker/akeneo.conf:/etc/apache2/sites-available/000-default.conf:ro -w /srv/pim -d akeneo/apache-php:php-5.6"
                 }
 
                 // Wait for mysql container ready
@@ -319,11 +322,12 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             sh "mkdir -p build/logs/"
 
             if(pimVersion.equals("master")){
-                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link akeneo.dev:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
+                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
+                    sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
                     sh "sudo ./bin/phpunit -c phpunit.xml.dist --group common,1.8 --log-junit build/logs/phpunit_integration.xml"
                 }
             } else {
-                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -v \$(pwd):/home/docker/client -w /home/docker/client") {
+                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client") {
                     sh "sudo ./bin/phpunit -c phpunit.xml.dist --group common,1.7 --log-junit build/logs/phpunit_integration.xml"
                 }
             }
