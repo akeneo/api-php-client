@@ -13,7 +13,7 @@ class DownloadProductMediaFileApiIntegration extends ApiTestCase
     public function testDownload()
     {
         $api = $this->createClient()->getProductMediaFileApi();
-        $expectedMediaFile = realpath(__DIR__ . '/../../fixtures/akeneo.png');
+        $expectedMediaFile = realpath(__DIR__ . '/../../../fixtures/akeneo.png');
 
         $mediaFileCode = $api->create($expectedMediaFile, [
             'identifier' => 'medium_boot',
