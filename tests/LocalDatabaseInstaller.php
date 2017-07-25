@@ -16,8 +16,6 @@ class LocalDatabaseInstaller implements DatabaseInstallerInterface
      */
     public function install($path)
     {
-        return;
-
         if (!is_dir($path)) {
             throw new \RuntimeException(sprintf('Parameter "path" is not a directory or does not exist, "%s" given.', $path));
         }
