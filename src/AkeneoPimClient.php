@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim;
 
+use Akeneo\Pim\Api\AssociationTypeApiInterface;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
@@ -60,6 +61,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var MeasureFamilyApiInterface */
     protected $measureFamilyApi;
 
+    /** @var AssociationTypeApiInterface */
+    protected $associationTypeApi;
     /**
      * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
@@ -73,6 +76,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param ChannelApiInterface         $channelApi
      * @param CurrencyApiInterface        $currencyApi
      * @param MeasureFamilyApiInterface   $measureFamilyApi
+     * @param AssociationTypeApiInterface $associationTypeApi
      */
     public function __construct(
         Authentication $authentication,
@@ -86,7 +90,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
-        MeasureFamilyApiInterface $measureFamilyApi
+        MeasureFamilyApiInterface $measureFamilyApi,
+        AssociationTypeApiInterface $associationTypeApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -100,6 +105,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->channelApi = $channelApi;
         $this->currencyApi = $currencyApi;
         $this->measureFamilyApi = $measureFamilyApi;
+        $this->associationTypeApi = $associationTypeApi;
     }
 
     /**
@@ -204,5 +210,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getMeasureFamilyApi()
     {
         return $this->measureFamilyApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAssociationTypeApi()
+    {
+        return $this->associationTypeApi;
     }
 }

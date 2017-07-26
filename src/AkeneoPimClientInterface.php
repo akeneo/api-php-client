@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim;
 
+use Akeneo\Pim\Api\AssociationTypeApiInterface;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
@@ -113,4 +114,11 @@ interface AkeneoPimClientInterface
      * @return MeasureFamilyApiInterface
      */
     public function getMeasureFamilyApi();
+
+    /**
+     * Gets the association type API.
+     *
+     * @return AssociationTypeApiInterface
+     */
+    public function getAssociationTypeApi();
 }

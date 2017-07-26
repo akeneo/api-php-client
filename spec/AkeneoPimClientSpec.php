@@ -4,6 +4,7 @@ namespace spec\Akeneo\Pim;
 
 use Akeneo\Pim\AkeneoPimClient;
 use Akeneo\Pim\AkeneoPimClientInterface;
+use Akeneo\Pim\Api\AssociationTypeApiInterface;
 use Akeneo\Pim\Api\AttributeApiInterface;
 use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
@@ -32,7 +33,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
-        MeasureFamilyApiInterface $measureFamilyApi
+        MeasureFamilyApiInterface $measureFamilyApi,
+        AssociationTypeApiInterface $associationTypeApi
     )
     {
         $this->beConstructedWith(
@@ -46,7 +48,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $localeApi,
             $channelApi,
             $currencyApi,
-            $measureFamilyApi
+            $measureFamilyApi,
+            $associationTypeApi
         );
     }
 
@@ -123,5 +126,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_measure_family_api($measureFamilyApi)
     {
         $this->getMeasureFamilyApi()->shouldReturn($measureFamilyApi);
+    }
+
+    function it_gets_association_type_api($associationTypeApi)
+    {
+        $this->getAssociationTypeApi()->shouldReturn($associationTypeApi);
     }
 }
