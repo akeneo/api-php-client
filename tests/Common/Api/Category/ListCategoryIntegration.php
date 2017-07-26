@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListCategoryIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -60,9 +57,6 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -74,9 +68,6 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/categories?page=2&limit=2&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -94,9 +85,6 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertSameContent($expectedCategories[1], $categories[1]);
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -110,9 +98,6 @@ class ListCategoryIntegration extends ApiTestCase
         $this->assertSameContent($this->getExpectedCategories(), $categories);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getCategoryApi();

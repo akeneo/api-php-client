@@ -4,9 +4,6 @@ namespace Akeneo\Pim\tests\Common\Api\Product;
 
 class UpsertProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertDoingUpdate()
     {
         $api = $this->createClient()->getProductApi();
@@ -101,9 +98,6 @@ class UpsertProductApiIntegration extends AbstractProductApiTestCase
         ]), $product);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertDoingCreate()
     {
         $api = $this->createClient()->getProductApi();
@@ -165,7 +159,6 @@ class UpsertProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertWrongDataTypeFail()

@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class UpsertFamilyApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertDoingUpdate()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -81,9 +78,6 @@ class UpsertFamilyApiIntegration extends ApiTestCase
         ], $family);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertDoingCreate()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -145,7 +139,6 @@ class UpsertFamilyApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertWrongDataTypeFail()
@@ -177,7 +170,6 @@ class UpsertFamilyApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertInvalidCodeFail()

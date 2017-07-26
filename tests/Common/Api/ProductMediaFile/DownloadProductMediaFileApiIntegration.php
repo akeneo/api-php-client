@@ -7,9 +7,6 @@ use Psr\Http\Message\StreamInterface;
 
 class DownloadProductMediaFileApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testDownload()
     {
         $api = $this->createClient()->getProductMediaFileApi();

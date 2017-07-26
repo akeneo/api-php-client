@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListFamilyApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -59,9 +56,6 @@ class ListFamilyApiIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -79,9 +73,6 @@ class ListFamilyApiIntegration extends ApiTestCase
         $this->assertSameContent($expectedFamilies[1], $families[1]);
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -95,9 +86,6 @@ class ListFamilyApiIntegration extends ApiTestCase
         $this->assertSameContent($this->getExpectedFamilies(), $families);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getFamilyApi();

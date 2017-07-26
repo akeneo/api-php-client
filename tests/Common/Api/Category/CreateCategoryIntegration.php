@@ -7,9 +7,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class CreateCategoryIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testCreate()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -34,9 +31,6 @@ class CreateCategoryIntegration extends ApiTestCase
         ], $category);
     }
 
-    /**
-     * @group common
-     */
     public function testCreateAnExistingCategory()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -60,7 +54,6 @@ class CreateCategoryIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidCategory()

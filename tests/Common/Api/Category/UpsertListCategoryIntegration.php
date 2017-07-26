@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class UpsertListCategoryIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertListFromArraySuccessful()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -50,9 +47,6 @@ class UpsertListCategoryIntegration extends ApiTestCase
         ], $responseLines);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFromStreamSuccessful()
     {
         $resourcesContent =
@@ -86,9 +80,6 @@ JSON;
         ], $responseLines);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFailed()
     {
         $api = $this->createClient()->getCategoryApi();

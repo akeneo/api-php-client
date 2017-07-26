@@ -4,9 +4,6 @@ namespace Akeneo\Pim\tests\Common\Api\Product;
 
 class UpsertListProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertListFromArraySuccessful()
     {
         $api = $this->createClient()->getProductApi();
@@ -65,9 +62,6 @@ class UpsertListProductApiIntegration extends AbstractProductApiTestCase
         ], $responseLines[2]);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFromStreamSuccessful()
     {
         $resourcesContent =
@@ -101,9 +95,6 @@ JSON;
         ], $responseLines[2]);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFailed()
     {
         $api = $this->createClient()->getProductApi();

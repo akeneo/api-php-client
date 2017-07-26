@@ -4,9 +4,6 @@ namespace Akeneo\Pim\tests\Common\Api\Product;
 
 class DeleteProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testDeleteSuccessful()
     {
         $api = $this->createClient()->getProductApi();
@@ -16,7 +13,6 @@ class DeleteProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testDeleteOnAnUnknownProduct()

@@ -7,9 +7,6 @@ use Akeneo\Pim\tests\MediaSanitizer;
 
 class CreateProductMediaFileApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testCreateSuccessful()
     {
         $api = $this->createClient()->getProductMediaFileApi();
@@ -52,7 +49,6 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnExistingMediaFile()
@@ -76,7 +72,6 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateWithAnInvalidRequest()

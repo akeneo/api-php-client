@@ -4,9 +4,6 @@ namespace Akeneo\Pim\tests\Common\Api\Product;
 
 class GetProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testGet()
     {
         $api = $this->createClient()->getProductApi();
@@ -127,7 +124,6 @@ class GetProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testGetNotFound()

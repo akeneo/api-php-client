@@ -7,9 +7,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class CreateAttributeIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testCreate()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -63,9 +60,6 @@ class CreateAttributeIntegration extends ApiTestCase
         ], $attribute);
     }
 
-    /**
-     * @group common
-     */
     public function testCreateAnExistingAttribute()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -100,7 +94,6 @@ class CreateAttributeIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidAttribute()

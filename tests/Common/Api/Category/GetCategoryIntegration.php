@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class GetCategoryIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testGet()
     {
         $api = $this->createClient()->getCategoryApi();
@@ -26,7 +23,6 @@ class GetCategoryIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testGetNotFound()

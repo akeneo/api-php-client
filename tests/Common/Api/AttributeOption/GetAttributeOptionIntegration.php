@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class GetAttributeOptionIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testGet()
     {
         $api = $this->createClient()->getAttributeOptionApi();
@@ -26,7 +23,6 @@ class GetAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testGetNotFound()

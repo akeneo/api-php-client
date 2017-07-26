@@ -4,9 +4,6 @@ namespace Akeneo\Pim\tests\Common\Api\Product;
 
 class CreateProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testCreate()
     {
         $api = $this->createClient()->getProductApi();
@@ -68,7 +65,6 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidProduct()

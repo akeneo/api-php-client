@@ -7,9 +7,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class CreateFamilyApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testCreate()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -70,9 +67,6 @@ class CreateFamilyApiIntegration extends ApiTestCase
         ], $family);
     }
 
-    /**
-     * @group common
-     */
     public function testCreateAnExistingFamily()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -115,7 +109,6 @@ class CreateFamilyApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidFamily()

@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class UpsertListFamilyApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertListSuccessful()
     {
         $api = $this->createClient()->getFamilyApi();
@@ -84,9 +81,6 @@ class UpsertListFamilyApiIntegration extends ApiTestCase
         ], $responseLines[2]);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFailed()
     {
         $api = $this->createClient()->getFamilyApi();

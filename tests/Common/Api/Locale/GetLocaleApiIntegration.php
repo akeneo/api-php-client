@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class GetLocaleApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testGet()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -22,7 +19,6 @@ class GetLocaleApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testGetNotFound()

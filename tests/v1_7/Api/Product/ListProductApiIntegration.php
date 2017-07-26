@@ -9,9 +9,6 @@ use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
 
 class ListProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group 1.7
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getProductApi();
@@ -60,9 +57,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group 1.7
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getProductApi();
@@ -74,9 +68,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/products?page=2&with_count=true&pagination_type=page&limit=2', $firstPage->getNextLink());
     }
 
-    /**
-     * @group 1.7
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getProductApi();
@@ -93,9 +84,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProducts, $actualProducts);
     }
 
-    /**
-     * @group 1.7
-     */
     public function testAll()
     {
         $api = $this->createClient()->getProductApi();
@@ -109,9 +97,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProducts, $products);
     }
 
-    /**
-     * @group 1.7
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getProductApi();
@@ -125,9 +110,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProducts, $products);
     }
 
-    /**
-     * @group 1.7
-     */
     public function testSearchOnProductProperties()
     {
         $api = $this->createClient()->getProductApi();
@@ -150,9 +132,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProduct, $actualProduct);
     }
 
-    /**
-     * @group 1.7
-     */
     public function testSearchOnProductValues()
     {
         $api = $this->createClient()->getProductApi();
@@ -180,9 +159,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProduct, $actualProduct);
     }
 
-    /**
-     * @group 1.7
-     */
     public function testSearchWithSeveralFiltersUsingSearchBuilder()
     {
         $api = $this->createClient()->getProductApi();

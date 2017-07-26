@@ -6,9 +6,6 @@ use Akeneo\Pim\Pagination\PageInterface;
 
 class ListProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testSearchHavingNoResults()
     {
         $api = $this->createClient()->getProductApi();
@@ -30,7 +27,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testSearchFailedWithInvalidOperator()
@@ -48,9 +44,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         ]);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithSelectedAttributes()
     {
         $baseUri = $this->getConfiguration()['api']['baseUri'];
@@ -109,9 +102,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProduct, $actualProduct);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithSelectedLocales()
     {
         $baseUri = $this->getConfiguration()['api']['baseUri'];
@@ -224,9 +214,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertSameContent($expectedProduct, $actualProduct);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithSelectedScope()
     {
         $baseUri = $this->getConfiguration()['api']['baseUri'];

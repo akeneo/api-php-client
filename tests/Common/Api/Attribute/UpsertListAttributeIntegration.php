@@ -6,9 +6,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class UpsertListAttributeIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testUpsertListSuccessful()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -50,9 +47,6 @@ class UpsertListAttributeIntegration extends ApiTestCase
         ], $responseLines[2]);
     }
 
-    /**
-     * @group common
-     */
     public function testUpsertListFailed()
     {
         $api = $this->createClient()->getAttributeApi();

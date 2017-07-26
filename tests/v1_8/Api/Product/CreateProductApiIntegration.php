@@ -7,9 +7,6 @@ use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
 
 class CreateProductApiIntegration extends AbstractProductApiTestCase
 {
-    /**
-     * @group 1.8
-     */
     public function testCreateAnExistingProduct()
     {
         $api = $this->createClient()->getProductApi();

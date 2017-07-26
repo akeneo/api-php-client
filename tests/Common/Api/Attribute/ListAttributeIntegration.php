@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListAttributeIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -62,9 +59,6 @@ class ListAttributeIntegration extends ApiTestCase
         $this->assertSameContent($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -76,9 +70,6 @@ class ListAttributeIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/attributes?page=2&limit=5&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -96,9 +87,6 @@ class ListAttributeIntegration extends ApiTestCase
         $this->assertSameContent($expectedAttributes[1], $attributes[1]);
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getAttributeApi();
@@ -112,9 +100,6 @@ class ListAttributeIntegration extends ApiTestCase
         $this->assertSameContent($this->getExpectedAttributes(), $attributes);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getAttributeApi();

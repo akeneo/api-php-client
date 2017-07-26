@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListLocaleApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -59,9 +56,6 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -73,9 +67,6 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/locales?page=2&limit=3&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -93,9 +84,6 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertSameContent($expectedLocales[1], $locales[1]);
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -109,9 +97,6 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertSameContent($locales, $this->getExpectedLocales());
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -125,9 +110,6 @@ class ListLocaleApiIntegration extends ApiTestCase
         $this->assertSameContent($locales, $this->getExpectedLocales());
     }
 
-    /**
-     * @group common
-     */
     public function testSearchEnabledLocales()
     {
         $api = $this->createClient()->getLocaleApi();
@@ -158,7 +140,6 @@ class ListLocaleApiIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
      */
     public function testInvalidSearch()

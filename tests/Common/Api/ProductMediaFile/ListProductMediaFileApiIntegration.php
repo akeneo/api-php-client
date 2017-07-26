@@ -9,9 +9,6 @@ use Akeneo\Pim\tests\MediaSanitizer;
 
 class ListProductMediaFileApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getProductMediaFileApi();
@@ -62,9 +59,6 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getProductMediaFileApi();
@@ -76,9 +70,6 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/media-files?page=2&limit=2&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getProductMediaFileApi();
@@ -96,9 +87,6 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
         $this->assertSameContent($expectedMediaFiles[1], $this->sanitizeMediaFile($mediaFiles[1]));
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getProductMediaFileApi();
@@ -116,9 +104,6 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
         $this->assertSame(4, $mediaFilesCount);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getProductMediaFileApi();

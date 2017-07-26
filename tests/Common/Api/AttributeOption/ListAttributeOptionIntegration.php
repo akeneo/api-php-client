@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListAttributeOptionIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getAttributeOptionApi();
@@ -60,9 +57,6 @@ class ListAttributeOptionIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getAttributeOptionApi();
@@ -74,9 +68,6 @@ class ListAttributeOptionIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/attributes/weather_conditions/options?page=2&limit=2&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getAttributeOptionApi();
@@ -95,7 +86,6 @@ class ListAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @group common
      * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
      */
     public function testListPerPageOnAnUnknownAttribute()
@@ -105,9 +95,6 @@ class ListAttributeOptionIntegration extends ApiTestCase
         $api->listPerPage('unknown_attribute');
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getAttributeOptionApi();
@@ -121,9 +108,6 @@ class ListAttributeOptionIntegration extends ApiTestCase
         $this->assertSameContent($this->getExpectedAttributeOptions(), $attributeOptions);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getAttributeOptionApi();

@@ -8,9 +8,6 @@ use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class ListChannelApiIntegration extends ApiTestCase
 {
-    /**
-     * @group common
-     */
     public function testListPerPage()
     {
         $api = $this->createClient()->getChannelAPi();
@@ -55,9 +52,6 @@ class ListChannelApiIntegration extends ApiTestCase
         $this->assertSame($secondPage->getItems(), $previousPage->getItems());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getChannelApi();
@@ -69,9 +63,6 @@ class ListChannelApiIntegration extends ApiTestCase
         $this->assertSame($baseUri . '/api/rest/v1/channels?page=2&limit=1&with_count=true', $firstPage->getNextLink());
     }
 
-    /**
-     * @group common
-     */
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getChannelApi();
@@ -88,9 +79,6 @@ class ListChannelApiIntegration extends ApiTestCase
         $this->assertSameContent($expectedChannels[0], $channels[0]);
     }
 
-    /**
-     * @group common
-     */
     public function testAll()
     {
         $api = $this->createClient()->getChannelApi();
@@ -104,9 +92,6 @@ class ListChannelApiIntegration extends ApiTestCase
         $this->assertSameContent($this->getExpectedChannels(), $channels);
     }
 
-    /**
-     * @group common
-     */
     public function testAllWithUselessQueryParameter()
     {
         $api = $this->createClient()->getChannelApi();
