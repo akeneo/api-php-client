@@ -3,8 +3,11 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @author    Philippe Mossière <philippe.mossiere@akeneo.com>
@@ -65,5 +68,35 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->createResource(static::ASSOCIATION_TYPES_URI, [], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsert($code, array $data = [])
+    {
+        return $this->resourceClient->upsertResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($associationTypes)
+    {
+        return $this->resourceClient->upsertResourceList(static::ASSOCIATION_TYPES_URI, [], $associationTypes);
     }
 }
