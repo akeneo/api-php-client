@@ -3,8 +3,11 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API implementation to manage attribute groups.
@@ -68,5 +71,35 @@ class AttributeGroupApi implements AttributeGroupApiInterface
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->createResource(static::ATTRIBUTE_GROUPS_URI, [], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsert($code, array $data = [])
+    {
+        return $this->resourceClient->upsertResource(static::ATTRIBUTE_GROUP_URI, [$code], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($attributeGroups)
+    {
+        return $this->resourceClient->upsertResourceList(static::ATTRIBUTE_GROUPS_URI, [], $attributeGroups);
     }
 }
