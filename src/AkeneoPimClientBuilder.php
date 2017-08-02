@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim;
 
+use Akeneo\Pim\Api\AssociationTypeApi;
 use Akeneo\Pim\Api\AttributeApi;
 use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeOptionApi;
@@ -167,7 +168,8 @@ class AkeneoPimClientBuilder
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
-            new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory)
+            new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
         return $client;
