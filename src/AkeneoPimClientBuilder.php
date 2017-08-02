@@ -8,6 +8,7 @@ use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\ChannelApi;
+use Akeneo\Pim\Api\CurrencyApi;
 use Akeneo\Pim\Api\FamilyApi;
 use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\ProductApi;
@@ -163,7 +164,8 @@ class AkeneoPimClientBuilder
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory),
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
-            new ChannelApi($resourceClient, $pageFactory, $cursorFactory)
+            new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
+            new CurrencyApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
         return $client;
