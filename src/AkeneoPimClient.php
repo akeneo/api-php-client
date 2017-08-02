@@ -85,8 +85,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
-        CurrencyApiInterface $currencyApi
-        ChannelApiInterface $channelApi,
+        CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi
     ) {
         $this->authentication = $authentication;

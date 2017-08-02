@@ -31,8 +31,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi,
-        CurrencyApiInterface $currencyApi
-        ChannelApiInterface $channelApi,
+        CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi
     )
     {
