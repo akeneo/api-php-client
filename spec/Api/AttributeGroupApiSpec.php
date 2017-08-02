@@ -6,10 +6,12 @@ use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class AttributeGroupApiSpec extends ObjectBehavior
@@ -97,5 +99,56 @@ class AttributeGroupApiSpec extends ObjectBehavior
         $pageFactory->createPage([])->willReturn($page);
 
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
+    }
+
+    function it_creates_an_attribute_group($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                AttributeGroupApi::ATTRIBUTE_GROUPS_URI,
+                [],
+                ['code' => 'foo']
+            )
+            ->willReturn(201);
+
+        $this->create('foo', [])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_if_code_is_provided_in_data_when_creating_an_attribute_group($resourceClient)
+    {
+        $this
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['foo', ['code' => 'foo']]);
+    }
+
+    function it_upserts_an_attribute_group($resourceClient)
+    {
+        $resourceClient
+            ->upsertResource(AttributeGroupApi::ATTRIBUTE_GROUP_URI, ['master'], ['parent' => 'foo'])
+            ->willReturn(204);
+
+        $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_attribute_groups($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient
+            ->upsertResourceList(
+                AttributeGroupApi::ATTRIBUTE_GROUPS_URI,
+                [],
+                [
+                    ['code' => 'attribute_group_1'],
+                    ['code' => 'attribute_group_2'],
+                    ['code' => 'attribute_group_3'],
+                ]
+            )
+            ->willReturn($response);
+
+        $this
+            ->upsertList([
+                ['code' => 'attribute_group_1'],
+                ['code' => 'attribute_group_2'],
+                ['code' => 'attribute_group_3'],
+            ])->shouldReturn($response);
     }
 }
