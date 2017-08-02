@@ -3,6 +3,7 @@
 namespace Akeneo\Pim;
 
 use Akeneo\Pim\Api\AttributeApiInterface;
+use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
@@ -61,6 +62,13 @@ interface AkeneoPimClientInterface
      * @return AttributeOptionApiInterface
      */
     public function getAttributeOptionApi();
+
+    /**
+     * Gets the attribute group API.
+     *
+     * @return AttributeGroupApiInterface
+     */
+    public function getAttributeGroupApi();
 
     /**
      * Gets the family API.

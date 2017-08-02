@@ -3,6 +3,7 @@
 namespace Akeneo\Pim;
 
 use Akeneo\Pim\Api\AttributeApiInterface;
+use Akeneo\Pim\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
@@ -36,6 +37,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var AttributeOptionApiInterface */
     protected $attributeOptionApi;
 
+    /** @var AttributeGroupApiInterface */
+    protected $attributeGroupApi;
+
     /** @var FamilyApiInterface */
     protected $familyApi;
 
@@ -54,6 +58,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param CategoryApiInterface        $categoryApi
      * @param AttributeApiInterface       $attributeApi
      * @param AttributeOptionApiInterface $attributeOptionApi
+     * @param AttributeGroupApiInterface  $attributeGroupApi
      * @param FamilyApiInterface          $familyApi
      * @param MediaFileApiInterface       $productMediaFileApi
      * @param LocaleApiInterface          $localeApi
@@ -65,6 +70,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
+        AttributeGroupApiInterface $attributeGroupApi,
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
@@ -75,6 +81,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->categoryApi = $categoryApi;
         $this->attributeApi = $attributeApi;
         $this->attributeOptionApi = $attributeOptionApi;
+        $this->attributeGroupApi = $attributeGroupApi;
         $this->familyApi = $familyApi;
         $this->productMediaFileApi = $productMediaFileApi;
         $this->localeApi = $localeApi;
@@ -127,6 +134,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAttributeOptionApi()
     {
         return $this->attributeOptionApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeGroupApi()
+    {
+        return $this->attributeGroupApi;
     }
 
     /**

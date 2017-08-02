@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim;
 use Akeneo\Pim\AkeneoPimClient;
 use Akeneo\Pim\AkeneoPimClientInterface;
 use Akeneo\Pim\Api\AttributeApiInterface;
+use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
@@ -23,13 +24,14 @@ class AkeneoPimClientSpec extends ObjectBehavior
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
+        AttributeGroupApi $attributeGroupApi,
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
         ChannelApiInterface $channelApi
     )
     {
-        $this->beConstructedWith($authentication, $productApi, $categoryApi, $attributeApi, $attributeOptionApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
+        $this->beConstructedWith($authentication, $productApi, $categoryApi, $attributeApi, $attributeOptionApi, $attributeGroupApi, $familyApi, $productMediaFileApi, $localeApi, $channelApi);
     }
 
     function it_is_initializable()
@@ -70,6 +72,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_attribute_option_api($attributeOptionApi)
     {
         $this->getAttributeOptionApi()->shouldReturn($attributeOptionApi);
+    }
+
+    function it_gets_attribute_group_api($attributeGroupApi)
+    {
+        $this->getAttributeGroupApi()->shouldReturn($attributeGroupApi);
     }
 
     function it_gets_family_api($familyApi)

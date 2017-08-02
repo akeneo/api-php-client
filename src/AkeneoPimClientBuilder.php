@@ -3,6 +3,7 @@
 namespace Akeneo\Pim;
 
 use Akeneo\Pim\Api\AttributeApi;
+use Akeneo\Pim\Api\AttributeGroupApi;
 use Akeneo\Pim\Api\AttributeOptionApi;
 use Akeneo\Pim\Api\AuthenticationApi;
 use Akeneo\Pim\Api\CategoryApi;
@@ -158,6 +159,7 @@ class AkeneoPimClientBuilder
             new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
+            new AttributeGroupApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory),
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
