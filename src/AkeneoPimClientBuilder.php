@@ -166,8 +166,7 @@ class AkeneoPimClientBuilder
             new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory),
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
-            new CurrencyApi($resourceClient, $pageFactory, $cursorFactory)
-            new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
+            new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory)
         );
 

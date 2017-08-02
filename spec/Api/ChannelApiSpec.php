@@ -6,10 +6,12 @@ use Akeneo\Pim\Api\ChannelApi;
 use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\ListableResourceInterface;
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class ChannelApiSpec extends ObjectBehavior
@@ -96,5 +98,59 @@ class ChannelApiSpec extends ObjectBehavior
         $pageFactory->createPage([])->willReturn($page);
 
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
+    }
+
+    function it_creates_a_channel($resourceClient)
+    {
+        $resourceClient
+            ->createResource(
+                ChannelApi::CHANNELS_URI,
+                [],
+                [
+                    'code' => 'paper_catalog',
+                    'labels' => ['en_US' => 'Paper catalog']
+                ]
+            )
+            ->willReturn(201);
+
+        $this->create('paper_catalog', ['labels' => ['en_US' => 'Paper catalog']])->shouldReturn(201);
+    }
+
+    function it_throws_an_exception_if_code_is_provided_in_data_when_creating_a_channel($resourceClient)
+    {
+        $this
+            ->shouldThrow(new InvalidArgumentException('The parameter "code" should not be defined in the data parameter'))
+            ->during('create', ['paper_catalog', ['code' => 'paper_catalog', 'labels' => ['en_US' => 'Paper catalog']]]);
+    }
+
+    function it_upserts_a_channel($resourceClient)
+    {
+        $resourceClient
+            ->upsertResource(ChannelApi::CHANNEL_URI, ['master'], ['parent' => 'foo'])
+            ->willReturn(204);
+
+        $this->upsert('master', ['parent' => 'foo'])->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_channel($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient
+            ->upsertResourceList(
+                ChannelApi::CHANNELS_URI,
+                [],
+                [
+                    ['code' => 'channels_1'],
+                    ['code' => 'channels_2'],
+                    ['code' => 'channels_3'],
+                ]
+            )
+            ->willReturn($response);
+
+        $this
+            ->upsertList([
+                ['code' => 'channels_1'],
+                ['code' => 'channels_2'],
+                ['code' => 'channels_3'],
+            ])->shouldReturn($response);
     }
 }

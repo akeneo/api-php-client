@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
@@ -68,5 +69,35 @@ class ChannelApi implements ChannelApiInterface
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->createResource(static::CHANNELS_URI, [], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsert($code, array $data = [])
+    {
+        return $this->resourceClient->upsertResource(static::CHANNEL_URI, [$code], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($channels)
+    {
+        return $this->resourceClient->upsertResourceList(static::CHANNELS_URI, [], $channels);
     }
 }

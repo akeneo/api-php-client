@@ -12,7 +12,10 @@ use Akeneo\Pim\Exception\RuntimeException;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface MediaFileApiInterface extends ListableResourceInterface, GettableResourceInterface, DownloadableResourceInterface
+interface MediaFileApiInterface extends
+    ListableResourceInterface,
+    GettableResourceInterface,
+    DownloadableResourceInterface
 {
     /**
      * Creates a new media file and associates it to a resource.
