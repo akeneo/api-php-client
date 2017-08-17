@@ -14,13 +14,13 @@ class LocalDatabaseInstaller implements DatabaseInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function install($path)
+    public function install($path, $binPath)
     {
         if (!is_dir($path)) {
             throw new \RuntimeException(sprintf('Parameter "path" is not a directory or does not exist, "%s" given.', $path));
         }
 
-        $command = sprintf('php %s/app/console pim:installer:db -e prod', $path);
+        $command = sprintf('php %s/%s/console pim:installer:db -e prod', $path, $binPath);
 
         $output = [];
         exec(escapeshellcmd($command), $output, $status);

@@ -25,9 +25,9 @@ class DockerDatabaseInstaller implements DatabaseInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function install($path)
+    public function install($path, $binPath)
     {
-        $command = sprintf('docker exec %s php %s/app/console pim:installer:db -e prod', $this->dockerName, $path);
+        $command = sprintf('docker exec %s php %s/%s/console pim:installer:db -e prod', $this->dockerName, $path, $binPath);
 
         $output = [];
         exec(escapeshellcmd($command), $output, $status);

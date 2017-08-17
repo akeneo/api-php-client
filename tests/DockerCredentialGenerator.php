@@ -25,14 +25,15 @@ class DockerCredentialGenerator implements CredentialGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($path)
+    public function generate($path, $binPath, $pimVersion)
     {
-        $command = sprintf('docker exec %s php %s/app/console pim:oauth-server:create-client -e prod', $this->dockerName, $path);
+        $label = "1.7" === $pimVersion ? '--label="PHP client credentials"' : '"PHP client credentials"';
+        $command = sprintf('docker exec %s php %s/%s/console pim:oauth-server:create-client %s -e prod', $this->dockerName, $path, $binPath, $label);
 
         $output = [];
         exec(escapeshellcmd($command), $output);
 
-        if (count($output) !== 3) {
+        if (count($output) !== 4) {
             throw new \RuntimeException('An error occurred during the generation of the client id and secret.');
         }
 
