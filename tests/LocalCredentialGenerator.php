@@ -14,18 +14,19 @@ class LocalCredentialGenerator implements CredentialGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($path)
+    public function generate($path, $binPath, $pimVersion)
     {
         if (!is_dir($path)) {
             throw new \RuntimeException(sprintf('Parameter "path" is not a directory or does not exist, "%s" given.', $path));
         }
 
-        $command = sprintf('php %s/app/console pim:oauth-server:create-client -e prod', $path);
+        $label = "1.7" === $pimVersion ? '--label="PHP client credentials"' : '"PHP client credentials"';
+        $command = sprintf('php %s/%s/console pim:oauth-server:create-client %s -e prod', $path, $binPath, $label);
 
         $output = [];
         exec(escapeshellcmd($command), $output);
 
-        if (count($output) !== 3) {
+        if (count($output) !== 4) {
             throw new \RuntimeException('An error occurred during the generation of the client id and secret.');
         }
 

@@ -306,20 +306,26 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
                 unstash "pim_community_dev_${pimVersion}"
 
                 if ("master" == pimVersion) {
+                    sh "docker pull akeneo/fpm:php-7.1 || true"
+
                     sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim --tmpfs=/var/lib/mysql/:rw,noexec,nosuid,size=400m --tmpfs=/tmp/:rw,noexec,nosuid,size=200m -d mysql:5.7"
                     sh "docker run --name elasticsearch -e ES_JAVA_OPTS=\"-Xms256m -Xmx256m\" -d elasticsearch:5"
                     sh "docker run --name akeneo-pim --link mysql:mysql --link elasticsearch:elasticsearch -v \$(pwd):/srv/pim -w /srv/pim -d akeneo/fpm:php-7.1"
                     sh "docker run --name httpd --link akeneo-pim:fpm -v \$(pwd):/srv/pim -v \$(pwd)/docker/httpd.conf:/usr/local/apache2/conf/httpd.conf -v \$(pwd)/docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf -w /srv/pim -d httpd:2.4"
+
+                    // Wait for elasticsearch container ready
+                    sh "sleep 20"
+                    sh "docker exec akeneo-pim bin/console pim:install -e prod"
                 }
 
                 if ("1.7" == pimVersion) {
                     sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim --tmpfs=/var/lib/mysql/:rw,noexec,nosuid,size=400m --tmpfs=/tmp/:rw,noexec,nosuid,size=200m -d mysql:5.5"
                     sh "docker run --name akeneo-pim --link mysql:mysql -v \$(pwd):/srv/pim -v \$(pwd)/docker/akeneo.conf:/etc/apache2/sites-available/000-default.conf:ro -w /srv/pim -d akeneo/apache-php:php-5.6"
-                }
 
-                // Wait for elasticsearch container ready
-                sh "sleep 20"
-                sh "docker exec akeneo-pim app/console pim:install -e prod"
+                    // Wait for elasticsearch container ready
+                    sh "sleep 20"
+                    sh "docker exec akeneo-pim app/console pim:install -e prod"
+                }
             }
 
             unstash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
@@ -328,6 +334,8 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             if ("master" == pimVersion) {
                 docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
                     sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
+                    sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" etc/parameters.yml"
+                    sh "sed -i \"s#version: .*#version: #g\" etc/parameters.yml"
                     sh "sudo ./bin/phpunit -c phpunit.xml.dist --testsuite PHP_Client_Unit_Test_1_8 --log-junit build/logs/phpunit_integration.xml"
                 }
             }
