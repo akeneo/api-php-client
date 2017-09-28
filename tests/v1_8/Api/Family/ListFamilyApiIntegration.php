@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Family;
+namespace Akeneo\Pim\tests\v1_8\Api\Family;
 
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
@@ -123,6 +123,7 @@ class ListFamilyApiIntegration extends ApiTestCase
                     'side_view',
                     'size',
                     'sku',
+                    'weather_conditions',
                 ],
                 'attribute_as_label' => 'name',
                 'attribute_requirements' => [
@@ -185,6 +186,7 @@ class ListFamilyApiIntegration extends ApiTestCase
                 'attributes' => [
                     'color',
                     'description',
+                    'destocking_date',
                     'manufacturer',
                     'name',
                     'price',
@@ -222,11 +224,15 @@ class ListFamilyApiIntegration extends ApiTestCase
                 'code' => 'sneakers',
                 'attributes' => [
                     'color',
+                    'description',
+                    'length',
+                    'manufacturer',
                     'name',
                     'price',
                     'side_view',
                     'size',
                     'sku',
+                    'weather_conditions',
                 ],
                 'attribute_as_label' => 'name',
                 'attribute_requirements' => [

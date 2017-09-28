@@ -22,7 +22,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertNull($firstPage->getPreviousPage());
         $this->assertFalse($firstPage->hasPreviousPage());
         $this->assertTrue($firstPage->hasNextPage());
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=5&with_count=false&search_after=rw%3D%3D', $firstPage->getNextLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=2&with_count=false&pagination_type=page&limit=5', $firstPage->getNextLink());
 
         $firstPageProducts = $this->sanitizeProductData($firstPage->getItems());
         $firstPageExpectedProducts = $this->sanitizeProductData(array_slice($expectedProducts, 0, 5));
@@ -33,8 +33,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertInstanceOf(PageInterface::class, $secondPage);
         $this->assertTrue($secondPage->hasPreviousPage());
         $this->assertTrue($secondPage->hasNextPage());
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=5&with_count=false&search_before=rg%3D%3D', $secondPage->getPreviousLink());
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=5&with_count=false&search_after=og%3D%3D', $secondPage->getNextLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=1&with_count=false&pagination_type=page&limit=5', $secondPage->getPreviousLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=3&with_count=false&pagination_type=page&limit=5', $secondPage->getNextLink());
 
         $secondPageProducts = $this->sanitizeProductData($secondPage->getItems());
         $secondPageExpectedProducts = $this->sanitizeProductData(array_slice($expectedProducts, 5, 5));
@@ -47,7 +47,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $this->assertFalse($lastPage->hasNextPage());
         $this->assertNull($lastPage->getNextPage());
         $this->assertNull($lastPage->getNextLink());
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=5&with_count=false&search_before=', $lastPage->getPreviousLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=2&with_count=false&pagination_type=page&limit=5', $lastPage->getPreviousLink());
 
         $products = $lastPage->getItems();
         $this->assertCount(0 ,$products);
@@ -65,7 +65,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $firstPage = $api->listPerPage(2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
         $this->assertSame(10, $firstPage->getCount());
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=2&with_count=true&search_after=qtU%3D', $firstPage->getNextLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=2&with_count=true&pagination_type=page&limit=2', $firstPage->getNextLink());
     }
 
     public function testListPerPageWithSpecificQueryParameter()
@@ -77,7 +77,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
         $this->assertInstanceOf(PageInterface::class, $firstPage);
-        $this->assertSame($baseUri . '/api/rest/v1/products?limit=2&foo=bar&with_count=false&search_after=qtU%3D', $firstPage->getNextLink());
+        $this->assertSame($baseUri . '/api/rest/v1/products?page=2&with_count=false&pagination_type=page&limit=2&foo=bar', $firstPage->getNextLink());
 
         $expectedProducts = $this->sanitizeProductData(array_slice($expectedProducts, 0, 2));
         $actualProducts = $this->sanitizeProductData($firstPage->getItems());
@@ -426,8 +426,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_red',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
+                'variant_group' => null,
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -881,8 +881,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_blue',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
+                'variant_group' => null,
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -956,8 +956,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_black',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
+                'variant_group' => null,
                 'categories'    => [
                     'winter_boots',
                     'winter_collection',
@@ -1032,8 +1032,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_white',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
+                'variant_group' => null,
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -1107,8 +1107,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_maroon',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
+                'variant_group' => null,
                 'categories'    => [
                     'winter_collection',
                 ],
