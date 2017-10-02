@@ -30,7 +30,7 @@ stage("Checkout") {
     }
     milestone 2
 
-    node {
+    node('docker') {
         deleteDir()
         checkout scm
         stash "php-api-client"
@@ -336,7 +336,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
                     sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
                     sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" etc/parameters.yml"
                     sh "sed -i \"s#version: .*#version: #g\" etc/parameters.yml"
-                    sh "sudo ./bin/phpunit -c phpunit.xml.dist --testsuite PHP_Client_Unit_Test_1_8 --log-junit build/logs/phpunit_integration.xml"
+                    sh "sudo ./bin/phpunit -c phpunit.xml.dist --testsuite PHP_Client_Unit_Test_2_0 --log-junit build/logs/phpunit_integration.xml"
                 }
             }
 

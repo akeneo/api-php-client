@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_8\Api\MeasureFamily;
+namespace Akeneo\Pim\tests\v2_0\Api\MeasureFamily;
 
 use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 

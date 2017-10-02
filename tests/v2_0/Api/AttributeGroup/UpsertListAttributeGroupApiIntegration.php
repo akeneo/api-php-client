@@ -1,28 +1,29 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_8\Api\AssociationType;
+namespace Akeneo\Pim\tests\v2_0\Api\AttributeGroup;
 
 use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
-class UpsertListAssociationTypeApiIntegration extends ApiTestCase
+class UpsertListAttributeGroupApiIntegration extends ApiTestCase
 {
     public function testUpsertListFromArraySuccessful()
     {
-        $api = $this->createClient()->getAssociationTypeApi();
+        $api = $this->createClient()->getAttributeGroupApi();
 
         $response = $api->upsertList([
             [
-                'code'             => 'X_SELL',
-                'labels'           => [
-                    'en_US' => 'Cross sell',
-                    'fr_FR' => 'Vente croisée',
+                'code'       => 'info',
+                'attributes' => ['sku', 'name', 'manufacturer', 'weather_conditions', 'description', 'length'],
+                'sort_order' => 1,
+                'labels'     => [
+                    'en_US' => 'Product information',
                 ],
             ],
             [
-                'code'   => 'NEW_SELL',
-                'labels' => [
-                    'en_US' => 'New sell',
-                    'fr_FR' => 'Nouvelle vente',
+                'code'   => 'tech',
+                'attributes' => ['sku', 'name', 'manufacturer', 'weather_conditions', 'description', 'length'],
+                'labels'     => [
+                    'en_US' => 'Tech',
                 ],
             ]
         ]);
@@ -34,12 +35,12 @@ class UpsertListAssociationTypeApiIntegration extends ApiTestCase
         $this->assertSame([
             1 => [
                 'line'        => 1,
-                'code'        => 'X_SELL',
+                'code'        => 'info',
                 'status_code' => 204,
             ],
             2 => [
                 'line'        => 2,
-                'code'        => 'NEW_SELL',
+                'code'        => 'tech',
                 'status_code' => 201,
             ]
         ], $responseLines);
@@ -49,15 +50,15 @@ class UpsertListAssociationTypeApiIntegration extends ApiTestCase
     {
         $resourcesContent =
             <<<JSON
-{"code":"X_SELL","labels":{"en_US":"Cross sell","fr_FR":"Vente croisée"}}
-{"code":"NEW_SELL","labels":{"en_US":"New sell","fr_FR":"Nouvelle vente"}}
+{"code":"info","labels":{"en_US":"Product information"}}
+{"code":"tech","labels":{"en_US":"Tech"}}
 JSON;
         $resources = fopen('php://memory', 'w+');
         fwrite($resources, $resourcesContent);
         rewind($resources);
 
         $streamedResources = $this->getStreamFactory()->createStream($resources);
-        $api = $this->createClient()->getAssociationTypeApi();
+        $api = $this->createClient()->getAttributeGroupApi();
         $response = $api->upsertList($streamedResources);
 
         $this->assertInstanceOf('\Iterator', $response);
@@ -67,12 +68,12 @@ JSON;
         $this->assertSame([
             1 => [
                 'line'        => 1,
-                'code'        => 'X_SELL',
+                'code'        => 'info',
                 'status_code' => 204,
             ],
             2 => [
                 'line'        => 2,
-                'code'        => 'NEW_SELL',
+                'code'        => 'tech',
                 'status_code' => 201,
             ]
         ], $responseLines);
@@ -80,20 +81,21 @@ JSON;
 
     public function testUpsertListFailed()
     {
-        $api = $this->createClient()->getAssociationTypeApi();
+        $api = $this->createClient()->getAttributeGroupApi();
 
         $response = $api->upsertList([
             [
-                'labels' => [
-                    'en_US' => 'Cross sell',
-                    'fr_FR' => 'Vente croisée',
+                'attributes' => ['sku', 'name', 'manufacturer', 'weather_conditions', 'description', 'length'],
+                'sort_order' => 1,
+                'labels'     => [
+                    'en_US' => 'Product information',
                 ],
             ],
             [
-                'code'   => 'NEW_SELL',
+                'code'   => 'tech',
                 'labels' => [
                     'en_US' => 'line too long' . str_repeat('a', 1000000),
-                    'fr_FR' => 'Nouvelle vente',
+                    'fr_FR' => 'Tech',
                 ],
             ]
         ]);

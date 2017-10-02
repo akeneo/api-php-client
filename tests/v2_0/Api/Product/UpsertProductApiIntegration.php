@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_8\Api\Product;
+namespace Akeneo\Pim\tests\v2_0\Api\Product;
 
 use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
 

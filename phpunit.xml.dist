@@ -20,9 +20,9 @@
         <directory suffix="Integration.php">tests/v1_7/Api/*</directory>
     </testsuite>
 
-    <testsuite name="PHP_Client_Unit_Test_1_8">
+    <testsuite name="PHP_Client_Unit_Test_2_0">
         <directory suffix="Integration.php">tests/Common/Api/*</directory>
-        <directory suffix="Integration.php">tests/v1_8/Api/*</directory>
+        <directory suffix="Integration.php">tests/v2_0/Api/*</directory>
     </testsuite>
 
 </phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_8\Api\Family;
+namespace Akeneo\Pim\tests\v2_0\Api\Family;
 
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
