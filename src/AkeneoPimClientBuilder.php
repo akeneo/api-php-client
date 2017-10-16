@@ -11,6 +11,7 @@ use Akeneo\Pim\Api\CategoryApi;
 use Akeneo\Pim\Api\ChannelApi;
 use Akeneo\Pim\Api\CurrencyApi;
 use Akeneo\Pim\Api\FamilyApi;
+use Akeneo\Pim\Api\FamilyVariantApi;
 use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\MeasureFamilyApi;
 use Akeneo\Pim\Api\ProductApi;
@@ -169,7 +170,8 @@ class AkeneoPimClientBuilder
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
-            new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory)
+            new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
+            new FamilyVariantApi($resourceClient)
         );
 
         return $client;

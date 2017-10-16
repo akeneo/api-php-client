@@ -12,6 +12,7 @@ use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\FamilyVariantApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -34,7 +35,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi,
-        AssociationTypeApiInterface $associationTypeApi
+        AssociationTypeApiInterface $associationTypeApi,
+        FamilyVariantApiInterface $familyVariantApi
     )
     {
         $this->beConstructedWith(
@@ -49,7 +51,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $channelApi,
             $currencyApi,
             $measureFamilyApi,
-            $associationTypeApi
+            $associationTypeApi,
+            $familyVariantApi
         );
     }
 
@@ -131,5 +134,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_association_type_api($associationTypeApi)
     {
         $this->getAssociationTypeApi()->shouldReturn($associationTypeApi);
+    }
+
+    function it_gets_family_variant_api($familyVariantApi)
+    {
+        $this->getFamilyVariantApi()->shouldReturn($familyVariantApi);
     }
 }

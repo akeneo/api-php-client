@@ -10,6 +10,7 @@ use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\FamilyVariantApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
@@ -63,6 +64,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
 
     /** @var AssociationTypeApiInterface */
     protected $associationTypeApi;
+
+    /** @var FamilyVariantApiInterface */
+    protected $familyVariantApi;
     /**
      * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
@@ -77,6 +81,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param CurrencyApiInterface        $currencyApi
      * @param MeasureFamilyApiInterface   $measureFamilyApi
      * @param AssociationTypeApiInterface $associationTypeApi
+     * @param FamilyVariantApiInterface   $familyVariantApi
      */
     public function __construct(
         Authentication $authentication,
@@ -91,7 +96,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi,
-        AssociationTypeApiInterface $associationTypeApi
+        AssociationTypeApiInterface $associationTypeApi,
+        FamilyVariantApiInterface $familyVariantApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -106,6 +112,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->currencyApi = $currencyApi;
         $this->measureFamilyApi = $measureFamilyApi;
         $this->associationTypeApi = $associationTypeApi;
+        $this->familyVariantApi = $familyVariantApi;
     }
 
     /**
@@ -218,5 +225,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAssociationTypeApi()
     {
         return $this->associationTypeApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFamilyVariantApi()
+    {
+        return $this->familyVariantApi;
     }
 }
