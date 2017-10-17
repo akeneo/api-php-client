@@ -31,7 +31,6 @@ class UpsertProductApiIntegration extends AbstractProductApiTestCase
             'identifier'    => 'docks_black',
             'family'        => 'boots',
             'groups'        => ['caterpillar_boots'],
-            'variant_group' => null,
             'categories'    => [
                 'winter_boots',
                 'winter_collection',
@@ -131,7 +130,6 @@ class UpsertProductApiIntegration extends AbstractProductApiTestCase
             'identifier'    => 'pumps',
             'family'        => 'sandals',
             'groups'        => [],
-            'variant_group' => null,
             'categories'    => [
                 'summer_collection',
             ],

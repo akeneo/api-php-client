@@ -71,7 +71,6 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
             'family'        => 'sandals',
             'groups'        => [
             ],
-            'variant_group' => null,
             'categories'    => [
                 'summer_collection',
             ],
