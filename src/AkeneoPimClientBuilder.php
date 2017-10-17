@@ -16,6 +16,7 @@ use Akeneo\Pim\Api\LocaleApi;
 use Akeneo\Pim\Api\MeasureFamilyApi;
 use Akeneo\Pim\Api\ProductApi;
 use Akeneo\Pim\Api\ProductMediaFileApi;
+use Akeneo\Pim\Api\ProductModelApi;
 use Akeneo\Pim\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\Client\HttpClient;
 use Akeneo\Pim\Client\ResourceClient;
@@ -171,7 +172,8 @@ class AkeneoPimClientBuilder
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
-            new FamilyVariantApi($resourceClient)
+            new FamilyVariantApi($resourceClient),
+            new ProductModelApi($resourceClient)
         );
 
         return $client;

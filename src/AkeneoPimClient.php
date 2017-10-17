@@ -15,6 +15,7 @@ use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
+use Akeneo\Pim\Api\ProductModelApiInterface;
 use Akeneo\Pim\Security\Authentication;
 
 /**
@@ -67,6 +68,10 @@ class AkeneoPimClient implements AkeneoPimClientInterface
 
     /** @var FamilyVariantApiInterface */
     protected $familyVariantApi;
+
+    /** @var ProductModelApiInterface */
+    protected $productModelApi;
+
     /**
      * @param Authentication              $authentication
      * @param ProductApiInterface         $productApi
@@ -82,6 +87,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
      * @param MeasureFamilyApiInterface   $measureFamilyApi
      * @param AssociationTypeApiInterface $associationTypeApi
      * @param FamilyVariantApiInterface   $familyVariantApi
+     * @param ProductModelApiInterface    $productModelApi
      */
     public function __construct(
         Authentication $authentication,
@@ -97,7 +103,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi,
         AssociationTypeApiInterface $associationTypeApi,
-        FamilyVariantApiInterface $familyVariantApi
+        FamilyVariantApiInterface $familyVariantApi,
+        ProductModelApiInterface $productModelApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -113,6 +120,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->measureFamilyApi = $measureFamilyApi;
         $this->associationTypeApi = $associationTypeApi;
         $this->familyVariantApi = $familyVariantApi;
+        $this->productModelApi = $productModelApi;
     }
 
     /**
@@ -233,5 +241,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getFamilyVariantApi()
     {
         return $this->familyVariantApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductModelApi()
+    {
+        return $this->productModelApi;
     }
 }
