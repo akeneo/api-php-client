@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_7\Api\Product;
+namespace Akeneo\Pim\tests\v2_0\Api\Product;
 
 use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
@@ -35,7 +35,7 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
             $this->assertSame([
                 [
                     'property' => 'identifier',
-                    'message'  => 'The value black_sneakers is already set on another product for the unique attribute sku',
+                    'message'  => 'The same identifier is already set on another product',
                 ],
             ], $exception->getResponseErrors());
         }
@@ -71,7 +71,6 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
             'family'        => 'sandals',
             'groups'        => [
             ],
-            'variant_group' => null,
             'categories'    => [
                 'summer_collection',
             ],
@@ -95,7 +94,7 @@ class CreateProductApiIntegration extends AbstractProductApiTestCase
             'associations'  => [
             ],
         ]);
-
+        sleep(10);
         $product = $this->sanitizeProductData($api->get('pumps'));
 
         $this->assertSameContent($expectedProduct, $product);

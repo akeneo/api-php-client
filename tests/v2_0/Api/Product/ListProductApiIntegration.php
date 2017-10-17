@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_7\Api\Product;
+namespace Akeneo\Pim\tests\v2_0\Api\Product;
 
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
@@ -81,6 +81,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
 
         $expectedProducts = $this->sanitizeProductData(array_slice($expectedProducts, 0, 2));
         $actualProducts = $this->sanitizeProductData($firstPage->getItems());
+
         $this->assertSameContent($expectedProducts, $actualProducts);
     }
 
@@ -203,7 +204,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
             'identifier'    => 'dance_shoe',
             'family'        => 'sandals',
             'groups'        => [],
-            'variant_group' => null,
             'categories'    => [
                 'sandals',
             ],
@@ -269,12 +269,12 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                         'scope'  => null,
                         'data'   => [
                             [
-                                'amount'   => '90.50',
-                                'currency' => 'USD',
-                            ],
-                            [
                                 'amount'   => '99.49',
                                 'currency' => 'EUR',
+                            ],
+                            [
+                                'amount'   => '90.50',
+                                'currency' => 'USD',
                             ],
                         ],
                     ],
@@ -307,7 +307,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
             'groups'        => [
                 'similar_boots',
             ],
-            'variant_group' => null,
             'categories'    => [
                 'summer_collection',
                 'winter_boots',
@@ -373,7 +372,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
             'identifier'    => 'black_sneakers',
             'family'        => 'sneakers',
             'groups'        => [],
-            'variant_group' => null,
             'categories'    => [
                 'summer_collection',
                 'winter_collection',
@@ -487,7 +485,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     protected function getExpectedProducts()
     {
         $baseUri = $this->getConfiguration()['api']['baseUri'];
-
+        
         return [
             [
                 '_links'        => [
@@ -500,7 +498,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 'groups'        => [
                     'similar_boots',
                 ],
-                'variant_group' => null,
                 'categories'    => [
                     'summer_collection',
                     'winter_boots',
@@ -571,12 +568,12 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                             'scope'  => null,
                             'data'   => [
                                 [
-                                    'amount'   => '110.00',
-                                    'currency' => 'USD',
-                                ],
-                                [
                                     'amount'   => '120.00',
                                     'currency' => 'EUR',
+                                ],
+                                [
+                                    'amount'   => '110.00',
+                                    'currency' => 'USD',
                                 ],
                             ],
                         ],
@@ -597,6 +594,80 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
             [
                 '_links'        => [
                     'self' => [
+                        'href' => $baseUri . '/api/rest/v1/products/docks_red',
+                    ],
+                ],
+                'identifier'    => 'docks_red',
+                'family'        => 'boots',
+                'groups'        => ['caterpillar_boots'],
+                'categories'    => [
+                    'winter_collection',
+                ],
+                'enabled'       => true,
+                'values'        => [
+                    'color'              => [
+                        [
+                            'locale' => null,
+                            'scope'  => null,
+                            'data'   => 'red',
+                        ],
+                    ],
+                    'manufacturer'       => [
+                        [
+                            'locale' => null,
+                            'scope'  => null,
+                            'data'   => 'Caterpillar',
+                        ],
+                    ],
+                    'name'               => [
+                        [
+                            'locale' => 'en_US',
+                            'scope'  => null,
+                            'data'   => 'Docks',
+                        ],
+                    ],
+                    'size'               => [
+                        [
+                            'locale' => null,
+                            'scope'  => null,
+                            'data'   => '44',
+                        ],
+                    ],
+                    'weather_conditions' => [
+                        [
+                            'locale' => null,
+                            'scope'  => null,
+                            'data'   => [
+                                'cold',
+                                'snowy',
+                                'wet',
+                            ],
+                        ],
+                    ],
+                    'price'              => [
+                        [
+                            'locale' => null,
+                            'scope'  => null,
+                            'data'   => [
+                                [
+                                    'amount'   => '149.49',
+                                    'currency' => 'EUR',
+                                ],
+                                [
+                                    'amount'   => '149.49',
+                                    'currency' => 'USD',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'created'       => '2017-06-26T07:33:09+00:00',
+                'updated'       => '2017-06-26T07:33:09+00:00',
+                'associations'  => [],
+            ],
+            [
+                '_links'        => [
+                    'self' => [
                         'href' => $baseUri . '/api/rest/v1/products/small_boot',
                     ],
                 ],
@@ -605,7 +676,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 'groups'        => [
                     'similar_boots',
                 ],
-                'variant_group' => null,
                 'categories'    => [
                     'summer_collection',
                     'winter_boots',
@@ -687,7 +757,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 'groups'        => [
                     'similar_boots',
                 ],
-                'variant_group' => null,
                 'categories'    => [
                     'winter_boots',
                     'winter_collection',
@@ -745,12 +814,12 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                             'scope'  => null,
                             'data'   => [
                                 [
-                                    'amount'   => '100.49',
-                                    'currency' => 'USD',
-                                ],
-                                [
                                     'amount'   => '100.50',
                                     'currency' => 'EUR',
+                                ],
+                                [
+                                    'amount'   => '100.49',
+                                    'currency' => 'USD',
                                 ],
                             ],
                         ],
@@ -769,7 +838,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 'identifier'    => 'dance_shoe',
                 'family'        => 'sandals',
                 'groups'        => [],
-                'variant_group' => null,
                 'categories'    => [
                     'sandals',
                 ],
@@ -845,12 +913,12 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                             'scope'  => null,
                             'data'   => [
                                 [
-                                    'amount'   => '90.50',
-                                    'currency' => 'USD',
-                                ],
-                                [
                                     'amount'   => '99.49',
                                     'currency' => 'EUR',
+                                ],
+                                [
+                                    'amount'   => '90.50',
+                                    'currency' => 'USD',
                                 ],
                             ],
                         ],
@@ -869,7 +937,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 'identifier'    => 'black_sneakers',
                 'family'        => 'sneakers',
                 'groups'        => [],
-                'variant_group' => null,
                 'categories'    => [
                     'summer_collection',
                     'winter_collection',
@@ -982,8 +1049,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_blue',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -1057,8 +1123,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_black',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
                 'categories'    => [
                     'winter_boots',
                     'winter_collection',
@@ -1133,8 +1198,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_white',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -1208,8 +1272,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                 ],
                 'identifier'    => 'docks_maroon',
                 'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
+                'groups'        => ['caterpillar_boots'],
                 'categories'    => [
                     'winter_collection',
                 ],
@@ -1220,81 +1283,6 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
                             'locale' => null,
                             'scope'  => null,
                             'data'   => 'maroon',
-                        ],
-                    ],
-                    'manufacturer'       => [
-                        [
-                            'locale' => null,
-                            'scope'  => null,
-                            'data'   => 'Caterpillar',
-                        ],
-                    ],
-                    'name'               => [
-                        [
-                            'locale' => 'en_US',
-                            'scope'  => null,
-                            'data'   => 'Docks',
-                        ],
-                    ],
-                    'size'               => [
-                        [
-                            'locale' => null,
-                            'scope'  => null,
-                            'data'   => '44',
-                        ],
-                    ],
-                    'weather_conditions' => [
-                        [
-                            'locale' => null,
-                            'scope'  => null,
-                            'data'   => [
-                                'cold',
-                                'snowy',
-                                'wet',
-                            ],
-                        ],
-                    ],
-                    'price'              => [
-                        [
-                            'locale' => null,
-                            'scope'  => null,
-                            'data'   => [
-                                [
-                                    'amount'   => '149.49',
-                                    'currency' => 'EUR',
-                                ],
-                                [
-                                    'amount'   => '149.49',
-                                    'currency' => 'USD',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                'created'       => '2017-06-26T07:33:09+00:00',
-                'updated'       => '2017-06-26T07:33:09+00:00',
-                'associations'  => [],
-            ],
-            [
-                '_links'        => [
-                    'self' => [
-                        'href' => $baseUri . '/api/rest/v1/products/docks_red',
-                    ],
-                ],
-                'identifier'    => 'docks_red',
-                'family'        => 'boots',
-                'groups'        => [],
-                'variant_group' => 'caterpillar_boots',
-                'categories'    => [
-                    'winter_collection',
-                ],
-                'enabled'       => true,
-                'values'        => [
-                    'color'              => [
-                        [
-                            'locale' => null,
-                            'scope'  => null,
-                            'data'   => 'red',
                         ],
                     ],
                     'manufacturer'       => [
