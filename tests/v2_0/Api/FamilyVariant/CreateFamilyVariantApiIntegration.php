@@ -2,7 +2,6 @@
 
 namespace Akeneo\Pim\tests\v2_0\Api\FamilyVariant;
 
-use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\tests\Common\Api\ApiTestCase;
 
 class CreateFamilyVariantApiIntegration extends ApiTestCase
