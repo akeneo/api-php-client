@@ -12,10 +12,12 @@ use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\FamilyVariantApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
+use Akeneo\Pim\Api\ProductModelApiInterface;
 use Akeneo\Pim\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 
@@ -34,9 +36,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi,
-        AssociationTypeApiInterface $associationTypeApi
-    )
-    {
+        AssociationTypeApiInterface $associationTypeApi,
+        FamilyVariantApiInterface $familyVariantApi,
+        ProductModelApiInterface $productModelApi
+    ) {
         $this->beConstructedWith(
             $authentication,
             $productApi,
@@ -49,7 +52,9 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $channelApi,
             $currencyApi,
             $measureFamilyApi,
-            $associationTypeApi
+            $associationTypeApi,
+            $familyVariantApi,
+            $productModelApi
         );
     }
 
@@ -131,5 +136,15 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_association_type_api($associationTypeApi)
     {
         $this->getAssociationTypeApi()->shouldReturn($associationTypeApi);
+    }
+
+    function it_gets_family_variant_api($familyVariantApi)
+    {
+        $this->getFamilyVariantApi()->shouldReturn($familyVariantApi);
+    }
+
+    function it_gets_product_model_api($productModelApi)
+    {
+        $this->getProductModelApi()->shouldReturn($productModelApi);
     }
 }

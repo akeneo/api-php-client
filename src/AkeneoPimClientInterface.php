@@ -10,10 +10,12 @@ use Akeneo\Pim\Api\CategoryApiInterface;
 use Akeneo\Pim\Api\ChannelApiInterface;
 use Akeneo\Pim\Api\CurrencyApiInterface;
 use Akeneo\Pim\Api\FamilyApiInterface;
+use Akeneo\Pim\Api\FamilyVariantApiInterface;
 use Akeneo\Pim\Api\LocaleApiInterface;
 use Akeneo\Pim\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\Api\MediaFileApiInterface;
 use Akeneo\Pim\Api\ProductApiInterface;
+use Akeneo\Pim\Api\ProductModelApiInterface;
 
 /**
  * Client to use the Akeneo PIM API.
@@ -121,4 +123,18 @@ interface AkeneoPimClientInterface
      * @return AssociationTypeApiInterface
      */
     public function getAssociationTypeApi();
+
+    /**
+     * Gets the family variant API.
+     *
+     * @return FamilyVariantApiInterface
+     */
+    public function getFamilyVariantApi();
+
+    /**
+     * Gets the product model API.
+     *
+     * @return ProductModelApiInterface
+     */
+    public function getProductModelApi();
 }
