@@ -173,7 +173,7 @@ class AkeneoPimClientBuilder
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyVariantApi($resourceClient),
-            new ProductModelApi($resourceClient)
+            new ProductModelApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
         return $client;
