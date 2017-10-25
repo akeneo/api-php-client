@@ -172,7 +172,7 @@ class AkeneoPimClientBuilder
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
-            new FamilyVariantApi($resourceClient),
+            new FamilyVariantApi($resourceClient, $pageFactory, $cursorFactory),
             new ProductModelApi($resourceClient, $pageFactory, $cursorFactory)
         );
 
