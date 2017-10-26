@@ -15,7 +15,7 @@ class GetProductModelApiIntegration extends AbstractProductApiTestCase
 
         $this->assertSameContent($this->sanitizeProductData([
             'code' => 'rain_boots_red',
-            'family_variant' => 'boots_color_size',
+            'family_variant' => 'rain_boots_color_size',
             'parent' => 'rain_boots',
             'categories' => ['2014_collection', 'winter_boots', 'winter_collection'],
             'values' => [
