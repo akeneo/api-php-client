@@ -138,7 +138,7 @@ void runCheckoutPim17(String pimVersion) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("akeneo/php:5.6").inside("-v /home/akeneo/.composer:/home/docker/.composer") {
+            docker.image("akeneo/php:5.6").inside("-u docker -v /home/akeneo/.composer:/home/docker/.composer") {
                 unstash "pim_community_dev_${pimVersion}"
 
                 sh "composer require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
@@ -170,7 +170,7 @@ void runCheckoutPim18(String pimVersion) {
         sh "docker rm \$(docker ps -a -q) || true"
 
         try {
-            docker.image("akeneo/php:7.1").inside("-v /home/akeneo/.composer:/home/docker/.composer -e COMPOSER_HOME=/home/docker/.composer") {
+            docker.image("akeneo/php:7.1").inside("-u docker -v /home/akeneo/.composer:/home/docker/.composer -e COMPOSER_HOME=/home/docker/.composer") {
                 unstash "pim_community_dev_${pimVersion}"
 
                 sh "composer require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
@@ -202,7 +202,7 @@ void runCheckoutClient(String phpVersion, String client, String psrImplem) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("akeneo/php:${phpVersion}").inside("-v /home/akeneo/.composer:/.composer -e COMPOSER_HOME=/.composer") {
+            docker.image("akeneo/php:${phpVersion}").inside("-u docker -v /home/akeneo/.composer:/.composer -e COMPOSER_HOME=/.composer") {
                 unstash "php-api-client"
 
                 sh "composer require ${client} ${psrImplem}"
@@ -332,7 +332,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             sh "mkdir -p build/logs/"
 
             if ("master" == pimVersion) {
-                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
+                docker.image("akeneo/php:${phpVersion}").inside("-u docker --link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
                     sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
                     sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" etc/parameters.yml"
                     sh "sed -i \"s#version: .*#version: #g\" etc/parameters.yml"
@@ -341,7 +341,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             }
 
             if ("1.7" == pimVersion) {
-                docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client") {
+                docker.image("akeneo/php:${phpVersion}").inside("-u docker --link akeneo-pim:akeneo-pim -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client") {
                     sh "sudo ./bin/phpunit -c phpunit.xml.dist --testsuite PHP_Client_Unit_Test_1_7 --log-junit build/logs/phpunit_integration.xml"
                 }
             }
