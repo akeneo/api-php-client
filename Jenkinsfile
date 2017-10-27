@@ -233,7 +233,7 @@ void runPhpCsFixerTest(String phpVersion, String client, String psrImplem) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("akeneo/php:${phpVersion}").inside() {
+            docker.image("akeneo/php:${phpVersion}").inside("-u docker") {
                 unstash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
 
                 sh "mkdir -p build/logs/"
@@ -264,7 +264,7 @@ void runPhpSpecTest(String phpVersion, String client, String psrImplem) {
     node('docker') {
         deleteDir()
         try {
-            docker.image("akeneo/php:${phpVersion}").inside() {
+            docker.image("akeneo/php:${phpVersion}").inside("-u docker") {
                 unstash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
 
                 sh "mkdir -p build/logs/"
@@ -311,7 +311,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
                     sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim --tmpfs=/var/lib/mysql/:rw,noexec,nosuid,size=400m --tmpfs=/tmp/:rw,noexec,nosuid,size=200m -d mysql:5.7"
                     sh "docker run --name elasticsearch -e ES_JAVA_OPTS=\"-Xms256m -Xmx256m\" -d elasticsearch:5"
                     sh "docker run --name akeneo-pim --link mysql:mysql --link elasticsearch:elasticsearch -v \$(pwd):/srv/pim -w /srv/pim -d akeneo/fpm:php-7.1"
-                    sh "docker run -user docker --name httpd --link akeneo-pim:fpm -v \$(pwd):/srv/pim -v \$(pwd)/docker/httpd.conf:/usr/local/apache2/conf/httpd.conf -v \$(pwd)/docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf -w /srv/pim -d httpd:2.4"
+                    sh "docker run --user docker --name httpd --link akeneo-pim:fpm -v \$(pwd):/srv/pim -v \$(pwd)/docker/httpd.conf:/usr/local/apache2/conf/httpd.conf -v \$(pwd)/docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf -w /srv/pim -d httpd:2.4"
 
                     // Wait for elasticsearch container ready
                     sh "sleep 20"
