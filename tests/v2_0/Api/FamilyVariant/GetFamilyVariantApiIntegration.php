@@ -10,14 +10,14 @@ class GetFamilyVariantApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getFamilyVariantApi();
 
-        $familyVariant = $api->get('boots', 'boots_color_size');
+        $familyVariant = $api->get('boots', 'rain_boots_color_size');
 
         $expected = [
-            'code' => 'boots_color_size',
+            'code' => 'rain_boots_color_size',
             'labels' => [
                 'de_DE' => 'Stiefel nach Farbe und Größe',
-                'en_US' => 'Boots by color and size',
-                'fr_FR' => 'Bottes par couleur et taille'
+                'en_US' => 'Rain boots by color and size',
+                'fr_FR' => 'Bottes de pluie par couleur et taille'
             ],
             'variant_attribute_sets' => [
                 [
@@ -56,6 +56,6 @@ class GetFamilyVariantApiIntegration extends ApiTestCase
      */
     public function testFamilyNotFound()
     {
-        $this->createClient()->getFamilyVariantApi()->get('trololo', 'boots_color_size');
+        $this->createClient()->getFamilyVariantApi()->get('trololo', 'rain_boots_color_size');
     }
 }
