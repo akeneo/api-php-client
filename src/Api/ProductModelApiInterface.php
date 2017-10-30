@@ -11,7 +11,8 @@ namespace Akeneo\Pim\Api;
  */
 interface ProductModelApiInterface extends
     GettableResourceInterface,
-    ListableResourceInterface,
-    CreatableResourceInterface
+    CreatableResourceInterface,
+    UpsertableResourceInterface,
+    ListableResourceInterface
 {
 }

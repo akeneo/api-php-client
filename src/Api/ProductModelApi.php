@@ -74,6 +74,22 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
+    public function upsert($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->upsertResource(static::PRODUCT_MODEL_URI, [$code], $data);
+    }
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     *
+     * {@inheritdoc}
+     */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
         $data = $this->resourceClient->getResources(static::PRODUCT_MODELS_URI, [], $limit, $withCount, $queryParameters);
