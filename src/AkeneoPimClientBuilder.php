@@ -140,23 +140,7 @@ class AkeneoPimClientBuilder
      */
     protected function buildAuthenticatedClient(Authentication $authentication)
     {
-        $uriGenerator = new UriGenerator($this->baseUri);
-
-        $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory());
-        $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
-        $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
-
-        $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->getStreamFactory());
-        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
-        $resourceClient = new ResourceClient(
-            $authenticatedHttpClient,
-            $uriGenerator,
-            $multipartStreamBuilderFactory,
-            $upsertListResponseFactory
-        );
-
-        $pageFactory = new PageFactory($authenticatedHttpClient);
-        $cursorFactory = new ResourceCursorFactory();
+        list($resourceClient, $pageFactory, $cursorFactory) = $this->setUp($authentication);
 
         $client = new AkeneoPimClient(
             $authentication,
@@ -213,5 +197,33 @@ class AkeneoPimClientBuilder
         }
 
         return $this->streamFactory;
+    }
+
+    /**
+     * @param Authentication $authentication
+     *
+     * @return array
+     */
+    protected function setUp(Authentication $authentication): array
+    {
+        $uriGenerator = new UriGenerator($this->baseUri);
+
+        $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory());
+        $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
+        $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
+
+        $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->getStreamFactory());
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $resourceClient = new ResourceClient(
+            $authenticatedHttpClient,
+            $uriGenerator,
+            $multipartStreamBuilderFactory,
+            $upsertListResponseFactory
+        );
+
+        $pageFactory = new PageFactory($authenticatedHttpClient);
+        $cursorFactory = new ResourceCursorFactory();
+
+        return [$resourceClient, $pageFactory, $cursorFactory];
     }
 }
