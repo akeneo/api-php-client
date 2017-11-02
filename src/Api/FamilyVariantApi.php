@@ -70,6 +70,22 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
+    public function upsert($familyCode, $familyVariantCode, array $data = [])
+    {
+        if (array_key_exists('family', $data)) {
+            throw new InvalidArgumentException('The parameter "family" must not be defined in the data parameter');
+        }
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
+        }
+        $data['code'] = $familyVariantCode;
+
+        return $this->resourceClient->upsertResource(static::FAMILY_VARIANTS_URI, [$familyCode], $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = [])
     {
         $data = $this->resourceClient->getResources(

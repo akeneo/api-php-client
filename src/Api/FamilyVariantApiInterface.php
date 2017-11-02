@@ -46,6 +46,22 @@ interface FamilyVariantApiInterface
 
     /**
      * Available since Akeneo PIM 2.0.
+     * Creates a family variant if it does not exist yet, otherwise updates it partially.
+     *
+     * @param string $familyCode        code of the family parent of the family variant to create or update
+     * @param string $familyVariantCode code of the family variant to create or update
+     * @param array  $data              data of the family variant to create or update
+     *
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the parameter "familyCode" is defined in the data parameter.
+     *
+     * @return int Status code 201 indicating that the family variant has been well created.
+     *             Status code 204 indicating that the family variant has been well updated.
+     */
+    public function upsert($familyCode, $familyVariantCode, array $data = []);
+
+    /**
+     * Available since Akeneo PIM 2.0.
      * Gets a list of family variants by returning the first page.
      * Consequently, this method does not return all the family variants.
      *

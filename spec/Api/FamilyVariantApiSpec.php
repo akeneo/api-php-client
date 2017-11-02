@@ -48,24 +48,6 @@ class FamilyVariantApiSpec extends ObjectBehavior
         $this->get($familyCode, $familyVariantCode)->shouldReturn($familyVariant);
     }
 
-    function it_throws_an_exception_if_family_is_provided_in_data_during_creation($resourceClient)
-    {
-        $resourceClient->createResource(Argument::cetera())->shouldNotBeCalled();
-
-        $this
-            ->shouldThrow(InvalidArgumentException::class)
-            ->during('create', ['family', 'family_variant_code', ['family' => 'family']]);
-    }
-
-    function it_throws_an_exception_if_family_variant_code_is_provided_in_data_during_creation($resourceClient)
-    {
-        $resourceClient->createResource(Argument::cetera())->shouldNotBeCalled();
-
-        $this
-            ->shouldThrow(InvalidArgumentException::class)
-            ->during('create', ['family', 'family_variant_code', ['code' => 'family_variant']]);
-    }
-
     function it_creates_a_family_variant($resourceClient)
     {
         $code = 'boots_color_size';
@@ -147,5 +129,73 @@ class FamilyVariantApiSpec extends ObjectBehavior
         $cursorFactory->createCursor(10, $page)->willReturn($cursor);
 
         $this->all('books', 10, [])->shouldReturn($cursor);
+    }
+
+    function it_udpates_a_family_variant($resourceClient)
+    {
+        $code = 'boots_color_size';
+        $data = [
+            'labels' => [
+                'de_DE' => 'Stiefel nach Farbe und Größe',
+                'en_US' => 'Boots by color and size',
+                'fr_FR' => 'Bottes par couleur et taille'
+            ],
+            'variant_attribute_sets' => [
+                [
+                    'level' => 1,
+                    'axes' => ['color'],
+                    'attributes' => [
+                        'name',
+                        'description',
+                        'color',
+                        'sku'
+                    ]
+                ]
+            ]
+        ];
+        $completeData = array_merge(['code' => $code], $data);
+
+        $resourceClient
+            ->upsertResource(FamilyVariantApi::FAMILY_VARIANTS_URI, ['familyCode'], $completeData)
+            ->shouldBeCalled()
+            ->willReturn(204);
+
+        $this->upsert('familyCode', $code, $data)->shouldReturn(204);
+    }
+
+    function it_throws_an_exception_if_family_is_provided_in_data_during_creation($resourceClient)
+    {
+        $resourceClient->createResource(Argument::cetera())->shouldNotBeCalled();
+
+        $this
+            ->shouldThrow(InvalidArgumentException::class)
+            ->during('create', ['family', 'family_variant_code', ['family' => 'family']]);
+    }
+
+    function it_throws_an_exception_if_family_variant_code_is_provided_in_data_during_creation($resourceClient)
+    {
+        $resourceClient->createResource(Argument::cetera())->shouldNotBeCalled();
+
+        $this
+            ->shouldThrow(InvalidArgumentException::class)
+            ->during('create', ['family', 'family_variant_code', ['code' => 'family_variant']]);
+    }
+
+    function it_throws_an_exception_if_family_is_provided_in_data_during_upsert($resourceClient)
+    {
+        $resourceClient->upsertResource(Argument::cetera())->shouldNotBeCalled();
+
+        $this
+            ->shouldThrow(InvalidArgumentException::class)
+            ->during('upsert', ['family', 'family_variant_code', ['family' => 'family']]);
+    }
+
+    function it_throws_an_exception_if_family_variant_code_is_provided_in_data_during_upsert($resourceClient)
+    {
+        $resourceClient->upsertResource(Argument::cetera())->shouldNotBeCalled();
+
+        $this
+            ->shouldThrow(InvalidArgumentException::class)
+            ->during('upsert', ['family', 'family_variant_code', ['code' => 'family_variant']]);
     }
 }
