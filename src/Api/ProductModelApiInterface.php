@@ -13,6 +13,7 @@ interface ProductModelApiInterface extends
     GettableResourceInterface,
     CreatableResourceInterface,
     UpsertableResourceInterface,
+    UpsertableResourceListInterface,
     ListableResourceInterface
 {
 }
