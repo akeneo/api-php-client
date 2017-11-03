@@ -17,7 +17,7 @@ use Akeneo\Pim\Pagination\ResourceCursorInterface;
 interface FamilyVariantApiInterface
 {
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      * Gets a family variant by its code.
      *
      * @param string $familyCode        Code of the parent family
@@ -30,7 +30,7 @@ interface FamilyVariantApiInterface
     public function get($familyCode, $familyVariantCode);
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      * Creates a family variant.
      *
      * @param string $familyCode        code of the family parent of the family variant to create
@@ -45,7 +45,7 @@ interface FamilyVariantApiInterface
     public function create($familyCode, $familyVariantCode, array $data = []);
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      * Gets a list of family variants by returning the first page.
      * Consequently, this method does not return all the family variants.
      *
@@ -63,7 +63,7 @@ interface FamilyVariantApiInterface
     public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []);
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      * Gets a cursor to iterate over a list of family variants.
      *
      * @param string $familyCode      Family code from which you want to get a list of family variants.

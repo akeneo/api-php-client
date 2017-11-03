@@ -44,7 +44,7 @@ class ProductModelApi implements ProductModelApiInterface
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
@@ -54,7 +54,7 @@ class ProductModelApi implements ProductModelApiInterface
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
@@ -70,7 +70,7 @@ class ProductModelApi implements ProductModelApiInterface
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
@@ -82,7 +82,7 @@ class ProductModelApi implements ProductModelApiInterface
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
