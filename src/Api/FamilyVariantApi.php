@@ -108,4 +108,12 @@ class FamilyVariantApi implements FamilyVariantApiInterface
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertList($familyCode, $familyVariants)
+    {
+        return $this->resourceClient->upsertResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
+    }
 }

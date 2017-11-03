@@ -6,6 +6,7 @@ use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Manages Family Variants
@@ -92,4 +93,17 @@ interface FamilyVariantApiInterface
      * @return ResourceCursorInterface
      */
     public function all($familyCode, $pageSize = 10, array $queryParameters = []);
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     * Updates or creates several resources.
+     *
+     * @param string                $familyCode code of the family parent of family variants to create or update
+     * @param array|StreamInterface $familyVariants array or StreamInterface object containing the family variants to create or update
+     *
+     * @throws HttpException
+     *
+     * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
+     */
+    public function upsertList($familyCode, $familyVariants);
 }
