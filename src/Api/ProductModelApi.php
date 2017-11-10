@@ -4,6 +4,8 @@ namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
 use Akeneo\Pim\Exception\InvalidArgumentException;
+use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 
 /**
  * API implementation to manage the product models.
@@ -20,16 +22,29 @@ class ProductModelApi implements ProductModelApiInterface
     /** @var ResourceClientInterface */
     protected $resourceClient;
 
+    /** @var PageFactoryInterface */
+    protected $pageFactory;
+
+    /** @var ResourceCursorFactoryInterface */
+    protected $cursorFactory;
+
     /**
-     * @param ResourceClientInterface $resourceClient
+     * @param ResourceClientInterface        $resourceClient
+     * @param PageFactoryInterface           $pageFactory
+     * @param ResourceCursorFactoryInterface $cursorFactory
      */
-    public function __construct(ResourceClientInterface $resourceClient)
-    {
+    public function __construct(
+        ResourceClientInterface $resourceClient,
+        PageFactoryInterface $pageFactory,
+        ResourceCursorFactoryInterface $cursorFactory
+    ) {
         $this->resourceClient = $resourceClient;
+        $this->pageFactory = $pageFactory;
+        $this->cursorFactory = $cursorFactory;
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
@@ -39,7 +54,7 @@ class ProductModelApi implements ProductModelApiInterface
     }
 
     /**
-     * Available from Akeneo PIM 2.0.
+     * Available since Akeneo PIM 2.0.
      *
      * {@inheritdoc}
      */
@@ -52,5 +67,31 @@ class ProductModelApi implements ProductModelApiInterface
         $data['code'] = $code;
 
         return $this->resourceClient->createResource(static::PRODUCT_MODELS_URI, [], $data);
+    }
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     *
+     * {@inheritdoc}
+     */
+    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    {
+        $data = $this->resourceClient->getResources(static::PRODUCT_MODELS_URI, [], $limit, $withCount, $queryParameters);
+
+        return $this->pageFactory->createPage($data);
+    }
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     *
+     * {@inheritdoc}
+     */
+    public function all($pageSize = 10, array $queryParameters = [])
+    {
+        $queryParameters['pagination_type'] = 'search_after';
+
+        $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
+
+        return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
 }
