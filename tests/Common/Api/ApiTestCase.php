@@ -20,6 +20,14 @@ use Symfony\Component\Yaml\Yaml;
 abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @return StreamFactory
+     */
+    public function getStreamFactory()
+    {
+        return StreamFactoryDiscovery::find();
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
@@ -63,7 +71,7 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function getConfiguration()
     {
-        $configFile = realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
+        $configFile = $this->getConfigurationFile();
         if (!is_file($configFile)) {
             throw new \RuntimeException('The configuration file parameters.yml is missing');
         }
@@ -74,11 +82,11 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return StreamFactory
+     * @return string
      */
-    public function getStreamFactory()
+    protected function getConfigurationFile()
     {
-        return StreamFactoryDiscovery::find();
+        return realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
     }
 
     /**
