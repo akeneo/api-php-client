@@ -2,7 +2,7 @@
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
-def pimVersions = ["1.7", "master"]
+def pimVersions = ["1.7", "2.0"]
 def supportedPhpVersions = ["5.6", "7.0", "7.1"]
 
 def clientConfig = [
@@ -62,7 +62,7 @@ stage("Checkout") {
         for (pimVersion in pimVersions) {
             String currentPimVersion = pimVersion
 
-            if ("master" == currentPimVersion) {
+            if ("2.0" == currentPimVersion) {
                 checkouts["pim_community_dev_${currentPimVersion}"] = {runCheckoutPim18(currentPimVersion)}
             }
 
@@ -305,7 +305,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             dir('pim') {
                 unstash "pim_community_dev_${pimVersion}"
 
-                if ("master" == pimVersion) {
+                if ("2.0" == pimVersion) {
                     sh "docker pull akeneo/fpm:php-7.1 || true"
 
                     sh "docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=akeneo_pim -e MYSQL_PASSWORD=akeneo_pim -e MYSQL_DATABASE=akeneo_pim --tmpfs=/var/lib/mysql/:rw,noexec,nosuid,size=400m --tmpfs=/tmp/:rw,noexec,nosuid,size=200m -d mysql:5.7"
@@ -331,7 +331,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             unstash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
             sh "mkdir -p build/logs/"
 
-            if ("master" == pimVersion) {
+            if ("2.0" == pimVersion) {
                 docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
                     sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
                     sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" etc/parameters.yml"
