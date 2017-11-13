@@ -57,10 +57,10 @@ try {
 
                 switch (currentPimVersion) {
                     case "1.7":
-                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "5.6")}
+                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim17(currentPimVersion)}
                         break
                     case "master":
-                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "7.1")}
+                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim20(currentPimVersion)}
                         break
                     default:
                         error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
@@ -141,7 +141,7 @@ try {
 } finally {
     stage("Cleanup") {
         if (gcrImages.size() > 0) {
-            withDockerGcloud({
+            withDockerGcloudTemplate({
                 sh "gcloud -q container images delete " + gcrImages.join(" ")
             })
         } else {
@@ -153,40 +153,6 @@ try {
 }
 
 /**
- * Run checkout of the PIM for a given PHP version and a PIM version.
- * Run composer, prepare configuration files and push data to a docker registry image.
- *
- * @param pimVersion PIM version to checkout
- */
-void buildPim(String pimVersion, String phpVersion) {
-
-    withBuildNode(phpVersion,{
-        dir("git") {
-            checkout([$class: 'GitSCM',
-                branches: [[name: pimVersion]],
-                userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
-            ])
-
-            container("php") {
-                sh "composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
-                sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
-                sh "sed -i \"s#database_host: .*#database_host: 127.0.0.1#g\" app/config/parameters.yml"
-                if ("master" == pimVersion) {
-                    sh "sed -i \"s#index_hosts: .*#index_hosts: 'elastic:changeme@127.0.0.1:9200'#g\" app/config/parameters.yml"
-                }
-                sh "sed -i \"s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#\" app/config/pim_parameters.yml"
-            }
-
-            String gcrImageName = getPimGCRImageName(pimVersion)
-            saveDockerData(gcrImageName)
-
-            // Add image to array for cleanup
-            gcrImages += "${gcrImageName}"
-        }
-    })
-}
-
-/**
  * Run checkout of the PHP client, for a given PHP version, HTTP client and PSR7 implementation.
  * Run composer, prepare configuration files and push data to a docker registry image.
  *
@@ -195,8 +161,8 @@ void buildPim(String pimVersion, String phpVersion) {
  * @param psrImplem  Name of the PSR 7 implementation package to checkout
  */
 void buildClient(String phpVersion, String client, String psrImplem) {
-    withBuildNode(phpVersion,{
-        dir("git") {
+    withBuildNodeTemplate(phpVersion,{
+        dir("php-api-client") {
             checkout scm
 
             container("php") {
@@ -208,11 +174,90 @@ void buildClient(String phpVersion, String client, String psrImplem) {
             }
 
             String gcrImageName = getApiClientGCRImageName(phpVersion, client, psrImplem)
-            saveDockerData(gcrImageName)
-            
-            // Add image to array for cleanup
-            gcrImages += "${gcrImageName}"
+            saveDataToGCR("php", "/home/jenkins/php-api-client", gcrImageName)
         }
+    })
+}
+
+/**
+ * Run checkout of the PIM for a given PHP version and a PIM version.
+ * Run composer, prepare configuration files, install PIM and push container data to docker registry images.
+ *
+ * @param pimVersion PIM version to checkout
+ */
+void buildPim17(String pimVersion) {
+    withPim17Template({
+        dir("php-api-client") {
+            checkout scm
+
+            container("php") {
+                sh """sudo cp .ci/akeneo.conf /etc/apache2/sites-available/000-default.conf"""
+            }
+        }
+
+        dir("pim") {
+            checkout([$class: 'GitSCM',
+                branches: [[name: pimVersion]],
+                userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+            ])
+
+            container("php") {
+                sh """composer --ansi require "akeneo/catalogs":"dev-master" --optimize-autoloader --no-interaction --no-progress --prefer-dist"""
+                sh """cp app/config/parameters.yml.dist app/config/parameters.yml"""
+                sh """sed -i "s#database_host: .*#database_host: 127.0.0.1#g" app/config/parameters.yml"""
+                sh """sed -i "s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#" app/config/pim_parameters.yml"""
+                sh """chown -R docker:docker /home/jenkins/pim"""
+                sh """sudo /usr/sbin/apache2ctl graceful"""
+                sh """su docker -c './app/console pim:install -e prod'"""
+            }
+        }
+
+        def backups = [:]
+        backups["pim-${pimVersion}-php"]    = {saveDataToGCR("php", "/home/jenkins/pim", "${imageRepo}/pim-${pimVersion}-php:${imageTag}")}
+        backups["pim-${pimVersion}-mysql"]  = {saveDataToGCR("mysql", "/var/lib/mysql", "${imageRepo}/pim-${pimVersion}-mysql:${imageTag}")}
+        parallel backups
+    })
+}
+
+/**
+ * Run checkout of the PIM for a given PHP version and a PIM version.
+ * Run composer, prepare configuration files, install PIM and push container data to docker registry images.
+ *
+ * @param pimVersion PIM version to checkout
+ */
+void buildPim20(String pimVersion) {
+    withPim20Template({
+        dir("php-api-client") {
+            checkout scm
+
+            container("httpd") {
+                sh """cp .ci/akeneo.conf /usr/local/apache2/conf/vhost.conf"""
+            }
+        }
+
+        dir("pim") {
+            checkout([$class: 'GitSCM',
+                branches: [[name: pimVersion]],
+                userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
+            ])
+
+            container("php") {
+                sh """composer --ansi require "akeneo/catalogs":"dev-master" --optimize-autoloader --no-interaction --no-progress --prefer-dist"""
+                sh """cp app/config/parameters.yml.dist app/config/parameters.yml"""
+                sh """sed -i "s#database_host: .*#database_host: 127.0.0.1#g" app/config/parameters.yml"""
+                sh """sed -i "s#index_hosts: .*#index_hosts: 'elastic:changeme@127.0.0.1:9200'#g" app/config/parameters.yml"""
+                sh """sed -i "s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#" app/config/pim_parameters.yml"""
+                sh """bin/console pim:install -e prod"""
+                sh """chown -R www-data:www-data /home/jenkins/pim/"""
+            }
+        }
+
+        def backups = [:]
+        backups["pim-${pimVersion}-php"]    = {saveDataToGCR("php", "/home/jenkins/pim", "${imageRepo}/pim-${pimVersion}-php:${imageTag}")}
+        backups["pim-${pimVersion}-httpd"]  = {saveDataToGCR("httpd", "/usr/local/apache2/conf", "${imageRepo}/pim-${pimVersion}-httpd:${imageTag}")}
+        backups["pim-${pimVersion}-mysql"]  = {saveDataToGCR("mysql", "/var/lib/mysql", "${imageRepo}/pim-${pimVersion}-mysql:${imageTag}")}
+        backups["pim-${pimVersion}-elasticsearch"]  = {saveDataToGCR("elasticsearch", "/usr/share/elasticsearch/data", "${imageRepo}/pim-${pimVersion}-elasticsearch:${imageTag}")}
+        parallel backups
     })
 }
 
@@ -226,7 +271,7 @@ void buildClient(String phpVersion, String client, String psrImplem) {
 void runPhpCsFixerTest(String phpVersion, String client, String psrImplem) {
     String phpApiImage = getApiClientGCRImageName(phpVersion, client, psrImplem)
 
-    withPhpApi(phpApiImage, phpVersion, {
+    withPhpApiTemplate(phpApiImage, phpVersion, {
         dir("/home/jenkins/php-api-client") {
             try {
                 sh "./bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php --format=junit > junit_output.xml"
@@ -248,7 +293,7 @@ void runPhpCsFixerTest(String phpVersion, String client, String psrImplem) {
 void runPhpSpecTest(String phpVersion, String client, String psrImplem) {
     String phpApiImage = getApiClientGCRImageName(phpVersion, client, psrImplem)
 
-    withPhpApi(phpApiImage, phpVersion, {
+    withPhpApiTemplate(phpApiImage, phpVersion, {
         dir("/home/jenkins/php-api-client") {
             try {
                 sh "./bin/phpspec run --no-interaction --format=junit > junit_output.xml"
@@ -310,7 +355,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
     String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
     String pimImageName     = getPimGCRImageName(pimVersion)
 
-    queue(phpApiImageName, pimImageName, pimVersion, phpVersion, {
+    queue(pimVersion, phpVersion, client, psrImplem, {
         def messages = new net.sf.json.JSONArray()
         def files = []
 
@@ -322,17 +367,9 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
             messages.add([
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
-                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
+                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /tmp/pod/php-container-id" '''],
                 // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" etc/parameters.yml' '''],
-                // Copy apache configuration for Kubernetes
-                [container: "php", script: "sudo cp /home/jenkins/php-api-client/.ci/akeneo.conf /etc/apache2/sites-available/000-default.conf"],
-                // Own pim folder to docker user/group (which is also the apache user)
-                [container: "php", script: "chown -R docker:docker /home/jenkins/pim"],
-                // Reload apache (No restart otherwise pod will crash)
-                [container: "php", script: "sudo /usr/sbin/apache2ctl graceful"],
-                // Install pim as docker user
-                [container: "php", script: "su docker -c './app/console pim:install -e prod'"],
+                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /tmp/pod/php-container-id)#g" etc/parameters.yml' '''],
                 [
                     container: "php-api",
                     junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
@@ -366,7 +403,7 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
     String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
     String pimImageName     = getPimGCRImageName(pimVersion)
 
-    queue(phpApiImageName, pimImageName, pimVersion, phpVersion, {
+    queue(pimVersion, phpVersion, client, psrImplem, {
         def messages = new net.sf.json.JSONArray()
         def files = []
 
@@ -378,20 +415,12 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
             messages.add([
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
-                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
+                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /tmp/pod/php-container-id" '''],
                 // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" etc/parameters.yml' '''],
+                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /tmp/pod/php-container-id)#g" etc/parameters.yml' '''],
                 // Change php-api-client conf for Pim 2.x
                 [container: "php-api", script: '''sed -i 's#bin_path: .*#bin_path: bin#g' etc/parameters.yml'''],
                 [container: "php-api", script: '''sed -i 's#version: .*#version: #g' etc/parameters.yml'''],
-                // Copy apache configuration for Kubernetes
-                [container: "httpd", script: "cp /home/jenkins/php-api-client/.ci/akeneo.conf /usr/local/apache2/conf/vhost.conf"],
-                // Reload apache (No restart otherwise pod will crash)
-                [container: "httpd", script: "pkill -HUP httpd"],
-                // Install pim as docker user
-                [container: "php", script: "bin/console pim:install -e prod"],
-                // Own pim folder to docker user/group (which is also the apache user)
-                [container: "php", script: "chown -R www-data:www-data /home/jenkins/pim/"],
                 [
                     container: "php-api",
                     junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
@@ -401,6 +430,132 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
         }
         return messages
     })
+}
+
+def withPim17Template(body) {
+    clearTemplateNames()
+    def uuid = UUID.randomUUID().toString()
+
+    withCredentials([string(credentialsId: 'composer-token', variable: 'token')]) {
+        podTemplate(name: "php-api-client-node", label: "build-" + uuid, containers: [
+            containerTemplate(
+                name: "docker",
+                image: "paulwoelfel/docker-gcloud",
+                ttyEnabled: true,
+                command: 'cat',
+                envVars: [envVar(key: "DOCKER_API_VERSION", value: "1.23")],
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '200Mi'
+            ),
+            containerTemplate(
+                name: "php",
+                image: "akeneo/apache-php:php-5.6",
+                ttyEnabled: true,
+                alwaysPullImage: true,
+                envVars: [
+                    envVar(key: "COMPOSER_HOME", value: "/shared/.composer"),
+                    envVar(key: "COMPOSER_AUTH", value: """{"github-oauth":{"github.com": "$token"}}""")],
+                resourceRequestCpu: '500m',
+                resourceRequestMemory: '750Mi'
+            ),
+            containerTemplate(
+                name: "mysql",
+                image: "eu.gcr.io/akeneo-ci/mysql:5.5",
+                ttyEnabled: true,
+                alwaysPullImage: true,
+                envVars: [
+                    envVar(key: "MYSQL_ROOT_PASSWORD",  value: "root"),
+                    envVar(key: "MYSQL_USER",           value: "akeneo_pim"),
+                    envVar(key: "MYSQL_PASSWORD",       value: "akeneo_pim"),
+                    envVar(key: "MYSQL_DATABASE",       value: "akeneo_pim")],
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '700Mi'
+            )
+        ], volumes: [
+            nfsVolume(mountPath: '/shared', serverAddress: "${env.NFS_IP}", serverPath: '/exports', readOnly: false),
+            hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
+            emptyDirVolume(mountPath: '/data', memory: true)
+        ]) {
+            node("build-" + uuid) {
+                dir('/home/jenkins') {
+                    body()
+                }
+            }
+        }
+    }
+}
+
+def withPim20Template(body) {
+    clearTemplateNames()
+    def uuid = UUID.randomUUID().toString()
+
+    withCredentials([string(credentialsId: 'composer-token', variable: 'token')]) {
+        podTemplate(name: "php-api-client-node", label: "build-" + uuid, containers: [
+            containerTemplate(
+                name: "docker",
+                image: "paulwoelfel/docker-gcloud",
+                ttyEnabled: true,
+                command: 'cat',
+                envVars: [envVar(key: "DOCKER_API_VERSION", value: "1.23")],
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '200Mi'
+            ),
+            containerTemplate(
+                name: "php",
+                image: "eu.gcr.io/akeneo-ci/php:7.1-fpm",
+                ttyEnabled: true,
+                alwaysPullImage: true,
+                envVars: [
+                    envVar(key: "COMPOSER_HOME", value: "/shared/.composer"),
+                    envVar(key: "COMPOSER_AUTH", value: """{"github-oauth":{"github.com": "$token"}}""")],
+                resourceRequestCpu: '500m',
+                resourceRequestMemory: '1000Mi'
+            ),
+            containerTemplate(
+                name: "httpd",
+                image: "eu.gcr.io/akeneo-ci/httpd:2.4",
+                ttyEnabled: true,
+                alwaysPullImage: true,
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '200Mi'
+            ),
+            containerTemplate(
+                name: "mysql",
+                image: "eu.gcr.io/akeneo-ci/mysql:5.7",
+                ttyEnabled: true,
+                alwaysPullImage: true,
+                envVars: [
+                    envVar(key: "MYSQL_ROOT_PASSWORD",  value: "root"),
+                    envVar(key: "MYSQL_USER",           value: "akeneo_pim"),
+                    envVar(key: "MYSQL_PASSWORD",       value: "akeneo_pim"),
+                    envVar(key: "MYSQL_DATABASE",       value: "akeneo_pim")],
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '700Mi'
+            ),
+            containerTemplate(
+                name: "elasticsearch",
+                image: "eu.gcr.io/akeneo-cloud/elasticsearch:v5.6.4-0",
+                ttyEnabled: true,
+                command: 'su',
+                args: 'elasticsearch -c "cd /usr/share/elasticsearch && ./bin/es-docker"',
+                alwaysPullImage: true,
+                envVars: [
+                    envVar(key: "ES_JAVA_OPTS", value: "-Xms1g -Xmx1g")],
+                resourceRequestCpu: '100m',
+                resourceRequestMemory: '1500Mi'
+            )
+        ], volumes: [
+            nfsVolume(mountPath: '/shared', serverAddress: "${env.NFS_IP}", serverPath: '/exports', readOnly: false),
+            hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
+            emptyDirVolume(mountPath: '/data', memory: true)
+        ]) {
+            node("build-" + uuid) {
+                dir('/home/jenkins') {
+                    body()
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -413,7 +568,7 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
  *  - (Run)  docker         : Run Google Cloud commands inside
  *  - (Run)  php            : Run PHP commands inside
  */
-def withBuildNode(String phpVersion, body) {
+def withBuildNodeTemplate(String phpVersion, body) {
     clearTemplateNames()
     def uuid = UUID.randomUUID().toString()
 
@@ -434,12 +589,13 @@ def withBuildNode(String phpVersion, body) {
                 alwaysPullImage: true,
                 envVars: [
                     envVar(key: "COMPOSER_HOME", value: "/shared/.composer"),
-                    envVar(key: "COMPOSER_AUTH", value: "{\"github-oauth\":{\"github.com\": \"$token\"}}")],
+                    envVar(key: "COMPOSER_AUTH", value: """{"github-oauth":{"github.com": "$token"}}""")],
                 resourceRequestCpu: '500m',
                 resourceRequestMemory: '1000Mi')
         ], volumes: [
             nfsVolume(mountPath: '/shared', serverAddress: "${env.NFS_IP}", serverPath: '/exports', readOnly: false),
-            hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
+            hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
+            emptyDirVolume(mountPath: '/data', memory: true)
         ]) {
             node("build-" + uuid) {
                 dir('/home/jenkins') {
@@ -458,7 +614,7 @@ def withBuildNode(String phpVersion, body) {
  * Kubernetes Template :
  *  - (Run)  docker         : Run Google Cloud commands inside
  */
-def withDockerGcloud(body) {
+def withDockerGcloudTemplate(body) {
     clearTemplateNames()
     def uuid = UUID.randomUUID().toString()
 
@@ -493,7 +649,7 @@ def withDockerGcloud(body) {
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client
  *  - (Run)  php            : Run PHP commands inside
  */
-def withPhpApi(String phpApiImageName, String phpVersion, body) {
+def withPhpApiTemplate(String phpApiImageName, String phpVersion, body) {
     clearTemplateNames()
     def uuid = UUID.randomUUID().toString()
 
@@ -512,8 +668,7 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
         [{
             "name":                 "php-api-client-data",
             "image":                "${phpApiImageName}",
-            "imagePullPolicy":      "Always",
-            "command": ["sh", "-c", "mkdir -p /home/jenkins/php-api-client && cp -Rp /data/. /home/jenkins/php-api-client"],
+            "command": ["sh", "-c", "mkdir -p /home/jenkins/php-api-client && tar -xf /data/data.tar.gz -C /home/jenkins/php-api-client"],
             "volumeMounts":[{
                 "name":             "workspace-volume",
                 "mountPath":        "/home/jenkins"
@@ -534,7 +689,6 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
  * Each message will create a kubernetes pod (based on template) and run its commands sequentially.
  * 
  * @param phpApiImageName   Full GCR image name to pull, containing php-api-client data
- * @param pimImageName      Full GCR image name to pull, containing pim data
  * @param pimVersion        PIM version to run the test with
  * @param phpVersion        PHP version to run the test with
  * @param body              JSON Array containing the list of messages to execute in parallel
@@ -543,20 +697,25 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client (Used for K8s PIM's template)
  *  - (Run)  gcloud         : Used to manage pubsub queues and to create PIM's Kubernetes pods (Based on template)
  */
-def queue(String phpApiImageName, String pimImageName, String pimVersion, String phpVersion, body) {
+def queue(String pimVersion, String phpVersion, String client, String psrImplem, body) {
     clearTemplateNames()
-    def uuid = UUID.randomUUID().toString()
+    String uuid = UUID.randomUUID().toString()
     // Maximum pods in parallel. Default set to number of messages
     def maxScale = 100
-    def k8s_template
+    String phpApiClientDataImage    = getApiClientGCRImageName(phpVersion, client, psrImplem)
+    String pimDataImage             = "${imageRepo}/pim-${pimVersion}-php:${imageTag}"
+    String httpdConfImage           = "${imageRepo}/pim-${pimVersion}-httpd:${imageTag}"
+    String mysqlDataImage           = "${imageRepo}/pim-${pimVersion}-mysql:${imageTag}"
+    String elasticSearchDataImage   = "${imageRepo}/pim-${pimVersion}-elasticsearch:${imageTag}"
+    String k8sTemplate
 
     // Define Kubernetes pod template based on PIM version
     switch (pimVersion) {
         case "1.7":
-            k8s_template = "pim_17_ce.yaml"
+            k8sTemplate = "pim_17_ce.yaml"
             break
         case "master":
-            k8s_template = "pim_20_ce.yaml"
+            k8sTemplate = "pim_20_ce.yaml"
             break
         default:
             error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
@@ -570,9 +729,8 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
         """
         [{
             "name":                 "php-api-client-data",
-            "image":                "${phpApiImageName}",
-            "imagePullPolicy":      "Always",
-            "command": ["sh", "-c", "mkdir -p /home/jenkins/php-api-client && cp -Rp /data/. /home/jenkins/php-api-client"],
+            "image":                "${phpApiClientDataImage}",
+            "command": ["sh", "-c", "mkdir -p /home/jenkins/php-api-client && tar -xf /data/data.tar.gz -C /home/jenkins/php-api-client"],
             "volumeMounts":[{
                 "name":             "workspace-volume",
                 "mountPath":        "/home/jenkins"
@@ -582,45 +740,54 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
     ], volumes: [
         hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
         hostPathVolume(hostPath: "/usr/bin/docker", mountPath: "/usr/bin/docker")
-
     ]) {
         node("pubsub-" + uuid) {
             def messages = body()
 
             container("gcloud") {
-                sh "gcloud.phar pubsub:topic:create ${env.NODE_NAME}"
-                sh "gcloud.phar pubsub:topic:create ${env.NODE_NAME}-results"
-                sh "gcloud.phar pubsub:subscription:create ${env.NODE_NAME} ${env.NODE_NAME}-subscription"
-                sh "gcloud.phar pubsub:subscription:create ${env.NODE_NAME}-results ${env.NODE_NAME}-results-subscription"
+                def pubsubPrefix = "php-api-client-${env.NODE_NAME}"
+                sh "gcloud.phar pubsub:topic:create ${pubsubPrefix}"
+                sh "gcloud.phar pubsub:topic:create ${pubsubPrefix}-results"
+                sh "gcloud.phar pubsub:subscription:create ${pubsubPrefix} ${pubsubPrefix}-subscription"
+                sh "gcloud.phar pubsub:subscription:create ${pubsubPrefix}-results ${pubsubPrefix}-results-subscription"
 
                 def size = messages.size()
                 def scale = size > maxScale ? maxScale : size
 
                 writeJSON file: 'output.json', json: messages
-                sh "gcloud.phar pubsub:message:publish ${env.NODE_NAME} output.json"
+                sh "gcloud.phar pubsub:message:publish ${pubsubPrefix} output.json"
 
                 sh """sed -i \
                 -e 's#JOB_SCALE#${scale}#g' \
-                -e 's#JOB_NAME#${env.NODE_NAME}#g' \
+                -e 's#JOB_NAME#${pubsubPrefix}#g' \
                 -e 's#JOB_COMPLETIONS#${size}#g' \
-                -e 's#SUBSCRIPTION_NAME#${env.NODE_NAME}-subscription#g' \
-                -e 's#RESULT_TOPIC#${env.NODE_NAME}-results#g' \
-                -e 's#API_CLIENT_IMAGE#${phpApiImageName}#g' \
-                -e 's#PIM_IMAGE#${pimImageName}#g' \
+                -e 's#SUBSCRIPTION_NAME#${pubsubPrefix}-subscription#g' \
+                -e 's#RESULT_TOPIC#${pubsubPrefix}-results#g' \
+                -e 's#PHP_API_CLIENT_DATA_IMAGE#${phpApiClientDataImage}#g' \
+                -e 's#PIM_DATA_IMAGE#${pimDataImage}#g' \
+                -e 's#MYSQL_DATA_IMAGE#${mysqlDataImage}#g' \
                 -e 's#PHP_API_VERSION#${phpVersion}#g' \
-                /home/jenkins/php-api-client/.ci/k8s/${k8s_template}
+                /home/jenkins/php-api-client/.ci/k8s/${k8sTemplate}
                 """
 
+                if ("master" == pimVersion) {
+                    sh """sed -i \
+                    -e 's#HTTPD_CONF_IMAGE#${httpdConfImage}#g' \
+                    -e 's#ELASTICSEARCH_DATA_IMAGE#${elasticSearchDataImage}#g' \
+                    /home/jenkins/php-api-client/.ci/k8s/${k8sTemplate}
+                    """
+                }
+
                 try {
-                    sh "cat /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
-                    sh "kubectl apply -f /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
-                    sh "gcloud.phar job:wait ${env.NODE_NAME}-results-subscription ${size} ${env.WORKSPACE} --ansi"
+                    sh "cat /home/jenkins/php-api-client/.ci/k8s/${k8sTemplate}"
+                    sh "kubectl apply -f /home/jenkins/php-api-client/.ci/k8s/${k8sTemplate}"
+                    sh "gcloud.phar job:wait ${pubsubPrefix}-results-subscription ${size} ${env.WORKSPACE} --ansi"
                 } finally {
-                    sh "kubectl delete job ${env.NODE_NAME} --namespace=jenkins-prod"
-                    sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}"
-                    sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}-results"
-                    sh "gcloud.phar pubsub:subscription:delete ${env.NODE_NAME}-subscription"
-                    sh "gcloud.phar pubsub:subscription:delete ${env.NODE_NAME}-results-subscription"
+                    sh "kubectl delete job ${pubsubPrefix} --namespace=jenkins-prod"
+                    sh "gcloud.phar pubsub:topic:delete ${pubsubPrefix}"
+                    sh "gcloud.phar pubsub:topic:delete ${pubsubPrefix}-results"
+                    sh "gcloud.phar pubsub:subscription:delete ${pubsubPrefix}-subscription"
+                    sh "gcloud.phar pubsub:subscription:delete ${pubsubPrefix}-results-subscription"
 
                     junit allowEmptyResults: true, testResults: 'junit/**/*.xml'
                 }
@@ -642,11 +809,26 @@ def clearTemplateNames() {
  * @param gcrName               PHP version to run the test with
  * @param gCloudcontainerName   Container name allowed to build and push images to Google Cloud Registry
  */
-def saveDockerData(String gcrName, String gCloudcontainerName = "docker") {
-    container(gCloudcontainerName) {
-        sh "echo 'FROM alpine:3.6\nADD . /data\n' > Dockerfile"
-        sh "docker build -t ${gcrName} ."
-        sh "gcloud docker -- push ${gcrName}"
+def saveDataToGCR(String containerName, String pathToSave, String gcrImageName) {
+    String flatPath = pathToSave.replaceAll("/", "-")
+    String imageName = "${containerName}-${flatPath}"
+    gcrImageName = gcrImageName ?: "${imageRepo}/${imageName}:${imageTag}"
+
+    dir("/data/${containerName}/${flatPath}") {
+        container(containerName) {
+            try {
+                sh "tar -zcvf data.tar.gz -C ${pathToSave} --warning=no-file-changed --warning=no-file-removed ."
+            } catch (Exception e) {
+                println e
+            }
+        }
+
+        container("docker"){
+            sh "echo 'FROM alpine:3.6\nCOPY data.tar.gz /data/data.tar.gz\n' > Dockerfile"
+            sh "docker build -t ${gcrImageName} ."
+            sh "gcloud docker -- push ${gcrImageName}"
+            gcrImages += "${gcrImageName}"
+        }
     }
 }
 
