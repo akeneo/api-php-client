@@ -817,7 +817,7 @@ def saveDataToGCR(String containerName, String pathToSave, String gcrImageName) 
     dir("/data/${containerName}/${flatPath}") {
         container(containerName) {
             try {
-                sh "tar -zcvf data.tar.gz -C ${pathToSave} ."
+                sh "tar -zcvf data.tar.gz -C ${pathToSave} --warning=no-file-changed --warning=no-file-removed ."
             } catch (Exception e) {
                 println e
             }
