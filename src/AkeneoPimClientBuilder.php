@@ -204,7 +204,7 @@ class AkeneoPimClientBuilder
      *
      * @return array
      */
-    protected function setUp(Authentication $authentication): array
+    protected function setUp(Authentication $authentication)
     {
         $uriGenerator = new UriGenerator($this->baseUri);
 

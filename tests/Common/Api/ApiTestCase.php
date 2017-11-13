@@ -53,7 +53,11 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
             $generator = new DockerCredentialGenerator($config['pim']['docker_name']);
         }
 
-        $credentials = $generator->generate($config['pim']['install_path'], $config['pim']['bin_path'], $config['pim']['version']);
+        $credentials = $generator->generate(
+            $config['pim']['install_path'],
+            $config['pim']['bin_path'],
+            $config['pim']['version']
+        );
         $clientBuilder = new AkeneoPimClientBuilder($config['api']['baseUri']);
 
         return $clientBuilder->buildAuthenticatedByPassword(
@@ -90,8 +94,10 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert that all the expected data of a content of a resource are the same in an actual one.
-     * An associative array can contain more elements than expected, but an numeric key array must be strictly identical.
+     * Assert that all the expected data of a content of a resource are the same
+     * in an actual one.
+     * An associative array can contain more elements than expected, but an
+     * numeric key array must be strictly identical.
      *
      * @param array $expectedContent
      * @param array $actualContent
