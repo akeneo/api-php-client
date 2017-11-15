@@ -64,6 +64,8 @@ class AkeneoPimClientBuilder
     }
 
     /**
+     * Allows to directly set a client instead of using HttpClientDiscovery::find()
+     *
      * @param Client $httpClient
      *
      * @return AkeneoPimClientBuilder
@@ -76,6 +78,8 @@ class AkeneoPimClientBuilder
     }
 
     /**
+     * Allows to directly set a request factory instead of using MessageFactoryDiscovery::find()
+     *
      * @param RequestFactory $requestFactory
      *
      * @return AkeneoPimClientBuilder
@@ -88,6 +92,8 @@ class AkeneoPimClientBuilder
     }
 
     /**
+     * Allows to directly set a stream factory instead of using StreamFactoryDiscovery::find()
+     *
      * @param StreamFactory $streamFactory
      *
      * @return AkeneoPimClientBuilder
@@ -164,42 +170,6 @@ class AkeneoPimClientBuilder
     }
 
     /**
-     * @return Client
-     */
-    protected function getHttpClient()
-    {
-        if (null === $this->httpClient) {
-            $this->httpClient = HttpClientDiscovery::find();
-        }
-
-        return $this->httpClient;
-    }
-
-    /**
-     * @return RequestFactory
-     */
-    protected function getRequestFactory()
-    {
-        if (null === $this->requestFactory) {
-            $this->requestFactory = MessageFactoryDiscovery::find();
-        }
-
-        return $this->requestFactory;
-    }
-
-    /**
-     * @return StreamFactory
-     */
-    public function getStreamFactory()
-    {
-        if (null === $this->streamFactory) {
-            $this->streamFactory = StreamFactoryDiscovery::find();
-        }
-
-        return $this->streamFactory;
-    }
-
-    /**
      * @param Authentication $authentication
      *
      * @return array
@@ -226,4 +196,41 @@ class AkeneoPimClientBuilder
 
         return [$resourceClient, $pageFactory, $cursorFactory];
     }
+
+    /**
+     * @return Client
+     */
+    private function getHttpClient()
+    {
+        if (null === $this->httpClient) {
+            $this->httpClient = HttpClientDiscovery::find();
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
+     * @return RequestFactory
+     */
+    private function getRequestFactory()
+    {
+        if (null === $this->requestFactory) {
+            $this->requestFactory = MessageFactoryDiscovery::find();
+        }
+
+        return $this->requestFactory;
+    }
+
+    /**
+     * @return StreamFactory
+     */
+    private function getStreamFactory()
+    {
+        if (null === $this->streamFactory) {
+            $this->streamFactory = StreamFactoryDiscovery::find();
+        }
+
+        return $this->streamFactory;
+    }
+
 }
