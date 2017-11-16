@@ -4,7 +4,7 @@ import org.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateAction
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
-String[] pimVersions = ["1.7", "master"]
+String[] pimVersions = ["1.7", "2.0"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
 def clientConfig = [
     "php-http/guzzle6-adapter": ["phpVersion": supportedPhpVersions, "psrImplem": ["guzzlehttp/psr7"]],
@@ -59,7 +59,7 @@ try {
                     case "1.7":
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "5.6")}
                         break
-                    case "master":
+                    case "2.0":
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "7.1")}
                         break
                     default:
@@ -171,7 +171,7 @@ void buildPim(String pimVersion, String phpVersion) {
                 sh "composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
                 sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
                 sh "sed -i \"s#database_host: .*#database_host: 127.0.0.1#g\" app/config/parameters.yml"
-                if ("master" == pimVersion) {
+                if ("2.0" == pimVersion) {
                     sh "sed -i \"s#index_hosts: .*#index_hosts: 'elastic:changeme@127.0.0.1:9200'#g\" app/config/parameters.yml"
                 }
                 sh "sed -i \"s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#\" app/config/pim_parameters.yml"
@@ -209,7 +209,7 @@ void buildClient(String phpVersion, String client, String psrImplem) {
 
             String gcrImageName = getApiClientGCRImageName(phpVersion, client, psrImplem)
             saveDockerData(gcrImageName)
-            
+
             // Add image to array for cleanup
             gcrImages += "${gcrImageName}"
         }
@@ -279,7 +279,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
         case "1.7":
             runPim17IntegrationTest(phpVersion, client, psrImplem)
             break
-        case "master":
+        case "2.0":
             runPim20IntegrationTest(phpVersion, client, psrImplem)
             break
         default:
@@ -362,7 +362,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
  * @param psrImplem  Name of the PSR 7 implementation package to run the test with
  */
 def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) {
-    String pimVersion       = "master"
+    String pimVersion       = "2.0"
     String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
     String pimImageName     = getPimGCRImageName(pimVersion)
 
@@ -404,10 +404,10 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
 }
 
 /**
- * This function allow you to run Google Cloud commands 
- * 
+ * This function allow you to run Google Cloud commands
+ *
  * @param body              Groovy script to execute inside Jenkins node
- * 
+ *
  * Kubernetes Template :
  * (Default location is set to "/home/jenkins")
  *  - (Run)  docker         : Run Google Cloud commands inside
@@ -451,10 +451,10 @@ def withBuildNode(String phpVersion, body) {
 }
 
 /**
- * This function allow you to run Google Cloud commands 
- * 
+ * This function allow you to run Google Cloud commands
+ *
  * @param body              Groovy script to execute inside "docker" container
- * 
+ *
  * Kubernetes Template :
  *  - (Run)  docker         : Run Google Cloud commands inside
  */
@@ -483,12 +483,12 @@ def withDockerGcloud(body) {
 }
 
 /**
- * This function allow you to run php commands with php-api-client sources 
- * 
+ * This function allow you to run php commands with php-api-client sources
+ *
  * @param phpApiImageName   Full GCR image name to pull, containing php-api-client data
  * @param phpVersion        PHP version to run the test with
  * @param body              Groovy script to execute inside "php" container
- * 
+ *
  * Kubernetes Template :
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client
  *  - (Run)  php            : Run PHP commands inside
@@ -530,15 +530,15 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
 }
 
 /**
- * This function allow you to run a list of messages on parallel pods. 
+ * This function allow you to run a list of messages on parallel pods.
  * Each message will create a kubernetes pod (based on template) and run its commands sequentially.
- * 
+ *
  * @param phpApiImageName   Full GCR image name to pull, containing php-api-client data
  * @param pimImageName      Full GCR image name to pull, containing pim data
  * @param pimVersion        PIM version to run the test with
  * @param phpVersion        PHP version to run the test with
  * @param body              JSON Array containing the list of messages to execute in parallel
- * 
+ *
  * Kubernetes Template :
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client (Used for K8s PIM's template)
  *  - (Run)  gcloud         : Used to manage pubsub queues and to create PIM's Kubernetes pods (Based on template)
@@ -555,7 +555,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
         case "1.7":
             k8s_template = "pim_17_ce.yaml"
             break
-        case "master":
+        case "2.0":
             k8s_template = "pim_20_ce.yaml"
             break
         default:
