@@ -232,5 +232,4 @@ class AkeneoPimClientBuilder
 
         return $this->streamFactory;
     }
-
 }
