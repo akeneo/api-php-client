@@ -11,7 +11,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Akeneo\\Pim\\": "src/",
+      "Akeneo\\Pim\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Akeneo\\Pim\\tests\\": "tests/"
     }
   },
