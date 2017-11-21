@@ -27,29 +27,21 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    protected function setUp()
     {
-        parent::__construct($name, $data, $dataName);
-
         $this->configuration = $this->parseConfigurationFile();
         $this->consoleCommandLauncher = new ConsoleCommandLauncher($this->getConfiguration());
+
+        $installer = new DatabaseInstaller($this->getCommandLauncher());
+        $installer->install();
     }
 
     /**
      * @return StreamFactory
      */
-    public function getStreamFactory()
+    protected function getStreamFactory()
     {
         return StreamFactoryDiscovery::find();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        $installer = new DatabaseInstaller($this->getCommandLauncher());
-        $installer->install();
     }
 
     /**
@@ -126,7 +118,7 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return string
      */
-    private function getConfigurationFile()
+    protected function getConfigurationFile()
     {
         return realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
     }
