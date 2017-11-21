@@ -1,7 +1,8 @@
 bin
 vendor
 composer.lock
-/phpspec.yml
-.php_cs.cache
+docker-compose.yml
 etc/parameters.yml
+phpspec.yml
 phpunit.xml
+.php_cs.cache
