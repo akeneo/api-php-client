@@ -4,10 +4,9 @@ namespace Akeneo\Pim\tests\Common\Api;
 
 use Akeneo\Pim\AkeneoPimClientBuilder;
 use Akeneo\Pim\AkeneoPimClientInterface;
-use Akeneo\Pim\tests\DockerCredentialGenerator;
-use Akeneo\Pim\tests\DockerDatabaseInstaller;
-use Akeneo\Pim\tests\LocalCredentialGenerator;
-use Akeneo\Pim\tests\LocalDatabaseInstaller;
+use Akeneo\Pim\tests\ConsoleCommandLauncher;
+use Akeneo\Pim\tests\CredentialGenerator;
+use Akeneo\Pim\tests\DatabaseInstaller;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\StreamFactory;
 use Symfony\Component\Yaml\Yaml;
@@ -19,6 +18,23 @@ use Symfony\Component\Yaml\Yaml;
  */
 abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
 {
+    /** @var array */
+    private $configuration;
+
+    /** @var ConsoleCommandLauncher */
+    private $consoleCommandLauncher;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        $this->configuration = $this->parseConfigurationFile();
+        $this->consoleCommandLauncher = new ConsoleCommandLauncher($this->getConfiguration());
+    }
+
     /**
      * @return StreamFactory
      */
@@ -32,14 +48,8 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getConfiguration();
-
-        $installer = new LocalDatabaseInstaller();
-        if (true === $config['pim']['is_docker']) {
-            $installer = new DockerDatabaseInstaller($config['pim']['docker_name']);
-        }
-
-        $installer->install($config['pim']['install_path'], $config['pim']['bin_path']);
+        $installer = new DatabaseInstaller($this->getCommandLauncher());
+        $installer->install();
     }
 
     /**
@@ -48,16 +58,9 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     protected function createClient()
     {
         $config = $this->getConfiguration();
-        $generator = new LocalCredentialGenerator();
-        if (true === $config['pim']['is_docker']) {
-            $generator = new DockerCredentialGenerator($config['pim']['docker_name']);
-        }
+        $generator = new CredentialGenerator($this->getCommandLauncher());
 
-        $credentials = $generator->generate(
-            $config['pim']['install_path'],
-            $config['pim']['bin_path'],
-            $config['pim']['version']
-        );
+        $credentials = $generator->generate($config['pim']['version']);
         $clientBuilder = new AkeneoPimClientBuilder($config['api']['baseUri']);
 
         return $clientBuilder->buildAuthenticatedByPassword(
@@ -69,28 +72,19 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @throws \RuntimeException
-     *
+     * @return ConsoleCommandLauncher
+     */
+    protected function getCommandLauncher()
+    {
+        return $this->consoleCommandLauncher;
+    }
+
+    /**
      * @return array
      */
     protected function getConfiguration()
     {
-        $configFile = $this->getConfigurationFile();
-        if (!is_file($configFile)) {
-            throw new \RuntimeException('The configuration file parameters.yml is missing');
-        }
-
-        $config = Yaml::parse(file_get_contents($configFile));
-
-        return $config;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getConfigurationFile()
-    {
-        return realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
+        return $this->configuration;
     }
 
     /**
@@ -110,6 +104,31 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
         $expectedContent = $this->mergeResourceContents($actualContent, $expectedContent);
 
         $this->assertSame($expectedContent, $actualContent);
+    }
+
+    /**
+     * @throws \RuntimeException
+     *
+     * @return array
+     */
+    private function parseConfigurationFile()
+    {
+        $configFile = $this->getConfigurationFile();
+        if (!is_file($configFile)) {
+            throw new \RuntimeException('The configuration file parameters.yml is missing');
+        }
+
+        $config = Yaml::parse(file_get_contents($configFile));
+
+        return $config;
+    }
+
+    /**
+     * @return string
+     */
+    private function getConfigurationFile()
+    {
+        return realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
     }
 
     /**
