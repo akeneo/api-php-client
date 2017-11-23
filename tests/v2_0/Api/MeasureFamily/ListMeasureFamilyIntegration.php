@@ -11,7 +11,7 @@ class ListMeasureFamilyIntegration extends ApiTestCase
     public function testListPerPage()
     {
         $api = $this->createClient()->getMeasureFamilyApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedMeasureFamilies = $this->getExpectedMeasureFamilies();
 
         $firstPage = $api->listPerPage(5);
@@ -77,7 +77,7 @@ class ListMeasureFamilyIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getMeasureFamilyApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(10, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -89,7 +89,7 @@ class ListMeasureFamilyIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getMeasureFamilyApi();
         $expectedMeasureFamilies = $this->getExpectedMeasureFamilies();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(1, false, ['foo' => 'bar']);
 
@@ -129,7 +129,7 @@ class ListMeasureFamilyIntegration extends ApiTestCase
 
     public function getExpectedMeasureFamilies()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

@@ -12,7 +12,7 @@ class ListCategoryIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getCategoryApi();
         $expectedCategories = $this->getExpectedCategories();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -60,7 +60,7 @@ class ListCategoryIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getCategoryApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -72,7 +72,7 @@ class ListCategoryIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getCategoryApi();
         $expectedCategories = $this->getExpectedCategories();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -116,7 +116,7 @@ class ListCategoryIntegration extends ApiTestCase
      */
     protected function getExpectedCategories()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

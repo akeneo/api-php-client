@@ -11,7 +11,7 @@ class ListChannelApiIntegration extends ApiTestCase
     public function testListPerPage()
     {
         $api = $this->createClient()->getChannelAPi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedChannels = $this->getExpectedChannels();
 
         $firstPage = $api->listPerPage(1);
@@ -55,7 +55,7 @@ class ListChannelApiIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getChannelApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(1, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -67,7 +67,7 @@ class ListChannelApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getChannelApi();
         $expectedChannels = $this->getExpectedChannels();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(1, false, ['foo' => 'bar']);
 
@@ -110,7 +110,7 @@ class ListChannelApiIntegration extends ApiTestCase
      */
     public function getExpectedChannels()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

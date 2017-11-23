@@ -45,21 +45,24 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $username
+     * @param string $password
+     *
      * @return AkeneoPimClientInterface
      */
-    protected function createClient()
+    protected function createClient($username = 'admin', $password = 'admin')
     {
         $config = $this->getConfiguration();
         $generator = new CredentialGenerator($this->getCommandLauncher());
 
         $credentials = $generator->generate($config['pim']['version']);
-        $clientBuilder = new AkeneoPimClientBuilder($config['api']['baseUri']);
+        $clientBuilder = new AkeneoPimClientBuilder($config['pim']['base_uri']);
 
         return $clientBuilder->buildAuthenticatedByPassword(
             $credentials['client_id'],
             $credentials['secret'],
-            $config['api']['credentials']['username'],
-            $config['api']['credentials']['password']
+            $username,
+            $password
         );
     }
 
@@ -99,6 +102,14 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return string
+     */
+    protected function getConfigurationFile()
+    {
+        return realpath(dirname(__FILE__)).'/../../../tests/etc/parameters.yml';
+    }
+
+    /**
      * @throws \RuntimeException
      *
      * @return array
@@ -113,14 +124,6 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
         $config = Yaml::parse(file_get_contents($configFile));
 
         return $config;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getConfigurationFile()
-    {
-        return realpath(dirname(__FILE__)).'/../../../etc/parameters.yml';
     }
 
     /**

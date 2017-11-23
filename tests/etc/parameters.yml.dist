@@ -1,10 +1,5 @@
-api:
-    baseUri: 'http://akeneo-pim'
-    credentials:
-        username: 'admin'
-        password: 'admin'
-
 pim:
+    base_uri: 'http://akeneo-pim'
     install_path: '/srv/pim'
     is_docker: true
     docker_name: akeneo-pim

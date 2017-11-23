@@ -12,7 +12,7 @@ class ListAttributeOptionIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getAttributeOptionApi();
         $expectedAttributeOptions = $this->getExpectedAttributeOptions();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage('weather_conditions', 2);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -60,7 +60,7 @@ class ListAttributeOptionIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getAttributeOptionApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage('weather_conditions',2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -72,7 +72,7 @@ class ListAttributeOptionIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getAttributeOptionApi();
         $expectedAttributeOptions = $this->getExpectedAttributeOptions();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage('weather_conditions',2, false, ['foo' => 'bar']);
 
@@ -126,7 +126,7 @@ class ListAttributeOptionIntegration extends ApiTestCase
      */
     protected function getExpectedAttributeOptions()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

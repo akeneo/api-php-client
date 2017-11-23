@@ -10,7 +10,7 @@ class GetProductMediaFileApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getProductMediaFileApi();
         $code = $api->listPerPage(1)->getItems()[0]['code'];
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $mediaFile = $api->get($code);
         $this->assertInternalType('array', $mediaFile);

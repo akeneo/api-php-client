@@ -12,7 +12,7 @@ class ListAttributeGroupIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getAttributeGroupApi();
         $expectedAttributeGroups = $this->getExpectedAttributeGroups();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -63,7 +63,7 @@ class ListAttributeGroupIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getAttributeGroupApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(4, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -75,7 +75,7 @@ class ListAttributeGroupIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getAttributeGroupApi();
         $expectedAttributeGroups = $this->getExpectedAttributeGroups();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -119,7 +119,7 @@ class ListAttributeGroupIntegration extends ApiTestCase
      */
     protected function getExpectedAttributeGroups()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

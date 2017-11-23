@@ -12,7 +12,7 @@ class ListLocaleApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getLocaleApi();
         $expectedLocales = $this->getExpectedLocales();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(3);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -59,7 +59,7 @@ class ListLocaleApiIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getLocaleApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(3, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -71,7 +71,7 @@ class ListLocaleApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getLocaleApi();
         $expectedLocales = $this->getExpectedLocales();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -162,7 +162,7 @@ class ListLocaleApiIntegration extends ApiTestCase
      */
     public function getExpectedLocales()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

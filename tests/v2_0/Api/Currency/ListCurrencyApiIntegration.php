@@ -12,7 +12,7 @@ class ListCurrencyApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getCurrencyApi();
         $expectedCurrencies = $this->getExpectedCurrencies();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(3);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -62,7 +62,7 @@ class ListCurrencyApiIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getCurrencyApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(7, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -74,7 +74,7 @@ class ListCurrencyApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getCurrencyApi();
         $expectedCurrencies = $this->getExpectedCurrencies();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -118,7 +118,7 @@ class ListCurrencyApiIntegration extends ApiTestCase
      */
     public function getExpectedCurrencies()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

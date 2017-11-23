@@ -208,7 +208,7 @@ void runCheckoutClient(String phpVersion, String client, String psrImplem) {
                 sh "composer require ${client} ${psrImplem}"
                 sh "composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist"
 
-                sh "cp etc/parameters.yml.dist etc/parameters.yml"
+                sh "cp tests/etc/parameters.yml.dist tests/etc/parameters.yml"
 
                 stash "php-api-client_${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
             }
@@ -333,9 +333,9 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
 
             if ("2.0" == pimVersion) {
                 docker.image("akeneo/php:${phpVersion}").inside("--link akeneo-pim:akeneo-pim --link httpd:httpd -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -w /home/docker/client --privileged") {
-                    sh "sed -i \"s#baseUri: .*#baseUri: 'http://httpd'#g\" etc/parameters.yml"
-                    sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" etc/parameters.yml"
-                    sh "sed -i \"s#version: .*#version: #g\" etc/parameters.yml"
+                    sh "sed -i \"s#base_uri: .*#base_uri: 'http://httpd'#g\" tests/etc/parameters.yml"
+                    sh "sed -i \"s#bin_path: .*#bin_path: bin#g\" tests/etc/parameters.yml"
+                    sh "sed -i \"s#version: .*#version: #g\" tests/etc/parameters.yml"
                     sh "sudo ./bin/phpunit -c phpunit.xml.dist --testsuite PHP_Client_Unit_Test_2_0 --log-junit build/logs/phpunit_integration.xml"
                 }
             }

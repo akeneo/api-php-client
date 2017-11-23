@@ -13,7 +13,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getProductMediaFileApi();
         $expectedMediaFiles = $this->getExpectedMediaFiles();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2);
 
@@ -62,7 +62,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getProductMediaFileApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -73,7 +73,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
     public function testListPerPageWithSpecificQueryParameter()
     {
         $api = $this->createClient()->getProductMediaFileApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedMediaFiles = $this->getExpectedMediaFiles();
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
@@ -126,7 +126,7 @@ class ListProductMediaFileApiIntegration extends ApiTestCase
      */
     protected function getExpectedMediaFiles()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             $this->sanitizeMediaFile([

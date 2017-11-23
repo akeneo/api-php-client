@@ -11,7 +11,7 @@ class ListFamilyApiIntegration extends ApiTestCase
     public function testListPerPage()
     {
         $api = $this->createClient()->getFamilyApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedFamilies = $this->getExpectedFamilies();
 
         $firstPage = $api->listPerPage(2);
@@ -60,7 +60,7 @@ class ListFamilyApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getFamilyApi();
         $expectedFamilies = $this->getExpectedFamilies();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -104,7 +104,7 @@ class ListFamilyApiIntegration extends ApiTestCase
      */
     protected function getExpectedFamilies()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [
