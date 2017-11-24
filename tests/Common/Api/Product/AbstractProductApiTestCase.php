@@ -3,8 +3,7 @@
 namespace Akeneo\Pim\tests\Common\Api\Product;
 
 use Akeneo\Pim\tests\Common\Api\ApiTestCase;
-use Akeneo\Pim\tests\DateSanitizer;
-use Akeneo\Pim\tests\MediaSanitizer;
+use Akeneo\Pim\tests\ValuesSanitizer;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -22,15 +21,6 @@ abstract class AbstractProductApiTestCase extends ApiTestCase
      */
     protected function sanitizeProductData(array $productData)
     {
-        foreach ($productData as $key => $value) {
-            if (is_array($value)) {
-                $productData[$key] = $this->sanitizeProductData($value);
-            } else {
-                $productData[$key] = DateSanitizer::sanitize($productData[$key]);
-                $productData[$key] = MediaSanitizer::sanitize($productData[$key]);
-            }
-        }
-
-        return $productData;
+        return ValuesSanitizer::sanitize($productData);
     }
 }
