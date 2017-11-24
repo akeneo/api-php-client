@@ -10,7 +10,7 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     public function testCreateSuccessful()
     {
         $api = $this->createClient()->getProductMediaFileApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $mediaFile = realpath(__DIR__ . '/../../../fixtures/akeneo.png');
 
         $response = $api->create($mediaFile, [

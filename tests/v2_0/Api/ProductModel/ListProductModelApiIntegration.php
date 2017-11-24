@@ -12,7 +12,7 @@ class ListProductModelApiIntegration extends AbstractProductApiTestCase
     {
         $api = $this->createClient()->getProductModelApi();
         $expectedProductModels = $this->getExpectedProductModels();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -71,7 +71,7 @@ class ListProductModelApiIntegration extends AbstractProductApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getProductModelApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -97,7 +97,7 @@ class ListProductModelApiIntegration extends AbstractProductApiTestCase
 
     protected function getExpectedProductModels()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

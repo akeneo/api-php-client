@@ -11,7 +11,7 @@ class ListAssociationTypeApiIntegration extends ApiTestCase
     public function testListPerPage()
     {
         $api = $this->createClient()->getAssociationTypeApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedAssociationTypes = $this->getExpectedAssociationTypes();
 
         $firstPage = $api->listPerPage(2);
@@ -57,7 +57,7 @@ class ListAssociationTypeApiIntegration extends ApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getAssociationTypeApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(1, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -69,7 +69,7 @@ class ListAssociationTypeApiIntegration extends ApiTestCase
     {
         $api = $this->createClient()->getAssociationTypeApi();
         $expectedAssociationTypes = $this->getExpectedAssociationTypes();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(1, false, ['foo' => 'bar']);
 
@@ -112,7 +112,7 @@ class ListAssociationTypeApiIntegration extends ApiTestCase
      */
     public function getExpectedAssociationTypes()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

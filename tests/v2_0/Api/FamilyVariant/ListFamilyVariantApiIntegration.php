@@ -11,7 +11,7 @@ class ListFamilyVariantApiIntegration extends ApiTestCase
     public function testListPerPage()
     {
         $api = $this->createClient()->getFamilyVariantApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $expectedFamilyVariants = $this->getExpectedFamilyVariants();
 
         $firstPage = $api->listPerPage('boots', 2);
@@ -87,7 +87,7 @@ class ListFamilyVariantApiIntegration extends ApiTestCase
      */
     protected function getExpectedFamilyVariants()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         return [
             [

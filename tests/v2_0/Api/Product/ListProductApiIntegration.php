@@ -13,7 +13,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     {
         $api = $this->createClient()->getProductApi();
         $expectedProducts = $this->getExpectedProducts();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(5);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -60,7 +60,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     public function testListPerPageWithCount()
     {
         $api = $this->createClient()->getProductApi();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, true);
         $this->assertInstanceOf(PageInterface::class, $firstPage);
@@ -72,7 +72,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     {
         $api = $this->createClient()->getProductApi();
         $expectedProducts = $this->getExpectedProducts();
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
 
         $firstPage = $api->listPerPage(2, false, ['foo' => 'bar']);
 
@@ -181,7 +181,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
 
     public function testAllWithSelectedLocales()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $api = $this->createClient()->getProductApi();
         $products = $api->all(10, [
             'locales' => 'fr_FR',
@@ -292,7 +292,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
 
     public function testAllWithSelectedAttributes()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $api = $this->createClient()->getProductApi();
         $products = $api->all(1, ['attributes' => 'name,color']);
 
@@ -349,7 +349,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
 
     public function testAllWithSelectedScope()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
         $api = $this->createClient()->getProductApi();
         $products = $api->all(10, [
             'scope' => 'mobile',
@@ -484,8 +484,8 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
      */
     protected function getExpectedProducts()
     {
-        $baseUri = $this->getConfiguration()['api']['baseUri'];
-        
+        $baseUri = $this->getConfiguration()['pim']['base_uri'];
+
         return [
             [
                 '_links'        => [

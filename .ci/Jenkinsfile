@@ -202,9 +202,9 @@ void buildClient(String phpVersion, String client, String psrImplem) {
             container("php") {
                 sh "composer --ansi require ${client} ${psrImplem}"
                 sh "composer --ansi update --optimize-autoloader --no-interaction --no-progress --prefer-dist --no-suggest"
-                sh "cp etc/parameters.yml.dist etc/parameters.yml"
-                sh "sed -i \"s#baseUri: .*#baseUri: 'http://akeneo-pim'#g\" etc/parameters.yml"
-                sh "sed -i \"s#install_path: .*#install_path: '/home/jenkins/pim'#g\" etc/parameters.yml"
+                sh "cp tests/etc/parameters.yml.dist tests/etc/parameters.yml"
+                sh "sed -i \"s#base_uri: .*#base_uri: 'http://akeneo-pim'#g\" tests/etc/parameters.yml"
+                sh "sed -i \"s#install_path: .*#install_path: '/home/jenkins/pim'#g\" tests/etc/parameters.yml"
             }
 
             String gcrImageName = getApiClientGCRImageName(phpVersion, client, psrImplem)
@@ -324,7 +324,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
                 [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
                 // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" etc/parameters.yml' '''],
+                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" tests/etc/parameters.yml' '''],
                 // Copy apache configuration for Kubernetes
                 [container: "php", script: "sudo cp /home/jenkins/php-api-client/.ci/akeneo.conf /etc/apache2/sites-available/000-default.conf"],
                 // Own pim folder to docker user/group (which is also the apache user)
@@ -380,10 +380,10 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
                 [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
                 // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" etc/parameters.yml' '''],
+                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" tests/etc/parameters.yml' '''],
                 // Change php-api-client conf for Pim 2.x
-                [container: "php-api", script: '''sed -i 's#bin_path: .*#bin_path: bin#g' etc/parameters.yml'''],
-                [container: "php-api", script: '''sed -i 's#version: .*#version: #g' etc/parameters.yml'''],
+                [container: "php-api", script: '''sed -i 's#bin_path: .*#bin_path: bin#g' tests/etc/parameters.yml'''],
+                [container: "php-api", script: '''sed -i 's#version: .*#version: #g' tests/etc/parameters.yml'''],
                 // Copy apache configuration for Kubernetes
                 [container: "httpd", script: "cp /home/jenkins/php-api-client/.ci/akeneo.conf /usr/local/apache2/conf/vhost.conf"],
                 // Reload apache (No restart otherwise pod will crash)
