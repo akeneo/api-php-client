@@ -30,7 +30,7 @@ class UpsertProductModelApiIntegration extends AbstractProductApiTestCase
             'code' => 'rain_boots_red',
             'family_variant' => 'rain_boots_color_size',
             'parent' => 'rain_boots',
-            'categories' => ['2014_collection', 'winter_boots'],
+            'categories' => ['2014_collection', 'winter_boots', 'winter_collection'],
             'values' => [
                 'name' => [
                     [

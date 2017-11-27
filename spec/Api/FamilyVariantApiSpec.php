@@ -157,7 +157,7 @@ class FamilyVariantApiSpec extends ObjectBehavior
         $completeData = array_merge(['code' => $code], $data);
 
         $resourceClient
-            ->upsertResource(FamilyVariantApi::FAMILY_VARIANTS_URI, ['familyCode'], $completeData)
+            ->upsertResource(FamilyVariantApi::FAMILY_VARIANT_URI, ['familyCode', 'boots_color_size'], $completeData)
             ->shouldBeCalled()
             ->willReturn(204);
 

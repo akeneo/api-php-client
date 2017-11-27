@@ -80,7 +80,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
         }
         $data['code'] = $familyVariantCode;
 
-        return $this->resourceClient->upsertResource(static::FAMILY_VARIANTS_URI, [$familyCode], $data);
+        return $this->resourceClient->upsertResource(static::FAMILY_VARIANT_URI, [$familyCode, $familyVariantCode], $data);
     }
 
     /**
