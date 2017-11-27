@@ -10,6 +10,7 @@ use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\PageInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class ProductModelApiSpec extends ObjectBehavior
@@ -104,10 +105,58 @@ class ProductModelApiSpec extends ObjectBehavior
         $this->create($code, $productModel)->shouldReturn(201);
     }
 
-    function it_throws_an_exception_if_the_code_is_sent_in_data()
+    function it_upserts_a_product_model($resourceClient)
+    {
+        $code = 'a_product_model';
+        $data = ['categories' => ['2014_collection', 'winter_boots']];
+
+        $resourceClient
+            ->upsertResource(
+                ProductModelApi::PRODUCT_MODEL_URI,
+                [$code],
+                ['code' => 'a_product_model', 'categories' => ['2014_collection', 'winter_boots']]
+            )
+            ->shouldBeCalled()
+            ->willReturn(204);
+
+        $this->upsert($code, $data)->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_product_models($resourceClient, UpsertResourceListResponse $response)
+    {
+        $data = [
+            [
+                'code' => 'rain_boots_red',
+                'family_variant' => 'rain_boots_color_size',
+                'parent' => 'rain_boots',
+                'categories' => ['2014_collection', 'winter_boots'],
+                'values' => []
+            ],
+            [
+                'code' => 'saddle_boots_red',
+                'family_variant' => 'saddle_boots_color_size',
+                'parent' => 'saddle_boots',
+                'categories' => ['2014_collection', 'winter_boots'],
+                'values' => []
+            ]
+        ];
+
+        $resourceClient->upsertResourceList(ProductModelApi::PRODUCT_MODELS_URI, [], $data)->willReturn($response);
+
+        $this->upsertList($data)->shouldReturn($response);
+    }
+
+    function it_throws_an_exception_if_the_code_is_sent_in_data_during_create()
     {
         $this
             ->shouldThrow(InvalidArgumentException::class)
             ->during('create', ['a_product_model', ['code' => 'product_model']]);
+    }
+
+    function it_throws_an_exception_if_the_code_is_sent_in_data_during_upsert()
+    {
+        $this
+            ->shouldThrow(InvalidArgumentException::class)
+            ->during('upsert', ['a_product_model', ['code' => 'product_model']]);
     }
 }

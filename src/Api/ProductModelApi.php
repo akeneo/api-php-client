@@ -3,9 +3,11 @@
 namespace Akeneo\Pim\Api;
 
 use Akeneo\Pim\Client\ResourceClientInterface;
+use Akeneo\Pim\Exception\HttpException;
 use Akeneo\Pim\Exception\InvalidArgumentException;
 use Akeneo\Pim\Pagination\PageFactoryInterface;
 use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API implementation to manage the product models.
@@ -74,6 +76,22 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
+    public function upsert($code, array $data = [])
+    {
+        if (array_key_exists('code', $data)) {
+            throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
+        }
+
+        $data['code'] = $code;
+
+        return $this->resourceClient->upsertResource(static::PRODUCT_MODEL_URI, [$code], $data);
+    }
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     *
+     * {@inheritdoc}
+     */
     public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
     {
         $data = $this->resourceClient->getResources(static::PRODUCT_MODELS_URI, [], $limit, $withCount, $queryParameters);
@@ -93,5 +111,15 @@ class ProductModelApi implements ProductModelApiInterface
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
+    }
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     *
+     * {@inheritdoc}
+     */
+    public function upsertList($productModels)
+    {
+        return $this->resourceClient->upsertResourceList(static::PRODUCT_MODELS_URI, [], $productModels);
     }
 }
