@@ -86,11 +86,10 @@ class UpsertListOfFamilyVariantsApiIntegration extends ApiTestCase
                 'line' => 2,
                 'code' => 'man_boots_color_size',
                 'status_code' => 422,
-                'message' => 'Validation failed.',
-                'errors' => [
-                    [
-                        'property' => '',
-                        'message' => 'There should be at least one level defined in the family variant'
+                'message' => 'The number of variant attribute sets cannot be changed. Check the expected format on the API documentation.',
+                '_links' => [
+                    'documentation' => [
+                        'href' => 'http://api.akeneo.com/api-reference.html#patch_families__family_code__variants__code__'
                     ]
                 ]
             ],

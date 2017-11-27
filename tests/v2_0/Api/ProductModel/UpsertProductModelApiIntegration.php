@@ -11,7 +11,15 @@ class UpsertProductModelApiIntegration extends AbstractProductApiTestCase
         $api = $this->createClient()->getProductModelApi();
 
         $response = $api->upsert('rain_boots_red', [
-            'categories' => ['2014_collection', 'winter_boots']
+            'values' => [
+                'description' => [
+                    [
+                        'locale' => 'en_US',
+                        'scope' => 'ecommerce',
+                        'data' => 'Red rain boots en_US.'
+                    ]
+                ]
+            ]
         ]);
 
         $this->assertSame(204, $response);
@@ -47,7 +55,7 @@ class UpsertProductModelApiIntegration extends AbstractProductApiTestCase
                     [
                         'locale' => 'en_US',
                         'scope' => 'ecommerce',
-                        'data' => 'Red rain boots made of rubber for winter.'
+                        'data' => 'Red rain boots en_US.'
                     ]
                 ],
                 'price' => [
