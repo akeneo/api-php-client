@@ -69,11 +69,11 @@ echo $product['identifier']; // display "top"
 #### By getting pages
 
 ```php
-$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
+$searchBuilder = new Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
-$firstPage = $client->getProductApi()->listPerPage(50, true, ['search' => $searchFilters]);
+$page = $client->getProductApi()->listPerPage(50, true, ['search' => $searchFilters]);
 
 echo $page->getCount();
 
@@ -90,7 +90,7 @@ $firstPage = $nextPage->getPreviousPage();
 #### By getting a cursor 
 
 ```php
-$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
+$searchBuilder = new Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
