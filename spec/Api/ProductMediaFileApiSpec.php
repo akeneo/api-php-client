@@ -1,16 +1,18 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\ListableResourceInterface;
-use Akeneo\Pim\Api\ProductMediaFileApi;
-use Akeneo\Pim\Api\MediaFileApiInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\RuntimeException;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
+use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\RuntimeException;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -29,7 +31,9 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(ProductMediaFileApi::class);
         $this->shouldImplement(MediaFileApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(DownloadableResourceInterface::class);
     }
 
     function it_returns_a_media_file($resourceClient)

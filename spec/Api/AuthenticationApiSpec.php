@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\AuthenticationApi;
-use Akeneo\Pim\Api\AuthenticationApiInterface;
-use Akeneo\Pim\Client\HttpClient;
-use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
+use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClient;
+use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;

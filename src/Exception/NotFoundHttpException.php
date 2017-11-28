@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 /**
  * Exception thrown when a resource has not been found (404).

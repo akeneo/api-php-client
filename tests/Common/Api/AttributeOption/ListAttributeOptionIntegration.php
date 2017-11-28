@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\AttributeOption;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\AttributeOption;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class ListAttributeOptionIntegration extends ApiTestCase
 {
@@ -86,7 +86,7 @@ class ListAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testListPerPageOnAnUnknownAttribute()
     {

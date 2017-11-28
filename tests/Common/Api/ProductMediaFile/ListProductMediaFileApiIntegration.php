@@ -1,11 +1,11 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\ProductMediaFile;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\ProductMediaFile;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
-use Akeneo\Pim\tests\MediaSanitizer;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\MediaSanitizer;
 
 class ListProductMediaFileApiIntegration extends ApiTestCase
 {

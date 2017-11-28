@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 /**
  * Exception thrown when it is a bad request exception (400).

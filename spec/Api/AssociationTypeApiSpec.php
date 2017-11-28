@@ -1,18 +1,21 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\AssociationTypeApi;
-use Akeneo\Pim\Api\AssociationTypeApiInterface;
-use Akeneo\Pim\Api\GettableResourceInterface;
-use Akeneo\Pim\Api\ListableResourceInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\Stream\UpsertResourceListResponse;
+use Akeneo\Pim\ApiClient\Api\AssociationTypeApi;
+use Akeneo\Pim\ApiClient\Api\AssociationTypeApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class AssociationTypeApiSpec extends ObjectBehavior
@@ -31,6 +34,9 @@ class AssociationTypeApiSpec extends ObjectBehavior
         $this->shouldImplement(AssociationTypeApiInterface::class);
         $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceListInterface::class);
     }
 
     function it_returns_an_association_type($resourceClient)

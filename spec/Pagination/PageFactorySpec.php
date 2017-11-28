@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Akeneo\Pim\Pagination;
+namespace spec\Akeneo\Pim\ApiClient\Pagination;
 
-use Akeneo\Pim\Client\HttpClientInterface;
-use Akeneo\Pim\Pagination\Page;
-use Akeneo\Pim\Pagination\PageFactory;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Pagination\Page;
+use Akeneo\Pim\ApiClient\Pagination\PageFactory;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use PhpSpec\ObjectBehavior;
 
 class PageFactorySpec extends ObjectBehavior

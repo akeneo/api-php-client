@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Akeneo\Pim\Pagination;
+namespace spec\Akeneo\Pim\ApiClient\Pagination;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursor;
-use Akeneo\Pim\Pagination\ResourceCursorFactory;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursor;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactory;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use PhpSpec\ObjectBehavior;
 
 class ResourceCursorFactorySpec extends ObjectBehavior

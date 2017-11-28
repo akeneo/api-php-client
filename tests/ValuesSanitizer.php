@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests;
+namespace Akeneo\Pim\ApiClient\tests;
 
 /**
  * Sanitizes a collection of normalized values.

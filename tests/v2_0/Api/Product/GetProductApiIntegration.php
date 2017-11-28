@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\Product;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\Product;
 
-use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\Product\AbstractProductApiTestCase;
 
 class GetProductApiIntegration extends AbstractProductApiTestCase
 {

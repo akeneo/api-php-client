@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Akeneo\Pim\Stream;
+namespace spec\Akeneo\Pim\ApiClient\Stream;
 
-use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
 use PhpSpec\ObjectBehavior;

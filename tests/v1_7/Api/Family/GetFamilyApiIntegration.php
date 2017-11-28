@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\v1_7\Api\Family;
+namespace Akeneo\Pim\ApiClient\tests\v1_7\Api\Family;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class GetFamilyApiIntegration extends ApiTestCase
 {

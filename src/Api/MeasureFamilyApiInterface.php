@@ -1,6 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
+
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 
 /**
  * API to manage the measure families.

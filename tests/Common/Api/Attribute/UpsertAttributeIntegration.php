@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Attribute;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Attribute;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class UpsertAttributeIntegration extends ApiTestCase
 {
@@ -107,7 +107,7 @@ class UpsertAttributeIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertWrongDataTypeFail()
     {
@@ -121,7 +121,7 @@ class UpsertAttributeIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertInvalidCodeFail()
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\ProductMediaFile;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\ProductMediaFile;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
-use Akeneo\Pim\tests\MediaSanitizer;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\MediaSanitizer;
 
 class CreateProductMediaFileApiIntegration extends ApiTestCase
 {
@@ -49,7 +49,7 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnExistingMediaFile()
     {
@@ -72,7 +72,7 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateWithAnInvalidRequest()
     {

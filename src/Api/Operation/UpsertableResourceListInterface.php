@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api\Operation;
 
-use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Psr\Http\Message\StreamInterface;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 /**
  * Exception thrown if an error which can only be found on runtime occurs in the API client.

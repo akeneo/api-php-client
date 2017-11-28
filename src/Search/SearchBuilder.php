@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Search;
+namespace Akeneo\Pim\ApiClient\Search;
 
 /**
  * Helper to build search filters to apply when requesting a list of resources.

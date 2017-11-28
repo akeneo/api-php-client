@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\Security;
+namespace spec\Akeneo\Pim\ApiClient\Security;
 
 use PhpSpec\ObjectBehavior;
 
@@ -9,7 +9,7 @@ class AuthenticationSpec extends ObjectBehavior
     function it_is_initializable_from_a_password()
     {
         $this->beConstructedThrough('fromPassword', ['client_id', 'secret', 'Julia', 'Julia_pwd']);
-        $this->shouldHaveType('Akeneo\Pim\Security\Authentication');
+        $this->shouldHaveType('Akeneo\Pim\ApiClient\Security\Authentication');
 
         $this->getClientId()->shouldReturn('client_id');
         $this->getSecret()->shouldReturn('secret');
@@ -22,7 +22,7 @@ class AuthenticationSpec extends ObjectBehavior
     function it_is_initializable_from_a_token()
     {
         $this->beConstructedThrough('fromToken', ['client_id', 'secret', 'token', 'refresh_token']);
-        $this->shouldHaveType('Akeneo\Pim\Security\Authentication');
+        $this->shouldHaveType('Akeneo\Pim\ApiClient\Security\Authentication');
 
         $this->getClientId()->shouldReturn('client_id');
         $this->getSecret()->shouldReturn('secret');

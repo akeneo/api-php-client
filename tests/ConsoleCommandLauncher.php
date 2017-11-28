@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests;
+namespace Akeneo\Pim\ApiClient\tests;
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;

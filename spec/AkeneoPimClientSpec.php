@@ -1,24 +1,24 @@
 <?php
 
-namespace spec\Akeneo\Pim;
+namespace spec\Akeneo\Pim\ApiClient;
 
-use Akeneo\Pim\AkeneoPimClient;
-use Akeneo\Pim\AkeneoPimClientInterface;
-use Akeneo\Pim\Api\AssociationTypeApiInterface;
-use Akeneo\Pim\Api\AttributeApiInterface;
-use Akeneo\Pim\Api\AttributeGroupApi;
-use Akeneo\Pim\Api\AttributeOptionApiInterface;
-use Akeneo\Pim\Api\CategoryApiInterface;
-use Akeneo\Pim\Api\ChannelApiInterface;
-use Akeneo\Pim\Api\CurrencyApiInterface;
-use Akeneo\Pim\Api\FamilyApiInterface;
-use Akeneo\Pim\Api\FamilyVariantApiInterface;
-use Akeneo\Pim\Api\LocaleApiInterface;
-use Akeneo\Pim\Api\MeasureFamilyApiInterface;
-use Akeneo\Pim\Api\MediaFileApiInterface;
-use Akeneo\Pim\Api\ProductApiInterface;
-use Akeneo\Pim\Api\ProductModelApiInterface;
-use Akeneo\Pim\Security\Authentication;
+use Akeneo\Pim\ApiClient\AkeneoPimClient;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Api\AssociationTypeApiInterface;
+use Akeneo\Pim\ApiClient\Api\AttributeApiInterface;
+use Akeneo\Pim\ApiClient\Api\AttributeGroupApi;
+use Akeneo\Pim\ApiClient\Api\AttributeOptionApiInterface;
+use Akeneo\Pim\ApiClient\Api\CategoryApiInterface;
+use Akeneo\Pim\ApiClient\Api\ChannelApiInterface;
+use Akeneo\Pim\ApiClient\Api\CurrencyApiInterface;
+use Akeneo\Pim\ApiClient\Api\FamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\FamilyVariantApiInterface;
+use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
+use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
+use Akeneo\Pim\ApiClient\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 
 class AkeneoPimClientSpec extends ObjectBehavior

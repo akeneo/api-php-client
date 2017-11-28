@@ -1,13 +1,11 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\HttpException;
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Psr\Http\Message\StreamInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 
 /**
  * @author    Philippe Mossière <philippe.mossiere@akeneo.com>

@@ -1,15 +1,15 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\ListableResourceInterface;
-use Akeneo\Pim\Api\LocaleApi;
-use Akeneo\Pim\Api\LocaleApiInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Api\LocaleApi;
+use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
 
 class LocaleApiSpec extends ObjectBehavior

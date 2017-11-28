@@ -1,17 +1,22 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\ListableResourceInterface;
-use Akeneo\Pim\Api\ProductApi;
-use Akeneo\Pim\Api\ProductApiInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\Stream\UpsertResourceListResponse;
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DeletableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
+use Akeneo\Pim\ApiClient\Api\ProductApi;
+use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class ProductApiSpec extends ObjectBehavior
@@ -28,7 +33,12 @@ class ProductApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(ProductApi::class);
         $this->shouldImplement(ProductApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceListInterface::class);
+        $this->shouldImplement(DeletableResourceInterface::class);
     }
 
     function it_returns_a_product($resourceClient)

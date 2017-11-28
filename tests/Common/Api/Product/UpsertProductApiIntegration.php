@@ -1,11 +1,11 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Product;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Product;
 
 class UpsertProductApiIntegration extends AbstractProductApiTestCase
 {
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertWrongDataTypeFail()
     {

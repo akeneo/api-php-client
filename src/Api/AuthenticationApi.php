@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Client\HttpClient;
-use Akeneo\Pim\Routing\UriGeneratorInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClient;
+use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 
 /**
  * API implementation to manage the authentication.

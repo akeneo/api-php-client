@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Akeneo\Pim\Pagination;
+namespace spec\Akeneo\Pim\ApiClient\Pagination;
 
-use Akeneo\Pim\Client\HttpClientInterface;
-use Akeneo\Pim\Pagination\Page;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Pagination\Page;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;

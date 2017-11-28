@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\Routing;
+namespace Akeneo\Pim\ApiClient\Routing;
 
-use Akeneo\Pim\Pagination\PaginationParameter;
+use Akeneo\Pim\ApiClient\Pagination\PaginationParameter;
 
 /**
  * Generate a complete uri from a base path, uri parameters, and query parameters.

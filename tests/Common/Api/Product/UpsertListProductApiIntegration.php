@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Product;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Product;
 
 class UpsertListProductApiIntegration extends AbstractProductApiTestCase
 {

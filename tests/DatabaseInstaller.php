@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests;
+namespace Akeneo\Pim\ApiClient\tests;
 
 /**
  * Aims to install fixtures on a local PIM installation.

@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Akeneo\Pim\Stream;
+namespace spec\Akeneo\Pim\ApiClient\Stream;
 
-use Akeneo\Pim\Stream\LineStreamReader;
+use Akeneo\Pim\ApiClient\Stream\LineStreamReader;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\StreamInterface;
 

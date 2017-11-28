@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Product;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Product;
 
 class DeleteProductApiIntegration extends AbstractProductApiTestCase
 {
@@ -13,7 +13,7 @@ class DeleteProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testDeleteOnAnUnknownProduct()
     {

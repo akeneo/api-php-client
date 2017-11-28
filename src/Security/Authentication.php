@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Security;
+namespace Akeneo\Pim\ApiClient\Security;
 
 /**
  * Credential data to authenticate to the API.

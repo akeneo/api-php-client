@@ -1,13 +1,13 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\Exception\BadRequestHttpException;
-use Akeneo\Pim\Exception\ClientErrorHttpException;
-use Akeneo\Pim\Exception\NotFoundHttpException;
-use Akeneo\Pim\Exception\ServerErrorHttpException;
-use Akeneo\Pim\Exception\UnauthorizedHttpException;
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
+use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\ProductMediaFile;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\ProductMediaFile;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 use Psr\Http\Message\StreamInterface;
 
 class DownloadProductMediaFileApiIntegration extends ApiTestCase

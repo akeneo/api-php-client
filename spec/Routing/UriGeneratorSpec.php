@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\Routing;
+namespace spec\Akeneo\Pim\ApiClient\Routing;
 
 use PhpSpec\ObjectBehavior;
 

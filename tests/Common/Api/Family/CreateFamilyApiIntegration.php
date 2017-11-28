@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Family;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Family;
 
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class CreateFamilyApiIntegration extends ApiTestCase
 {
@@ -109,7 +109,7 @@ class CreateFamilyApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidFamily()
     {

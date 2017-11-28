@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Search;
+namespace Akeneo\Pim\ApiClient\Search;
 
 /**
  * This class contains the list of operators to use in filters to search resources.

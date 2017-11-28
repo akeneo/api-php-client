@@ -1,6 +1,12 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
+
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
 
 /**
  * API to manage the families.

@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Akeneo\Pim\Exception;
+namespace spec\Akeneo\Pim\ApiClient\Exception;
 
-use Akeneo\Pim\Exception\ExceptionInterface;
-use Akeneo\Pim\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Exception\ExceptionInterface;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

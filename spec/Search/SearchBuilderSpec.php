@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Akeneo\Pim\Builder;
+namespace spec\Akeneo\Pim\ApiClient\Builder;
 
-use Akeneo\Pim\Search\Operator;
-use Akeneo\Pim\Search\SearchBuilder;
+use Akeneo\Pim\ApiClient\Search\Operator;
+use Akeneo\Pim\ApiClient\Search\SearchBuilder;
 use PhpSpec\ObjectBehavior;
 
 class SearchBuilderSpec  extends ObjectBehavior
