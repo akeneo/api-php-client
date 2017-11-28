@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\ApiClient\Api;
+namespace Akeneo\Pim\ApiClient\Api\Operation;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 

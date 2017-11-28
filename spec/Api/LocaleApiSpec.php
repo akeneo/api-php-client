@@ -2,9 +2,9 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;

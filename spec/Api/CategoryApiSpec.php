@@ -4,17 +4,17 @@ namespace spec\Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\CategoryApi;
 use Akeneo\Pim\ApiClient\Api\CategoryApiInterface;
-use Akeneo\Pim\ApiClient\Api\CreatableResourceInterface;
-use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
-use Akeneo\Pim\ApiClient\Api\UpsertableResourceInterface;
-use Akeneo\Pim\ApiClient\Api\UpsertableResourceListInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\ApiClient\Routing\Route;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
@@ -31,9 +31,10 @@ class CategoryApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(CategoryApi::class);
         $this->shouldImplement(CategoryApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
-        $this->shouldImplement(UpsertableResourceInterface::class);
         $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
         $this->shouldImplement(UpsertableResourceListInterface::class);
     }
 

@@ -2,6 +2,11 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Api;
 
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
@@ -27,6 +32,11 @@ class ProductModelApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(ProductModelApi::class);
         $this->shouldImplement(ProductModelApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
+        $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceListInterface::class);
     }
 
     function it_returns_a_product_model($resourceClient)

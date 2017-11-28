@@ -2,7 +2,9 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
@@ -29,7 +31,9 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(ProductMediaFileApi::class);
         $this->shouldImplement(MediaFileApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(DownloadableResourceInterface::class);
     }
 
     function it_returns_a_media_file($resourceClient)

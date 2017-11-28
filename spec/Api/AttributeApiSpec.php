@@ -4,7 +4,11 @@ namespace spec\Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeApiInterface;
-use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
@@ -28,7 +32,11 @@ class AttributeApiSpec extends ObjectBehavior
     {
         $this->shouldHaveType(AttributeApi::class);
         $this->shouldImplement(AttributeApiInterface::class);
+        $this->shouldImplement(GettableResourceInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
+        $this->shouldImplement(CreatableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceInterface::class);
+        $this->shouldImplement(UpsertableResourceListInterface::class);
     }
 
     function it_returns_an_attribute($resourceClient)

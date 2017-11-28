@@ -2,10 +2,10 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\ApiClient\Api\GettableResourceInterface;
-use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApi;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;

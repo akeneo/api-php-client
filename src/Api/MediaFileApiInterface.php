@@ -2,6 +2,9 @@
 
 namespace Akeneo\Pim\ApiClient\Api;
 
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 
