@@ -69,7 +69,7 @@ echo $product['identifier']; // display "top"
 #### By getting pages
 
 ```php
-$searchBuilder = new Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
@@ -90,7 +90,7 @@ $firstPage = $nextPage->getPreviousPage();
 #### By getting a cursor 
 
 ```php
-$searchBuilder = new Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
