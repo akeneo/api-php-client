@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Exception\HttpException;
-use Akeneo\Pim\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 
 /**
  * API that can create a resource.

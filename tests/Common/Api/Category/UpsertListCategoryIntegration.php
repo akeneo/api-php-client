@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Category;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Category;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class UpsertListCategoryIntegration extends ApiTestCase
 {

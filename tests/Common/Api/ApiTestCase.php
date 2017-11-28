@@ -1,12 +1,12 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api;
 
-use Akeneo\Pim\AkeneoPimClientBuilder;
-use Akeneo\Pim\AkeneoPimClientInterface;
-use Akeneo\Pim\tests\ConsoleCommandLauncher;
-use Akeneo\Pim\tests\CredentialGenerator;
-use Akeneo\Pim\tests\DatabaseInstaller;
+use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
+use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\tests\ConsoleCommandLauncher;
+use Akeneo\Pim\ApiClient\tests\CredentialGenerator;
+use Akeneo\Pim\ApiClient\tests\DatabaseInstaller;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\StreamFactory;
 use Symfony\Component\Yaml\Yaml;

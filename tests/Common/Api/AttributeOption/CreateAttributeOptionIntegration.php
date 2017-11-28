@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\AttributeOption;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\AttributeOption;
 
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class CreateAttributeOptionIntegration extends ApiTestCase
 {
@@ -31,7 +31,7 @@ class CreateAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testCreateOnAnUnknownAttribute()
     {
@@ -66,7 +66,7 @@ class CreateAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidAttributeOption()
     {

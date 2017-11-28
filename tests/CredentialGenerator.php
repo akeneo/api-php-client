@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\tests;
+namespace Akeneo\Pim\ApiClient\tests;
 
 /**
  * Aims to generate the couple client/secret id on a PIM installation.

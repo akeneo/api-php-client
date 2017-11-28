@@ -11,12 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Akeneo\\Pim\\": "src/"
+      "Akeneo\\Pim\\ApiClient\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Akeneo\\Pim\\tests\\": "tests/"
+      "Akeneo\\Pim\\ApiClient\\tests\\": "tests/"
     }
   },
   "require": {

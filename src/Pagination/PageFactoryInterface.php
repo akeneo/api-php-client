@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Pagination;
+namespace Akeneo\Pim\ApiClient\Pagination;
 
 /**
  * Factory interface to create a page object representing a list of resources.

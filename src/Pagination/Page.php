@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\Pagination;
+namespace Akeneo\Pim\ApiClient\Pagination;
 
-use Akeneo\Pim\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
 
 /**
  * Page represents a list of paginated resources.

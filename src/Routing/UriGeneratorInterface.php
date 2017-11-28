@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Routing;
+namespace Akeneo\Pim\ApiClient\Routing;
 
 use Psr\Http\Message\UriInterface;
 

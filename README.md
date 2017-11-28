@@ -38,7 +38,7 @@ If you don't have any client id, let's take a look at [this page](https://api.ak
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$clientBuilder = new \Akeneo\Pim\AkeneoPimClientBuilder('http://localhost/');
+$clientBuilder = new \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder('http://localhost/');
 $client = $clientBuilder->buildAuthenticatedByPassword('client_id', 'secret', 'admin', 'admin');
 ```
 
@@ -69,7 +69,7 @@ echo $product['identifier']; // display "top"
 #### By getting pages
 
 ```php
-$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 
@@ -90,7 +90,7 @@ $firstPage = $nextPage->getPreviousPage();
 #### By getting a cursor 
 
 ```php
-$searchBuilder = new \Akeneo\Pim\Search\SearchBuilder();
+$searchBuilder = new \Akeneo\Pim\ApiClient\Search\SearchBuilder();
 $searchBuilder->addFilter('enabled', '=', true);
 $searchFilters = $searchBuilder->getFilters();
 

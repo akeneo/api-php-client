@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Stream;
+namespace Akeneo\Pim\ApiClient\Stream;
 
 use Psr\Http\Message\StreamInterface;
 

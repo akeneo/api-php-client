@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\ProductModelApi;
-use Akeneo\Pim\Api\ProductModelApiInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\Stream\UpsertResourceListResponse;
+use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class ProductModelApiSpec extends ObjectBehavior

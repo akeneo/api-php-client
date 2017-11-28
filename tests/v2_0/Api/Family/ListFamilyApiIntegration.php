@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\Family;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\Family;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class ListFamilyApiIntegration extends ApiTestCase
 {

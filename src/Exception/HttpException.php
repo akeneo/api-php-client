@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

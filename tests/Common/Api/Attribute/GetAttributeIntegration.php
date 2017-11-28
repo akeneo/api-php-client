@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Attribute;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Attribute;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class GetAttributeIntegration extends ApiTestCase
 {
@@ -46,7 +46,7 @@ class GetAttributeIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testGetNotFound()
     {

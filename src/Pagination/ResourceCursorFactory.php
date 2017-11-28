@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Pagination;
+namespace Akeneo\Pim\ApiClient\Pagination;
 
 /**
  * Class ResourceCursorFactory

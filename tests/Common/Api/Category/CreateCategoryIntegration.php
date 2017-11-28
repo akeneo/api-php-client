@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Category;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Category;
 
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class CreateCategoryIntegration extends ApiTestCase
 {
@@ -54,7 +54,7 @@ class CreateCategoryIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidCategory()
     {

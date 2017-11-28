@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\ProductModel;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\ProductModel;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\Product\AbstractProductApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\Product\AbstractProductApiTestCase;
 
 class ListProductModelApiIntegration extends AbstractProductApiTestCase
 {

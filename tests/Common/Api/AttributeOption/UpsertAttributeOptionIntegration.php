@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\AttributeOption;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\AttributeOption;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class UpsertAttributeOptionIntegration extends ApiTestCase
 {
@@ -54,7 +54,7 @@ class UpsertAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertWrongDataTypeFail()
     {
@@ -68,7 +68,7 @@ class UpsertAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testUpsertInvalidCodeFail()
     {
@@ -82,7 +82,7 @@ class UpsertAttributeOptionIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testUpsertOnAnUnknownAttribute()
     {

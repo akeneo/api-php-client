@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\MeasureFamily;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\MeasureFamily;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class GetMeasureFamilyIntegration extends ApiTestCase
 {
@@ -150,7 +150,7 @@ class GetMeasureFamilyIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      */
     public function testGetNotFound()
     {

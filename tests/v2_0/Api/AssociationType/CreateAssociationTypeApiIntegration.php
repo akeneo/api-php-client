@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\AssociationType;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\AssociationType;
 
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class CreateAssociationTypeApiIntegration extends ApiTestCase
 {
@@ -62,7 +62,7 @@ class CreateAssociationTypeApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testCreateAnInvalidAssociationType()
     {

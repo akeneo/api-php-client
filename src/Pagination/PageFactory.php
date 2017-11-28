@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\Pagination;
+namespace Akeneo\Pim\ApiClient\Pagination;
 
-use Akeneo\Pim\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
 
 /**
  * Factory to create a page object representing a list of resources.

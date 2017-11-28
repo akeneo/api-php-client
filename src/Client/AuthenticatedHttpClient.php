@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\Api\AuthenticationApiInterface;
-use Akeneo\Pim\Exception\UnauthorizedHttpException;
-use Akeneo\Pim\Security\Authentication;
+use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
+use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
+use Akeneo\Pim\ApiClient\Security\Authentication;
 
 /**
  * Http client to send an authenticated request.

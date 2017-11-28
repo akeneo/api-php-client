@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Exception\HttpException;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API that can fetch a list of resources.

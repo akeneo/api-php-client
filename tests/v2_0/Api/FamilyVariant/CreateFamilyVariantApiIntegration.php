@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\FamilyVariant;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\FamilyVariant;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class CreateFamilyVariantApiIntegration extends ApiTestCase
 {
@@ -42,7 +42,7 @@ class CreateFamilyVariantApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      * @expectedExceptionMessage Validation failed
      */
     public function testFailedToCreateAFamilyVariant()

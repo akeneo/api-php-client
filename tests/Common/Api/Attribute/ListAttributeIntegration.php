@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Attribute;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Attribute;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class ListAttributeIntegration extends ApiTestCase
 {

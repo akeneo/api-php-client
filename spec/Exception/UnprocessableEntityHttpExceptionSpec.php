@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Akeneo\Pim\Exception;
+namespace spec\Akeneo\Pim\ApiClient\Exception;
 
-use Akeneo\Pim\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Product;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Product;
 
-use Akeneo\Pim\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 
 class ListProductApiIntegration extends AbstractProductApiTestCase
 {
@@ -27,7 +27,7 @@ class ListProductApiIntegration extends AbstractProductApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testSearchFailedWithInvalidOperator()
     {

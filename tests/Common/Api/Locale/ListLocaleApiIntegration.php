@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Locale;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Locale;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class ListLocaleApiIntegration extends ApiTestCase
 {
@@ -140,7 +140,7 @@ class ListLocaleApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\UnprocessableEntityHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
      */
     public function testInvalidSearch()
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\Exception\HttpException;
-use Akeneo\Pim\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 

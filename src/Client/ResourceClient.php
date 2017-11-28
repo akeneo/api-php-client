@@ -1,11 +1,11 @@
 <?php
 
-namespace Akeneo\Pim\Client;
+namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Routing\UriGeneratorInterface;
-use Akeneo\Pim\Stream\MultipartStreamBuilderFactory;
-use Akeneo\Pim\Stream\UpsertResourceListResponseFactory;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
+use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use Psr\Http\Message\StreamInterface;
 
 /**

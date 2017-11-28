@@ -1,8 +1,8 @@
 <?php
 
-namespace Akeneo\Pim\tests\v2_0\Api\FamilyVariant;
+namespace Akeneo\Pim\ApiClient\tests\v2_0\Api\FamilyVariant;
 
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class GetFamilyVariantApiIntegration extends ApiTestCase
 {
@@ -42,7 +42,7 @@ class GetFamilyVariantApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      * @expectedExceptionMessage Family variant "trololo" does not exist or is not a variant of the family "boots".
      */
     public function testFamilyVariantNotFound()
@@ -51,7 +51,7 @@ class GetFamilyVariantApiIntegration extends ApiTestCase
     }
 
     /**
-     * @expectedException \Akeneo\Pim\Exception\NotFoundHttpException
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
      * @expectedExceptionMessage Family "trololo" does not exist.
      */
     public function testFamilyNotFound()

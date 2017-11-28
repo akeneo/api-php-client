@@ -1,5 +1,5 @@
 ## Rename this file in phpspec.yml to customize the phpspec configuration
 suites:
     AkeneoPimClient:
-        namespace: Akeneo\Pim
-        psr4_prefix: Akeneo\Pim
+        namespace: Akeneo\Pim\ApiClient
+        psr4_prefix: Akeneo\Pim\ApiClient

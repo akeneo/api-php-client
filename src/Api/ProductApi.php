@@ -1,11 +1,11 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Exception\InvalidArgumentException;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 
 /**
  * API implementation to manage the products.

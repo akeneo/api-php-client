@@ -1,15 +1,15 @@
 <?php
 
-namespace spec\Akeneo\Pim\Api;
+namespace spec\Akeneo\Pim\ApiClient\Api;
 
-use Akeneo\Pim\Api\CurrencyApi;
-use Akeneo\Pim\Api\CurrencyApiInterface;
-use Akeneo\Pim\Api\ListableResourceInterface;
-use Akeneo\Pim\Client\ResourceClientInterface;
-use Akeneo\Pim\Pagination\PageFactoryInterface;
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Api\CurrencyApi;
+use Akeneo\Pim\ApiClient\Api\CurrencyApiInterface;
+use Akeneo\Pim\ApiClient\Api\ListableResourceInterface;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
 
 class CurrencyApiSpec extends ObjectBehavior

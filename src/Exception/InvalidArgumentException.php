@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 /**
  * Exception for invalid arguments provided to the API client.

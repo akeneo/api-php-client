@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Api;
+namespace Akeneo\Pim\ApiClient\Api;
 
 /**
  * API to manage association types.

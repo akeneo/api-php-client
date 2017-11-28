@@ -1,10 +1,10 @@
 <?php
 
-namespace Akeneo\Pim\tests\Common\Api\Category;
+namespace Akeneo\Pim\ApiClient\tests\Common\Api\Category;
 
-use Akeneo\Pim\Pagination\PageInterface;
-use Akeneo\Pim\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\tests\Common\Api\ApiTestCase;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\tests\Common\Api\ApiTestCase;
 
 class ListCategoryIntegration extends ApiTestCase
 {

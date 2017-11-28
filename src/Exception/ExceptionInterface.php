@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\Exception;
+namespace Akeneo\Pim\ApiClient\Exception;
 
 /**
  * Base exception interface for the API client.
