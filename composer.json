@@ -41,8 +41,10 @@
   "suggest": {
     "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
   },
-  "branch-alias": {
-    "dev-master": "1.1.x-dev",
-    "dev-1.0": "1.0.x-dev"
+  "extra": {
+      "branch-alias": {
+        "dev-master": "1.1.x-dev",
+        "dev-1.0": "1.0.x-dev"
+      }
   }
 }
