@@ -26,6 +26,10 @@ $ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter
 
 If you want to use another HTTP client implementation, you can check [here](https://packagist.org/providers/php-http/client-implementation) the full list of HTTP client implementations. 
 
+## Documentation
+
+Full documentation is available on the [API website](https://api.akeneo.com/php-client/introduction.html).
+
 ## Getting started
 
 ### Initialise the client
@@ -44,10 +48,6 @@ $client = $clientBuilder->buildAuthenticatedByPassword('client_id', 'secret', 'a
 
 You can authenticate to the client with your token/refresh token as well.
 ```php
-<?php
-
-require_once __DIR__ . '/vendor/autoload.php';
-
 $client = $clientBuilder->buildAuthenticatedByToken('client_id', 'secret', 'token', 'refresh_token');
 ```
 
