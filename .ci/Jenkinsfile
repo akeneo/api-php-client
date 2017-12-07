@@ -433,7 +433,6 @@ def withBuildNode(String phpVersion, body) {
                 command: 'cat',
                 alwaysPullImage: true,
                 envVars: [
-                    envVar(key: "COMPOSER_HOME", value: "/shared/.composer"),
                     envVar(key: "COMPOSER_AUTH", value: "{\"github-oauth\":{\"github.com\": \"$token\"}}")],
                 resourceRequestCpu: '500m',
                 resourceRequestMemory: '1000Mi')
