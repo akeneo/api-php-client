@@ -34,7 +34,6 @@ try {
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
                 string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
-
             ])
 
             pimVersions = userInput['requiredPimVersions'].tokenize(',')
