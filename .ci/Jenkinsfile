@@ -380,7 +380,6 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
         // Find and store PHP test integration files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
-        def messages = new net.sf.json.JSONArray()
 
         for (file in files) {
             def commands = [
