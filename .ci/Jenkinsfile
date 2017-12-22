@@ -4,7 +4,7 @@ import org.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateAction
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
-String[] pimVersions = ["1.7", "2.0"]
+String[] pimVersions = ["1.7", "2.0", "2.1"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
 def clientConfig = [
     "php-http/guzzle6-adapter": ["phpVersion": supportedPhpVersions, "psrImplem": ["guzzlehttp/psr7"]],
@@ -60,6 +60,7 @@ try {
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "5.6")}
                         break
                     case "2.0":
+                    case "2.1":
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "7.1")}
                         break
                     default:
@@ -280,6 +281,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             runPim17IntegrationTest(phpVersion, client, psrImplem)
             break
         case "2.0":
+        case "2.1":
             runPim20IntegrationTest(phpVersion, client, psrImplem)
             break
         default:
@@ -554,6 +556,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
             k8s_template = "pim_17_ce.yaml"
             break
         case "2.0":
+        case "2.1:
             k8s_template = "pim_20_ce.yaml"
             break
         default:
