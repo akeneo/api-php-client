@@ -20,6 +20,8 @@ use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
+use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
+use Akeneo\Pim\ApiClient\FileSystem\LocalFileSystem;
 use Akeneo\Pim\ApiClient\Pagination\PageFactory;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactory;
 use Akeneo\Pim\ApiClient\Routing\UriGenerator;
@@ -54,6 +56,9 @@ class AkeneoPimClientBuilder
 
     /** @var StreamFactory */
     protected $streamFactory;
+
+    /** @var FileSystemInterface */
+    protected $fileSystem;
 
     /**
      * @param string $baseUri Base uri to request the API
@@ -106,6 +111,20 @@ class AkeneoPimClientBuilder
     }
 
     /**
+     * Allows to define another implementation than LocalFileSystem
+     *
+     * @param FileSystemInterface $fileSystem
+     *
+     * @return AkeneoPimClientBuilder
+     */
+    public function setFileSystem($fileSystem)
+    {
+        $this->fileSystem = $fileSystem;
+
+        return $this;
+    }
+
+    /**
      * Build the Akeneo PIM client authenticated by user name and password.
      *
      * @param string $clientId Client id to use for the authentication
@@ -146,7 +165,7 @@ class AkeneoPimClientBuilder
      */
     protected function buildAuthenticatedClient(Authentication $authentication)
     {
-        list($resourceClient, $pageFactory, $cursorFactory) = $this->setUp($authentication);
+        list($resourceClient, $pageFactory, $cursorFactory, $fileSystem) = $this->setUp($authentication);
 
         $client = new AkeneoPimClient(
             $authentication,
@@ -156,7 +175,7 @@ class AkeneoPimClientBuilder
             new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
             new AttributeGroupApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
-            new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory),
+            new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory, $fileSystem),
             new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
@@ -193,8 +212,9 @@ class AkeneoPimClientBuilder
 
         $pageFactory = new PageFactory($authenticatedHttpClient);
         $cursorFactory = new ResourceCursorFactory();
+        $fileSystem = null !== $this->fileSystem ? $this->fileSystem : new LocalFileSystem();
 
-        return [$resourceClient, $pageFactory, $cursorFactory];
+        return [$resourceClient, $pageFactory, $cursorFactory, $fileSystem];
     }
 
     /**

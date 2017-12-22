@@ -88,6 +88,21 @@ class CreateProductMediaFileApiIntegration extends ApiTestCase
     }
 
     /**
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnreadableFileException
+     */
+    public function testCreateWithAnInvalidFile()
+    {
+        $api = $this->createClient()->getProductMediaFileApi();
+
+        $api->create('foo.jpg', [
+            'identifier' => 'medium_boot',
+            'attribute'  => 'side_view',
+            'scope'      => null,
+            'locale'     => null,
+        ]);
+    }
+
+    /**
      * Sanitize the code and links of a media file, because the code is generated randomly.
      *
      * @param array $mediaFile
