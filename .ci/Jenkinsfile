@@ -627,7 +627,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
                     sh "kubectl apply -f /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
                     sh "gcloud.phar ${verbosity} job:wait --dotsperline ${linesize} ${env.NODE_NAME}-results-subscription ${size} ${env.WORKSPACE} --ansi"
                 } finally {
-                    sh "kubectl delete job ${env.NODE_NAME} --namespace=jenkins-prod"
+                    sh "kubectl delete job ${env.NODE_NAME}"
                     sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}"
                     sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}-results"
                     sh "gcloud.phar pubsub:subscription:delete ${env.NODE_NAME}-subscription"
