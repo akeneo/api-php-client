@@ -34,6 +34,8 @@ try {
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
                 string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
+                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
+                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
             ])
 
             pimVersions = userInput['requiredPimVersions'].tokenize(',')
@@ -380,6 +382,7 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
         // Find and store PHP test integration files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
+        def messages = new net.sf.json.JSONArray()
 
         for (file in files) {
             def commands = [
@@ -552,6 +555,7 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client (Used for K8s PIM's template)
  *  - (Run)  gcloud         : Used to manage pubsub queues and to create PIM's Kubernetes pods (Based on template)
  */
+
 def queue(String phpApiImageName, String pimImageName, String pimVersion, String phpVersion, body, verboseOutputs, dotsPerLine) {
     def verbosity = (verboseOutputs == "yes") ? "-v" : ""
     def linesize = (dotsPerLine.isNumber())? dotsPerLine :"50"
