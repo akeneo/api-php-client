@@ -1,13 +1,14 @@
 #!groovy
 
 import org.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateAction
+import groovy.transform.Field
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
-String[] pimVersions = ["1.7", "2.0"]
+String[] pimVersions = ["1.7", "2.0", "2.1"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
-String verboseOutputs = "yes"
-String dotsPerLine = "50"
+@Field def String verboseOutputs = "yes"
+@Field def String dotsPerLine = "50"
 
 def clientConfig = [
     "php-http/guzzle6-adapter": ["phpVersion": supportedPhpVersions, "psrImplem": ["guzzlehttp/psr7"]],
@@ -18,7 +19,6 @@ def clientConfig = [
 imageRepo = "eu.gcr.io/akeneo-ci/php-api-client"
 imageTag = "pull-request-${env.CHANGE_ID}-build-${env.BUILD_NUMBER}"
 gcrImages = []
-
 
 def clients = clientConfig.keySet() as String[]
 def buildResult= 'SUCCESS'
@@ -69,6 +69,7 @@ try {
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "5.6")}
                         break
                     case "2.0":
+                    case "2.1":
                         checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "7.1")}
                         break
                     default:
@@ -177,10 +178,10 @@ void buildPim(String pimVersion, String phpVersion) {
             ])
 
             container("php") {
-                sh "composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+                sh "php -d memory_limit=-1 /usr/local/bin/composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
                 sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
                 sh "sed -i \"s#database_host: .*#database_host: 127.0.0.1#g\" app/config/parameters.yml"
-                if ("2.0" == pimVersion) {
+                if ("2.0" == pimVersion || "2.1" == pimVersion) {
                     sh "sed -i \"s#index_hosts: .*#index_hosts: 'elastic:changeme@127.0.0.1:9200'#g\" app/config/parameters.yml"
                 }
                 sh "sed -i \"s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#\" app/config/pim_parameters.yml"
@@ -289,7 +290,8 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             runPim17IntegrationTest(phpVersion, client, psrImplem)
             break
         case "2.0":
-            runPim20IntegrationTest(phpVersion, client, psrImplem)
+        case "2.1":
+            runPim2IntegrationTest(phpVersion, client, psrImplem, pimVersion)
             break
         default:
             error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
@@ -328,7 +330,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
 
         for (file in files) {
-            messages.add([
+            def commands = [
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
                 [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
@@ -347,10 +349,14 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
                     junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
                     script: 'sudo php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist '+file+' --log-junit junit_output.xml'
                 ]
-            ])
-        }
-        return messages
-    })
+            ]
+            def message = new net.sf.json.JSONObject()
+            message.put("name",file)
+            message.put("commands",commands)
+            messages.add(message)
+       }
+       return messages
+    }, verboseOutputs, dotsPerLine)
 }
 
 /**
@@ -370,8 +376,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
  * @param client     Name of the HTTP client package to use to run the test with
  * @param psrImplem  Name of the PSR 7 implementation package to run the test with
  */
-def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) {
-    String pimVersion       = "2.0"
+def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, String pimVersion) {
     String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
     String pimImageName     = getPimGCRImageName(pimVersion)
 
@@ -382,8 +387,6 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
         // Find and store PHP test integration files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
-        def messages = new net.sf.json.JSONArray()
-
         for (file in files) {
             def commands = [
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
@@ -571,6 +574,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
             k8s_template = "pim_17_ce.yaml"
             break
         case "2.0":
+        case "2.1":
             k8s_template = "pim_20_ce.yaml"
             break
         default:
