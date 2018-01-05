@@ -9,11 +9,13 @@ use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
+use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -22,9 +24,10 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function let(
         ResourceClientInterface $resourceClient,
         PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        ResourceCursorFactoryInterface $cursorFactory,
+        FileSystemInterface $fileSystem
     ) {
-        $this->beConstructedWith($resourceClient, $pageFactory, $cursorFactory);
+        $this->beConstructedWith($resourceClient, $pageFactory, $cursorFactory, $fileSystem);
     }
 
     function it_is_initializable()
@@ -103,9 +106,46 @@ class ProductMediaFileApiSpec extends ObjectBehavior
         $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
     }
 
-    function it_creates_a_media_file($resourceClient, ResponseInterface $response)
+    function it_creates_a_media_file_from_a_path($resourceClient, $fileSystem, ResponseInterface $response)
     {
         $fileResource = fopen('php://stdin', 'r');
+        $fileSystem->getResourceFromPath('/images/akeneo.png')->willReturn($fileResource);
+
+        $product = [
+            'identifier' => 'foo',
+            'attribute'  => 'picture',
+            'scope'      => 'e-commerce',
+            'locale'     => 'en_US',
+        ];
+
+        $requestParts = [
+            [
+                'name'     => 'product',
+                'contents' => json_encode($product),
+            ],
+            [
+                'name'     => 'file',
+                'contents' => $fileResource,
+            ]
+        ];
+
+        $response->getHeaders()->willReturn(['Location' => [
+            'http://localhost/api/rest/v1/media-files/1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png'
+        ]]);
+
+        $resourceClient
+            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
+            ->willReturn($response);
+
+        $this->create('/images/akeneo.png', $product)
+            ->shouldReturn('1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png');
+    }
+
+    function it_creates_a_media_file_from_a_resource($resourceClient, $fileSystem, ResponseInterface $response)
+    {
+        $fileResource = fopen('php://stdin', 'r');
+        $fileSystem->getResourceFromPath(Argument::any())->shouldNotBeCalled();
+
         $product = [
             'identifier' => 'foo',
             'attribute'  => 'picture',
@@ -134,21 +174,6 @@ class ProductMediaFileApiSpec extends ObjectBehavior
 
         $this->create($fileResource, $product)
             ->shouldReturn('1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png');
-    }
-
-    function it_throws_an_exception_if_the_file_is_unreadable_when_creating_a_media_file()
-    {
-        $this
-            ->shouldThrow(new RuntimeException('The file "/foo.bar" could not be read.'))
-            ->during('create', [
-                '/foo.bar',
-                [
-                    'identifier' => 'foo',
-                    'attribute'  => 'picture',
-                    'scope'      => 'e-commerce',
-                    'locale'     => 'en_US',
-                ]
-            ]);
     }
 
     function it_throws_an_exception_if_the_response_does_not_contain_the_uri_of_the_created_media_file($resourceClient, ResponseInterface $response)

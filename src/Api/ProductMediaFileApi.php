@@ -4,6 +4,7 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
+use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -31,19 +32,25 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /** @var ResourceCursorFactoryInterface */
     protected $cursorFactory;
 
+    /** @var FileSystemInterface */
+    private $fileSystem;
+
     /**
      * @param ResourceClientInterface        $resourceClient
      * @param PageFactoryInterface           $pageFactory
      * @param ResourceCursorFactoryInterface $cursorFactory
+     * @param FileSystemInterface            $fileSystem
      */
     public function __construct(
         ResourceClientInterface $resourceClient,
         PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        ResourceCursorFactoryInterface $cursorFactory,
+        FileSystemInterface $fileSystem
     ) {
         $this->resourceClient = $resourceClient;
         $this->pageFactory = $pageFactory;
         $this->cursorFactory = $cursorFactory;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -80,11 +87,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     public function create($mediaFile, array $productData)
     {
         if (is_string($mediaFile)) {
-            if (!is_readable($mediaFile)) {
-                throw new RuntimeException(sprintf('The file "%s" could not be read.', $mediaFile));
-            }
-
-            $mediaFile = fopen($mediaFile, 'rb');
+            $mediaFile = $this->fileSystem->getResourceFromPath($mediaFile);
         }
 
         $requestParts = [
