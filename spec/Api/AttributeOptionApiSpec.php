@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class AttributeOptionApiSpec extends ObjectBehavior
@@ -148,5 +149,18 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $this
             ->upsert('foo', 'bar', ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42])
             ->shouldReturn(204);
+    }
+
+    function it_upserts_a_list_of_attribute_options($resourceClient, UpsertResourceListResponse $response)
+    {
+        $resourceClient->upsertResourceList(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, ['foo'], [
+            ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42],
+            ['code' => 'fighters', 'attribute' => 'foo', 'sort_order' => 43]
+        ])->willReturn($response);
+
+        $this->upsertList('foo', [
+            ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42],
+            ['code' => 'fighters', 'attribute' => 'foo', 'sort_order' => 43]
+        ])->shouldReturn($response);
     }
 }
