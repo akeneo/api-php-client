@@ -25,7 +25,7 @@
         <directory suffix="Integration.php">tests/v2_0/Api/*</directory>
     </testsuite>
 
-    <testsuite name="PHP_Client_Unit_Test_2_1">
+    <testsuite name="PHP_Client_Test_2_1">
         <directory suffix="Integration.php">tests/Common/Api/*</directory>
         <directory suffix="Integration.php">tests/v2_0/Api/*</directory>
         <directory suffix="Integration.php">tests/v2_1/Api/*</directory>
