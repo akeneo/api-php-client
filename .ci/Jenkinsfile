@@ -1,11 +1,15 @@
 #!groovy
 
 import org.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateAction
+import groovy.transform.Field
 
 String launchUnitTests = "yes"
 String launchIntegrationTests = "yes"
 String[] pimVersions = ["1.7", "2.0"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
+@Field def String verboseOutputs = "yes"
+@Field def String dotsPerLine = "50"
+
 def clientConfig = [
     "php-http/guzzle6-adapter": ["phpVersion": supportedPhpVersions, "psrImplem": ["guzzlehttp/psr7"]],
     "php-http/guzzle5-adapter": ["phpVersion": supportedPhpVersions, "psrImplem": ["guzzlehttp/psr7", "zendframework/zend-diactoros", "slim/slim"]],
@@ -15,7 +19,6 @@ def clientConfig = [
 imageRepo = "eu.gcr.io/akeneo-ci/php-api-client"
 imageTag = "pull-request-${env.CHANGE_ID}-build-${env.BUILD_NUMBER}"
 gcrImages = []
-
 
 def clients = clientConfig.keySet() as String[]
 def buildResult= 'SUCCESS'
@@ -28,13 +31,19 @@ try {
                 string(defaultValue: pimVersions.join(','), description: 'PIM edition the tests should run on', name: 'requiredPimVersions'),
                 choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
                 choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
+                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
+                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
                 string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
+                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
+                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
             ])
 
             pimVersions = userInput['requiredPimVersions'].tokenize(',')
             launchUnitTests = userInput['launchUnitTests']
             launchIntegrationTests = userInput['launchIntegrationTests']
             clients = userInput['clients'].tokenize(',')
+            verboseOutputs = userInput['verboseOutputs']
+            dotsPerLine = userInput['dotsperline']
         }
         milestone 2
 
@@ -168,7 +177,7 @@ void buildPim(String pimVersion, String phpVersion) {
             ])
 
             container("php") {
-                sh "composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
+                sh "php -d memory_limit=-1 /usr/local/bin/composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
                 sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
                 sh "sed -i \"s#database_host: .*#database_host: 127.0.0.1#g\" app/config/parameters.yml"
                 if ("2.0" == pimVersion) {
@@ -280,7 +289,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
             runPim17IntegrationTest(phpVersion, client, psrImplem)
             break
         case "2.0":
-            runPim20IntegrationTest(phpVersion, client, psrImplem)
+            runPim2IntegrationTest(phpVersion, client, psrImplem, pimVersion)
             break
         default:
             error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
@@ -319,7 +328,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
 
         for (file in files) {
-            messages.add([
+            def commands = [
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
                 [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
@@ -338,10 +347,14 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
                     junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
                     script: 'sudo php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist '+file+' --log-junit junit_output.xml'
                 ]
-            ])
-        }
-        return messages
-    })
+            ]
+            def message = new net.sf.json.JSONObject()
+            message.put("name",file)
+            message.put("commands",commands)
+            messages.add(message)
+       }
+       return messages
+    }, verboseOutputs, dotsPerLine)
 }
 
 /**
@@ -361,8 +374,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
  * @param client     Name of the HTTP client package to use to run the test with
  * @param psrImplem  Name of the PSR 7 implementation package to run the test with
  */
-def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) {
-    String pimVersion       = "2.0"
+def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, String pimVersion) {
     String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
     String pimImageName     = getPimGCRImageName(pimVersion)
 
@@ -373,9 +385,8 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
         // Find and store PHP test integration files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
-
         for (file in files) {
-            messages.add([
+            def commands = [
                 // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
                 // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
                 [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
@@ -397,10 +408,14 @@ def runPim20IntegrationTest(String phpVersion, String client, String psrImplem) 
                     junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
                     script: 'php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist '+file+' --log-junit junit_output.xml'
                 ]
-            ])
+            ]
+            def message = new net.sf.json.JSONObject()
+            message.put("name",file)
+            message.put("commands",commands)
+            messages.add(message)
         }
         return messages
-    })
+    }, verboseOutputs, dotsPerLine)
 }
 
 /**
@@ -433,12 +448,10 @@ def withBuildNode(String phpVersion, body) {
                 command: 'cat',
                 alwaysPullImage: true,
                 envVars: [
-                    envVar(key: "COMPOSER_HOME", value: "/shared/.composer"),
                     envVar(key: "COMPOSER_AUTH", value: "{\"github-oauth\":{\"github.com\": \"$token\"}}")],
                 resourceRequestCpu: '500m',
                 resourceRequestMemory: '1000Mi')
         ], volumes: [
-            nfsVolume(mountPath: '/shared', serverAddress: "${env.NFS_IP}", serverPath: '/exports', readOnly: false),
             hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
         ]) {
             node("build-" + uuid) {
@@ -543,7 +556,10 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
  *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client (Used for K8s PIM's template)
  *  - (Run)  gcloud         : Used to manage pubsub queues and to create PIM's Kubernetes pods (Based on template)
  */
-def queue(String phpApiImageName, String pimImageName, String pimVersion, String phpVersion, body) {
+
+def queue(String phpApiImageName, String pimImageName, String pimVersion, String phpVersion, body, verboseOutputs, dotsPerLine) {
+    def verbosity = (verboseOutputs == "yes") ? "-v" : ""
+    def linesize = (dotsPerLine.isNumber())? dotsPerLine :"50"
     clearTemplateNames()
     def uuid = UUID.randomUUID().toString()
     // Maximum pods in parallel. Default set to number of messages
@@ -564,7 +580,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
     }
 
     podTemplate(name: "php-api-client-pubsub", label: "pubsub-" + uuid, containers: [
-        containerTemplate(name: "gcloud", ttyEnabled: true, command: 'cat', image: "eu.gcr.io/akeneo-ci/gcloud:1.0.17", resourceRequestCpu: '100m', resourceRequestMemory: '200Mi', envVars: [envVar(key: "PUBSUB_PROJECT_ID", value: "akeneo-ci")])
+        containerTemplate(name: "gcloud", ttyEnabled: true, command: 'cat', image: "eu.gcr.io/akeneo-ci/gcloud:1.0", alwaysPullImage: true, resourceRequestCpu: '100m', resourceRequestMemory: '200Mi', envVars: [envVar(key: "PUBSUB_PROJECT_ID", value: "akeneo-ci")])
     ], annotations: [
         podAnnotation(key: "pod.beta.kubernetes.io/init-containers", value:
         """
@@ -614,7 +630,7 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
                 try {
                     sh "cat /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
                     sh "kubectl apply -f /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
-                    sh "gcloud.phar job:wait ${env.NODE_NAME}-results-subscription ${size} ${env.WORKSPACE} --ansi"
+                    sh "gcloud.phar ${verbosity} job:wait --dotsperline ${linesize} ${env.NODE_NAME}-results-subscription ${size} ${env.WORKSPACE} --ansi"
                 } finally {
                     sh "kubectl delete job ${env.NODE_NAME}"
                     sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}"
