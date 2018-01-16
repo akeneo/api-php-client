@@ -385,6 +385,9 @@ def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, S
         def files = []
 
         // Find and store PHP test integration files to launch them in parallels
+        if ("2.1" == pimVersion) {
+            files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_1/Api -name "*Integration.php"').tokenize('\n')
+        }
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
         for (file in files) {

@@ -85,4 +85,16 @@ interface AttributeOptionApiInterface
      * @return int returns either http code 201 if the attribute option has been created or 204 if it has been updated
      */
     public function upsert($attributeCode, $attributeOptionCode, array $data = []);
+
+    /**
+     * Updates or creates several attribute options at once.
+     *
+     * @param string                $attributeCode    code of the attribute
+     * @param array|StreamInterface $attributeOptions array or StreamInterface object containing data of the attribute options to create or update
+     *
+     * @throws HttpException
+     *
+     * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted attribute options
+     */
+    public function upsertList($attributeCode, $attributeOptions);
 }
