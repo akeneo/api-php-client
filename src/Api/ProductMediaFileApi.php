@@ -84,16 +84,18 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($mediaFile, array $productData)
+    public function create($mediaFile, array $data)
     {
         if (is_string($mediaFile)) {
             $mediaFile = $this->fileSystem->getResourceFromPath($mediaFile);
         }
 
+        $name = isset($data['type']) ? $data['type'] : 'product';
+        unset($data['type']);
         $requestParts = [
             [
-                'name' => 'product',
-                'contents' => json_encode($productData),
+                'name' => $name,
+                'contents' => json_encode($data),
             ],
             [
                 'name' => 'file',
