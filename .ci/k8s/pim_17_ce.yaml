@@ -45,7 +45,7 @@ spec:
           volumeMounts:
             - { name: tmp-pod, mountPath: /tmp/pod, readOnly: true }
           resources:
-            requests: {cpu: "300m", memory: "750Mi"}
+            requests: {cpu: "100m", memory: "700Mi"}
         - name: php-api
           image: akeneo/apache-php:php-PHP_API_VERSION
           command: ["/bin/bash", "-c"]
@@ -63,7 +63,7 @@ spec:
             - { name: docker-socket, mountPath: /var/run/docker.sock }
             - { name: docker-exec, mountPath: /usr/bin/docker }
           resources:
-            requests: {cpu: "500m", memory: "500Mi"}
+            requests: {cpu: "300m", memory: "300Mi"}
         - name: php
           image: akeneo/apache-php:php-5.6
           command: ["/bin/bash", "-c"]
@@ -73,7 +73,7 @@ spec:
               CHILD_PID=$!
               (while true; do if [[ -f "/tmp/pod/main-terminated" ]]; then sudo kill -9 $CHILD_PID; fi; sleep 1; done) &
               wait $CHILD_PID
-              if [[ -f "/tmp/pod/main-terminated" ]]; then exit 0; fi 
+              if [[ -f "/tmp/pod/main-terminated" ]]; then exit 0; fi
           workingDir: /home/jenkins/pim
           volumeMounts:
             - { name: pim, mountPath: /home/jenkins }
