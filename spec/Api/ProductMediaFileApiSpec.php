@@ -176,6 +176,45 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->shouldReturn('1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png');
     }
 
+    function it_creates_a_media_file_for_a_product_model($resourceClient, $fileSystem, ResponseInterface $response)
+    {
+        $fileResource = fopen('php://memory', 'r');
+        $fileSystem->getResourceFromPath(Argument::any())->shouldNotBeCalled();
+
+        $productModel = [
+            'code'       => 'foo',
+            'attribute'  => 'picture',
+            'scope'      => 'e-commerce',
+            'locale'     => 'en_US',
+            'type'       => 'product_model',
+        ];
+
+        $requestProductModel = $productModel;
+        unset($requestProductModel['type']);
+        $requestParts = [
+            [
+                'name'     => 'product_model',
+                'contents' => json_encode($requestProductModel),
+            ],
+            [
+                'name'     => 'file',
+                'contents' => $fileResource,
+            ]
+        ];
+
+        $response->getHeaders()->willReturn(['Location' => [
+            'http://localhost/api/rest/v1/media-files/1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png'
+        ]]);
+
+        $resourceClient
+            ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
+            ->shouldBeCalled()
+            ->willReturn($response);
+
+        $this->create($fileResource, $productModel)
+            ->shouldReturn('1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png');
+    }
+
     function it_throws_an_exception_if_the_response_does_not_contain_the_uri_of_the_created_media_file($resourceClient, ResponseInterface $response)
     {
         $fileResource = fopen('php://stdin', 'r');
