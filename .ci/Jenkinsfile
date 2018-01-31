@@ -666,7 +666,7 @@ def clearTemplateNames() {
 def saveDockerData(String gcrName, String gCloudcontainerName = "docker") {
     container(gCloudcontainerName) {
         sh "echo 'FROM alpine:3.6\nADD . /data\n' > Dockerfile"
-        sh "docker build -t ${gcrName} ."
+        sh "docker build --no-cache -t ${gcrName} ."
         sh "gcloud docker -- push ${gcrName}"
     }
 }
