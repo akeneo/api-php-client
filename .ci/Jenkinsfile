@@ -485,6 +485,7 @@ def withDockerGcloud(body) {
             command: 'cat',
             resourceRequestCpu: '100m',
             resourceRequestMemory: '200Mi'
+        )
     ]) {
         node("dockergcloud-" + uuid) {
             container("docker") {
