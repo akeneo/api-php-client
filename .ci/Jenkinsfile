@@ -441,7 +441,7 @@ def withBuildNode(String phpVersion, body) {
         podTemplate(name: "php-api-client-node", label: "build-" + uuid, containers: [
             containerTemplate(
                 name: "docker",
-                image: "paulwoelfel/docker-gcloud",
+                image: "paulwoelfel/docker-gcloud:v1.13",
                 ttyEnabled: true,
                 command: 'cat',
                 resourceRequestCpu: '100m', resourceRequestMemory: '200Mi'),
@@ -480,7 +480,7 @@ def withDockerGcloud(body) {
     podTemplate(name: "php-api-client-gcloud", label: "dockergcloud-" + uuid, containers: [
         containerTemplate(
             name: "docker",
-            image: "paulwoelfel/docker-gcloud",
+            image: "paulwoelfel/docker-gcloud:v1.13",
             ttyEnabled: true,
             command: 'cat',
             resourceRequestCpu: '100m',
