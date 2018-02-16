@@ -441,9 +441,10 @@ def withBuildNode(String phpVersion, body) {
         podTemplate(name: "php-api-client-node", label: "build-" + uuid, containers: [
             containerTemplate(
                 name: "docker",
-                image: "paulwoelfel/docker-gcloud:v1.13",
+                image: "paulwoelfel/docker-gcloud",
                 ttyEnabled: true,
                 command: 'cat',
+                envVars: [envVar(key: "DOCKER_API_VERSION", value: "1.23")],
                 resourceRequestCpu: '100m', resourceRequestMemory: '200Mi'),
             containerTemplate(
                 name: "php",
@@ -455,6 +456,8 @@ def withBuildNode(String phpVersion, body) {
                     envVar(key: "COMPOSER_AUTH", value: "{\"github-oauth\":{\"github.com\": \"$token\"}}")],
                 resourceRequestCpu: '500m',
                 resourceRequestMemory: '1000Mi')
+        ], volumes: [
+            hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
         ]) {
             node("build-" + uuid) {
                 dir('/home/jenkins') {
@@ -480,12 +483,14 @@ def withDockerGcloud(body) {
     podTemplate(name: "php-api-client-gcloud", label: "dockergcloud-" + uuid, containers: [
         containerTemplate(
             name: "docker",
-            image: "paulwoelfel/docker-gcloud:v1.13",
+            image: "paulwoelfel/docker-gcloud",
             ttyEnabled: true,
             command: 'cat',
             resourceRequestCpu: '100m',
-            resourceRequestMemory: '200Mi'
-        )
+            resourceRequestMemory: '200Mi',
+            envVars: [envVar(key: "DOCKER_API_VERSION", value: "1.23")])
+    ], volumes: [
+        hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
     ]) {
         node("dockergcloud-" + uuid) {
             container("docker") {
@@ -596,6 +601,10 @@ def queue(String phpApiImageName, String pimImageName, String pimVersion, String
             }]
         }]
         """)
+    ], volumes: [
+        hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
+        hostPathVolume(hostPath: "/usr/bin/docker", mountPath: "/usr/bin/docker")
+
     ]) {
         node("pubsub-" + uuid) {
             def messages = body()
@@ -657,7 +666,8 @@ def clearTemplateNames() {
 def saveDockerData(String gcrName, String gCloudcontainerName = "docker") {
     container(gCloudcontainerName) {
         sh "echo 'FROM alpine:3.6\nADD . /data\n' > Dockerfile"
-        sh "gcloud container builds submit --tag ${gcrName} ."
+        sh "docker build -t ${gcrName} ."
+        sh "gcloud docker -- push ${gcrName}"
     }
 }
 
