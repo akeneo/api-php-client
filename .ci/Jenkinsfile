@@ -33,9 +33,7 @@ try {
                 choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
-                string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
-                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
-                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
+                string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients')
             ])
 
             pimVersions = userInput['requiredPimVersions'].tokenize(',')
@@ -342,6 +340,8 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
                 [container: "php", script: "chown -R docker:docker /home/jenkins/pim"],
                 // Reload apache (No restart otherwise pod will crash)
                 [container: "php", script: "sudo /usr/sbin/apache2ctl graceful"],
+                // Fix write permissions on web/bundles
+                [container: "php", script: "chmod 777 -R /home/jenkins/pim/web/"],
                 // Install pim as docker user
                 [container: "php", script: "su docker -c './app/console pim:install -e prod'"],
                 [
@@ -404,6 +404,8 @@ def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, S
                 [container: "httpd", script: "cp /home/jenkins/php-api-client/.ci/akeneo.conf /usr/local/apache2/conf/vhost.conf"],
                 // Reload apache (No restart otherwise pod will crash)
                 [container: "httpd", script: "pkill -HUP httpd"],
+                // Fix write permissions on web/bundles
+                [container: "php", script: "chmod 777 -R /home/jenkins/pim/web/"],
                 // Install pim as docker user
                 [container: "php", script: "bin/console pim:install -e prod"],
                 // Own pim folder to docker user/group (which is also the apache user)
