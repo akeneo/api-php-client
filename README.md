@@ -1,6 +1,7 @@
 # PHP Akeneo PIM API
 
-A simple PHP client to use the [Akeneo PIM API](https://api.akeneo.com/).
+A simple PHP client to use the [Akeneo PIM API](https://api.akeneo.com/). 
+It is compatible with the 2.0 of our dear Akeneo PIM.
 
 ## Requirements
 
@@ -129,6 +130,8 @@ $client->getProductApi()->upsertList([
 ```
 
 ## Support
+
+The support of this client is made in best effort by our Akeneo team.
 
 If you find a bug or want to submit an improvement, don't hesitate to raise an issue on Github.
 Also, you can ask questions and discuss about the PHP client with the community in the [Slack User Group](https://akeneopim-ug.slack.com/messages/web-api/).
