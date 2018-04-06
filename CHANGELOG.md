@@ -1,3 +1,7 @@
+# 2.0.1 (2018-05-03)
+
+- API-592: Handle error when the response is a redirection
+
 # 2.0.0 (2018-02-15)
 
 ## Improvements
