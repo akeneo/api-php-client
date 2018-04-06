@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
@@ -37,6 +38,10 @@ class HttpExceptionHandler
      */
     public function transformResponseToException(RequestInterface $request, ResponseInterface $response)
     {
+        if ($response->getStatusCode() >= 300 && $response->getStatusCode() < 400) {
+            throw new RedirectionHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
         if (400 === $response->getStatusCode()) {
             throw new BadRequestHttpException($this->getResponseMessage($response), $request, $response);
         }
