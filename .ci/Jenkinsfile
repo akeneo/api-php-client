@@ -4,7 +4,7 @@ import org.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateAction
 import groovy.transform.Field
 
 String launchUnitTests = "yes"
-String launchIntegrationTests = "yes"
+String launchEndToEndTests = "yes"
 String[] pimVersions = ["1.7", "2.0"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
 @Field def String verboseOutputs = "yes"
@@ -30,17 +30,17 @@ try {
             userInput = input(message: 'Launch tests?', parameters: [
                 string(defaultValue: pimVersions.join(','), description: 'PIM edition the tests should run on', name: 'requiredPimVersions'),
                 choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
-                choice(choices: 'yes\nno', description: 'Run integration tests', name: 'launchIntegrationTests'),
+                choice(choices: 'yes\nno', description: 'Run end-to-end tests', name: 'launchEndToEndTests'),
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
-                string(defaultValue: clients.join(','), description: 'Clients used to run integration tests (comma separated values)', name: 'clients'),
+                string(defaultValue: clients.join(','), description: 'Clients used to run end-to-end tests (comma separated values)', name: 'clients'),
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
             ])
 
             pimVersions = userInput['requiredPimVersions'].tokenize(',')
             launchUnitTests = userInput['launchUnitTests']
-            launchIntegrationTests = userInput['launchIntegrationTests']
+            launchEndToEndTests = userInput['launchEndToEndTests']
             clients = userInput['clients'].tokenize(',')
             verboseOutputs = userInput['verboseOutputs']
             dotsPerLine = userInput['dotsperline']
@@ -60,7 +60,7 @@ try {
             }
         }
 
-        if (launchIntegrationTests.equals("yes")) {
+        if (launchEndToEndTests.equals("yes")) {
             for (pimVersion in pimVersions) {
                 String currentPimVersion = pimVersion
 
@@ -117,7 +117,7 @@ try {
         }
     }
 
-    if (launchIntegrationTests.equals("yes")) {
+    if (launchEndToEndTests.equals("yes")) {
         for (pimVersion in pimVersions) {
             String currentPimVersion = pimVersion
             stage("Integration tests ${currentPimVersion}") {
@@ -270,7 +270,7 @@ void runPhpSpecTest(String phpVersion, String client, String psrImplem) {
 }
 
 /**
- * Run integration tests of the PHP client, for a given PHP version, HTTP client, PSR7 implementation and a PIM version.
+ * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client, PSR7 implementation and a PIM version.
  * First, it starts the PIM. The configuration of the PIM (composer, parameters) is already done in the checkout step.
  * Then, it launches the PHPUnit tests.
  *
@@ -298,7 +298,7 @@ void runIntegrationTest(String phpVersion, String client, String psrImplem, Stri
 }
 
 /**
- * Run integration tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 1.7.
+ * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 1.7.
  *
  * 1) Ask to use Kubernetes PIM 1.7 pod template with specific data images (Depending on phpVersion, client, psrImplem)
  * 2) Scan all PHP test files in folder "tests/v1_7/Api" and "tests/Common/Api"
@@ -323,7 +323,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
         def messages = new net.sf.json.JSONArray()
         def files = []
 
-        // Find and store PHP test integration files to launch them in parallels
+        // Find and store PHP test end-to-end files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v1_7/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
 
@@ -358,7 +358,7 @@ def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) 
 }
 
 /**
- * Run integration tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 2.0.
+ * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 2.0.
  *
  * 1) Ask to use Kubernetes PIM 2.0 pod template with specific data images (Depending on phpVersion, client, psrImplem)
  * 2) Scan all PHP test files in folder "tests/v2_0/Api" and "tests/Common/Api"
@@ -382,7 +382,7 @@ def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, S
         def messages = new net.sf.json.JSONArray()
         def files = []
 
-        // Find and store PHP test integration files to launch them in parallels
+        // Find and store PHP test end-to-end files to launch them in parallels
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
         files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
         for (file in files) {
