@@ -5,7 +5,6 @@ import groovy.transform.Field
 
 String launchUnitTests = "yes"
 String launchEndToEndTests = "yes"
-String[] pimVersions = ["1.7", "2.0"]
 String[] supportedPhpVersions = ["5.6", "7.0", "7.1"]
 @Field def String verboseOutputs = "yes"
 @Field def String dotsPerLine = "50"
@@ -28,17 +27,14 @@ try {
         milestone 1
         if (env.BRANCH_NAME =~ /^PR-/) {
             userInput = input(message: 'Launch tests?', parameters: [
-                string(defaultValue: pimVersions.join(','), description: 'PIM edition the tests should run on', name: 'requiredPimVersions'),
                 choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
                 choice(choices: 'yes\nno', description: 'Run end-to-end tests', name: 'launchEndToEndTests'),
                 choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
                 string(defaultValue: clients.join(','), description: 'Clients used to run end-to-end tests (comma separated values)', name: 'clients'),
-                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
                 string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
             ])
 
-            pimVersions = userInput['requiredPimVersions'].tokenize(',')
             launchUnitTests = userInput['launchUnitTests']
             launchEndToEndTests = userInput['launchEndToEndTests']
             clients = userInput['clients'].tokenize(',')
@@ -61,22 +57,6 @@ try {
         }
 
         if (launchEndToEndTests.equals("yes")) {
-            for (pimVersion in pimVersions) {
-                String currentPimVersion = pimVersion
-
-                switch (currentPimVersion) {
-                    case "1.7":
-                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "5.6")}
-                        break
-                    case "2.0":
-                        checkouts["pim_community_dev_${currentPimVersion}"] = {buildPim(currentPimVersion, "7.1")}
-                        break
-                    default:
-                        error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
-                        break
-                }
-            }
-
             for (client in clients) {
                 for (phpVersion in clientConfig.get(client).get("phpVersion")) {
                     for (psrImplem in clientConfig.get(client).get("psrImplem")) {
@@ -118,29 +98,26 @@ try {
     }
 
     if (launchEndToEndTests.equals("yes")) {
-        for (pimVersion in pimVersions) {
-            String currentPimVersion = pimVersion
-            stage("Integration tests ${currentPimVersion}") {
-                def tasks = [:]
+        stage("EndToEnd tests") {
+            def tasks = [:]
 
-                for (client in clients) {
-                    for (phpVersion in clientConfig.get(client).get("phpVersion")) {
-                        for (psrImplem in clientConfig.get(client).get("psrImplem")) {
-                            String currentClient = client
-                            String currentPsrImplem = psrImplem
-                            String currentPhpVersion = phpVersion
+            for (client in clients) {
+                for (phpVersion in clientConfig.get(client).get("phpVersion")) {
+                    for (psrImplem in clientConfig.get(client).get("psrImplem")) {
+                        String currentClient = client
+                        String currentPsrImplem = psrImplem
+                        String currentPhpVersion = phpVersion
 
-                            tasks["phpunit-${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runIntegrationTest(currentPhpVersion, currentClient, currentPsrImplem, currentPimVersion)}
-                        }
+                        tasks["phpunit-${currentClient}-${currentPsrImplem}-${currentPhpVersion}"] = {runEndToEndTest(currentPhpVersion, currentClient, currentPsrImplem)}
                     }
                 }
+            }
 
-                try {
-                    parallel tasks
-                } catch (e) {
-                    println e
-                    buildResult = 'FAILURE'
-                }
+            try {
+                parallel tasks
+            } catch (e) {
+                println e
+                buildResult = 'FAILURE'
             }
         }
     }
@@ -161,39 +138,6 @@ try {
     currentBuild.result = buildResult
 }
 
-/**
- * Run checkout of the PIM for a given PHP version and a PIM version.
- * Run composer, prepare configuration files and push data to a docker registry image.
- *
- * @param pimVersion PIM version to checkout
- */
-void buildPim(String pimVersion, String phpVersion) {
-
-    withBuildNode(phpVersion,{
-        dir("git") {
-            checkout([$class: 'GitSCM',
-                branches: [[name: pimVersion]],
-                userRemoteConfigs: [[credentialsId: 'github-credentials', url: 'https://github.com/akeneo/pim-community-dev.git']]
-            ])
-
-            container("php") {
-                sh "php -d memory_limit=-1 /usr/local/bin/composer --ansi require \"akeneo/catalogs\":\"dev-master\" --optimize-autoloader --no-interaction --no-progress --prefer-dist"
-                sh "cp app/config/parameters.yml.dist app/config/parameters.yml"
-                sh "sed -i \"s#database_host: .*#database_host: 127.0.0.1#g\" app/config/parameters.yml"
-                if ("2.0" == pimVersion) {
-                    sh "sed -i \"s#index_hosts: .*#index_hosts: 'elastic:changeme@127.0.0.1:9200'#g\" app/config/parameters.yml"
-                }
-                sh "sed -i \"s#installer_data: .*#installer_data: '%kernel.root_dir%/../vendor/akeneo/catalogs/${pimVersion}/community/api/fixtures'#\" app/config/pim_parameters.yml"
-            }
-
-            String gcrImageName = getPimGCRImageName(pimVersion)
-            saveDockerData(gcrImageName)
-
-            // Add image to array for cleanup
-            gcrImages += "${gcrImageName}"
-        }
-    })
-}
 
 /**
  * Run checkout of the PHP client, for a given PHP version, HTTP client and PSR7 implementation.
@@ -211,9 +155,6 @@ void buildClient(String phpVersion, String client, String psrImplem) {
             container("php") {
                 sh "composer --ansi require ${client} ${psrImplem}"
                 sh "composer --ansi update --optimize-autoloader --no-interaction --no-progress --prefer-dist --no-suggest"
-                sh "cp tests/etc/parameters.yml.dist tests/etc/parameters.yml"
-                sh "sed -i \"s#base_uri: .*#base_uri: 'http://akeneo-pim'#g\" tests/etc/parameters.yml"
-                sh "sed -i \"s#install_path: .*#install_path: '/home/jenkins/pim'#g\" tests/etc/parameters.yml"
             }
 
             String gcrImageName = getApiClientGCRImageName(phpVersion, client, psrImplem)
@@ -270,153 +211,27 @@ void runPhpSpecTest(String phpVersion, String client, String psrImplem) {
 }
 
 /**
- * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client, PSR7 implementation and a PIM version.
- * First, it starts the PIM. The configuration of the PIM (composer, parameters) is already done in the checkout step.
- * Then, it launches the PHPUnit tests.
- *
- * Do note that PHPUnit resets the PIM database between each test and generates the API client id/secret,
- * thanks to "docker exec" commands inside the PHPUnit process.
- * In order to do that, the docker socket and docker bin are exposed as volumes to the PHPUnit container.
- *
- * @param phpVersion PHP version to run the test with
- * @param client     Name of the HTTP client package to use to run the test with
- * @param psrImplem  Name of the PSR 7 implementation package to run the test with
- * @param pimVersion PIM version to run the test with
- */
-void runIntegrationTest(String phpVersion, String client, String psrImplem, String pimVersion) {
-    switch (pimVersion) {
-        case "1.7":
-            runPim17IntegrationTest(phpVersion, client, psrImplem)
-            break
-        case "2.0":
-            runPim2IntegrationTest(phpVersion, client, psrImplem, pimVersion)
-            break
-        default:
-            error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
-            break
-    }
-}
-
-/**
- * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 1.7.
- *
- * 1) Ask to use Kubernetes PIM 1.7 pod template with specific data images (Depending on phpVersion, client, psrImplem)
- * 2) Scan all PHP test files in folder "tests/v1_7/Api" and "tests/Common/Api"
- * 3) For each php file, K8s create a PIM 1.7 pod and run commands inside defined container (Install PIM and launch tests)
- *
- * Do note that PHPUnit resets the PIM database between each test and generates the API client id/secret,
- * thanks to "docker exec" commands inside the PHPUnit process.
- * In order to do that, K8s pod template (pim_20_ce.yaml) need to mount docker socket and docker bin from host to "php-api-container".
- * Because K8s will create numbers of PIMs in parallel, there won't be one "pim" containers name as in Docker.
- * So we have to call Kubernetes API to get our current "php" container ID and put it in the the "docker_name" of parameters.yml
+ * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation.
  *
  * @param phpVersion PHP version to run the test with
  * @param client     Name of the HTTP client package to use to run the test with
  * @param psrImplem  Name of the PSR 7 implementation package to run the test with
  */
-def runPim17IntegrationTest(String phpVersion, String client, String psrImplem) {
-    String pimVersion       = "1.7"
-    String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
-    String pimImageName     = getPimGCRImageName(pimVersion)
+def runEndToEndTest(String phpVersion, String client, String psrImplem) {
+    String phpApiImage = getApiClientGCRImageName(phpVersion, client, psrImplem)
 
-    queue(phpApiImageName, pimImageName, pimVersion, phpVersion, {
-        def messages = new net.sf.json.JSONArray()
-        def files = []
-
-        // Find and store PHP test end-to-end files to launch them in parallels
-        files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v1_7/Api -name "*Integration.php"').tokenize('\n')
-        files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
-
-        for (file in files) {
-            def commands = [
-                // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
-                // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
-                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
-                // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" tests/etc/parameters.yml' '''],
-                // Copy apache configuration for Kubernetes
-                [container: "php", script: "sudo cp /home/jenkins/php-api-client/.ci/akeneo.conf /etc/apache2/sites-available/000-default.conf"],
-                // Own pim folder to docker user/group (which is also the apache user)
-                [container: "php", script: "chown -R docker:docker /home/jenkins/pim"],
-                // Reload apache (No restart otherwise pod will crash)
-                [container: "php", script: "sudo /usr/sbin/apache2ctl graceful"],
-                // Install pim as docker user
-                [container: "php", script: "su docker -c './app/console pim:install -e prod'"],
-                [
-                    container: "php-api",
-                    junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
-                    script: 'sudo php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist '+file+' --log-junit junit_output.xml'
-                ]
-            ]
-            def message = new net.sf.json.JSONObject()
-            message.put("name",file)
-            message.put("commands",commands)
-            messages.add(message)
-       }
-       return messages
-    }, verboseOutputs, dotsPerLine)
-}
-
-/**
- * Run end-to-end tests of the PHP client, for a given PHP version, HTTP client and PSR7 implementation on PIM version 2.0.
- *
- * 1) Ask to use Kubernetes PIM 2.0 pod template with specific data images (Depending on phpVersion, client, psrImplem)
- * 2) Scan all PHP test files in folder "tests/v2_0/Api" and "tests/Common/Api"
- * 3) For each php file, K8s create a PIM 2.0 pod and run commands inside defined container (Install PIM and launch tests)
- *
- * Do note that PHPUnit resets the PIM database between each test and generates the API client id/secret,
- * thanks to "docker exec" commands inside the PHPUnit process.
- * In order to do that, K8s pod template (pim_20_ce.yaml) need to mount docker socket and docker bin from host to "php-api-container".
- * Because K8s will create numbers of PIMs in parallel, there won't be one "pim" containers name as in Docker.
- * So we have to call Kubernetes API to get our current "php" container ID and put it in the the "docker_name" of parameters.yml
- *
- * @param phpVersion PHP version to run the test with
- * @param client     Name of the HTTP client package to use to run the test with
- * @param psrImplem  Name of the PSR 7 implementation package to run the test with
- */
-def runPim2IntegrationTest(String phpVersion, String client, String psrImplem, String pimVersion) {
-    String phpApiImageName  = getApiClientGCRImageName(phpVersion, client, psrImplem)
-    String pimImageName     = getPimGCRImageName(pimVersion)
-
-    queue(phpApiImageName, pimImageName, pimVersion, phpVersion, {
-        def messages = new net.sf.json.JSONArray()
-        def files = []
-
-        // Find and store PHP test end-to-end files to launch them in parallels
-        files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/v2_0/Api -name "*Integration.php"').tokenize('\n')
-        files += sh (returnStdout: true, script: 'find /home/jenkins/php-api-client/tests/Common/Api -name "*Integration.php"').tokenize('\n')
-        for (file in files) {
-            def commands = [
-                // Export "php" container id into shared file (We use ''' has we don't want groovy interpolation for $)
-                // And clean kubernetes' docker prefix "docker://<container-id>" (Take care, pubsub uses Busybox's sed != GNU sed)
-                [container: "pubsub", script: '''sh -c "kubectl get pod \\${POD_NAME} -o jsonpath='{$.status.containerStatuses[?(@.name==\\"php\\")].containerID}' | sed 's#docker://##g' > /home/jenkins/php-container-id" '''],
-                // Set "php" container id to parameters.yml
-                [container: "php-api", script: '''sh -c 'sed -i "s#docker_name: .*#docker_name: $(cat /home/jenkins/php-container-id)#g" tests/etc/parameters.yml' '''],
-                // Change php-api-client conf for Pim 2.x
-                [container: "php-api", script: '''sed -i 's#bin_path: .*#bin_path: bin#g' tests/etc/parameters.yml'''],
-                [container: "php-api", script: '''sed -i 's#version: .*#version: #g' tests/etc/parameters.yml'''],
-                // Copy apache configuration for Kubernetes
-                [container: "httpd", script: "cp /home/jenkins/php-api-client/.ci/akeneo.conf /usr/local/apache2/conf/vhost.conf"],
-                // Reload apache (No restart otherwise pod will crash)
-                [container: "httpd", script: "pkill -HUP httpd"],
-                // Install pim as docker user
-                [container: "php", script: "bin/console pim:install -e prod"],
-                // Own pim folder to docker user/group (which is also the apache user)
-                [container: "php", script: "chown -R www-data:www-data /home/jenkins/pim/"],
-                [
-                    container: "php-api",
-                    junit: [in: "/home/jenkins/php-api-client/", name: "junit_output.xml"],
-                    script: 'php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist '+file+' --log-junit junit_output.xml'
-                ]
-            ]
-            def message = new net.sf.json.JSONObject()
-            message.put("name",file)
-            message.put("commands",commands)
-            messages.add(message)
+    withPhpApi(phpApiImage, phpVersion, {
+        dir("/home/jenkins/php-api-client") {
+            try {
+                sh """sudo php -d error_reporting="E_ALL" ./bin/phpunit -c phpunit.xml.dist --log-junit junit_output.xml"""
+            } finally {
+                sh """sed -i 's/testcase name="/testcase name="[php-${phpVersion}] /' junit_output.xml"""
+                junit "junit_output.xml"
+            }
         }
-        return messages
-    }, verboseOutputs, dotsPerLine)
+    })
 }
+
 
 /**
  * This function allow you to run Google Cloud commands
@@ -542,109 +357,6 @@ def withPhpApi(String phpApiImageName, String phpVersion, body) {
     }
 }
 
-/**
- * This function allow you to run a list of messages on parallel pods.
- * Each message will create a kubernetes pod (based on template) and run its commands sequentially.
- *
- * @param phpApiImageName   Full GCR image name to pull, containing php-api-client data
- * @param pimImageName      Full GCR image name to pull, containing pim data
- * @param pimVersion        PIM version to run the test with
- * @param phpVersion        PHP version to run the test with
- * @param body              JSON Array containing the list of messages to execute in parallel
- *
- * Kubernetes Template :
- *  - (Init) php-api-client : Copy php-api-client sources to /home/jenkins/php-api-client (Used for K8s PIM's template)
- *  - (Run)  gcloud         : Used to manage pubsub queues and to create PIM's Kubernetes pods (Based on template)
- */
-
-def queue(String phpApiImageName, String pimImageName, String pimVersion, String phpVersion, body, verboseOutputs, dotsPerLine) {
-    def verbosity = (verboseOutputs == "yes") ? "-v" : ""
-    def linesize = (dotsPerLine.isNumber())? dotsPerLine :"50"
-    clearTemplateNames()
-    def uuid = UUID.randomUUID().toString()
-    // Maximum pods in parallel. Default set to number of messages
-    def maxScale = 100
-    def k8s_template
-
-    // Define Kubernetes pod template based on PIM version
-    switch (pimVersion) {
-        case "1.7":
-            k8s_template = "pim_17_ce.yaml"
-            break
-        case "2.0":
-            k8s_template = "pim_20_ce.yaml"
-            break
-        default:
-            error("pimVersion \"${pimVersion}\" is not a valid version managed by this script..")
-            break
-    }
-
-    podTemplate(name: "php-api-client-pubsub", label: "pubsub-" + uuid, containers: [
-        containerTemplate(name: "gcloud", ttyEnabled: true, command: 'cat', image: "eu.gcr.io/akeneo-ci/gcloud:1.0", alwaysPullImage: true, resourceRequestCpu: '100m', resourceRequestMemory: '200Mi', envVars: [envVar(key: "PUBSUB_PROJECT_ID", value: "akeneo-ci")])
-    ], annotations: [
-        podAnnotation(key: "pod.beta.kubernetes.io/init-containers", value:
-        """
-        [{
-            "name":                 "php-api-client-data",
-            "image":                "${phpApiImageName}",
-            "imagePullPolicy":      "Always",
-            "command": ["sh", "-c", "mkdir -p /home/jenkins/php-api-client && cp -Rp /data/. /home/jenkins/php-api-client"],
-            "volumeMounts":[{
-                "name":             "workspace-volume",
-                "mountPath":        "/home/jenkins"
-            }]
-        }]
-        """)
-    ], volumes: [
-        hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
-        hostPathVolume(hostPath: "/usr/bin/docker", mountPath: "/usr/bin/docker")
-
-    ]) {
-        node("pubsub-" + uuid) {
-            def messages = body()
-
-            container("gcloud") {
-                sh "gcloud.phar pubsub:topic:create ${env.NODE_NAME}"
-                sh "gcloud.phar pubsub:topic:create ${env.NODE_NAME}-results"
-                sh "gcloud.phar pubsub:subscription:create ${env.NODE_NAME} ${env.NODE_NAME}-subscription"
-                sh "gcloud.phar pubsub:subscription:create ${env.NODE_NAME}-results ${env.NODE_NAME}-results-subscription"
-
-                def size = messages.size()
-                def scale = size > maxScale ? maxScale : size
-
-                writeJSON file: 'output.json', json: messages
-                sh "gcloud.phar pubsub:message:publish ${env.NODE_NAME} output.json"
-
-                sh """sed -i \
-                -e 's#JOB_SCALE#${scale}#g' \
-                -e 's#JOB_NAME#${env.NODE_NAME}#g' \
-                -e 's#JOB_COMPLETIONS#${size}#g' \
-                -e 's#SUBSCRIPTION_NAME#${env.NODE_NAME}-subscription#g' \
-                -e 's#RESULT_TOPIC#${env.NODE_NAME}-results#g' \
-                -e 's#API_CLIENT_IMAGE#${phpApiImageName}#g' \
-                -e 's#PIM_IMAGE#${pimImageName}#g' \
-                -e 's#PHP_API_VERSION#${phpVersion}#g' \
-                /home/jenkins/php-api-client/.ci/k8s/${k8s_template}
-                """
-
-                try {
-                    sh "cat /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
-                    sh "kubectl apply -f /home/jenkins/php-api-client/.ci/k8s/${k8s_template}"
-                    sh "gcloud.phar ${verbosity} job:wait --dotsperline ${linesize} ${env.NODE_NAME}-results-subscription ${size} ${env.WORKSPACE} --ansi"
-                } finally {
-                    sh "kubectl delete job ${env.NODE_NAME}"
-                    sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}"
-                    sh "gcloud.phar pubsub:topic:delete ${env.NODE_NAME}-results"
-                    sh "gcloud.phar pubsub:subscription:delete ${env.NODE_NAME}-subscription"
-                    sh "gcloud.phar pubsub:subscription:delete ${env.NODE_NAME}-results-subscription"
-
-                    junit allowEmptyResults: true, testResults: 'junit/**/*.xml'
-                }
-            }
-        }
-    }
-}
-
 @NonCPS
 def clearTemplateNames() {
     // see https://issues.jenkins-ci.org/browse/JENKINS-42184
@@ -674,15 +386,5 @@ def saveDockerData(String gcrName, String gCloudcontainerName = "docker") {
  */
 def getApiClientGCRImageName(String phpVersion, String client, String psrImplem) {
     String imageName = "${client}_${psrImplem}_php-${phpVersion}".replaceAll("/", "_")
-    return "${imageRepo}/${imageName}:${imageTag}"
-}
-
-/**
- * Give a structured name to tag current pim data into Google Cloud Registry
- *
- * @param pimVersion PIM version to run the test with
- */
-def getPimGCRImageName(String pimVersion) {
-    String imageName = "pim_community_dev_${pimVersion}".replaceAll("/", "_")
     return "${imageRepo}/${imageName}:${imageTag}"
 }
