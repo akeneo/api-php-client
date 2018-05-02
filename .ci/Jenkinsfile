@@ -26,20 +26,22 @@ try {
     stage("Build") {
         milestone 1
         if (env.BRANCH_NAME =~ /^PR-/) {
-            userInput = input(message: 'Launch tests?', parameters: [
-                choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
-                choice(choices: 'yes\nno', description: 'Run end-to-end tests', name: 'launchEndToEndTests'),
-                choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
-                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
-                string(defaultValue: clients.join(','), description: 'Clients used to run end-to-end tests (comma separated values)', name: 'clients'),
-                string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
-            ])
+            timeout(time:5, unit:'DAYS') {
+                userInput = input(message: 'Launch tests?', parameters: [
+                    choice(choices: 'yes\nno', description: 'Run unit tests and code style checks', name: 'launchUnitTests'),
+                    choice(choices: 'yes\nno', description: 'Run end-to-end tests', name: 'launchEndToEndTests'),
+                    choice(choices: 'no\nyes', description: 'Enable Verbose mode', name: 'verboseOutputs'),
+                    string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
+                    string(defaultValue: clients.join(','), description: 'Clients used to run end-to-end tests (comma separated values)', name: 'clients'),
+                    string(defaultValue: '50', description: 'Number of dots per line', name: 'dotsperline'),
+                ])
 
-            launchUnitTests = userInput['launchUnitTests']
-            launchEndToEndTests = userInput['launchEndToEndTests']
-            clients = userInput['clients'].tokenize(',')
-            verboseOutputs = userInput['verboseOutputs']
-            dotsPerLine = userInput['dotsperline']
+                launchUnitTests = userInput['launchUnitTests']
+                launchEndToEndTests = userInput['launchEndToEndTests']
+                clients = userInput['clients'].tokenize(',')
+                verboseOutputs = userInput['verboseOutputs']
+                dotsPerLine = userInput['dotsperline']
+            }
         }
         milestone 2
 
