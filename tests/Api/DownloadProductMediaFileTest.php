@@ -7,6 +7,7 @@ use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 use Psr\Http\Message\StreamInterface;
 
 class DownloadProductMediaFileTest extends ApiTestCase
@@ -25,7 +26,7 @@ class DownloadProductMediaFileTest extends ApiTestCase
         $api = $this->createClient()->getProductMediaFileApi();
         $mediaFile = $api->download('/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png');
 
-        $this->assertInstanceOf(StreamInterface::class, $mediaFile);
-        $this->assertSame(file_get_contents($expectedMediaFile), $mediaFile->getContents());
+        Assert::assertInstanceOf(StreamInterface::class, $mediaFile);
+        Assert::assertSame(file_get_contents($expectedMediaFile), $mediaFile->getContents());
     }
 }

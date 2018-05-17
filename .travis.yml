@@ -1,0 +1,29 @@
+language: php
+
+php:
+    - 5.6
+    - 7.0
+    - 7.1
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+before_install:
+    - phpenv config-rm xdebug.ini
+    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - composer self-update --no-interaction
+
+install:
+    - composer --ansi require php-http/guzzle6-adapter guzzlehttp/psr7
+    - composer install --prefer-dist --no-interaction
+
+script:
+    - bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+    - bin/phpspec run --no-interaction
+    - php -d error_reporting="E_ALL" bin/phpunit -c phpunit.xml.dist
+
+notifications:
+  email: false

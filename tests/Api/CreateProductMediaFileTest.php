@@ -2,12 +2,10 @@
 
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
-use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
-use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\tests\MediaSanitizer;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 
 class CreateProductMediaFileTest extends ApiTestCase
 {
@@ -31,6 +29,6 @@ class CreateProductMediaFileTest extends ApiTestCase
             'locale'     => null,
         ]);
 
-        $this->assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
+        Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
     }
 }

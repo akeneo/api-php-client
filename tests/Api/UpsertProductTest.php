@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 
 class UpsertProductTest extends ApiTestCase
 {
@@ -32,7 +33,7 @@ class UpsertProductTest extends ApiTestCase
                 ],
             ]
         ]);
-        $this->assertSame(204, $response);
+        Assert::assertSame(204, $response);
     }
 
 }

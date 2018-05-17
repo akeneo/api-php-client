@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 
 class ListPerPageProductTest extends ApiTestCase
 {
@@ -22,25 +23,25 @@ class ListPerPageProductTest extends ApiTestCase
         $api = $this->createClient()->getProductApi();
         $firstPage = $api->listPerPage(10, true, []);
 
-        $this->assertInstanceOf(PageInterface::class, $firstPage);
-        $this->assertEquals($firstPage->getCount(), 11);
-        $this->assertNull($firstPage->getPreviousLink());
-        $this->assertNull($firstPage->getPreviousPage());
-        $this->assertFalse($firstPage->hasPreviousPage());
-        $this->assertTrue($firstPage->hasNextPage());
-        $this->assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=2&with_count=true&pagination_type=page&limit=10', $firstPage->getNextLink());
-        $this->assertEquals(count($firstPage->getItems()), 10);
+        Assert::assertInstanceOf(PageInterface::class, $firstPage);
+        Assert::assertEquals($firstPage->getCount(), 11);
+        Assert::assertNull($firstPage->getPreviousLink());
+        Assert::assertNull($firstPage->getPreviousPage());
+        Assert::assertFalse($firstPage->hasPreviousPage());
+        Assert::assertTrue($firstPage->hasNextPage());
+        Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=2&with_count=true&pagination_type=page&limit=10', $firstPage->getNextLink());
+        Assert::assertEquals(count($firstPage->getItems()), 10);
 
         $secondPage = $firstPage->getNextPage();
 
-        $this->assertInstanceOf(PageInterface::class, $secondPage);
-        $this->assertEquals($secondPage->getCount(), 11);
-        $this->assertNull($secondPage->getNextLink());
-        $this->assertNull($secondPage->getNextPage());
-        $this->assertFalse($secondPage->hasNextPage());
-        $this->assertTrue($secondPage->hasPreviousPage());
-        $this->assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=1&with_count=true&pagination_type=page&limit=10', $secondPage->getPreviousLink());
-        $this->assertEquals(count($secondPage->getItems()), 1);
+        Assert::assertInstanceOf(PageInterface::class, $secondPage);
+        Assert::assertEquals($secondPage->getCount(), 11);
+        Assert::assertNull($secondPage->getNextLink());
+        Assert::assertNull($secondPage->getNextPage());
+        Assert::assertFalse($secondPage->hasNextPage());
+        Assert::assertTrue($secondPage->hasPreviousPage());
+        Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=1&with_count=true&pagination_type=page&limit=10', $secondPage->getPreviousLink());
+        Assert::assertEquals(count($secondPage->getItems()), 1);
     }
 
     private function getFirstPage()

@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\tests\Api;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 
 class DeleteProductTest extends ApiTestCase
 {
@@ -21,6 +22,6 @@ class DeleteProductTest extends ApiTestCase
 
         $response = $api->delete('docks_white');
 
-        $this->assertSame(204, $response);
+        Assert::assertSame(204, $response);
     }
 }

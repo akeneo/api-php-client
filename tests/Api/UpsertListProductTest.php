@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\tests\Api;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase
 {
@@ -57,18 +58,18 @@ class UpsertListProductTest extends ApiTestCase
                 ]
             ]
         ]);
-        $this->assertInstanceOf('\Iterator', $response);
+        Assert::assertInstanceOf('\Iterator', $response);
 
         $responseLines = iterator_to_array($response);
-        $this->assertCount(2, $responseLines);
+        Assert::assertCount(2, $responseLines);
 
-        $this->assertSame([
+        Assert::assertSame([
             'line'        => 1,
             'identifier'  => 'docks_black',
             'status_code' => 204,
         ], $responseLines[1]);
 
-        $this->assertSame([
+        Assert::assertSame([
             'line'        => 2,
             'identifier'  => 'pumps',
             'status_code' => 201,
@@ -90,18 +91,18 @@ JSON;
         $api = $this->createClient()->getProductAPi();
         $response = $api->upsertList($streamedResources);
 
-        $this->assertInstanceOf('\Iterator', $response);
+        Assert::assertInstanceOf('\Iterator', $response);
 
         $responseLines = iterator_to_array($response);
-        $this->assertCount(2, $responseLines);
+        Assert::assertCount(2, $responseLines);
 
-        $this->assertSame([
+        Assert::assertSame([
             'line'        => 1,
             'identifier'  => 'docks_black',
             'status_code' => 204,
         ], $responseLines[1]);
 
-        $this->assertSame([
+        Assert::assertSame([
             'line'        => 2,
             'identifier'  => 'pumps',
             'status_code' => 201,
