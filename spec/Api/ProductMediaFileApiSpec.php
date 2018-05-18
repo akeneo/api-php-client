@@ -133,7 +133,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->willReturn($response);
 
         $this->create($fileResource, $product)
-            ->shouldReturn('1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png');
+            ->shouldReturn($response);
     }
 
     function it_throws_an_exception_if_the_file_is_unreadable_when_creating_a_media_file()

@@ -99,8 +99,18 @@ class ProductMediaFileApi implements MediaFileApiInterface
         ];
 
         $response = $this->resourceClient->createMultipartResource(static::MEDIA_FILES_URI, [], $requestParts);
+        $headers = $response->getHeaders();
 
-        return $this->extractCodeFromCreationResponse($response);
+        if (!isset($headers['Location'][0])) {
+            throw new RuntimeException('The response does not contain the URI of the created media-file.');
+        }
+
+        $matches = [];
+        if (1 !== preg_match(ProductMediaFileApi::MEDIA_FILE_URI_CODE_REGEX, $headers['Location'][0], $matches)) {
+            throw new RuntimeException('Unable to find the code in the URI of the created media-file.');
+        }
+        
+        return $response;
     }
 
     /**

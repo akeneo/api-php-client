@@ -5,11 +5,11 @@ namespace Akeneo\Pim\ApiClient\tests\Api;
 use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
+use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
+use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Message\StreamFactory;
-use Http\Discovery\StreamFactoryDiscovery;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -38,6 +38,14 @@ abstract class ApiTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        $this->server->stop();
+    }
+
+    /**
      * @return AkeneoPimClientInterface
      */
     protected function createClient()
@@ -63,10 +71,41 @@ JSON;
     }
 
     /**
-     * @return StreamFactory
+     * Extracts the code of a media-file from a creation response.
+     *
+     * @param $response
+     *
+     * @throws RuntimeException if unable to extract the code
+     *
+     * @return mixed
      */
-    protected function getStreamFactory()
+    protected function extractCodeFromCreationResponse($response)
     {
-        return StreamFactoryDiscovery::find();
+        $headers = $response->getHeaders();
+
+        if (!isset($headers['Location'][0])) {
+            throw new RuntimeException('The response does not contain the URI of the created media-file.');
+        }
+
+        $matches = [];
+        if (1 !== preg_match(ProductMediaFileApi::MEDIA_FILE_URI_CODE_REGEX, $headers['Location'][0], $matches)) {
+            throw new RuntimeException('Unable to find the code in the URI of the created media-file.');
+        }
+
+        return $matches['code'];
+    }
+
+    /**
+     * @param CursorInterface $result
+     * @param array $expected
+     */
+    protected function assertSameResults()
+    {
+        $products = [];
+        foreach ($result as $product) {
+            $products[] = $product->getIdentifier();
+        }
+
+        $this->assertSame($products, $expected);
     }
 }

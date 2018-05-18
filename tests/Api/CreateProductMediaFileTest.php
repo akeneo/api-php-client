@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
+use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
@@ -22,13 +23,20 @@ class CreateProductMediaFileTest extends ApiTestCase
         $api = $this->createClient()->getProductMediaFileApi();
         $mediaFile = realpath(__DIR__ . '/../fixtures/akeneo.png');
 
-        $response = $api->create($mediaFile, [
+        $productInfos = [
             'identifier' => 'medium_boot',
             'attribute'  => 'side_view',
             'scope'      => null,
             'locale'     => null,
-        ]);
+        ];
 
-        Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
+        $response = $api->create($mediaFile, $productInfos);
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_POST]['product'], json_encode($productInfos));
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_REQUEST_URI], '/'. ProductMediaFileApi::MEDIA_FILES_URI);
+
+        Assert::assertSame(201, $response->getStatusCode());
+        Assert::assertSame('', $response->getBody()->getContents());
+        Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $this->extractCodeFromCreationResponse($response));
     }
 }

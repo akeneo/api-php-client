@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\tests\Api;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use Http\Discovery\StreamFactoryDiscovery;
 use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase
@@ -87,7 +88,7 @@ JSON;
         fwrite($resources, $resourcesContent);
         rewind($resources);
 
-        $streamedResources = $this->getStreamFactory()->createStream($resources);
+        $streamedResources = StreamFactoryDiscovery::find()->createStream($resources);
         $api = $this->createClient()->getProductAPi();
         $response = $api->upsertList($streamedResources);
 
