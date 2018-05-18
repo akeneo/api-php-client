@@ -128,6 +128,19 @@ $client->getProductApi()->upsertList([
 ]);
 ```
 
+## Testing
+
+Do note that you have to delete the `composer.lock` because Doctrine dependencies are loaded.
+These dependencies are different in function of the PHP version running `composer install`.
+
+```
+cp docker-compose.yml.dist docker-compose.yml
+rm -rf composer.lock vendor/
+docker-compose run client_56 composer install
+docker-compose run client_56 bin/phpunit -c phpunit.xml.dist
+docker-compose run client_56 bin/phpspec run
+```
+
 ## Support
 
 If you find a bug or want to submit an improvement, don't hesitate to raise an issue on Github.

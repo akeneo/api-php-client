@@ -27,14 +27,16 @@
     "php-http/discovery": "^1.0",
     "php-http/message-factory": "^v1.0",
     "php-http/multipart-stream-builder": "^1.0",
-    "php-http/client-implementation": "^1.0"
+    "php-http/client-implementation": "^1.0",
+    "php-http/guzzle6-adapter": "^1.1"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^v2.3",
     "phpunit/phpunit": "5.7.*",
     "phpspec/phpspec": "3.2.*",
     "symfony/yaml": "^3.3",
-    "donatj/mock-webserver": "^2.0"
+    "donatj/mock-webserver": "^2.0",
+    "php-http/guzzle6-adapter": "^1.1"
   },
   "config": {
     "bin-dir": "bin"
