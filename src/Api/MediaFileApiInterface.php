@@ -7,7 +7,6 @@ use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
-use GuzzleHttp\Psr7\Response;
 
 /**
  * API to manage the media files.
@@ -30,7 +29,7 @@ interface MediaFileApiInterface extends
      * @throws HttpException    If the request failed.
      * @throws RuntimeException If the file could not be opened.
      *
-     * @return Response returns the code of created media file
+     * @return string returns the code of created media file
      */
     public function create($mediaFile, array $data);
 }

@@ -4,6 +4,7 @@ namespace Akeneo\Pim\ApiClient\tests\Api;
 
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
@@ -23,6 +24,8 @@ class ListPerPageProductTest extends ApiTestCase
         $api = $this->createClient()->getProductApi();
         $firstPage = $api->listPerPage(10, true, []);
 
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET], ['limit' => '10', 'with_count' => 'true']);
+
         Assert::assertInstanceOf(PageInterface::class, $firstPage);
         Assert::assertEquals($firstPage->getCount(), 11);
         Assert::assertNull($firstPage->getPreviousLink());
@@ -33,6 +36,13 @@ class ListPerPageProductTest extends ApiTestCase
         Assert::assertEquals(count($firstPage->getItems()), 10);
 
         $secondPage = $firstPage->getNextPage();
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET], [
+            'page' => '2',
+            'with_count' => 'true',
+            'pagination_type' => 'page',
+            'limit' => '10'
+        ]);
 
         Assert::assertInstanceOf(PageInterface::class, $secondPage);
         Assert::assertEquals($secondPage->getCount(), 11);

@@ -139,6 +139,7 @@ rm -rf composer.lock vendor/
 docker-compose run client_56 composer install
 docker-compose run client_56 bin/phpunit -c phpunit.xml.dist
 docker-compose run client_56 bin/phpspec run
+docker-compose run client_56 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
 ```
 
 ## Support

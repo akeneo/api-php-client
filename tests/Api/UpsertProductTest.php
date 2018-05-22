@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
 use Akeneo\Pim\ApiClient\Api\ProductApi;
-use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
@@ -21,7 +21,7 @@ class UpsertProductTest extends ApiTestCase
 
         $api = $this->createClient()->getProductApi();
 
-        $response = $api->upsert('docks_black', [
+        $parameters = [
             'enabled' => false,
             'values'  => [
                 'name' => [
@@ -32,7 +32,11 @@ class UpsertProductTest extends ApiTestCase
                     ],
                 ],
             ]
-        ]);
+        ];
+        $response = $api->upsert('docks_black', $parameters);
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($parameters));
+
         Assert::assertSame(204, $response);
     }
 

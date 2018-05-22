@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
 use Akeneo\Pim\ApiClient\Api\ProductApi;
+use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
@@ -22,6 +23,7 @@ class GetProductTest extends ApiTestCase
 
         $product = $api->get('black_sneakers');
 
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($product, json_decode($this->getProduct(), true));
     }
 
