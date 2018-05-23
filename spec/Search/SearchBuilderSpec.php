@@ -31,13 +31,13 @@ class SearchBuilderSpec  extends ObjectBehavior
 
     function it_builds_a_search_with_a_single_filter_without_value_nor_option()
     {
-        $this->addFilter('family' , Operator::EMPTY)->shouldReturn($this);
+        $this->addFilter('family' , Operator::IS_EMPTY)->shouldReturn($this);
 
         $this->getFilters()->shouldReturn(
             [
                 'family'=> [
                     [
-                        'operator' => Operator::EMPTY,
+                        'operator' => Operator::IS_EMPTY,
                     ]
                 ]
             ]
