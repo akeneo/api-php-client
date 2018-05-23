@@ -22,7 +22,7 @@ install:
     - composer install --prefer-dist --no-interaction
 
 script:
-    - bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+    - bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
     - bin/phpspec run --no-interaction
     - php -d error_reporting="E_ALL" bin/phpunit -c phpunit.xml.dist
 
