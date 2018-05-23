@@ -33,7 +33,8 @@
     "friendsofphp/php-cs-fixer": "^v2.3",
     "phpunit/phpunit": "5.7.*",
     "phpspec/phpspec": "3.2.*",
-    "symfony/yaml": "^3.3"
+    "symfony/yaml": "^3.3",
+    "donatj/mock-webserver": "^2.0"
   },
   "config": {
     "bin-dir": "bin"
