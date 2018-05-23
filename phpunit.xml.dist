@@ -12,17 +12,6 @@
      syntaxCheck="false">
 
     <testsuite>
-        <directory suffix="Integration.php">tests/</directory>
+        <directory>tests/</directory>
     </testsuite>
-
-    <testsuite name="PHP_Client_Test_1_7">
-        <directory suffix="Integration.php">tests/Common/Api/*</directory>
-        <directory suffix="Integration.php">tests/v1_7/Api/*</directory>
-    </testsuite>
-
-    <testsuite name="PHP_Client_Test_2_0">
-        <directory suffix="Integration.php">tests/Common/Api/*</directory>
-        <directory suffix="Integration.php">tests/v2_0/Api/*</directory>
-    </testsuite>
-
 </phpunit>

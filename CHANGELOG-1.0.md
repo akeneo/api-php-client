@@ -1,4 +1,10 @@
-# 2.0.1 (2018-04-05)
+# 1.0.x
+
+## Bug Fixes
+
+- API-599: fix const not supported by PHP 5.6
+
+# 1.0.1 (2018-04-05)
 
 ## Improvements
 
