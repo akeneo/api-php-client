@@ -1,7 +1,0 @@
-pim:
-    base_uri: 'http://akeneo-pim'
-    install_path: '/srv/pim'
-    is_docker: true
-    docker_name: akeneo-pim
-    bin_path: app
-    version: '1.7'

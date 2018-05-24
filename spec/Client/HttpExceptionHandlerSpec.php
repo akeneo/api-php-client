@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
@@ -19,6 +20,26 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(HttpExceptionHandler::class);
+    }
+
+    function it_throws_redirection_exception_when_status_code_3xx(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(301);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 301, "message": "Moved Permanently"}');
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new RedirectionHttpException(
+                    'Moved Permanently',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
     }
 
     function it_throws_bad_request_exception_when_status_code_400(
