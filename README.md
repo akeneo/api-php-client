@@ -7,6 +7,7 @@ Matrix compatibility:
 |------------------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | v1.0                   | v2.0           | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=1.0)](https://travis-ci.org/akeneo/api-php-client)|
 | v2.0                   | v2.1 - v2.2    | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)|
+| master                 | -              | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)|
 
 ## Requirements
 
