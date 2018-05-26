@@ -3,6 +3,7 @@
 A simple PHP client to use the [Akeneo PIM API](https://api.akeneo.com/).
 
 Matrix compatibility:
+
 | API PHP Client version | PIM version(s) | CI status                                                                                                                 |
 |------------------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | v1.0                   | v2.0           | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=1.0)](https://travis-ci.org/akeneo/api-php-client)|
