@@ -4,11 +4,15 @@ A simple PHP client to use the [Akeneo PIM API](https://api.akeneo.com/).
 
 Matrix compatibility:
 
-| API PHP Client version | PIM version(s)     | CI status                                                                                                                 |
-|------------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------|
-| v1.0                   | v2.0               | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=1.0)](https://travis-ci.org/akeneo/api-php-client)|
-| v2.0                   | v2.1 - v2.2 - v2.3 | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)|
-| master                 | -                  | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)|
+| PIM version(s)     | API PHP Client version  |CI status                                                                                                                 |
+|--------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| v2.0               | v1.0                    |[![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=1.0)](https://travis-ci.org/akeneo/api-php-client)|
+| v2.1 - v2.2        | v2.0                    |[![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)|
+| v2.3               | v3.0                    |[![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=3.0)](https://travis-ci.org/akeneo/api-php-client)|
+| -                  | master                  |[![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=master)](https://travis-ci.org/akeneo/api-php-client)|
+
+Note that our PHP client is backward compatible.
+For example, if your PIM is currently a v2.3, you can still use a 1.0 version of the PHP client. The new endpoints available in v2.3 will not be available in the v1.0 of the PHP client.
 
 ## Requirements
 
