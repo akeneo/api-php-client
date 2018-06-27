@@ -87,14 +87,14 @@ $searchFilters = $searchBuilder->getFilters();
 
 $firstPage = $client->getProductApi()->listPerPage(50, true, ['search' => $searchFilters]);
 
-echo $page->getCount();
+echo $firstPage->getCount();
 
-foreach ($page->getItems() as $product) {
+foreach ($firstPage->getItems() as $product) {
     // do your stuff here
     echo $product['identifier'];
 }
 
-$nextPage = $page->getNextPage();
+$nextPage = $firstPage->getNextPage();
 
 $firstPage = $nextPage->getPreviousPage();
 ```
