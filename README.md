@@ -16,7 +16,7 @@ For example, if your PIM is currently a v2.3, you can still use a 1.0 version of
 
 ## Requirements
 
-* PHP >= 5.6
+* PHP >= 7.1
 * Composer 
 
 ## Installation
@@ -33,7 +33,7 @@ $ curl -s http://getcomposer.org/installer | php
 
 Then, run the following command to require the library:
 ```bash
-$ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter:^1.1
+$ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter:^2.0
 ```
 
 If you want to use another HTTP client implementation, you can check [here](https://packagist.org/providers/php-http/client-implementation) the full list of HTTP client implementations. 
@@ -148,10 +148,10 @@ These dependencies are different in function of the PHP version running `compose
 ```
 cp docker-compose.yml.dist docker-compose.yml
 rm -rf composer.lock vendor/
-docker-compose run client_56 composer install
-docker-compose run client_56 bin/phpunit -c phpunit.xml.dist
-docker-compose run client_56 bin/phpspec run
-docker-compose run client_56 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
+docker-compose run client_71 composer install
+docker-compose run client_71 bin/phpunit -c phpunit.xml.dist
+docker-compose run client_71 bin/phpspec run
+docker-compose run client_71 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 ```
 
 ## Support

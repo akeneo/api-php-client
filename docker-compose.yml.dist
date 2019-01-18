@@ -1,36 +1,6 @@
 version: '2'
 
 services:
-  client_56:
-    image: akeneo/php:5.6
-    environment:
-      COMPOSER_HOME: /home/docker/.composer
-      PHP_IDE_CONFIG: 'serverName=akeneo-client'
-      PHP_XDEBUG_ENABLED: 0
-      PHP_XDEBUG_IDE_KEY: XDEBUG_IDE_KEY
-      PHP_XDEBUG_REMOTE_HOST: xxx.xxx.xxx.xxx
-      XDEBUG_CONFIG: 'remote_host=xxx.xxx.xxx.xxx'
-    user: docker
-    volumes:
-      - ./:/home/docker/client
-      - ~/.composer:/home/docker/.composer
-    working_dir: /home/docker/client
-
-  client_70:
-    image: akeneo/php:7.0
-    environment:
-      COMPOSER_HOME: /home/docker/.composer
-      PHP_IDE_CONFIG: 'serverName=akeneo-client'
-      PHP_XDEBUG_ENABLED: 0
-      PHP_XDEBUG_IDE_KEY: XDEBUG_IDE_KEY
-      PHP_XDEBUG_REMOTE_HOST: xxx.xxx.xxx.xxx
-      XDEBUG_CONFIG: 'remote_host=xxx.xxx.xxx.xxx'
-    user: docker
-    volumes:
-      - ./:/home/docker/client
-      - ~/.composer:/home/docker/.composer
-    working_dir: /home/docker/client
-
   client_71:
     image: akeneo/php:7.1
     environment:
@@ -46,3 +16,17 @@ services:
       - ~/.composer:/home/docker/.composer
     working_dir: /home/docker/client
 
+  client_72:
+    image: akeneo/php:7.2
+    environment:
+      COMPOSER_HOME: /home/docker/.composer
+      PHP_IDE_CONFIG: 'serverName=akeneo-client'
+      PHP_XDEBUG_ENABLED: 0
+      PHP_XDEBUG_IDE_KEY: XDEBUG_IDE_KEY
+      PHP_XDEBUG_REMOTE_HOST: xxx.xxx.xxx.xxx
+      XDEBUG_CONFIG: 'remote_host=xxx.xxx.xxx.xxx'
+    user: docker
+    volumes:
+      - ./:/home/docker/client
+      - ~/.composer:/home/docker/.composer
+    working_dir: /home/docker/client
