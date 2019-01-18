@@ -143,7 +143,7 @@ class AttributeApiSpec extends ObjectBehavior
     function it_upserts_a_list_of_attributes($resourceClient, UpsertResourceListResponse $response)
     {
         $resourceClient
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 AttributeApi::ATTRIBUTES_URI,
                 [],
                 [

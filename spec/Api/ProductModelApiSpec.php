@@ -151,7 +151,7 @@ class ProductModelApiSpec extends ObjectBehavior
             ]
         ];
 
-        $resourceClient->upsertResourceList(ProductModelApi::PRODUCT_MODELS_URI, [], $data)->willReturn($response);
+        $resourceClient->upsertStreamResourceList(ProductModelApi::PRODUCT_MODELS_URI, [], $data)->willReturn($response);
 
         $this->upsertList($data)->shouldReturn($response);
     }

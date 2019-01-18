@@ -153,7 +153,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
 
     function it_upserts_a_list_of_attribute_options($resourceClient, UpsertResourceListResponse $response)
     {
-        $resourceClient->upsertResourceList(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, ['foo'], [
+        $resourceClient->upsertStreamResourceList(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, ['foo'], [
             ['code' => 'bar', 'attribute' => 'foo', 'sort_order' => 42],
             ['code' => 'fighters', 'attribute' => 'foo', 'sort_order' => 43]
         ])->willReturn($response);

@@ -98,6 +98,6 @@ class FamilyApi implements FamilyApiInterface
      */
     public function upsertList($families)
     {
-        return $this->resourceClient->upsertResourceList(static::FAMILIES_URI, [], $families);
+        return $this->resourceClient->upsertStreamResourceList(static::FAMILIES_URI, [], $families);
     }
 }

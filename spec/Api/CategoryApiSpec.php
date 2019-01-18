@@ -139,7 +139,7 @@ class CategoryApiSpec extends ObjectBehavior
     function it_upserts_a_list_of_categories($resourceClient, UpsertResourceListResponse $response)
     {
         $resourceClient
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 CategoryApi::CATEGORIES_URI,
                 [],
                 [

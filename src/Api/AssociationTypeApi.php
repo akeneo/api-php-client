@@ -95,6 +95,6 @@ class AssociationTypeApi implements AssociationTypeApiInterface
      */
     public function upsertList($associationTypes)
     {
-        return $this->resourceClient->upsertResourceList(static::ASSOCIATION_TYPES_URI, [], $associationTypes);
+        return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $associationTypes);
     }
 }

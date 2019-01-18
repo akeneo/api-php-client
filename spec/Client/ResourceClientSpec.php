@@ -197,7 +197,7 @@ JSON;
             ->shouldReturn(201);
     }
 
-    function it_upserts_a_list_of_resources_from_an_array(
+    function it_upserts_a_list_of_streamed_resources_from_an_array(
         $httpClient,
         $uriGenerator,
         $responseFactory,
@@ -231,7 +231,7 @@ JSON;
         $responseFactory->create($responseBodyStream)->willReturn($listResponse);
 
         $this
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 'api/rest/v1/categories',
                 [],
                 [
@@ -244,7 +244,7 @@ JSON;
             ->shouldReturn($listResponse);
     }
 
-    function it_upserts_a_list_of_resources_from_an_stream(
+    function it_upserts_a_list_of_streamed_resources_from_an_stream(
         $httpClient,
         $uriGenerator,
         $responseFactory,
@@ -271,8 +271,73 @@ JSON;
         $responseFactory->create($responseBodyStream)->willReturn($listResponse);
 
         $this
-            ->upsertResourceList('api/rest/v1/categories', [], $resourcesStream)
+            ->upsertStreamResourceList('api/rest/v1/categories', [], $resourcesStream)
             ->shouldReturn($listResponse);
+    }
+
+    function it_upserts_a_list_of_json_resources(
+        HttpClient $httpClient,
+        UriGeneratorInterface $uriGenerator,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/reference-entities/designer/records';
+
+        $uriGenerator
+            ->generate('api/rest/v1/reference-entities/%s/records', ['designer'])
+            ->willReturn($uri);
+
+        $body = <<<JSON
+[{"code":"designer_1"},{"code":"designer_2"},{"code":"designer_3"}]
+JSON;
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/json'], $body)
+            ->willReturn($response);
+
+        $response
+            ->getBody()
+            ->willReturn($responseBody);
+
+        $upsertResponse = <<<JSON
+        [
+          {
+            "code": "designer_1",
+            "status_code": 204
+          },
+          {
+            "code": "designer_2",
+            "status_code": 204
+          },
+          {
+            "code": "designer_3",
+            "status_code": 201
+          }
+        ]
+JSON;
+
+        $responseBody
+            ->getContents()
+            ->willReturn($upsertResponse);
+
+        $this->upsertJsonResourceList('api/rest/v1/reference-entities/%s/records', ['designer'], [
+            ['code' => 'designer_1'],
+            ['code' => 'designer_2'],
+            ['code' => 'designer_3'],
+        ])->shouldReturn([
+            [
+                'code' => 'designer_1',
+                'status_code' =>204
+            ],
+            [
+                'code' => 'designer_2',
+                'status_code' =>204
+            ],
+            [
+                'code' => 'designer_3',
+                'status_code' =>201
+            ]
+        ]);
     }
 
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()
@@ -293,7 +358,7 @@ JSON;
     {
         $this
             ->shouldthrow(new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.'))
-            ->during('upsertResourceList', ['api/rest/v1/categories', [], 'foo']);
+            ->during('upsertStreamResourceList', ['api/rest/v1/categories', [], 'foo']);
     }
 
     function it_creates_a_multipart_resource(

@@ -141,7 +141,7 @@ class AttributeGroupApiSpec extends ObjectBehavior
     function it_upserts_a_list_of_attribute_groups($resourceClient, UpsertResourceListResponse $response)
     {
         $resourceClient
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 AttributeGroupApi::ATTRIBUTE_GROUPS_URI,
                 [],
                 [

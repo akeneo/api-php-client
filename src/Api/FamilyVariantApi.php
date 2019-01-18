@@ -114,6 +114,6 @@ class FamilyVariantApi implements FamilyVariantApiInterface
      */
     public function upsertList($familyCode, $familyVariants)
     {
-        return $this->resourceClient->upsertResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
+        return $this->resourceClient->upsertStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
     }
 }

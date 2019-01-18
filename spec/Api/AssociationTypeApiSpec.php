@@ -149,7 +149,7 @@ class AssociationTypeApiSpec extends ObjectBehavior
     function it_upserts_a_list_of_association_types($resourceClient, UpsertResourceListResponse $response)
     {
         $resourceClient
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 AssociationTypeApi::ASSOCIATION_TYPES_URI,
                 [],
                 [

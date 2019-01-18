@@ -98,6 +98,6 @@ class ChannelApi implements ChannelApiInterface
      */
     public function upsertList($channels)
     {
-        return $this->resourceClient->upsertResourceList(static::CHANNELS_URI, [], $channels);
+        return $this->resourceClient->upsertStreamResourceList(static::CHANNELS_URI, [], $channels);
     }
 }

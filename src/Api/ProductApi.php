@@ -108,6 +108,6 @@ class ProductApi implements ProductApiInterface
      */
     public function upsertList($products)
     {
-        return $this->resourceClient->upsertResourceList(static::PRODUCTS_URI, [], $products);
+        return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_URI, [], $products);
     }
 }

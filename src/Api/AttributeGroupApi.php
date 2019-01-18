@@ -100,6 +100,6 @@ class AttributeGroupApi implements AttributeGroupApiInterface
      */
     public function upsertList($attributeGroups)
     {
-        return $this->resourceClient->upsertResourceList(static::ATTRIBUTE_GROUPS_URI, [], $attributeGroups);
+        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $attributeGroups);
     }
 }

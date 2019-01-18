@@ -98,6 +98,6 @@ class CategoryApi implements CategoryApiInterface
      */
     public function upsertList($categories)
     {
-        return $this->resourceClient->upsertResourceList(static::CATEGORIES_URI, [], $categories);
+        return $this->resourceClient->upsertStreamResourceList(static::CATEGORIES_URI, [], $categories);
     }
 }

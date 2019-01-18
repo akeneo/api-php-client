@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
@@ -150,7 +153,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertResourceList($uri, array $uriParameters = [], $resources = [])
+    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = [])
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
@@ -180,6 +183,27 @@ class ResourceClient implements ResourceClientInterface
         );
 
         return $this->upsertListResponseFactory->create($response->getBody());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertJsonResourceList(string $uri, array $uriParameters = [], array $resources = []): array
+    {
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($resources)
+        );
+
+        $response = json_decode($response->getBody()->getContents(), true);
+        if (!is_array($response)) {
+            throw new RuntimeException('The server response is not a valid JSON');
+        }
+
+        return $response;
     }
 
     /**

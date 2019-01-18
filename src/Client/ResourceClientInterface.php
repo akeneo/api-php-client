@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
@@ -90,7 +92,7 @@ interface ResourceClientInterface
     public function upsertResource($uri, array $uriParameters = [], array $body = []);
 
     /**
-     * Updates or creates several resources.
+     * Updates or creates several resources using a stream for the request and the response.
      *
      * @param string                $uri           URI of the resource
      * @param array                 $uriParameters URI parameters of the resource
@@ -102,7 +104,21 @@ interface ResourceClientInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertResourceList($uri, array $uriParameters = [], $resources = []);
+    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = []);
+
+    /**
+     * Updates or creates several resources using a single JSON string for the request and the response.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $resources     array of resources to create or update.
+     *
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the resources or any part thereof are invalid.
+     *
+     * @return array
+     */
+    public function upsertJsonResourceList(string $uri, array $uriParameters = [], array $resources = []): array;
 
     /**
      * Deletes a resource.
