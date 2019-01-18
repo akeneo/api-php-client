@@ -98,6 +98,6 @@ class AttributeApi implements AttributeApiInterface
      */
     public function upsertList($attributes)
     {
-        return $this->resourceClient->upsertResourceList(static::ATTRIBUTES_URI, [], $attributes);
+        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTES_URI, [], $attributes);
     }
 }

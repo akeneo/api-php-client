@@ -210,7 +210,7 @@ class FamilyVariantApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->upsertResourceList(FamilyVariantApi::FAMILY_VARIANTS_URI, ['boots'], $data)
+            ->upsertStreamResourceList(FamilyVariantApi::FAMILY_VARIANTS_URI, ['boots'], $data)
             ->willReturn($response);
 
         $this->upsertList('boots', $data)->shouldReturn($response);

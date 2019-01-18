@@ -143,7 +143,7 @@ class ChannelApiSpec extends ObjectBehavior
     function it_upserts_a_list_of_channel($resourceClient, UpsertResourceListResponse $response)
     {
         $resourceClient
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 ChannelApi::CHANNELS_URI,
                 [],
                 [

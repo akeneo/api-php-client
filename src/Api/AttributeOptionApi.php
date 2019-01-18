@@ -104,6 +104,6 @@ class AttributeOptionApi implements AttributeOptionApiInterface
      */
     public function upsertList($attributeCode, $attributeOptions)
     {
-        return $this->resourceClient->upsertResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
+        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 }

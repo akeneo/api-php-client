@@ -231,7 +231,7 @@ JSON;
         $responseFactory->create($responseBodyStream)->willReturn($listResponse);
 
         $this
-            ->upsertResourceList(
+            ->upsertStreamResourceList(
                 'api/rest/v1/categories',
                 [],
                 [
@@ -271,7 +271,7 @@ JSON;
         $responseFactory->create($responseBodyStream)->willReturn($listResponse);
 
         $this
-            ->upsertResourceList('api/rest/v1/categories', [], $resourcesStream)
+            ->upsertStreamResourceList('api/rest/v1/categories', [], $resourcesStream)
             ->shouldReturn($listResponse);
     }
 
@@ -293,7 +293,7 @@ JSON;
     {
         $this
             ->shouldthrow(new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.'))
-            ->during('upsertResourceList', ['api/rest/v1/categories', [], 'foo']);
+            ->during('upsertStreamResourceList', ['api/rest/v1/categories', [], 'foo']);
     }
 
     function it_creates_a_multipart_resource(

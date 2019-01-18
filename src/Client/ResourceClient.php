@@ -150,7 +150,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertResourceList($uri, array $uriParameters = [], $resources = [])
+    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = [])
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');

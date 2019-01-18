@@ -90,7 +90,7 @@ interface ResourceClientInterface
     public function upsertResource($uri, array $uriParameters = [], array $body = []);
 
     /**
-     * Updates or creates several resources.
+     * Updates or creates several resources using a stream.
      *
      * @param string                $uri           URI of the resource
      * @param array                 $uriParameters URI parameters of the resource
@@ -102,7 +102,7 @@ interface ResourceClientInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertResourceList($uri, array $uriParameters = [], $resources = []);
+    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = []);
 
     /**
      * Deletes a resource.
