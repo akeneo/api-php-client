@@ -197,7 +197,7 @@ JSON;
             ->shouldReturn(201);
     }
 
-    function it_upserts_a_list_of_resources_from_an_array(
+    function it_upserts_a_list_of_streamed_resources_from_an_array(
         $httpClient,
         $uriGenerator,
         $responseFactory,
@@ -244,7 +244,7 @@ JSON;
             ->shouldReturn($listResponse);
     }
 
-    function it_upserts_a_list_of_resources_from_an_stream(
+    function it_upserts_a_list_of_streamed_resources_from_an_stream(
         $httpClient,
         $uriGenerator,
         $responseFactory,
@@ -273,6 +273,71 @@ JSON;
         $this
             ->upsertStreamResourceList('api/rest/v1/categories', [], $resourcesStream)
             ->shouldReturn($listResponse);
+    }
+
+    function it_upserts_a_list_of_json_resources(
+        HttpClient $httpClient,
+        UriGeneratorInterface $uriGenerator,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $uri = 'http://akeneo.com/api/rest/v1/reference-entities/designer/records';
+
+        $uriGenerator
+            ->generate('api/rest/v1/reference-entities/%s/records', ['designer'])
+            ->willReturn($uri);
+
+        $body = <<<JSON
+[{"code":"designer_1"},{"code":"designer_2"},{"code":"designer_3"}]
+JSON;
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/json'], $body)
+            ->willReturn($response);
+
+        $response
+            ->getBody()
+            ->willReturn($responseBody);
+
+        $upsertResponse = <<<JSON
+        [
+          {
+            "code": "designer_1",
+            "status_code": 204
+          },
+          {
+            "code": "designer_2",
+            "status_code": 204
+          },
+          {
+            "code": "designer_3",
+            "status_code": 201
+          }
+        ]
+JSON;
+
+        $responseBody
+            ->getContents()
+            ->willReturn($upsertResponse);
+
+        $this->upsertJsonResourceList('api/rest/v1/reference-entities/%s/records', ['designer'], [
+            ['code' => 'designer_1'],
+            ['code' => 'designer_2'],
+            ['code' => 'designer_3'],
+        ])->shouldReturn([
+            [
+                'code' => 'designer_1',
+                'status_code' =>204
+            ],
+            [
+                'code' => 'designer_2',
+                'status_code' =>204
+            ],
+            [
+                'code' => 'designer_3',
+                'status_code' =>201
+            ]
+        ]);
     }
 
     function it_throws_an_exception_if_limit_is_defined_in_additional_parameters_to_get_resources()
