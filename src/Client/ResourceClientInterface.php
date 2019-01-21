@@ -140,7 +140,7 @@ interface ResourceClientInterface
      *
      * @throws HttpException If the request failed
      *
-     * @return StreamInterface
+     * @return ResponseInterface The response of the streamed resource request
      */
     public function getStreamedResource($uri, array $uriParameters = []);
 }

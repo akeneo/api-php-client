@@ -113,7 +113,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     public function download($code)
     {
-        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code]);
+        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code])->getBody();
     }
 
     /**
