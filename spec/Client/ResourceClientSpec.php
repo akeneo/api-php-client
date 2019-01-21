@@ -469,8 +469,7 @@ JSON;
     function it_gets_a_streamed_resource(
         $httpClient,
         $uriGenerator,
-        ResponseInterface $response,
-        StreamInterface $responseBody
+        ResponseInterface $response
     ) {
         $uri = 'http://akeneo.com/api/rest/v1/media-files/42.jpg/download';
 
@@ -480,9 +479,7 @@ JSON;
 
         $httpClient->sendRequest('GET', $uri, ['Accept' => '*/*'])->willReturn($response);
 
-        $response->getBody()->willReturn($responseBody);
-
-        $this->getStreamedResource('api/rest/v1/media-files/%s/download', ['42.jpg'])->shouldReturn($responseBody);
+        $this->getStreamedResource('api/rest/v1/media-files/%s/download', ['42.jpg'])->shouldReturn($response);
     }
 
     protected function getSampleOfResources()

@@ -226,6 +226,6 @@ class ResourceClient implements ResourceClientInterface
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
 
-        return $response->getBody();
+        return $response;
     }
 }

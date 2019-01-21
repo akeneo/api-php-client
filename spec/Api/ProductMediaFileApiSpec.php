@@ -279,11 +279,13 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->during('create', [$fileResource, $product]);
     }
 
-    function it_downloads_a_media_file($resourceClient, StreamInterface $streamBody)
+    function it_downloads_a_media_file($resourceClient, ResponseInterface $response, StreamInterface $streamBody)
     {
         $resourceClient
             ->getStreamedResource(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, ['42.jpg'])
-            ->willReturn($streamBody);
+            ->willReturn($response);
+
+        $response->getBody()->willReturn($streamBody);
 
         $this->download('42.jpg')->shouldReturn($streamBody);
     }
