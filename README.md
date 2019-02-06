@@ -16,7 +16,7 @@ For example, if your PIM is currently a v2.3, you can still use a 1.0 version of
 
 ## Requirements
 
-* PHP >= 7.1
+* PHP >= 7.2
 * Composer 
 
 ## Installation
@@ -148,10 +148,10 @@ These dependencies are different in function of the PHP version running `compose
 ```
 cp docker-compose.yml.dist docker-compose.yml
 rm -rf composer.lock vendor/
-docker-compose run client_71 composer install
-docker-compose run client_71 bin/phpunit -c phpunit.xml.dist
-docker-compose run client_71 bin/phpspec run
-docker-compose run client_71 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
+docker-compose run client_72 composer install
+docker-compose run client_72 bin/phpunit -c phpunit.xml.dist
+docker-compose run client_72 bin/phpspec run
+docker-compose run client_72 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 ```
 
 ## Support
