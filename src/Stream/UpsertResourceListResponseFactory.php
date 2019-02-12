@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamInterface;
  */
 class UpsertResourceListResponseFactory
 {
-    public function create(StreamInterface $bodyStream)
+    public function create(StreamInterface $bodyStream):  UpsertResourceListResponse
     {
         return new UpsertResourceListResponse($bodyStream, new LineStreamReader());
     }

@@ -3,11 +3,11 @@
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
-use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
-use Psr\Http\Message\StreamInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API implementation to manage the product models.
@@ -50,7 +50,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function get($code)
+    public function get(string $code): array
     {
         return $this->resourceClient->getResource(static::PRODUCT_MODEL_URI, [$code]);
     }
@@ -60,7 +60,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function create($code, array $data = [])
+    public function create(string $code, array $data = []): int
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
@@ -76,7 +76,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function upsert($code, array $data = [])
+    public function upsert(string $code, array $data = []): int
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
@@ -92,7 +92,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(static::PRODUCT_MODELS_URI, [], $limit, $withCount, $queryParameters);
 
@@ -104,7 +104,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function all($pageSize = 10, array $queryParameters = [])
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $queryParameters['pagination_type'] = 'search_after';
 
@@ -118,7 +118,7 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function upsertList($productModels)
+    public function upsertList($productModels): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCT_MODELS_URI, [], $productModels);
     }

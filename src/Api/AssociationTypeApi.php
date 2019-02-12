@@ -5,7 +5,9 @@ namespace Akeneo\Pim\ApiClient\Api;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * @author    Philippe Mossière <philippe.mossiere@akeneo.com>
@@ -43,7 +45,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($code)
+    public function get(string $code): array
     {
         return $this->resourceClient->getResource(static::ASSOCIATION_TYPE_URI, [$code]);
     }
@@ -51,7 +53,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(static::ASSOCIATION_TYPES_URI, [], $limit, $withCount, $queryParameters);
 
@@ -61,7 +63,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($pageSize = 10, array $queryParameters = [])
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
@@ -71,7 +73,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($code, array $data = [])
+    public function create(string $code, array $data = []): int
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
@@ -85,7 +87,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsert($code, array $data = [])
+    public function upsert(string $code, array $data = []): int
     {
         return $this->resourceClient->upsertResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
@@ -93,7 +95,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($associationTypes)
+    public function upsertList($associationTypes): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $associationTypes);
     }

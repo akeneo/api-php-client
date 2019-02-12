@@ -26,7 +26,7 @@ interface AttributeOptionApiInterface
      *
      * @return array
      */
-    public function get($attributeCode, $code);
+    public function get($attributeCode, $code): array;
 
     /**
      * Gets a list of attribute options by returning the first page.
@@ -43,7 +43,7 @@ interface AttributeOptionApiInterface
      *
      * @return PageInterface
      */
-    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = []);
+    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface;
 
     /**
      * Gets a cursor to iterate over a list of attribute options.
@@ -57,7 +57,7 @@ interface AttributeOptionApiInterface
      *
      * @return ResourceCursorInterface
      */
-    public function all($attributeCode, $pageSize = 10, array $queryParameters = []);
+    public function all($attributeCode, $pageSize = 10, array $queryParameters = []): ResourceCursorInterface;
 
     /**
      * Creates an attribute option.
@@ -71,7 +71,7 @@ interface AttributeOptionApiInterface
      *
      * @return int returns 201 if the attribute option has been created
      */
-    public function create($attributeCode, $attributeOptionCode, array $data = []);
+    public function create($attributeCode, $attributeOptionCode, array $data = []): int;
 
     /**
      * Creates an attribute option if it does not exist yet, otherwise updates partially the attribute option.
@@ -84,7 +84,7 @@ interface AttributeOptionApiInterface
      *
      * @return int returns either http code 201 if the attribute option has been created or 204 if it has been updated
      */
-    public function upsert($attributeCode, $attributeOptionCode, array $data = []);
+    public function upsert($attributeCode, $attributeOptionCode, array $data = []): int;
 
     /**
      * Updates or creates several attribute options at once.
@@ -96,5 +96,5 @@ interface AttributeOptionApiInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted attribute options
      */
-    public function upsertList($attributeCode, $attributeOptions);
+    public function upsertList($attributeCode, $attributeOptions): \Traversable;
 }

@@ -13,10 +13,6 @@ interface PageFactoryInterface
 {
     /**
      * Creates a page object from body.
-     *
-     * @param array $data body of the response
-     *
-     * @return PageInterface
      */
-    public function createPage(array $data);
+    public function createPage(array $data): PageInterface;
 }

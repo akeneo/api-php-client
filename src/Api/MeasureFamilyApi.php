@@ -4,7 +4,9 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API implementation to manage measure families.
@@ -45,7 +47,7 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($code)
+    public function get(string $code): array
     {
         return $this->resourceClient->getResource(static::MEASURE_FAMILY_URI, [$code]);
     }
@@ -53,7 +55,7 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(static::MEASURE_FAMILIES_URI, [], $limit, $withCount, $queryParameters);
 
@@ -63,7 +65,7 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($pageSize = 10, array $queryParameters = [])
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 

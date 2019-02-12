@@ -31,5 +31,5 @@ interface MediaFileApiInterface extends
      *
      * @return string returns the code of created media file
      */
-    public function create($mediaFile, array $data);
+    public function create($mediaFile, array $data): string;
 }

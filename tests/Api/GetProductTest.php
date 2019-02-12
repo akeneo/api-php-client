@@ -52,10 +52,10 @@ class GetProductTest extends ApiTestCase
                     "identifier" : "black_sneakers",
                     "family" : "sneakers",
                     "groups": [],
-                    "categories": ['summer_collection'],
+                    "categories": ["summer_collection"],
                     "values": [{
-                        'color': {'locale': null, 'scope': null, 'data': 'black'}
-                    }],
+                        "color": {"locale": null, "scope": null, "data": "black"}
+                    }]
                 }
             ]
 JSON;

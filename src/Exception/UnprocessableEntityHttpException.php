@@ -13,10 +13,8 @@ class UnprocessableEntityHttpException extends ClientErrorHttpException
 {
     /**
      * Returns the errors of the response if there are any
-     *
-     * @return array
      */
-    public function getResponseErrors()
+    public function getResponseErrors(): array
     {
         $responseBody = $this->response->getBody();
 

@@ -5,7 +5,9 @@ namespace Akeneo\Pim\ApiClient\Api;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API implementation to manage the products.
@@ -46,7 +48,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($code)
+    public function get(string $code): array
     {
         return $this->resourceClient->getResource(static::PRODUCT_URI, [$code]);
     }
@@ -54,7 +56,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(static::PRODUCTS_URI, [], $limit, $withCount, $queryParameters);
 
@@ -64,7 +66,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($pageSize = 10, array $queryParameters = [])
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $queryParameters['pagination_type'] = 'search_after';
 
@@ -76,7 +78,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($code, array $data = [])
+    public function create(string $code, array $data = []): int
     {
         if (array_key_exists('identifier', $data)) {
             throw new InvalidArgumentException('The parameter "identifier" should not be defined in the data parameter');
@@ -90,7 +92,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsert($code, array $data = [])
+    public function upsert(string $code, array $data = []): int
     {
         return $this->resourceClient->upsertResource(static::PRODUCT_URI, [$code], $data);
     }
@@ -98,7 +100,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($code)
+    public function delete(string $code): int
     {
         return $this->resourceClient->deleteResource(static::PRODUCT_URI, [$code]);
     }
@@ -106,7 +108,7 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($products)
+    public function upsertList($products): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_URI, [], $products);
     }

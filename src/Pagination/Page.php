@@ -34,17 +34,15 @@ class Page implements PageInterface
     /** @var array */
     protected $items;
 
-    /**
-     * @param PageFactoryInterface $pageFactory
-     * @param HttpClientInterface  $httpClient
-     * @param string               $firstLink
-     * @param string|null          $previousLink
-     * @param string|null          $nextLink
-     * @param int|null             $count
-     * @param array                $items
-     */
-    public function __construct(PageFactoryInterface $pageFactory, HttpClientInterface $httpClient, $firstLink, $previousLink, $nextLink, $count, array $items)
-    {
+    public function __construct(
+        PageFactoryInterface $pageFactory,
+        HttpClientInterface $httpClient,
+        string $firstLink,
+        ?string$previousLink,
+        ?string $nextLink,
+        ?int $count,
+        array $items
+    ) {
         $this->pageFactory = $pageFactory;
         $this->httpClient = $httpClient;
         $this->firstLink = $firstLink;
@@ -57,7 +55,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getFirstPage()
+    public function getFirstPage(): PageInterface
     {
         return $this->getPage($this->firstLink);
     }
@@ -65,7 +63,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getPreviousPage()
+    public function getPreviousPage(): ?PageInterface
     {
         return $this->hasPreviousPage() ? $this->getPage($this->previousLink) : null;
     }
@@ -73,7 +71,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getNextPage()
+    public function getNextPage(): ?PageInterface
     {
         return $this->hasNextPage() ? $this->getPage($this->nextLink) : null;
     }
@@ -81,7 +79,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getCount()
+    public function getCount(): ?int
     {
         return $this->count;
     }
@@ -89,7 +87,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -97,7 +95,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function hasNextPage()
+    public function hasNextPage(): bool
     {
         return null !== $this->nextLink;
     }
@@ -105,7 +103,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function hasPreviousPage()
+    public function hasPreviousPage(): bool
     {
         return null !== $this->previousLink;
     }
@@ -113,7 +111,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getNextLink()
+    public function getNextLink(): ?string
     {
         return $this->nextLink;
     }
@@ -121,19 +119,15 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getPreviousLink()
+    public function getPreviousLink(): ?string
     {
         return $this->previousLink;
     }
 
     /**
      * Returns the page given a complete uri.
-     *
-     * @param string $uri
-     *
-     * @return PageInterface
      */
-    protected function getPage($uri)
+    protected function getPage(string $uri): PageInterface
     {
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
         $data = json_decode($response->getBody()->getContents(), true);

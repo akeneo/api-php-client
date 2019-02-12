@@ -28,7 +28,7 @@ interface FamilyVariantApiInterface
      *
      * @return array
      */
-    public function get($familyCode, $familyVariantCode);
+    public function get($familyCode, $familyVariantCode): array;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -43,7 +43,7 @@ interface FamilyVariantApiInterface
      *
      * @return int Status code 201 indicating that the family variant has been well created.
      */
-    public function create($familyCode, $familyVariantCode, array $data = []);
+    public function create($familyCode, $familyVariantCode, array $data = []): int;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -59,7 +59,7 @@ interface FamilyVariantApiInterface
      * @return int Status code 201 indicating that the family variant has been well created.
      *             Status code 204 indicating that the family variant has been well updated.
      */
-    public function upsert($familyCode, $familyVariantCode, array $data = []);
+    public function upsert($familyCode, $familyVariantCode, array $data = []): int;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -77,7 +77,7 @@ interface FamilyVariantApiInterface
      *
      * @return PageInterface
      */
-    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []);
+    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -92,7 +92,7 @@ interface FamilyVariantApiInterface
      *
      * @return ResourceCursorInterface
      */
-    public function all($familyCode, $pageSize = 10, array $queryParameters = []);
+    public function all($familyCode, $pageSize = 10, array $queryParameters = []): ResourceCursorInterface;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -105,5 +105,5 @@ interface FamilyVariantApiInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertList($familyCode, $familyVariants);
+    public function upsertList($familyCode, $familyVariants): \Traversable;
 }

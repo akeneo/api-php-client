@@ -22,5 +22,5 @@ interface GettableResourceInterface
      *
      * @return array
      */
-    public function get($code);
+    public function get(string $code): array;
 }

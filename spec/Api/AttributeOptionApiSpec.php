@@ -101,12 +101,12 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], null, null, ['foo' => 'bar'])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 10, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->listPerPage($attributeCode, null, null, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage($attributeCode, 10, false, ['foo' => 'bar'])->shouldReturn($page);
     }
 
     function it_creates_an_attribute_option($resourceClient)

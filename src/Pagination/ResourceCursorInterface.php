@@ -13,8 +13,6 @@ interface ResourceCursorInterface extends \Iterator
 {
     /**
      * Get the number of resources per page.
-     *
-     * @return int
      */
-    public function getPageSize();
+    public function getPageSize(): ?int;
 }

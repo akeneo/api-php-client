@@ -35,7 +35,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     /**
      * {@inheritdoc}
      */
-    public function authenticateByPassword($clientId, $secret, $username, $password)
+    public function authenticateByPassword($clientId, $secret, $username, $password): array
     {
         $requestBody = [
             'grant_type' => 'password',
@@ -49,7 +49,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     /**
      * {@inheritdoc}
      */
-    public function authenticateByRefreshToken($clientId, $secret, $refreshToken)
+    public function authenticateByRefreshToken($clientId, $secret, $refreshToken): array
     {
         $requestBody = [
             'grant_type'    => 'refresh_token',
@@ -68,7 +68,7 @@ class AuthenticationApi implements AuthenticationApiInterface
      *
      * @return array returns the body of the response containing access token and refresh token
      */
-    protected function authenticate($clientId, $secret, array $requestBody)
+    protected function authenticate($clientId, $secret, array $requestBody): array
     {
         $headers = [
             'Content-Type'  => 'application/json',

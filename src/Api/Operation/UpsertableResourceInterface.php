@@ -24,5 +24,5 @@ interface UpsertableResourceInterface
      * @return int Status code 201 indicating that the resource has been well created.
      *             Status code 204 indicating that the resource has been well updated.
      */
-    public function upsert($code, array $data = []);
+    public function upsert(string $code, array $data = []): int;
 }

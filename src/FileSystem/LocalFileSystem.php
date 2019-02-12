@@ -16,7 +16,7 @@ class LocalFileSystem implements FileSystemInterface
     /**
      * {@inheritdoc}
      */
-    public function getResourceFromPath($filePath)
+    public function getResourceFromPath(string $filePath)
     {
         if (!is_readable($filePath)) {
             throw new UnreadableFileException(sprintf('The file "%s" could not be read.', $filePath));

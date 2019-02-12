@@ -63,7 +63,7 @@ class AkeneoPimClientBuilder
     /**
      * @param string $baseUri Base uri to request the API
      */
-    public function __construct($baseUri)
+    public function __construct(string $baseUri)
     {
         $this->baseUri = $baseUri;
     }
@@ -75,7 +75,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientBuilder
      */
-    public function setHttpClient(Client $httpClient)
+    public function setHttpClient(Client $httpClient): self
     {
         $this->httpClient = $httpClient;
 
@@ -89,7 +89,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientBuilder
      */
-    public function setRequestFactory($requestFactory)
+    public function setRequestFactory(RequestFactory $requestFactory): self
     {
         $this->requestFactory = $requestFactory;
 
@@ -103,7 +103,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientBuilder
      */
-    public function setStreamFactory($streamFactory)
+    public function setStreamFactory(StreamFactory $streamFactory): self
     {
         $this->streamFactory = $streamFactory;
 
@@ -117,7 +117,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientBuilder
      */
-    public function setFileSystem($fileSystem)
+    public function setFileSystem(FileSystemInterface $fileSystem): self
     {
         $this->fileSystem = $fileSystem;
 
@@ -134,7 +134,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientInterface
      */
-    public function buildAuthenticatedByPassword($clientId, $secret, $username, $password)
+    public function buildAuthenticatedByPassword(string $clientId, string $secret, string $username, string $password): AkeneoPimClientInterface
     {
         $authentication = Authentication::fromPassword($clientId, $secret, $username, $password);
 
@@ -151,7 +151,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientInterface
      */
-    public function buildAuthenticatedByToken($clientId, $secret, $token, $refreshToken)
+    public function buildAuthenticatedByToken(string $clientId, string $secret, string $token, string $refreshToken): AkeneoPimClientInterface
     {
         $authentication = Authentication::fromToken($clientId, $secret, $token, $refreshToken);
 
@@ -163,7 +163,7 @@ class AkeneoPimClientBuilder
      *
      * @return AkeneoPimClientInterface
      */
-    protected function buildAuthenticatedClient(Authentication $authentication)
+    protected function buildAuthenticatedClient(Authentication $authentication): AkeneoPimClientInterface
     {
         list($resourceClient, $pageFactory, $cursorFactory, $fileSystem) = $this->setUp($authentication);
 
@@ -193,7 +193,7 @@ class AkeneoPimClientBuilder
      *
      * @return array
      */
-    protected function setUp(Authentication $authentication)
+    protected function setUp(Authentication $authentication): array
     {
         $uriGenerator = new UriGenerator($this->baseUri);
 
@@ -217,10 +217,7 @@ class AkeneoPimClientBuilder
         return [$resourceClient, $pageFactory, $cursorFactory, $fileSystem];
     }
 
-    /**
-     * @return Client
-     */
-    private function getHttpClient()
+    private function getHttpClient(): Client
     {
         if (null === $this->httpClient) {
             $this->httpClient = HttpClientDiscovery::find();
@@ -229,10 +226,7 @@ class AkeneoPimClientBuilder
         return $this->httpClient;
     }
 
-    /**
-     * @return RequestFactory
-     */
-    private function getRequestFactory()
+    private function getRequestFactory(): RequestFactory
     {
         if (null === $this->requestFactory) {
             $this->requestFactory = MessageFactoryDiscovery::find();
@@ -241,10 +235,7 @@ class AkeneoPimClientBuilder
         return $this->requestFactory;
     }
 
-    /**
-     * @return StreamFactory
-     */
-    private function getStreamFactory()
+    private function getStreamFactory(): StreamFactory
     {
         if (null === $this->streamFactory) {
             $this->streamFactory = StreamFactoryDiscovery::find();
