@@ -34,7 +34,8 @@
     "phpunit/phpunit": "^5.7",
     "phpspec/phpspec": "^5.0",
     "symfony/yaml": "^4.2",
-    "donatj/mock-webserver": "^2.0"
+    "donatj/mock-webserver": "^2.0",
+    "php-http/guzzle6-adapter": "^2.0"
   },
   "config": {
     "bin-dir": "bin"
