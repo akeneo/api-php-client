@@ -1,3 +1,9 @@
+# 4.0.0 (2018-02-12)
+
+## BC Breaks
+
+Drop support for PHP 5.6, PHP 7.0 and PHP 7.1
+
 # 2.0.1 (2018-05-03)
 
 ## Improvements
