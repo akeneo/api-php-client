@@ -114,9 +114,9 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function download(string $code): StreamInterface
+    public function download(string $code): ResponseInterface
     {
-        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code])->getBody();
+        return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code]);
     }
 
     /**

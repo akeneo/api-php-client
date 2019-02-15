@@ -285,8 +285,6 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ->getStreamedResource(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, ['42.jpg'])
             ->willReturn($response);
 
-        $response->getBody()->willReturn($streamBody);
-
-        $this->download('42.jpg')->shouldReturn($streamBody);
+        $this->download('42.jpg')->shouldReturn($response);
     }
 }
