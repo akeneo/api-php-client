@@ -7,6 +7,7 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 class DownloadProductMediaFileTest extends ApiTestCase
@@ -26,7 +27,7 @@ class DownloadProductMediaFileTest extends ApiTestCase
         $mediaFile = $api->download('/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
-        Assert::assertInstanceOf(StreamInterface::class, $mediaFile);
-        Assert::assertSame(file_get_contents($expectedMediaFilePath), $mediaFile->getContents());
+        Assert::assertInstanceOf(ResponseInterface::class, $mediaFile);
+        Assert::assertSame(file_get_contents($expectedMediaFilePath), $mediaFile->getBody()->getContents());
     }
 }
