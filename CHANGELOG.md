@@ -6,6 +6,8 @@ Drop support for PHP 5.6, PHP 7.0 and PHP 7.1
 
 Change the response type from `StreamInterface` to `Response` for `\Akeneo\Pim\ApiClient\Api\MediaFileApiInterface::download`
 
+It allows to get the filename from the response, and also the Mime type.
+
 # 3.0.0 (2018-06-26)
 
 # 2.0.1 (2018-05-03)
