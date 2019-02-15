@@ -13,11 +13,6 @@ interface ResourceCursorFactoryInterface
 {
     /**
      * Creates a cursor from the first page of resources.
-     *
-     * @param int           $pageSize
-     * @param PageInterface $firstPage
-     *
-     * @return ResourceCursorInterface
      */
-    public function createCursor($pageSize, PageInterface $firstPage);
+    public function createCursor(?int $pageSize, PageInterface $firstPage): ResourceCursorInterface;
 }

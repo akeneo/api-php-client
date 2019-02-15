@@ -28,5 +28,5 @@ interface HttpClientInterface
      *
      * @return ResponseInterface
      */
-    public function sendRequest($httpMethod, $uri, array $headers = [], $body = null);
+    public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface;
 }

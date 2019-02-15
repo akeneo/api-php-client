@@ -20,13 +20,7 @@ class HttpException extends RuntimeException
     /** @var ResponseInterface */
     protected $response;
 
-    /**
-     * @param string            $message  message of the exception
-     * @param RequestInterface  $request  failing request
-     * @param ResponseInterface $response response of the failing request
-     * @param \Exception|null   $previous previous exception
-     */
-    public function __construct($message, RequestInterface $request, ResponseInterface $response, \Exception $previous = null)
+    public function __construct(string $message, RequestInterface $request, ResponseInterface $response, ?\Exception $previous = null)
     {
         parent::__construct($message, $response->getStatusCode(), $previous);
 
@@ -36,20 +30,16 @@ class HttpException extends RuntimeException
 
     /**
      * Returns the request.
-     *
-     * @return RequestInterface
      */
-    public function getRequest()
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }
 
     /**
      * Returns the response.
-     *
-     * @return ResponseInterface
      */
-    public function getResponse()
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }

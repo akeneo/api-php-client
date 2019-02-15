@@ -72,23 +72,6 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var ProductModelApiInterface */
     protected $productModelApi;
 
-    /**
-     * @param Authentication              $authentication
-     * @param ProductApiInterface         $productApi
-     * @param CategoryApiInterface        $categoryApi
-     * @param AttributeApiInterface       $attributeApi
-     * @param AttributeOptionApiInterface $attributeOptionApi
-     * @param AttributeGroupApiInterface  $attributeGroupApi
-     * @param FamilyApiInterface          $familyApi
-     * @param MediaFileApiInterface       $productMediaFileApi
-     * @param LocaleApiInterface          $localeApi
-     * @param ChannelApiInterface         $channelApi
-     * @param CurrencyApiInterface        $currencyApi
-     * @param MeasureFamilyApiInterface   $measureFamilyApi
-     * @param AssociationTypeApiInterface $associationTypeApi
-     * @param FamilyVariantApiInterface   $familyVariantApi
-     * @param ProductModelApiInterface    $productModelApi
-     */
     public function __construct(
         Authentication $authentication,
         ProductApiInterface $productApi,
@@ -126,7 +109,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->authentication->getAccessToken();
     }
@@ -134,7 +117,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getRefreshToken()
+    public function getRefreshToken(): ?string
     {
         return $this->authentication->getRefreshToken();
     }
@@ -142,7 +125,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductApi()
+    public function getProductApi(): ProductApiInterface
     {
         return $this->productApi;
     }
@@ -150,7 +133,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategoryApi()
+    public function getCategoryApi(): CategoryApiInterface
     {
         return $this->categoryApi;
     }
@@ -158,7 +141,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeApi()
+    public function getAttributeApi(): AttributeApiInterface
     {
         return $this->attributeApi;
     }
@@ -166,7 +149,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeOptionApi()
+    public function getAttributeOptionApi(): AttributeOptionApiInterface
     {
         return $this->attributeOptionApi;
     }
@@ -174,7 +157,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeGroupApi()
+    public function getAttributeGroupApi(): AttributeGroupApiInterface
     {
         return $this->attributeGroupApi;
     }
@@ -182,7 +165,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getFamilyApi()
+    public function getFamilyApi(): FamilyApiInterface
     {
         return $this->familyApi;
     }
@@ -190,7 +173,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductMediaFileApi()
+    public function getProductMediaFileApi(): MediaFileApiInterface
     {
         return $this->productMediaFileApi;
     }
@@ -198,7 +181,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getLocaleApi()
+    public function getLocaleApi(): LocaleApiInterface
     {
         return $this->localeApi;
     }
@@ -206,7 +189,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getChannelApi()
+    public function getChannelApi(): ChannelApiInterface
     {
         return $this->channelApi;
     }
@@ -214,7 +197,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getCurrencyApi()
+    public function getCurrencyApi(): CurrencyApiInterface
     {
         return $this->currencyApi;
     }
@@ -222,7 +205,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getMeasureFamilyApi()
+    public function getMeasureFamilyApi(): MeasureFamilyApiInterface
     {
         return $this->measureFamilyApi;
     }
@@ -230,7 +213,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAssociationTypeApi()
+    public function getAssociationTypeApi(): AssociationTypeApiInterface
     {
         return $this->associationTypeApi;
     }
@@ -238,7 +221,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getFamilyVariantApi()
+    public function getFamilyVariantApi(): FamilyVariantApiInterface
     {
         return $this->familyVariantApi;
     }
@@ -246,7 +229,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductModelApi()
+    public function getProductModelApi(): ProductModelApiInterface
     {
         return $this->productModelApi;
     }

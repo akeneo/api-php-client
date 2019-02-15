@@ -26,115 +26,35 @@ use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
  */
 interface AkeneoPimClientInterface
 {
-    /**
-     * Gets the authentication access token
-     *
-     * @return null|string
-     */
-    public function getToken();
+    public function getToken(): ?string;
 
-    /**
-     * Gets the authentication refresh token
-     *
-     * @return null|string
-     */
-    public function getRefreshToken();
+    public function getRefreshToken(): ?string;
 
-    /**
-     * Gets the product API
-     *
-     * @return ProductApiInterface
-     */
-    public function getProductApi();
+    public function getProductApi(): ProductApiInterface;
 
-    /**
-     * Gets the category API.
-     *
-     * @return CategoryApiInterface
-     */
-    public function getCategoryApi();
+    public function getCategoryApi(): CategoryApiInterface;
 
-    /**
-     * Gets the attribute API.
-     *
-     * @return AttributeApiInterface
-     */
-    public function getAttributeApi();
+    public function getAttributeApi(): AttributeApiInterface;
 
-    /**
-     * Gets the attribute option API.
-     *
-     * @return AttributeOptionApiInterface
-     */
-    public function getAttributeOptionApi();
+    public function getAttributeOptionApi(): AttributeOptionApiInterface;
 
-    /**
-     * Gets the attribute group API.
-     *
-     * @return AttributeGroupApiInterface
-     */
-    public function getAttributeGroupApi();
+    public function getAttributeGroupApi(): AttributeGroupApiInterface;
 
-    /**
-     * Gets the family API.
-     *
-     * @return FamilyApiInterface
-     */
-    public function getFamilyApi();
+    public function getFamilyApi(): FamilyApiInterface;
 
-    /**
-     * Gets the product media file API.
-     *
-     * @return MediaFileApiInterface
-     */
-    public function getProductMediaFileApi();
+    public function getProductMediaFileApi(): MediaFileApiInterface;
 
-    /**
-     * Gets the locale API.
-     *
-     * @return LocaleApiInterface
-     */
-    public function getLocaleApi();
+    public function getLocaleApi(): LocaleApiInterface;
 
-    /**
-     * Gets the channel API.
-     *
-     * @return ChannelApiInterface
-     */
-    public function getChannelApi();
+    public function getChannelApi(): ChannelApiInterface;
 
-    /**
-     * Gets the currency API.
-     *
-     * @return CurrencyApiInterface
-     */
-    public function getCurrencyApi();
+    public function getCurrencyApi(): CurrencyApiInterface;
 
-    /**
-     * Gets the measure family API.
-     *
-     * @return MeasureFamilyApiInterface
-     */
-    public function getMeasureFamilyApi();
+    public function getMeasureFamilyApi(): MeasureFamilyApiInterface;
 
-    /**
-     * Gets the association type API.
-     *
-     * @return AssociationTypeApiInterface
-     */
-    public function getAssociationTypeApi();
+    public function getAssociationTypeApi(): AssociationTypeApiInterface;
 
-    /**
-     * Gets the family variant API.
-     *
-     * @return FamilyVariantApiInterface
-     */
-    public function getFamilyVariantApi();
+    public function getFamilyVariantApi(): FamilyVariantApiInterface;
 
-    /**
-     * Gets the product model API.
-     *
-     * @return ProductModelApiInterface
-     */
-    public function getProductModelApi();
+    public function getProductModelApi(): ProductModelApiInterface;
 }

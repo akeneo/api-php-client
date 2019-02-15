@@ -5,7 +5,9 @@ namespace Akeneo\Pim\ApiClient\Api;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * Api implementation to manages Family Variants
@@ -46,7 +48,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($familyCode, $familyVariantCode)
+    public function get($familyCode, $familyVariantCode): array
     {
         return $this->resourceClient->getResource(static::FAMILY_VARIANT_URI, [$familyCode, $familyVariantCode]);
     }
@@ -54,7 +56,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($familyCode, $familyVariantCode, array $data = [])
+    public function create($familyCode, $familyVariantCode, array $data = []): int
     {
         if (array_key_exists('family', $data)) {
             throw new InvalidArgumentException('The parameter "family" must not be defined in the data parameter');
@@ -70,7 +72,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsert($familyCode, $familyVariantCode, array $data = [])
+    public function upsert($familyCode, $familyVariantCode, array $data = []): int
     {
         if (array_key_exists('family', $data)) {
             throw new InvalidArgumentException('The parameter "family" must not be defined in the data parameter');
@@ -86,7 +88,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(
             static::FAMILY_VARIANTS_URI,
@@ -102,7 +104,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($familyCode, $pageSize = 10, array $queryParameters = [])
+    public function all($familyCode, $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($familyCode, $pageSize, false, $queryParameters);
 
@@ -112,7 +114,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($familyCode, $familyVariants)
+    public function upsertList($familyCode, $familyVariants): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
     }

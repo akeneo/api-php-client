@@ -21,7 +21,7 @@ interface AuthenticationApiInterface
      *
      * @return array
      */
-    public function authenticateByPassword($clientId, $secret, $username, $password);
+    public function authenticateByPassword($clientId, $secret, $username, $password): array;
 
     /**
      * Authenticates with the refresh token grant type.
@@ -32,5 +32,5 @@ interface AuthenticationApiInterface
      *
      * @return array
      */
-    public function authenticateByRefreshToken($clientId, $secret, $refreshToken);
+    public function authenticateByRefreshToken($clientId, $secret, $refreshToken): array;
 }

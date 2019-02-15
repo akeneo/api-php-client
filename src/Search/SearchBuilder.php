@@ -27,7 +27,7 @@ class SearchBuilder
      *
      * @return SearchBuilder
      */
-    public function addFilter($property, $operator, $value = null, array $options = [])
+    public function addFilter(string $property, string $operator, $value = null, array $options = []): self
     {
         $filter = ['operator'=> $operator];
 
@@ -40,10 +40,7 @@ class SearchBuilder
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters;
     }

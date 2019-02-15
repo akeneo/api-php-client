@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -32,12 +33,6 @@ class ResourceClient implements ResourceClientInterface
     /** @var UpsertResourceListResponseFactory */
     protected $upsertListResponseFactory;
 
-    /**
-     * @param HttpClientInterface               $httpClient
-     * @param UriGeneratorInterface             $uriGenerator
-     * @param MultipartStreamBuilderFactory     $multipartStreamBuilderFactory
-     * @param UpsertResourceListResponseFactory $upsertListResponseFactory
-     */
     public function __construct(
         HttpClientInterface $httpClient,
         UriGeneratorInterface $uriGenerator,
@@ -53,7 +48,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getResource($uri, array $uriParameters = [], array $queryParameters = [])
+    public function getResource(string $uri, array $uriParameters = [], array $queryParameters = []): array
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters, $queryParameters);
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
@@ -65,12 +60,12 @@ class ResourceClient implements ResourceClientInterface
      * {@inheritdoc}
      */
     public function getResources(
-        $uri,
+        string $uri,
         array $uriParameters = [],
-        $limit = 10,
-        $withCount = false,
+        ?int $limit = 10,
+        ?bool $withCount = false,
         array $queryParameters = []
-    ) {
+    ): array {
         if (array_key_exists('limit', $queryParameters)) {
             throw new InvalidArgumentException('The parameter "limit" should not be defined in the additional query parameters');
         }
@@ -93,7 +88,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createResource($uri, array $uriParameters = [], array $body = [])
+    public function createResource(string $uri, array $uriParameters = [], array $body = []): int
     {
         unset($body['_links']);
 
@@ -111,7 +106,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createMultipartResource($uri, array $uriParameters = [], array $requestParts = [])
+    public function createMultipartResource(string $uri, array $uriParameters = [], array $requestParts = []): ResponseInterface
     {
         $streamBuilder =  $this->multipartStreamBuilderFactory->create();
 
@@ -135,7 +130,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertResource($uri, array $uriParameters = [], array $body = [])
+    public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int
     {
         unset($body['_links']);
 
@@ -153,7 +148,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = [])
+    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []): \Traversable
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
@@ -209,7 +204,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteResource($uri, array $uriParameters = [])
+    public function deleteResource(string $uri, array $uriParameters = []): int
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
 
@@ -221,7 +216,7 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getStreamedResource($uri, array $uriParameters = [])
+    public function getStreamedResource(string $uri, array $uriParameters = []): ResponseInterface
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);

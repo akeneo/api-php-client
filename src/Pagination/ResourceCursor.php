@@ -17,7 +17,7 @@ class ResourceCursor implements ResourceCursorInterface
     /** @var PageInterface */
     protected $firstPage;
 
-    /** @var int */
+    /** @var null|int */
     protected $pageSize;
 
     /** @var int */
@@ -26,11 +26,7 @@ class ResourceCursor implements ResourceCursorInterface
     /** @var int */
     protected $totalIndex = 0;
 
-    /**
-     * @param int           $pageSize
-     * @param PageInterface $firstPage
-     */
-    public function __construct($pageSize, PageInterface $firstPage)
+    public function __construct(?int $pageSize, PageInterface $firstPage)
     {
         $this->firstPage = $firstPage;
         $this->currentPage = $firstPage;
@@ -90,7 +86,7 @@ class ResourceCursor implements ResourceCursorInterface
     /**
      * {@inheritdoc}
      */
-    public function getPageSize()
+    public function getPageSize(): ?int
     {
         return $this->pageSize;
     }

@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient\Api\Operation;
 
+use Akeneo\Pim\ApiClient\Exception\HttpException;
+
 /**
  * API that can delete a resource
  *
@@ -20,5 +22,5 @@ interface DeletableResourceInterface
      *
      * @return int Status code 204 indicating that the resource has been well deleted.
      */
-    public function delete($code);
+    public function delete(string $code): int;
 }

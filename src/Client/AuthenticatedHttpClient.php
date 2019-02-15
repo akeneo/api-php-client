@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Security\Authentication;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Http client to send an authenticated request.
@@ -29,11 +30,6 @@ class AuthenticatedHttpClient implements HttpClientInterface
     /** @var Authentication */
     protected $authentication;
 
-    /**
-     * @param HttpClient                 $basicHttpClient
-     * @param AuthenticationApiInterface $authenticationApi
-     * @param Authentication             $authentication
-     */
     public function __construct(
         HttpClient $basicHttpClient,
         AuthenticationApiInterface $authenticationApi,
@@ -47,7 +43,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function sendRequest($httpMethod, $uri, array $headers = [], $body = null)
+    public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface
     {
         if (null === $this->authentication->getAccessToken()) {
             $tokens = $this->authenticationApi->authenticateByPassword(

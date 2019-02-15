@@ -101,12 +101,12 @@ class AttributeApiSpec extends ObjectBehavior
     function it_returns_a_list_of_attributes_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(AttributeApi::ATTRIBUTES_URI, [], null, null, ['foo' => 'bar'])
+            ->getResources(AttributeApi::ATTRIBUTES_URI, [], 10, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage(10, false, ['foo' => 'bar'])->shouldReturn($page);
     }
 
     function it_creates_an_attribute($resourceClient)

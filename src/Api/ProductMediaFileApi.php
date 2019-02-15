@@ -6,8 +6,11 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API implementation to manage the media files for the products.
@@ -56,7 +59,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($code)
+    public function get(string $code): array
     {
         return $this->resourceClient->getResource(static::MEDIA_FILE_URI, [$code]);
     }
@@ -64,7 +67,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(static::MEDIA_FILES_URI, [], $limit, $withCount, $queryParameters);
 
@@ -74,7 +77,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($pageSize = 10, array $queryParameters = [])
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
@@ -84,7 +87,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($mediaFile, array $data)
+    public function create($mediaFile, array $data): string
     {
         if (is_string($mediaFile)) {
             $mediaFile = $this->fileSystem->getResourceFromPath($mediaFile);
@@ -111,7 +114,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function download($code)
+    public function download(string $code): StreamInterface
     {
         return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code])->getBody();
     }

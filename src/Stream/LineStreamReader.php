@@ -20,7 +20,7 @@ class LineStreamReader
      *
      * @return string|null returns the line, or null if the stream is not readable or at the end
      */
-    public function getNextLine(StreamInterface $stream)
+    public function getNextLine(StreamInterface $stream): ?string
     {
         if (!$stream->isReadable() || $stream->eof()) {
             return null;

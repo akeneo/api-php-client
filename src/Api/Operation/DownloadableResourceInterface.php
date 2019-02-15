@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\ApiClient\Api\Operation;
 
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -22,5 +23,5 @@ interface DownloadableResourceInterface
      *
      * @return StreamInterface
      */
-    public function download($code);
+    public function download(string $code): StreamInterface;
 }

@@ -101,12 +101,12 @@ class AttributeGroupApiSpec extends ObjectBehavior
     function it_returns_a_list_of_attribute_groups_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(AttributeGroupApi::ATTRIBUTE_GROUPS_URI, [], null, null, ['foo' => 'bar'])
+            ->getResources(AttributeGroupApi::ATTRIBUTE_GROUPS_URI, [], 10, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage(10, false, ['foo' => 'bar'])->shouldReturn($page);
     }
 
     function it_creates_an_attribute_group($resourceClient)

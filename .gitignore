@@ -1,6 +1,5 @@
 bin
 vendor
-composer.lock
 docker-compose.yml
 tests/etc/parameters.yml
 phpspec.yml

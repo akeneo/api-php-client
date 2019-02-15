@@ -16,9 +16,6 @@ class PageFactory implements PageFactoryInterface
     /** @var HttpClientInterface */
     protected $httpClient;
 
-    /**
-     * @param HttpClientInterface $httpClient
-     */
     public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
@@ -27,7 +24,7 @@ class PageFactory implements PageFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createPage(array $data)
+    public function createPage(array $data): PageInterface
     {
         $nextLink = isset($data['_links']['next']['href']) ? $data['_links']['next']['href'] : null;
         $previousLink = isset($data['_links']['previous']['href']) ? $data['_links']['previous']['href'] : null;

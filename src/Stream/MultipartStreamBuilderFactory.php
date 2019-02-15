@@ -17,18 +17,12 @@ class MultipartStreamBuilderFactory
     /** @var StreamFactory */
     protected $streamFactory;
 
-    /**
-     * @param StreamFactory $streamFactory
-     */
     public function __construct(StreamFactory $streamFactory)
     {
         $this->streamFactory = $streamFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(): MultipartStreamBuilder
     {
         return new MultipartStreamBuilder($this->streamFactory);
     }

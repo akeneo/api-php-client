@@ -22,5 +22,5 @@ interface FileSystemInterface
      *
      * @return resource
      */
-    public function getResourceFromPath($filePath);
+    public function getResourceFromPath(string $filePath);
 }

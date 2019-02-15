@@ -87,11 +87,11 @@ class LocaleApiSpec extends ObjectBehavior
     function it_returns_a_list_of_locales_with_additional_query_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_URI, [], null, null, ['foo' => 'bar'])
+            ->getResources(LocaleApi::LOCALES_URI, [], 10, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->listPerPage(null, null, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage(10, false, ['foo' => 'bar'])->shouldReturn($page);
     }
 }

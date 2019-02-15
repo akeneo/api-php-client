@@ -30,10 +30,6 @@ class UpsertResourceListResponse implements \Iterator
     /** @var string */
     protected $line;
 
-    /**
-     * @param StreamInterface  $bodyStream
-     * @param LineStreamReader $streamReader
-     */
     public function __construct(StreamInterface $bodyStream, LineStreamReader $streamReader)
     {
         $this->bodyStream = $bodyStream;

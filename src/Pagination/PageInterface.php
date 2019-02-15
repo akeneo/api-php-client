@@ -13,67 +13,49 @@ interface PageInterface
 {
     /**
      * Returns the first page of the list of resources.
-     *
-     * @return PageInterface
      */
-    public function getFirstPage();
+    public function getFirstPage(): PageInterface;
 
     /**
      * Returns the previous page of the list of resources if it exists, null otherwise.
-     *
-     * @return PageInterface|null
      */
-    public function getPreviousPage();
+    public function getPreviousPage(): ?PageInterface;
 
     /**
      * Returns the previous page of the list of resources if it exists, null otherwise.
-     *
-     * @return PageInterface|null
      */
-    public function getNextPage();
+    public function getNextPage(): ?PageInterface;
 
     /**
      * Gets the total count of resources, not just the number of items in the page.
      * It returns null if the option to process it has not been send in the request.
-     *
-     * @return int|null
      */
-    public function getCount();
+    public function getCount(): ?int;
 
     /**
      * Returns the array of resources in the page.
-     *
-     * @return array
      */
-    public function getItems();
+    public function getItems(): array;
 
     /**
      * Returns true if a next page exists, false either.
-     *
-     * @return bool
      */
-    public function hasNextPage();
+    public function hasNextPage(): bool;
 
     /**
      * Returns true if a previous page exists, false either.
-     *
-     * @return bool
      */
-    public function hasPreviousPage();
+    public function hasPreviousPage(): bool;
 
     /**
      * Gets the link of the next page.
      * Returns null if there is not next page.
-     *
-     * @return string|null
      */
-    public function getNextLink();
+    public function getNextLink(): ?string;
 
     /**
      * Gets the link of the previous page.
      * Returns null if there is not previous page.
-     *
-     * @return string|null
      */
-    public function getPreviousLink();
+    public function getPreviousLink(): ?string;
 }

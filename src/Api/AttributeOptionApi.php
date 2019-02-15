@@ -5,7 +5,9 @@ namespace Akeneo\Pim\ApiClient\Api;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API implementation to manage the attribute options.
@@ -46,7 +48,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get($attributeCode, $code)
+    public function get($attributeCode, $code): array
     {
         return $this->resourceClient->getResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $code]);
     }
@@ -54,7 +56,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = [])
+    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface
     {
         $uri = sprintf(static::ATTRIBUTE_OPTIONS_URI, $attributeCode);
         $data = $this->resourceClient->getResources($uri, [], $limit, $withCount, $queryParameters);
@@ -65,7 +67,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all($attributeCode, $pageSize = 10, array $queryParameters = [])
+    public function all($attributeCode, $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($attributeCode, $pageSize, false, $queryParameters);
 
@@ -75,7 +77,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function create($attributeCode, $attributeOptionCode, array $data = [])
+    public function create($attributeCode, $attributeOptionCode, array $data = []): int
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" should not be defined in the data parameter');
@@ -94,7 +96,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsert($attributeCode, $attributeOptionCode, array $data = [])
+    public function upsert($attributeCode, $attributeOptionCode, array $data = []): int
     {
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode], $data);
     }
@@ -102,7 +104,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($attributeCode, $attributeOptions)
+    public function upsertList($attributeCode, $attributeOptions): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }

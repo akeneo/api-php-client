@@ -36,7 +36,7 @@ class HttpExceptionHandler
      *
      * @return ResponseInterface
      */
-    public function transformResponseToException(RequestInterface $request, ResponseInterface $response)
+    public function transformResponseToException(RequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         if ($response->getStatusCode() >= 300 && $response->getStatusCode() < 400) {
             throw new RedirectionHttpException($this->getResponseMessage($response), $request, $response);
@@ -76,7 +76,7 @@ class HttpExceptionHandler
      *
      * @return string
      */
-    protected function getResponseMessage(ResponseInterface $response)
+    protected function getResponseMessage(ResponseInterface $response): string
     {
         $responseBody = $response->getBody();
 

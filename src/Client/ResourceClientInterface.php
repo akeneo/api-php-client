@@ -29,17 +29,17 @@ interface ResourceClientInterface
      *
      * @return array
      */
-    public function getResource($uri, array $uriParameters = [], array $queryParameters = []);
+    public function getResource(string $uri, array $uriParameters = [], array $queryParameters = []): array;
 
     /**
      * Gets a list of resources.
      *
      * @param string   $uri             URI of the resource
      * @param array    $uriParameters   URI parameters of the resource
-     * @param int      $limit           The maximum number of resources to return.
+     * @param null|int $limit           The maximum number of resources to return.
      *                                  Do note that the server has a default value if you don't specify anything.
      *                                  The server has a maximum limit allowed as well.
-     * @param bool     $withCount       Set to true to return the total count of resources.
+     * @param null|bool $withCount      Set to true to return the total count of resources.
      *                                  This parameter could decrease drastically the performance when set to true.
      * @param array    $queryParameters Additional query parameters of the request
      *
@@ -48,7 +48,7 @@ interface ResourceClientInterface
      *
      * @return array
      */
-    public function getResources($uri, array $uriParameters = [], $limit = 10, $withCount = false, array $queryParameters = []);
+    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 10, ?bool $withCount = false, array $queryParameters = []): array;
 
     /**
      * Creates a resource.
@@ -61,7 +61,7 @@ interface ResourceClientInterface
      *
      * @return int Status code 201 indicating that the resource has been well created.
      */
-    public function createResource($uri, array $uriParameters = [], array $body = []);
+    public function createResource(string $uri, array $uriParameters = [], array $body = []): int;
 
     /**
      * Creates a resource using a multipart request.
@@ -75,7 +75,7 @@ interface ResourceClientInterface
      *
      * @return ResponseInterface the response of the creation request
      */
-    public function createMultipartResource($uri, array $uriParameters = [], array $requestParts = []);
+    public function createMultipartResource(string $uri, array $uriParameters = [], array $requestParts = []): ResponseInterface;
 
     /**
      * Creates a resource if it does not exist yet, otherwise updates partially the resource.
@@ -89,7 +89,7 @@ interface ResourceClientInterface
      * @return int Status code 201 indicating that the resource has been well created.
      *             Status code 204 indicating that the resource has been well updated.
      */
-    public function upsertResource($uri, array $uriParameters = [], array $body = []);
+    public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
@@ -104,7 +104,7 @@ interface ResourceClientInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertStreamResourceList($uri, array $uriParameters = [], $resources = []);
+    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []) : \Traversable;
 
     /**
      * Updates or creates several resources using a single JSON string for the request and the response.
@@ -130,7 +130,7 @@ interface ResourceClientInterface
      *
      * @return int Status code 204 indicating that the resource has been well deleted
      */
-    public function deleteResource($uri, array $uriParameters = []);
+    public function deleteResource(string $uri, array $uriParameters = []): int;
 
     /**
      * Gets a streamed resource.
@@ -142,5 +142,5 @@ interface ResourceClientInterface
      *
      * @return ResponseInterface The response of the streamed resource request
      */
-    public function getStreamedResource($uri, array $uriParameters = []);
+    public function getStreamedResource(string $uri, array $uriParameters = []): ResponseInterface;
 }

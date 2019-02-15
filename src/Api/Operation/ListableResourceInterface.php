@@ -29,7 +29,7 @@ interface ListableResourceInterface
      *
      * @return PageInterface
      */
-    public function listPerPage($limit = 10, $withCount = false, array $queryParameters = []);
+    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface;
 
     /**
      * Gets a cursor to iterate over a list of resources.
@@ -42,5 +42,5 @@ interface ListableResourceInterface
      *
      * @return ResourceCursorInterface
      */
-    public function all($pageSize = 10, array $queryParameters = []);
+    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface;
 }
