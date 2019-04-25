@@ -2,8 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient\Stream;
 
-use Http\Message\MultipartStream\MultipartStreamBuilder;
-use Http\Message\StreamFactory;
+use Akeneo\Pim\ApiClient\MultipartStream\MultipartStreamBuilder;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * Factory to create a builder of Multipart streams
@@ -14,10 +14,10 @@ use Http\Message\StreamFactory;
  */
 class MultipartStreamBuilderFactory
 {
-    /** @var StreamFactory */
+    /** @var StreamFactoryInterface */
     protected $streamFactory;
 
-    public function __construct(StreamFactory $streamFactory)
+    public function __construct(StreamFactoryInterface $streamFactory)
     {
         $this->streamFactory = $streamFactory;
     }

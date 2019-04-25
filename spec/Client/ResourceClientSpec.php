@@ -2,15 +2,16 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Client;
 
+use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
+use Akeneo\Pim\ApiClient\MultipartStream\MultipartStreamBuilder;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
-use Http\Message\MultipartStream\MultipartStreamBuilder;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -18,7 +19,7 @@ use Psr\Http\Message\StreamInterface;
 class ResourceClientSpec extends ObjectBehavior
 {
     function let(
-        HttpClient $httpClient,
+        HttpClientInterface $httpClient,
         UriGeneratorInterface $uriGenerator,
         MultipartStreamBuilderFactory $multipartStreamBuilderFactory,
         UpsertResourceListResponseFactory $responseFactory

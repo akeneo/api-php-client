@@ -1,3 +1,20 @@
+# 5.0.0
+
+## BC Breaks
+
+Use PSR-7, PSR-17 and PSR-18 instead of HttpPlug.
+
+- Change the type of the first parameter of `Akeneo\Pim\ApiClientAkeneoPimClientBuilder::setHttpClient` from `Http\Client\HttpClient` to `Psr\Http\Client\ClientInterface`
+- Change the type of the first parameter of `Akeneo\Pim\ApiClientAkeneoPimClientBuilder::setRequestFactory` from `Http\Message\RequestFactory` to `Psr\Http\Message\RequestFactoryInterface`
+- Change the type of the first parameter of `Akeneo\Pim\ApiClientAkeneoPimClientBuilder::setStreamFactory` from `Http\Message\StreamFactory` to `Psr\Http\Message\StreamFactoryInterface`
+
+Factory implementations are necessary as dependency.
+For example, with Guzzle:
+
+```bash
+$ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter:^2.0 http-interop/http-factory-guzzle:^1.0
+```
+
 # 4.0.0 (2019-02-15)
 
 ## BC Breaks

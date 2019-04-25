@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\StreamFactoryDiscovery;
 use PHPUnit\Framework\Assert;
 
@@ -53,7 +54,7 @@ class UpsertListProductTest extends ApiTestCase
         fwrite($resources, $this->getProductToUpsertJson());
         rewind($resources);
 
-        $streamedResources = StreamFactoryDiscovery::find()->createStream($resources);
+        $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
         $api = $this->createClient()->getProductAPi();
         $response = $api->upsertList($streamedResources);
 

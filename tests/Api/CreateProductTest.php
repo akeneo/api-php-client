@@ -22,7 +22,7 @@ class CreateProductTest extends ApiTestCase
         $api = $this->createClient()->getProductApi();
         $response = $api->create('new_shoes', $this->newProduct());
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($this->expectedProduct()));
+        Assert::assertSame(json_encode($this->expectedProduct()), $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT]);
 
         Assert::assertSame(201, $response);
     }
