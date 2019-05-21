@@ -2,14 +2,14 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Stream;
 
+use Akeneo\Pim\ApiClient\MultipartStream\MultipartStreamBuilder;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
-use Http\Message\MultipartStream\MultipartStreamBuilder;
-use Http\Message\StreamFactory;
 use PhpSpec\ObjectBehavior;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class MultipartStreamBuilderFactorySpec extends ObjectBehavior
 {
-    function let(StreamFactory $streamFactory)
+    function let(StreamFactoryInterface $streamFactory)
     {
         $this->beConstructedWith($streamFactory);
     }
