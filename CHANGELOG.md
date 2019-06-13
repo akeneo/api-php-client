@@ -1,3 +1,9 @@
+# 4.0.1 (2019-06-13)
+
+- Add support for PHP 7.1. This is done for some connectors thar are still using it.
+
+Be careful, this PHP version is EOL in december 2020.
+
 # 4.0.0 (2019-02-15)
 
 ## BC Breaks
