@@ -1,4 +1,4 @@
-# 4.0.1 (2019-06-13)
+# 4.0.2 (2019-06-13)
 
 - Add support for PHP 7.1. This is done for some connectors thar are still using it.
 
