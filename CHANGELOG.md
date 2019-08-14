@@ -15,6 +15,12 @@ For example, with Guzzle:
 $ php composer.phar require akeneo/api-php-client php-http/guzzle6-adapter:^2.0 http-interop/http-factory-guzzle:^1.0
 ```
 
+# 4.0.2 (2019-06-13)
+
+- Add support for PHP 7.1. This is done for some connectors thar are still using it.
+
+Be careful, this PHP version is EOL in december 2020.
+
 # 4.0.0 (2019-02-15)
 
 ## BC Breaks

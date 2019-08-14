@@ -27,10 +27,6 @@ class GetProductTest extends ApiTestCase
         Assert::assertEquals($product, json_decode($this->getProduct(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Resource `black_sneakers` does not exist.
-     */
     public function test_get_unknow_product()
     {
         $this->server->setResponseOfPath(
@@ -39,6 +35,9 @@ class GetProductTest extends ApiTestCase
                 new Response('{"code": 404, "message":"Resource `black_sneakers` does not exist."}', [], 404)
             )
         );
+
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
+        $this->expectExceptionMessage('Resource `black_sneakers` does not exist.');
 
         $api = $this->createClient()->getProductApi();
         $api->get('black_sneakers');

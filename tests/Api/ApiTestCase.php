@@ -23,7 +23,7 @@ abstract class ApiTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->server = new MockWebServer(8081, '127.0.0.1');
         $this->server->start();
@@ -39,7 +39,7 @@ abstract class ApiTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->server->stop();
     }
