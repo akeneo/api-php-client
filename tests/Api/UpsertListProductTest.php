@@ -12,7 +12,7 @@ use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->server->setResponseOfPath(

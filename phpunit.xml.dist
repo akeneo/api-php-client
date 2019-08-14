@@ -8,10 +8,9 @@
      convertNoticesToExceptions="true"
      convertWarningsToExceptions="true"
      processIsolation="false"
-     stopOnFailure="false"
-     syntaxCheck="false">
+     stopOnFailure="false">
 
-    <testsuite>
+    <testsuite name="Integration">
         <directory>tests/</directory>
     </testsuite>
 
