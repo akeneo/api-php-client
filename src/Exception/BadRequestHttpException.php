@@ -11,4 +11,8 @@ namespace Akeneo\Pim\ApiClient\Exception;
  */
 class BadRequestHttpException extends ClientErrorHttpException
 {
+    protected function getAdditionalInformationMessage(): string
+    {
+        return '(see https://api.akeneo.com/php-client/exception.html#bad-request-exception)';
+    }
 }

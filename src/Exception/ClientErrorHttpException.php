@@ -11,4 +11,8 @@ namespace Akeneo\Pim\ApiClient\Exception;
  */
 class ClientErrorHttpException extends HttpException
 {
+    protected function getAdditionalInformationMessage(): string
+    {
+        return '(see https://api.akeneo.com/php-client/exception.html#client-exception)';
+    }
 }

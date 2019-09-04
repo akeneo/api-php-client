@@ -24,4 +24,9 @@ class UnprocessableEntityHttpException extends ClientErrorHttpException
 
         return isset($decodedBody['errors']) ? $decodedBody['errors'] : [];
     }
+
+    protected function getAdditionalInformationMessage(): string
+    {
+        return '(see https://api.akeneo.com/php-client/exception.html#unprocessable-entity-exception)';
+    }
 }

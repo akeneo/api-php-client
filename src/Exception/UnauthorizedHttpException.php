@@ -11,4 +11,8 @@ namespace Akeneo\Pim\ApiClient\Exception;
  */
 class UnauthorizedHttpException extends ClientErrorHttpException
 {
+    protected function getAdditionalInformationMessage(): string
+    {
+        return '(see https://api.akeneo.com/php-client/exception.html#unauthorized-exception)';
+    }
 }

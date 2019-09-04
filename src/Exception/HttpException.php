@@ -22,6 +22,8 @@ class HttpException extends RuntimeException
 
     public function __construct(string $message, RequestInterface $request, ResponseInterface $response, ?\Exception $previous = null)
     {
+        $message .= ' ' . $this->getAdditionalInformationMessage();
+
         parent::__construct($message, $response->getStatusCode(), $previous);
 
         $this->request = $request;
@@ -42,5 +44,10 @@ class HttpException extends RuntimeException
     public function getResponse(): ResponseInterface
     {
         return $this->response;
+    }
+
+    protected function getAdditionalInformationMessage(): string
+    {
+        return '(see https://api.akeneo.com/php-client/exception.html#http-exception)';
     }
 }
