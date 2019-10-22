@@ -68,7 +68,7 @@ class AuthenticationApi implements AuthenticationApiInterface
      *
      * @return array returns the body of the response containing access token and refresh token
      */
-    protected function authenticate($clientId, $secret, array $requestBody): array
+    protected function authenticate($clientId, $secret, array $requestBody): ?array
     {
         $headers = [
             'Content-Type'  => 'application/json',
