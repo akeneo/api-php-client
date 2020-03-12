@@ -5,7 +5,7 @@ namespace Akeneo\Pim\ApiClient\Api;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 
 /**
- * API implementation to manage measuremeent families.
+ * API implementation to manage measurement families.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
