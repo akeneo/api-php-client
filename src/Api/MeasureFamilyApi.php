@@ -14,6 +14,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  * @author    Philippe Mossière <philippe.mossiere@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ *
+ * @deprecated use \Akeneo\Pim\ApiClient\Client\ResourceClientInterface\MeasurementFamilyApi
  */
 class MeasureFamilyApi implements MeasureFamilyApiInterface
 {
@@ -46,6 +48,9 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated use \Akeneo\Pim\ApiClient\Client\ResourceClientInterface\MeasurementFamilyApi::all() and filter on
+     *             the measurement family code you want to fetch manually.
      */
     public function get(string $code): array
     {
@@ -54,6 +59,8 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated use \Akeneo\Pim\ApiClient\Client\ResourceClientInterface\MeasurementFamilyApi::all()
      */
     public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
     {
@@ -64,6 +71,8 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated use \Akeneo\Pim\ApiClient\Client\ResourceClientInterface\MeasurementFamilyApi::all()
      */
     public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
     {
