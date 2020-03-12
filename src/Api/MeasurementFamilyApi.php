@@ -66,8 +66,8 @@ class MeasurementFamilyApi implements MeasurementFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($measurementFamilies): \Traversable
+    public function upsertList($measurementFamilies): array
     {
-        return $this->resourceClient->upsertStreamResourceList(static::MEASUREMENT_FAMILIES_URI, [], $measurementFamilies);
+        return $this->resourceClient->upsertJsonResourceList(static::MEASUREMENT_FAMILIES_URI, [], $measurementFamilies);
     }
 }
