@@ -13,6 +13,7 @@ use Akeneo\Pim\ApiClient\Api\FamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApiInterface;
 use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
@@ -72,6 +73,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var ProductModelApiInterface */
     protected $productModelApi;
 
+    /** @var MeasurementFamilyApiInterface */
+    private $measurementFamilyApi;
+
     public function __construct(
         Authentication $authentication,
         ProductApiInterface $productApi,
@@ -85,6 +89,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         ChannelApiInterface $channelApi,
         CurrencyApiInterface $currencyApi,
         MeasureFamilyApiInterface $measureFamilyApi,
+        MeasurementFamilyApiInterface $measurementFamilyApi,
         AssociationTypeApiInterface $associationTypeApi,
         FamilyVariantApiInterface $familyVariantApi,
         ProductModelApiInterface $productModelApi
@@ -101,6 +106,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->channelApi = $channelApi;
         $this->currencyApi = $currencyApi;
         $this->measureFamilyApi = $measureFamilyApi;
+        $this->measurementFamilyApi = $measurementFamilyApi;
         $this->associationTypeApi = $associationTypeApi;
         $this->familyVariantApi = $familyVariantApi;
         $this->productModelApi = $productModelApi;
@@ -208,6 +214,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getMeasureFamilyApi(): MeasureFamilyApiInterface
     {
         return $this->measureFamilyApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMeasurementFamilyApi(): MeasurementFamilyApiInterface
+    {
+        return $this->measurementFamilyApi;
     }
 
     /**

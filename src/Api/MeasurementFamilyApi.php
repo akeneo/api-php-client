@@ -3,10 +3,6 @@
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
-use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
-use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 /**
  * API implementation to manage measuremeent families.
@@ -22,45 +18,20 @@ class MeasurementFamilyApi implements MeasurementFamilyApiInterface
     /** @var ResourceClientInterface */
     protected $resourceClient;
 
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
-
     /**
-     * @param ResourceClientInterface        $resourceClient
-     * @param PageFactoryInterface           $pageFactory
-     * @param ResourceCursorFactoryInterface $cursorFactory
+     * @param ResourceClientInterface $resourceClient
      */
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
+    public function __construct(ResourceClientInterface $resourceClient)
+    {
         $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function listPerPage(int $limit = 100, bool $withCount = false, array $queryParameters = []): PageInterface
+    public function all(): array
     {
-        $data = $this->resourceClient->getResources(static::MEASUREMENT_FAMILIES_URI, [], $limit, $withCount, $queryParameters);
-
-        return $this->pageFactory->createPage($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function all(int $pageSize = 100, array $queryParameters = []): ResourceCursorInterface
-    {
-        $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
-
-        return $this->cursorFactory->createCursor($pageSize, $firstPage);
+        return $this->resourceClient->getResource(static::MEASUREMENT_FAMILIES_URI);
     }
 
     /**
