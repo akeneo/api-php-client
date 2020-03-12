@@ -14,6 +14,7 @@ use Akeneo\Pim\ApiClient\Api\FamilyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyVariantApi;
 use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApi;
+use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
@@ -152,7 +153,7 @@ class AkeneoPimClientBuilder
      */
     protected function buildAuthenticatedClient(Authentication $authentication): AkeneoPimClientInterface
     {
-        list($resourceClient, $pageFactory, $cursorFactory, $fileSystem) = $this->setUp($authentication);
+        [$resourceClient, $pageFactory, $cursorFactory, $fileSystem] = $this->setUp($authentication);
 
         $client = new AkeneoPimClient(
             $authentication,
@@ -167,6 +168,7 @@ class AkeneoPimClientBuilder
             new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
             new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
             new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
+            new MeasurementFamilyApi($resourceClient),
             new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
             new FamilyVariantApi($resourceClient, $pageFactory, $cursorFactory),
             new ProductModelApi($resourceClient, $pageFactory, $cursorFactory)
