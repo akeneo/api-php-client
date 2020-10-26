@@ -130,14 +130,14 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     protected function extractCodeFromCreationResponse(ResponseInterface $response)
     {
-        $headers = $response->getHeaders();
+        $locationHeaders = $response->getHeader('Location');
 
-        if (!isset($headers['Location'][0])) {
+        if (!isset($locationHeaders[0])) {
             throw new RuntimeException('The response does not contain the URI of the created media-file.');
         }
 
         $matches = [];
-        if (1 !== preg_match(static::MEDIA_FILE_URI_CODE_REGEX, $headers['Location'][0], $matches)) {
+        if (1 !== preg_match(static::MEDIA_FILE_URI_CODE_REGEX, $locationHeaders[0], $matches)) {
             throw new RuntimeException('Unable to find the code in the URI of the created media-file.');
         }
 
