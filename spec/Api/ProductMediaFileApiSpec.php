@@ -129,9 +129,10 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ]
         ];
 
-        $response->getHeaders()->willReturn(['Location' => [
+        $response->hasHeader('Location')->willReturn(true);
+        $response->getHeader('Location')->willReturn([
             'http://localhost/api/rest/v1/media-files/1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png'
-        ]]);
+        ]);
 
         $resourceClient
             ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
@@ -164,9 +165,10 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ]
         ];
 
-        $response->getHeaders()->willReturn(['Location' => [
+        $response->hasHeader('Location')->willReturn(true);
+        $response->getHeader('Location')->willReturn([
             'http://localhost/api/rest/v1/media-files/1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png'
-        ]]);
+        ]);
 
         $resourceClient
             ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
@@ -202,9 +204,11 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ]
         ];
 
-        $response->getHeaders()->willReturn(['Location' => [
+        $response->hasHeader('Location')->willReturn(true);
+        $response->getHeader('Location')->willReturn(
+            [
             'http://localhost/api/rest/v1/media-files/1/e/e/d/1eed10f108bde68b279d6f903f17b4b053e9d89d_akeneo.png'
-        ]]);
+        ]);
 
         $resourceClient
             ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
@@ -236,7 +240,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ]
         ];
 
-        $response->getHeaders()->willReturn(['Location' => '']);
+        $response->hasHeader('Location')->willReturn(false);
 
         $resourceClient
             ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)
@@ -268,7 +272,8 @@ class ProductMediaFileApiSpec extends ObjectBehavior
             ]
         ];
 
-        $response->getHeaders()->willReturn(['Location' => ['http://localhost/api/rest/v1/products/foo']]);
+        $response->hasHeader('Location')->willReturn(true);
+        $response->getHeader('Location')->willReturn(['http://localhost/api/rest/v1/products/foo']);
 
         $resourceClient
             ->createMultipartResource(ProductMediaFileApi::MEDIA_FILES_URI, [], $requestParts)

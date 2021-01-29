@@ -134,7 +134,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
             throw new RuntimeException('The response does not contain the URI of the created media-file.');
         }
 
-		$locationHeaders = $response->getHeader('Location');
+        $locationHeaders = $response->getHeader('Location');
 
         $matches = [];
         if (1 !== preg_match(static::MEDIA_FILE_URI_CODE_REGEX, $locationHeaders[0], $matches)) {
