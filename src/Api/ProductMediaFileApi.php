@@ -130,14 +130,12 @@ class ProductMediaFileApi implements MediaFileApiInterface
      */
     protected function extractCodeFromCreationResponse(ResponseInterface $response)
     {
-        $headers = $response->getHeaders();
-
-        if (isset($headers['Location'][0])) {
-            $locationHeader = $headers['Location'][0];
+        if ($response->hasHeader('Location')) {
+            $locationHeader = $response->getHeader('Location')[0];
         }
 
-        if (isset($headers['location'][0])) {
-            $locationHeader = $headers['location'][0];
+        if ($response->hasHeader('location')) {
+            $locationHeader = $response->getHeader('location')[0];
         }
 
         if (!isset($locationHeader)) {
