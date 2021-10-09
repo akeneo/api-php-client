@@ -41,4 +41,29 @@ class CreateProductMediaFileTest extends ApiTestCase
 
         Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
     }
+
+    public function test_get_created_media_file_location_regardless_of_the_header_case()
+    {
+        $mediaFileURI = $this->server->getServerRoot(
+            ) . '/' . ProductMediaFileApi::MEDIA_FILES_URI . '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png';
+        $this->server->setResponseOfPath(
+            '/' . ProductMediaFileApi::MEDIA_FILES_URI,
+            new ResponseStack(
+                new Response('', ['LOcaTiON' => $mediaFileURI], 201)
+            )
+        );
+
+        $api = $this->createClient()->getProductMediaFileApi();
+        $mediaFile = realpath(__DIR__ . '/../fixtures/akeneo.png');
+
+        $productInfos = [
+            'identifier' => 'medium_boot',
+            'attribute' => 'side_view',
+            'scope' => null,
+            'locale' => null,
+        ];
+
+        $response = $api->create($mediaFile, $productInfos);
+        Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
+    }
 }
