@@ -1,14 +1,60 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: circleci/php:7.3-cli-buster
-    steps:
-      - checkout
-      - run: echo "test"
+    build:
+        docker:
+            -   image: akeneo/php:7.2
+        steps:
+            -   checkout
+            -   run: composer install
+            -   persist_to_workspace:
+                    root: ~/
+                    paths:
+                        - project
+
+    test_php:
+        docker:
+            -   image: akeneo/php:7.2
+        steps:
+            -   attach_workspace:
+                    at: ~/
+            -   run: bin/phpunit -c phpunit.xml.dist
+            -   run: bin/phpspec run
+
+    test_php_code_style:
+        docker:
+            -   image: akeneo/php:7.2
+        steps:
+            -   attach_workspace:
+                    at: ~/
+            -   run: bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 
 workflows:
-  build_and_test:
-    jobs:
-      - build
+    pull_request:
+        jobs:
+            -   wait_for_user_approval:
+                    type: approval
+                    filters:
+                        branches:
+                            ignore:
+                                - master
+            -   build:
+                    requires:
+                        - wait_for_user_approval
+            -   test_php:
+                    requires:
+                        - build
+            -   test_php_code_style:
+                    requires:
+                        - build
+
+    nightly:
+        when:
+            and:
+                -   equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+                -   equal: [ "nightly_master", << pipeline.schedule.name >> ]
+        jobs:
+            -   build
+            -   test_php:
+                    requires:
+                        -   build
