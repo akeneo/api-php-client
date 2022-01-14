@@ -1,14 +1,25 @@
 version: 2.1
 
 jobs:
-  build:
+  build_and_test:
     docker:
-      - image: circleci/php:7.3-cli-buster
+      - image: akeneo/php:7.2
     steps:
       - checkout
-      - run: echo "test"
+      - run: composer install
+      - run: bin/phpunit -c phpunit.xml.dist
+      - run: bin/phpspec run
+      - run: bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 
 workflows:
-  build_and_test:
+  pull_request:
     jobs:
-      - build
+      - wait_for_user_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - master
+      - build_and_test:
+          requires:
+            - wait_for_user_approval
