@@ -29,6 +29,14 @@ jobs:
                     at: ~/
             -   run: bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 
+    workflow_success:
+        docker:
+            -   image: akeneo/php:7.2
+        steps:
+            - run:
+                  name: Success
+                  command: echo "The build has run with success! Let's merge :)"
+
 workflows:
     pull_request:
         jobs:
@@ -47,6 +55,10 @@ workflows:
             -   test_php_code_style:
                     requires:
                         - build
+            -   workflow_success:
+                    requires:
+                        - test_php
+                        - test_php_code_style
 
     nightly:
         when:
