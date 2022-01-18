@@ -166,4 +166,4 @@ Also, you can ask questions and discuss about the PHP client with the community 
 
 As this PHP client is an open-source project, all contributions are very welcome!
 
-For more information, please consult [the contributing section](contributing.md)
+For more information, please consult [the contributing section](CONTRIBUTING.md)
