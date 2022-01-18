@@ -161,3 +161,9 @@ The support of this client is made in best effort by our Akeneo team.
 
 If you find a bug or want to submit an improvement, don't hesitate to raise an issue on Github.
 Also, you can ask questions and discuss about the PHP client with the community in the [Slack User Group](https://akeneopim-ug.slack.com/messages/web-api/).
+
+## Contributing
+
+As this PHP client is an open-source project, all contributions are very welcome!
+
+For more information, please consult [the contributing section](contributing.md)
