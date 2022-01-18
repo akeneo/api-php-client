@@ -60,6 +60,20 @@ workflows:
                         - test_php
                         - test_php_code_style
 
+    after_merge:
+        jobs:
+            -   build:
+                    filters:
+                        branches:
+                            only:
+                                - master
+            -   test_php:
+                    requires:
+                        - build
+            -   test_php_code_style:
+                    requires:
+                        - build
+
     nightly:
         when:
             and:
