@@ -10,7 +10,7 @@ Matrix compatibility:
 | v2.1 - v2.2     | v2.0                    |  March 2019    | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=2.0)](https://travis-ci.org/akeneo/api-php-client)   |
 | v2.3            | v3.0                    |  December 2019 | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=3.0)](https://travis-ci.org/akeneo/api-php-client)   |
 | v3.0            | v4.0                    |  August 2020   | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=4.0)](https://travis-ci.org/akeneo/api-php-client)   |
-| -               | master                  |  -             | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=master)](https://travis-ci.org/akeneo/api-php-client)|
+| -               | master                  |  -             | [![CircleCI](https://circleci.com/gh/akeneo/api-php-client/tree/master.svg?style=svg)](https://circleci.com/gh/akeneo/api-php-client/tree/master)|
 
 Note that our PHP client is backward compatible.
 For example, if your PIM is currently a v2.3, you can still use a 1.0 version of the PHP client. The new endpoints available in v2.3 will not be available in the v1.0 of the PHP client.
