@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\Operation\CreatableResourceInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DeletableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
@@ -20,6 +21,7 @@ interface ProductModelApiInterface extends
     CreatableResourceInterface,
     UpsertableResourceInterface,
     UpsertableResourceListInterface,
-    ListableResourceInterface
+    ListableResourceInterface,
+    DeletableResourceInterface
 {
 }
