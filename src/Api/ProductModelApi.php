@@ -122,4 +122,12 @@ class ProductModelApi implements ProductModelApiInterface
     {
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCT_MODELS_URI, [], $productModels);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(string $code): int
+    {
+        return $this->resourceClient->deleteResource(static::PRODUCT_MODEL_URI, [$code]);
+    }
 }
