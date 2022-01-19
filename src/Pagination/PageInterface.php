@@ -22,7 +22,7 @@ interface PageInterface
     public function getPreviousPage(): ?PageInterface;
 
     /**
-     * Returns the previous page of the list of resources if it exists, null otherwise.
+     * Returns the next page of the list of resources if it exists, null otherwise.
      */
     public function getNextPage(): ?PageInterface;
 
