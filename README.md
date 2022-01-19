@@ -155,6 +155,13 @@ docker-compose run client_72 bin/phpspec run
 docker-compose run client_72 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
 ```
 
+Or use `make`:
+
+```
+make dependencies
+make tests
+```
+
 ## Support
 
 The support of this client is made in best effort by our Akeneo team.
