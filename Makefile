@@ -1,4 +1,4 @@
-DOCKER_RUN = docker-compose run client_72
+DOCKER_RUN = DOCKER_BUILDKIT=1 docker-compose run php_client
 
 .PHONY: help
 help:
