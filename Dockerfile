@@ -46,7 +46,7 @@ RUN apt-get update && \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
             /usr/share/lintian/* /usr/share/locale/* /usr/share/man/* \
 
-RUN usermod --uid ${DEV_UID} www-data && groupmod --gid ${DEV_GID} www-data &&
+RUN usermod --uid ${DEV_UID} www-data && groupmod --gid ${DEV_GID} www-data
 
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
