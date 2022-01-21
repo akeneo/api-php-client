@@ -49,10 +49,11 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'docker:secret' | chpasswd
 
+WORKDIR /home/docker/
+
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+RUN ls -la 
 RUN chmod +x /usr/local/bin/composer
-
-WORKDIR /home/docker/
 
 ENV PATH=bin:vendor/bin:$PATH
