@@ -1,5 +1,8 @@
 FROM debian:bullseye-slim
 
+ARG DEV_UID=1000
+ARG DEV_GID=1000
+
 # Install some useful packages
 RUN apt-get update && \
     apt-get --no-install-recommends --no-install-suggests --yes --quiet install \
@@ -43,11 +46,7 @@ RUN apt-get update && \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
             /usr/share/lintian/* /usr/share/locale/* /usr/share/man/* \
 
-# Add a "docker" user
-RUN useradd docker --shell /bin/bash --create-home \
-  && usermod --append --groups sudo docker \
-  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
-  && echo 'docker:secret' | chpasswd
+RUN usermod --uid ${DEV_UID} www-data && groupmod --gid ${DEV_GID} www-data &&
 
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
