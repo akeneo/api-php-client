@@ -53,7 +53,8 @@ WORKDIR /home/docker/
 
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-RUN ls -la 
+RUN ls -la
+RUN whoami
 RUN chmod +x /usr/local/bin/composer
 
 ENV PATH=bin:vendor/bin:$PATH
