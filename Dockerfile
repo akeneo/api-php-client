@@ -54,10 +54,11 @@ WORKDIR /home/docker/
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN chown -R  docker:docker /usr/local/bin/composer
 
+RUN chmod -R +wx /usr/local/bin/composer
+
 RUN ls -la
 RUN ls -la ..
 RUN ls -la /usr/local/bin/composer
 RUN whoami
-RUN chmod +wx /usr/local/bin/composer
 
 ENV PATH=bin:vendor/bin:$PATH
