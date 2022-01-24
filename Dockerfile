@@ -54,7 +54,7 @@ WORKDIR /home/docker/
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN chown -R  root:root /usr/local/bin/composer
 
-RUN chmod -R +wx /usr/local/bin/composer
+RUN chmod -R 777 /usr/local/bin/composer
 
 RUN ls -la
 RUN ls -la ..
