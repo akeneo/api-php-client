@@ -5,6 +5,10 @@ jobs:
         machine:
             image: ubuntu-2004:202111-01
         steps:
+            - run: echo "toto"
+            - run: ls -la /home/circleci/project
+            - run: pwd
+            - run: whoami
             - run: chmod -R 777 /home/circleci/project
             - checkout
             -   run: make dependencies
