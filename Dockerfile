@@ -50,11 +50,10 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'docker:secret' | chpasswd
 
 WORKDIR /home/docker/
-
-RUN chown -R  docker:docker /usr/local/bin/composer
-
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+RUN chown -R  docker:docker /usr/local/bin/composer
+
 RUN ls -la
 RUN ls -la ..
 RUN ls -la /usr/local/bin/composer
