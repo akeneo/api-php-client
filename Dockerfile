@@ -51,6 +51,8 @@ RUN useradd docker --shell /bin/bash --create-home \
 
 WORKDIR /home/docker/
 
+RUN chown -R  docker:docker /usr/local/bin/composer
+
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN ls -la
