@@ -5,13 +5,9 @@ jobs:
         machine:
             image: ubuntu-2004:202111-01
         steps:
-            - run: echo "toto"
-            - run: ls -la /home/circleci/project
-            - run: pwd
-            - run: whoami
             - run:
                 name: Change owner on project dir after installing when there is no cache
-                command: sudo chmod -R 777 ../project
+                command: sudo chown -R circleci:circleci ../project
             - checkout
             -   run: make dependencies
             -   persist_to_workspace:
@@ -42,7 +38,7 @@ jobs:
                     at: ~/
             -   run:
                     name: Change owner on project dir after installing when there is no cache
-                    command: sudo chmod -R 777 ../project
+                    command: sudo chown -R circleci:circleci ../project
             -   run: make cs
 
     workflow_success:
