@@ -11,7 +11,7 @@ jobs:
             - run: whoami
             - run:
                 name: Change owner on project dir after installing when there is no cache
-                command: sudo chmod -R 777 ../project ~/.cache ~/.composer
+                command: sudo chmod -R 777 ../project
             - checkout
             -   run: make dependencies
             -   persist_to_workspace:
