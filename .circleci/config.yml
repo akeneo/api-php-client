@@ -36,6 +36,8 @@ jobs:
         steps:
             -   attach_workspace:
                     at: ~/
+            - run: pwd
+            - run: ls -la ../project
             -   run:
                     name: Change rights on project dir
                     command: sudo chown -R 777 ../project
