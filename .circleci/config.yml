@@ -9,7 +9,7 @@ jobs:
             - run: ls -la /home/circleci/project
             - run: pwd
             - run: whoami
-            - run: chmod -R 777 /home/circleci/project
+            - run: cd /home/circleci/project
             - checkout
             -   run: make dependencies
             -   persist_to_workspace:

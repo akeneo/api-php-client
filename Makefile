@@ -6,11 +6,6 @@ help:
 
 .PHONY: dependencies
 dependencies: ## Install composer dependencies
-	echo "pouet"
-	whoami
-	ls -la ..
-	ls -la .
-	pwd
 	cp docker-compose.yml.dist docker-compose.yml
 	rm -rf composer.lock vendor/
 	$(DOCKER_RUN) composer install
