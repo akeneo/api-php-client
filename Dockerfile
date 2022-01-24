@@ -58,6 +58,6 @@ RUN ls -la
 RUN ls -la ..
 RUN ls -la /usr/local/bin/composer
 RUN whoami
-RUN chmod +x /usr/local/bin/composer
+RUN chmod +wx /usr/local/bin/composer
 
 ENV PATH=bin:vendor/bin:$PATH
