@@ -9,7 +9,9 @@ jobs:
                 name: Change rights on project dir
                 command: sudo chmod -R 777 ../project
             - checkout
-            -   run: make dependencies
+            -   run:
+                    name: Build project
+                    command: make dependencies
             -   persist_to_workspace:
                     root: ~/
                     paths:
@@ -20,7 +22,9 @@ jobs:
         steps:
             -   attach_workspace:
                     at: ~/
-            -   run: make unit
+            -   run:
+                    name: Run PHPUnit tests
+                    command: make unit
 
     test_php_spec:
         machine:
@@ -28,7 +32,9 @@ jobs:
         steps:
             -   attach_workspace:
                     at: ~/
-            -   run: make spec
+            -   run:
+                    name: Run PHPSpec tests
+                    command:  make spec
 
     test_php_code_style:
         machine:
@@ -39,7 +45,9 @@ jobs:
             -   run:
                     name: Change rights on project dir
                     command: sudo chmod -R 777 ../project
-            -   run: make cs
+            -   run:
+                    name: Launch code style Checker
+                    command: make cs
 
     workflow_success:
         machine:
