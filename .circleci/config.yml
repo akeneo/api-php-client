@@ -46,7 +46,7 @@ jobs:
                     name: Change rights on project dir
                     command: sudo chmod -R 777 ../project
             -   run:
-                    name: Launch code style Checker
+                    name: Launch code style checker
                     command: make cs
 
     workflow_success:
