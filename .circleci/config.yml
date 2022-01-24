@@ -40,7 +40,7 @@ jobs:
             - run: ls -la ../project
             -   run:
                     name: Change rights on project dir
-                    command: sudo chown -R 777 ../project
+                    command: sudo chmod -R 777 ../project
             -   run: make cs
 
     workflow_success:
