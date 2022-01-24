@@ -41,7 +41,7 @@ RUN apt-get update && \
     apt-get clean && apt-get --yes --quiet autoremove --purge && \
     rm -rf  /var/lib/apt/lists/* /tmp/* /var/tmp/* \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
-            /usr/share/lintian/* /usr/share/locale/* /usr/share/man/* \
+            /usr/share/lintian/* /usr/share/locale/* /usr/share/man/*
 
 # Add a "docker" user
 RUN useradd docker --shell /bin/bash --create-home \
@@ -49,10 +49,9 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'docker:secret' | chpasswd
 
+WORKDIR /home/docker/
+
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-RUN chmod +x /usr/local/bin/composer
-
-WORKDIR /home/docker/
 
 ENV PATH=bin:vendor/bin:$PATH
