@@ -9,7 +9,9 @@ jobs:
             - run: ls -la /home/circleci/project
             - run: pwd
             - run: whoami
-            - run: cd /home/circleci/project
+            - run:
+                name: Change owner on project dir after installing when there is no cache
+                command: sudo chmod -R 777 ../project ~/.cache ~/.composer
             - checkout
             -   run: make dependencies
             -   persist_to_workspace:
