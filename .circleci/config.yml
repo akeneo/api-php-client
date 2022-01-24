@@ -5,7 +5,7 @@ jobs:
         machine:
             image: ubuntu-2004:202111-01
         steps:
-            - run: cd /home/circleci/project
+            - run: chmod -R 777 /home/circleci/project
             - checkout
             -   run: make dependencies
             -   persist_to_workspace:

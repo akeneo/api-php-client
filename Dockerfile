@@ -54,8 +54,6 @@ WORKDIR /home/docker/
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN chown -R  root:root /usr/local/bin/composer
 
-RUN chmod -R 777 /home/circleci/project
-
 RUN ls -la
 RUN ls -la ..
 RUN ls -la /usr/local/bin/composer
