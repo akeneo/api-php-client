@@ -52,7 +52,7 @@ RUN useradd docker --shell /bin/bash --create-home \
 WORKDIR /home/docker/
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-RUN chown -R  docker:docker /usr/local/bin/composer
+RUN chown -R  root:root /usr/local/bin/composer
 
 RUN chmod -R +wx /usr/local/bin/composer
 
