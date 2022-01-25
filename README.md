@@ -18,7 +18,7 @@ For example, if your PIM is currently a v2.3, you can still use a 1.0 version of
 
 ## Requirements
 
-* PHP >= 7.1
+* PHP >= 7.4
 * Composer 
 
 ## Installation
@@ -147,19 +147,20 @@ $client->getProductApi()->upsertList([
 Do note that you have to delete the `composer.lock` because Doctrine dependencies are loaded.
 These dependencies are different in function of the PHP version running `composer install`.
 
-```
-cp docker-compose.yml.dist docker-compose.yml
-rm -rf composer.lock vendor/
-docker-compose run client_72 composer install
-docker-compose run client_72 bin/phpunit -c phpunit.xml.dist
-docker-compose run client_72 bin/phpspec run
-docker-compose run client_72 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
-```
-
-Or use `make`:
-
-```
+``` bash
+# Build the project
 make dependencies
+
+# Run PHPUnit tests
+make unit
+
+# Run PHPSpec tests
+make spec
+
+# Run code style check
+make cs
+
+# ... or directly run all tests
 make tests
 ```
 
