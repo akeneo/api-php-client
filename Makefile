@@ -1,4 +1,4 @@
-DOCKER_RUN = docker-compose run client_72
+DOCKER_RUN = DOCKER_BUILDKIT=1 docker-compose run php_client
 
 .PHONY: help
 help:
@@ -11,16 +11,27 @@ dependencies: ## Install composer dependencies
 	$(DOCKER_RUN) composer install
 
 .PHONY: tests
-tests: ## Run PHPUnit & PHPSpec tests, and code style check
+tests: unit spec cs ## Run PHPUnit & PHPSpec tests, and code style check
+	unit
+	spec
+	cs
+
+.PHONY: unit
+unit: ## Run PHPUnit tests
 	@echo "-----------"
 	@echo "- PHPUnit -"
 	@echo "-----------"
 	$(DOCKER_RUN) bin/phpunit -c phpunit.xml.dist
-	@echo ""
+
+.PHONY: spec
+spec: ## Run PHPSpec tests
 	@echo "-----------"
 	@echo "- PHPSpec -"
 	@echo "-----------"
 	$(DOCKER_RUN) bin/phpspec run
+
+.PHONY: cs
+cs: ## Run code style check
 	@echo "------------------"
 	@echo "- PHP code style -"
 	@echo "------------------"

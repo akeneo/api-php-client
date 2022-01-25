@@ -1,8 +1,7 @@
 version: '2'
-
 services:
-  client_72:
-    image: akeneo/php:7.2
+  php_client:
+    build: .
     environment:
       COMPOSER_HOME: /home/docker/.composer
       PHP_IDE_CONFIG: 'serverName=akeneo-client'

@@ -1,6 +1,6 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules(array(
         '@PSR2' => true,
         'linebreak_after_opening_tag' => true,
