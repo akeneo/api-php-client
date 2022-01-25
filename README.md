@@ -11,6 +11,7 @@ Matrix compatibility:
 | v2.3           | v3.0                   | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=3.0)](https://travis-ci.org/akeneo/api-php-client)                        |
 | v3.0 - v4.0    | v4.0 - v5.0            | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=4.0)](https://travis-ci.org/akeneo/api-php-client)                        |
 | v5.0           | v6.0                   | -                                                                                                                                                 |
+| v6.0           | v7.0                   | -                                                                                                                                                 |
 | -              | master                 | [![CircleCI](https://circleci.com/gh/akeneo/api-php-client/tree/master.svg?style=svg)](https://circleci.com/gh/akeneo/api-php-client/tree/master) |
 
 Note that our PHP client is backward compatible.
@@ -18,7 +19,7 @@ For example, if your PIM is currently a v2.3, you can still use a 1.0 version of
 
 ## Requirements
 
-* PHP >= 7.1
+* PHP >= 7.4
 * Composer 
 
 ## Installation
@@ -147,19 +148,20 @@ $client->getProductApi()->upsertList([
 Do note that you have to delete the `composer.lock` because Doctrine dependencies are loaded.
 These dependencies are different in function of the PHP version running `composer install`.
 
-```
-cp docker-compose.yml.dist docker-compose.yml
-rm -rf composer.lock vendor/
-docker-compose run client_72 composer install
-docker-compose run client_72 bin/phpunit -c phpunit.xml.dist
-docker-compose run client_72 bin/phpspec run
-docker-compose run client_72 bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
-```
-
-Or use `make`:
-
-```
+``` bash
+# Build the project
 make dependencies
+
+# Run PHPUnit tests
+make unit
+
+# Run PHPSpec tests
+make spec
+
+# Run code style check
+make cs
+
+# ... or directly run all tests
 make tests
 ```
 
