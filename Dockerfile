@@ -49,7 +49,7 @@ RUN useradd docker --shell /bin/bash --create-home \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'docker:secret' | chpasswd
 
-RUN usermod --uid 1000 www-data && groupmod --gid 1000 www-data
+RUN usermod --uid 1001 www-data && groupmod --gid 1001 www-data
 
 WORKDIR /home/docker/
 
