@@ -5,9 +5,6 @@ jobs:
         machine:
             image: ubuntu-2004:202111-01
         steps:
-            - run:
-                name: Change rights on project dir
-                command: sudo chmod -R 777 ../project
             - checkout
             -   run:
                     name: Build project
@@ -42,9 +39,6 @@ jobs:
         steps:
             -   attach_workspace:
                     at: ~/
-            -   run:
-                    name: Change rights on project dir
-                    command: sudo chmod -R 777 ../project
             -   run:
                     name: Launch code style checker
                     command: make cs

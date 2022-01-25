@@ -47,7 +47,9 @@ RUN apt-get update && \
 RUN useradd docker --shell /bin/bash --create-home \
   && usermod --append --groups sudo docker \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
-  && echo 'docker:secret' | chpasswd
+  && echo 'docker:secret' | chpasswd \
+
+RUN usermod --uid 1000 www-data && groupmod --gid 1000 www-data
 
 WORKDIR /home/docker/
 
