@@ -12,9 +12,6 @@ dependencies: ## Install composer dependencies
 
 .PHONY: tests
 tests: unit spec cs ## Run PHPUnit & PHPSpec tests, and code style check
-	unit
-	spec
-	cs
 
 .PHONY: unit
 unit: ## Run PHPUnit tests
