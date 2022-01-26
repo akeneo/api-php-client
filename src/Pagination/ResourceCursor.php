@@ -11,20 +11,12 @@ namespace Akeneo\Pim\ApiClient\Pagination;
  */
 class ResourceCursor implements ResourceCursorInterface
 {
-    /** @var PageInterface */
-    protected $currentPage;
-
-    /** @var PageInterface */
-    protected $firstPage;
-
+    protected PageInterface $currentPage;
+    protected PageInterface $firstPage;
     /** @var null|int */
     protected $pageSize;
-
-    /** @var int */
-    protected $currentIndex = 0;
-
-    /** @var int */
-    protected $totalIndex = 0;
+    protected int $currentIndex = 0;
+    protected int $totalIndex = 0;
 
     public function __construct(?int $pageSize, PageInterface $firstPage)
     {
@@ -35,6 +27,7 @@ class ResourceCursor implements ResourceCursorInterface
 
     /**
      * {@inheritdoc}
+     * @return mixed
      */
     public function current()
     {
@@ -44,7 +37,7 @@ class ResourceCursor implements ResourceCursorInterface
     /**
      * {@inheritdoc}
      */
-    public function next()
+    public function next(): void
     {
         $this->currentIndex++;
         $this->totalIndex++;
@@ -68,7 +61,7 @@ class ResourceCursor implements ResourceCursorInterface
     /**
      * {@inheritdoc}
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->currentPage->getItems()[$this->currentIndex]);
     }
@@ -76,7 +69,7 @@ class ResourceCursor implements ResourceCursorInterface
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->totalIndex = 0;
         $this->currentIndex = 0;
