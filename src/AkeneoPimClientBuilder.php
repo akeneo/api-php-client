@@ -132,15 +132,19 @@ class AkeneoPimClientBuilder
     /**
      * Build the Akeneo PIM client authenticated by token.
      *
-     * @param string $clientId     Client id to use for the authentication
-     * @param string $secret       Secret associated to the client
-     * @param string $token        Token to use for the authentication
-     * @param string $refreshToken Token to use to refresh the access token
+     * @param string $clientId          Client id to use for the authentication
+     * @param string $secret            Secret associated to the client
+     * @param string $token             Token to use for the authentication
+     * @param string|null $refreshToken Token to use to refresh the access token
      *
      * @return AkeneoPimClientInterface
      */
-    public function buildAuthenticatedByToken(string $clientId, string $secret, string $token, string $refreshToken): AkeneoPimClientInterface
-    {
+    public function buildAuthenticatedByToken(
+        string $clientId,
+        string $secret,
+        string $token,
+        string $refreshToken = null
+    ): AkeneoPimClientInterface {
         $authentication = Authentication::fromToken($clientId, $secret, $token, $refreshToken);
 
         return $this->buildAuthenticatedClient($authentication);

@@ -26,7 +26,7 @@ class Authentication
     /** @var string */
     protected $accessToken;
 
-    /** @var string */
+    /** @var string|null */
     protected $refreshToken;
 
     protected function __construct()
@@ -44,7 +44,7 @@ class Authentication
         return $authentication;
     }
 
-    public static function fromToken(string $clientId, string $secret, string $accessToken, string $refreshToken): Authentication
+    public static function fromToken(string $clientId, string $secret, string $accessToken, string $refreshToken = null): Authentication
     {
         $authentication = new static();
         $authentication->clientId = $clientId;
@@ -92,7 +92,7 @@ class Authentication
         return $this;
     }
 
-    public function setRefreshToken(string $refreshToken): self
+    public function setRefreshToken(?string $refreshToken): self
     {
         $this->refreshToken = $refreshToken;
 
