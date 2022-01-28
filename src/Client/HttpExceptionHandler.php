@@ -24,49 +24,47 @@ class HttpExceptionHandler
     /**
      * Transforms response to an exception if possible.
      *
-     * @param RequestInterface  $request  Request of the call
-     * @param ResponseInterface $response Response of the call
-     *
-     * @throws BadRequestHttpException           If response status code is a 400
      * @throws UnauthorizedHttpException         If response status code is a 401
      * @throws NotFoundHttpException             If response status code is a 404
      * @throws UnprocessableEntityHttpException  If response status code is a 422
      * @throws ClientErrorHttpException          If response status code is a 4xx
      * @throws ServerErrorHttpException          If response status code is a 5xx
      *
-     * @return ResponseInterface
+     * @throws BadRequestHttpException           If response status code is a 400
      */
-    public function transformResponseToException(RequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
-        if ($response->getStatusCode() >= 300 && $response->getStatusCode() < 400) {
+    public function transformResponseToException(
+        RequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        if ($this->isSuccessStatusCode($response->getStatusCode())) {
+            return $response;
+        }
+
+        if ($this->isRedirectionStatusCode($response->getStatusCode())) {
             throw new RedirectionHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if (400 === $response->getStatusCode()) {
+        if (HttpClient::HTTP_BAD_REQUEST === $response->getStatusCode()) {
             throw new BadRequestHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if (401 === $response->getStatusCode()) {
+        if (HttpClient::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
             throw new UnauthorizedHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if (404 === $response->getStatusCode()) {
+        if (HttpClient::HTTP_NOT_FOUND === $response->getStatusCode()) {
             throw new NotFoundHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if (422 === $response->getStatusCode()) {
+        if (HttpClient::HTTP_UNPROCESSABLE_ENTITY === $response->getStatusCode()) {
             throw new UnprocessableEntityHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
+        if ($this->isApiClientErrorStatusCode($response->getStatusCode())) {
             throw new ClientErrorHttpException($this->getResponseMessage($response), $request, $response);
         }
 
-        if ($response->getStatusCode() >= 500 && $response->getStatusCode() < 600) {
-            throw new ServerErrorHttpException($this->getResponseMessage($response), $request, $response);
-        }
-
-        return $response;
+        throw new ServerErrorHttpException($this->getResponseMessage($response), $request, $response);
     }
 
     /**
@@ -85,5 +83,24 @@ class HttpExceptionHandler
         $responseBody->rewind();
 
         return isset($decodedBody['message']) ? $decodedBody['message'] : $response->getReasonPhrase();
+    }
+
+    private function isSuccessStatusCode(int $statusCode): bool
+    {
+        return in_array($statusCode, [
+            HttpClient::HTTP_OK,
+            HttpClient::HTTP_CREATED,
+            HttpClient::HTTP_NO_CONTENT,
+        ]);
+    }
+
+    private function isApiClientErrorStatusCode(int $statusCode): bool
+    {
+        return $statusCode >= 400 && $statusCode < 500;
+    }
+
+    private function isRedirectionStatusCode(int $statusCode): bool
+    {
+        return $statusCode >= 300 && $statusCode < 400;
     }
 }
