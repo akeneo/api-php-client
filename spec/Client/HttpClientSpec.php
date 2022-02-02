@@ -51,6 +51,8 @@ class HttpClientSpec extends ObjectBehavior
             'http://akeneo.com/api/rest/v1/products/foo'
         )->willReturn($request);
 
+        $response->getStatusCode()->willReturn(HttpClient::HTTP_OK);
+
         $request->withBody($stream)->willReturn($request);
         $request->withHeader('Content-Type', 'application/json')->willReturn($request);
 

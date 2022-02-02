@@ -17,17 +17,23 @@ use Psr\Http\Message\StreamInterface;
  */
 class HttpClient implements HttpClientInterface
 {
-    /** @var ClientInterface */
-    protected $httpClient;
+    const HTTP_OK = 200;
+    const HTTP_CREATED = 201;
+    const HTTP_NO_CONTENT = 204;
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_FORBIDDEN = 403;
+    const HTTP_NOT_FOUND = 404;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_NOT_ACCEPTABLE = 406;
+    const HTTP_UNSUPPORTED_MEDIA_TYPE = 415;
+    const HTTP_UNPROCESSABLE_ENTITY = 422;
+    const HTTP_TOO_MANY_REQUESTS = 429;
 
-    /** @var RequestFactoryInterface */
-    protected $requestFactory;
-
-    /** @var HttpExceptionHandler */
-    protected $httpExceptionHandler;
-
-    /** @var StreamFactoryInterface */
-    private $streamFactory;
+    protected ClientInterface $httpClient;
+    protected RequestFactoryInterface $requestFactory;
+    protected HttpExceptionHandler $httpExceptionHandler;
+    private StreamFactoryInterface $streamFactory;
 
     public function __construct(
         ClientInterface $httpClient,
