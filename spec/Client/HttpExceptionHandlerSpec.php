@@ -4,6 +4,7 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
@@ -75,6 +76,26 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new UnauthorizedHttpException(
                     'The access token provided has expired.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_forbidden_exception_when_status_code_403(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(403);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 403, "message": "Access forbidden."}');
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new ForbiddenHttpException(
+                    'Access forbidden.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
