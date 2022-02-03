@@ -5,6 +5,7 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
+use Akeneo\Pim\ApiClient\Exception\MethodNotAllowedHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
@@ -123,6 +124,31 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->during('transformResponseToException', [$request, $response]);
     }
 
+    function it_throws_method_not_allowed_exception_when_status_code_405(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(405);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 405,
+                "message": "No route found for 'POST /api/rest/v1/products/myproduct': Method Not Allowed (Allow: GET, PATCH, DELETE)"
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new MethodNotAllowedHttpException(
+                    'No route found for \'POST /api/rest/v1/products/myproduct\': Method Not Allowed (Allow: GET, PATCH, DELETE)',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
     function it_throws_bad_request_exception_when_status_code_422(
         RequestInterface $request,
         ResponseInterface $response,
@@ -148,9 +174,9 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
         ResponseInterface $response,
         StreamInterface $responseBody
     ) {
-        $response->getStatusCode()->willReturn(405);
+        $response->getStatusCode()->willReturn(418);
         $response->getBody()->willReturn($responseBody);
-        $responseBody->getContents()->willReturn('{"code": 405, "message": "Not allowed."}');
+        $responseBody->getContents()->willReturn('{"code": 418, "message": "Not allowed."}');
         $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(

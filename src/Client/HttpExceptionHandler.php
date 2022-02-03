@@ -5,6 +5,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
+use Akeneo\Pim\ApiClient\Exception\MethodNotAllowedHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
@@ -59,6 +60,10 @@ class HttpExceptionHandler
 
         if (HttpClient::HTTP_NOT_FOUND === $response->getStatusCode()) {
             throw new NotFoundHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_METHOD_NOT_ALLOWED === $response->getStatusCode()) {
+            throw new MethodNotAllowedHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if (HttpClient::HTTP_UNPROCESSABLE_ENTITY === $response->getStatusCode()) {
