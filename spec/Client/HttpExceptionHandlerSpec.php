@@ -13,6 +13,7 @@ use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Client\HttpExceptionHandler;
+use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -168,6 +169,31 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new NotAcceptableHttpException(
                     '‘xxx’ in ‘Accept‘ header is not valid. Only ‘application/json‘ is allowed.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_method_not_allowed_exception_when_status_code_415(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(415);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 415,
+                "message": "The ‘Content-type’ header is missing. ‘application/json’ has to specified as value."
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new UnsupportedMediaTypeHttpException(
+                    'The ‘Content-type’ header is missing. ‘application/json’ has to specified as value.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )

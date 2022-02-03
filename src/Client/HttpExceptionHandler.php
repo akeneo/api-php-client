@@ -12,6 +12,7 @@ use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -69,6 +70,10 @@ class HttpExceptionHandler
 
         if (HttpClient::HTTP_NOT_ACCEPTABLE === $response->getStatusCode()) {
             throw new NotAcceptableHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_UNSUPPORTED_MEDIA_TYPE === $response->getStatusCode()) {
+            throw new UnsupportedMediaTypeHttpException($this->getResponseMessage($response), $request, $response);
         }
 
         if (HttpClient::HTTP_UNPROCESSABLE_ENTITY === $response->getStatusCode()) {
