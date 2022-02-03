@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
 use Akeneo\Pim\ApiClient\Exception\MethodNotAllowedHttpException;
+use Akeneo\Pim\ApiClient\Exception\NotAcceptableHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
@@ -142,6 +143,31 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new MethodNotAllowedHttpException(
                     'No route found for \'POST /api/rest/v1/products/myproduct\': Method Not Allowed (Allow: GET, PATCH, DELETE)',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_method_not_allowed_exception_when_status_code_406(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(406);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 406,
+                "message": "‘xxx’ in ‘Accept‘ header is not valid. Only ‘application/json‘ is allowed."
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new NotAcceptableHttpException(
+                    '‘xxx’ in ‘Accept‘ header is not valid. Only ‘application/json‘ is allowed.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
