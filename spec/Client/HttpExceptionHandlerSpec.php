@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Exception\NotAcceptableHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Client\HttpExceptionHandler;
@@ -214,6 +215,26 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new UnprocessableEntityHttpException(
                     'Invalid data.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_bad_request_exception_when_status_code_429(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(429);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('Too Many Requests');
+        $responseBody->getContents()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new TooManyRequestsHttpException(
+                    'Too Many Requests',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )

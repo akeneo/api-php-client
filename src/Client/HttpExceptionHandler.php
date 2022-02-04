@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Exception\NotAcceptableHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
@@ -78,6 +79,10 @@ class HttpExceptionHandler
 
         if (HttpClient::HTTP_UNPROCESSABLE_ENTITY === $response->getStatusCode()) {
             throw new UnprocessableEntityHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+            throw new TooManyRequestsHttpException($response->getBody()->getContents(), $request, $response);
         }
 
         if ($this->isApiClientErrorStatusCode($response->getStatusCode())) {
