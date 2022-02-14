@@ -40,7 +40,7 @@ class UriGenerator implements UriGeneratorInterface
         }
 
         if (!empty($queryParameters)) {
-            $uri .= '?' . http_build_query($queryParameters, null, '&', PHP_QUERY_RFC3986);
+            $uri .= '?' . http_build_query($queryParameters, "", '&', PHP_QUERY_RFC3986);
         }
 
         return $uri;
