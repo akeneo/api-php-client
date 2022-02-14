@@ -5,11 +5,15 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
+use Akeneo\Pim\ApiClient\Exception\MethodNotAllowedHttpException;
+use Akeneo\Pim\ApiClient\Exception\NotAcceptableHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -61,8 +65,24 @@ class HttpExceptionHandler
             throw new NotFoundHttpException($this->getResponseMessage($response), $request, $response);
         }
 
+        if (HttpClient::HTTP_METHOD_NOT_ALLOWED === $response->getStatusCode()) {
+            throw new MethodNotAllowedHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_NOT_ACCEPTABLE === $response->getStatusCode()) {
+            throw new NotAcceptableHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_UNSUPPORTED_MEDIA_TYPE === $response->getStatusCode()) {
+            throw new UnsupportedMediaTypeHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
         if (HttpClient::HTTP_UNPROCESSABLE_ENTITY === $response->getStatusCode()) {
             throw new UnprocessableEntityHttpException($this->getResponseMessage($response), $request, $response);
+        }
+
+        if (HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+            throw new TooManyRequestsHttpException($response->getBody()->getContents(), $request, $response);
         }
 
         if ($this->isApiClientErrorStatusCode($response->getStatusCode())) {
