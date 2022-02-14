@@ -4,12 +4,17 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
+use Akeneo\Pim\ApiClient\Exception\MethodNotAllowedHttpException;
+use Akeneo\Pim\ApiClient\Exception\NotAcceptableHttpException;
 use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\Exception\RedirectionHttpException;
 use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
+use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Client\HttpExceptionHandler;
+use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -82,6 +87,26 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->during('transformResponseToException', [$request, $response]);
     }
 
+    function it_throws_forbidden_exception_when_status_code_403(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(403);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('{"code": 403, "message": "Access forbidden."}');
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new ForbiddenHttpException(
+                    'Access forbidden.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
     function it_throws_not_found_exception_when_status_code_404(
         RequestInterface $request,
         ResponseInterface $response,
@@ -95,6 +120,81 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->shouldThrow(
                 new NotFoundHttpException(
                     'Category "noname" does not exists.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_method_not_allowed_exception_when_status_code_405(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(405);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 405,
+                "message": "No route found for 'POST /api/rest/v1/products/myproduct': Method Not Allowed (Allow: GET, PATCH, DELETE)"
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new MethodNotAllowedHttpException(
+                    'No route found for \'POST /api/rest/v1/products/myproduct\': Method Not Allowed (Allow: GET, PATCH, DELETE)',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_method_not_allowed_exception_when_status_code_406(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(406);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 406,
+                "message": "‘xxx’ in ‘Accept‘ header is not valid. Only ‘application/json‘ is allowed."
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new NotAcceptableHttpException(
+                    '‘xxx’ in ‘Accept‘ header is not valid. Only ‘application/json‘ is allowed.',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
+    function it_throws_method_not_allowed_exception_when_status_code_415(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(415);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn(<<<JSON
+            {
+                "code": 415,
+                "message": "The ‘Content-type’ header is missing. ‘application/json’ has to specified as value."
+            }
+        JSON);
+        $responseBody->rewind()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new UnsupportedMediaTypeHttpException(
+                    'The ‘Content-type’ header is missing. ‘application/json’ has to specified as value.',
                     $request->getWrappedObject(),
                     $response->getWrappedObject()
                 )
@@ -122,14 +222,34 @@ class HttpExceptionHandlerSpec extends ObjectBehavior
             ->during('transformResponseToException', [$request, $response]);
     }
 
+    function it_throws_bad_request_exception_when_status_code_429(
+        RequestInterface $request,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $response->getStatusCode()->willReturn(429);
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn('Too Many Requests');
+        $responseBody->getContents()->shouldBeCalled();
+        $this
+            ->shouldThrow(
+                new TooManyRequestsHttpException(
+                    'Too Many Requests',
+                    $request->getWrappedObject(),
+                    $response->getWrappedObject()
+                )
+            )
+            ->during('transformResponseToException', [$request, $response]);
+    }
+
     function it_throws_bad_request_exception_when_status_code_4xx(
         RequestInterface $request,
         ResponseInterface $response,
         StreamInterface $responseBody
     ) {
-        $response->getStatusCode()->willReturn(405);
+        $response->getStatusCode()->willReturn(418);
         $response->getBody()->willReturn($responseBody);
-        $responseBody->getContents()->willReturn('{"code": 405, "message": "Not allowed."}');
+        $responseBody->getContents()->willReturn('{"code": 418, "message": "Not allowed."}');
         $responseBody->rewind()->shouldBeCalled();
         $this
             ->shouldThrow(
