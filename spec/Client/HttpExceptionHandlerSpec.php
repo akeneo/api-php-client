@@ -2,6 +2,7 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Client;
 
+use Akeneo\Pim\ApiClient\Client\HttpExceptionHandler;
 use Akeneo\Pim\ApiClient\Exception\BadRequestHttpException;
 use Akeneo\Pim\ApiClient\Exception\ClientErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\ForbiddenHttpException;
@@ -13,7 +14,6 @@ use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
-use Akeneo\Pim\ApiClient\Client\HttpExceptionHandler;
 use Akeneo\Pim\ApiClient\Exception\UnsupportedMediaTypeHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;

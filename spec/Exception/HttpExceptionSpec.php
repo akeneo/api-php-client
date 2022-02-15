@@ -7,7 +7,6 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 class HttpExceptionSpec extends ObjectBehavior
 {

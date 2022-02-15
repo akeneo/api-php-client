@@ -4,9 +4,19 @@ namespace spec\Akeneo\Pim\ApiClient;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClient;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeOptionApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetMediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetTagApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetVariationFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssociationTypeApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeApiInterface;
-use Akeneo\Pim\ApiClient\Api\AttributeGroupApi;
+use Akeneo\Pim\ApiClient\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\ApiClient\Api\CategoryApiInterface;
 use Akeneo\Pim\ApiClient\Api\ChannelApiInterface;
@@ -18,7 +28,15 @@ use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApiInterface;
 use Akeneo\Pim\ApiClient\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 
@@ -30,7 +48,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
         CategoryApiInterface $categoryApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
-        AttributeGroupApi $attributeGroupApi,
+        AttributeGroupApiInterface $attributeGroupApi,
         FamilyApiInterface $familyApi,
         MediaFileApiInterface $productMediaFileApi,
         LocaleApiInterface $localeApi,
@@ -40,7 +58,25 @@ class AkeneoPimClientSpec extends ObjectBehavior
         MeasurementFamilyApiInterface $measurementFamilyApi,
         AssociationTypeApiInterface $associationTypeApi,
         FamilyVariantApiInterface $familyVariantApi,
-        ProductModelApiInterface $productModelApi
+        ProductModelApiInterface $productModelApi,
+        ProductModelDraftApiInterface $productModelDraftApi,
+        PublishedProductApiInterface $publishedProductApi,
+        ProductDraftApiInterface $productDraftApi,
+        AssetApiInterface $assetApi,
+        AssetCategoryApiInterface $assetCategoryApi,
+        AssetTagApiInterface $assetTagApi,
+        AssetReferenceFileApiInterface $assetReferenceFileApi,
+        AssetVariationFileApiInterface $assetVariationFileApi,
+        ReferenceEntityRecordApiInterface $referenceEntityRecordApi,
+        ReferenceEntityMediaFileApiInterface $referenceEntityMediaFileApi,
+        ReferenceEntityAttributeApiInterface $referenceEntityAttributeApi,
+        ReferenceEntityAttributeOptionApiInterface $referenceEntityAttributeOptionApi,
+        ReferenceEntityApiInterface $referenceEntityApi,
+        AssetManagerApiInterface $assetManagerApi,
+        AssetFamilyApiInterface $assetFamilyApi,
+        AssetAttributeApiInterface $assetAttributeApi,
+        AssetAttributeOptionApiInterface $assetAttributeOptionApi,
+        AssetMediaFileApiInterface $assetMediaFileApi
     ) {
         $this->beConstructedWith(
             $authentication,
@@ -48,7 +84,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $categoryApi,
             $attributeApi,
             $attributeOptionApi,
-            $attributeGroupApi, $familyApi,
+            $attributeGroupApi,
+            $familyApi,
             $productMediaFileApi,
             $localeApi,
             $channelApi,
@@ -57,7 +94,25 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $measurementFamilyApi,
             $associationTypeApi,
             $familyVariantApi,
-            $productModelApi
+            $productModelApi,
+            $productModelDraftApi,
+            $publishedProductApi,
+            $productDraftApi,
+            $assetApi,
+            $assetCategoryApi,
+            $assetTagApi,
+            $assetReferenceFileApi,
+            $assetVariationFileApi,
+            $referenceEntityRecordApi,
+            $referenceEntityMediaFileApi,
+            $referenceEntityAttributeApi,
+            $referenceEntityAttributeOptionApi,
+            $referenceEntityApi,
+            $assetManagerApi,
+            $assetFamilyApi,
+            $assetAttributeApi,
+            $assetAttributeOptionApi,
+            $assetMediaFileApi
         );
     }
 
@@ -149,5 +204,85 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_product_model_api($productModelApi)
     {
         $this->getProductModelApi()->shouldReturn($productModelApi);
+    }
+
+    function it_gets_published_product_api($publishedProductApi)
+    {
+        $this->getPublishedProductApi()->shouldReturn($publishedProductApi);
+    }
+
+    function it_gets_draft_product_api($productDraftApi)
+    {
+        $this->getProductDraftApi()->shouldReturn($productDraftApi);
+    }
+
+    function it_gets_draft_product_model_api($productModelDraftApi)
+    {
+        $this->getProductModelDraftApi()->shouldReturn($productModelDraftApi);
+    }
+
+    function it_gets_asset_api($assetApi)
+    {
+        $this->getAssetApi()->shouldReturn($assetApi);
+    }
+
+    function it_gets_asset_category_api($assetCategoryApi)
+    {
+        $this->getAssetCategoryApi()->shouldReturn($assetCategoryApi);
+    }
+
+    function it_gets_asset_tags_api($assetTagApi)
+    {
+        $this->getAssetTagApi()->shouldReturn($assetTagApi);
+    }
+
+    function it_gets_asset_reference_file_api($assetReferenceFileApi)
+    {
+        $this->getAssetReferenceFileApi()->shouldReturn($assetReferenceFileApi);
+    }
+
+    function it_gets_reference_entity_record_api($referenceEntityRecordApi)
+    {
+        $this->getReferenceEntityRecordApi()->shouldReturn($referenceEntityRecordApi);
+    }
+
+    function it_gets_reference_entity_media_file_api($referenceEntityMediaFileApi)
+    {
+        $this->getReferenceEntityMediaFileApi()->shouldReturn($referenceEntityMediaFileApi);
+    }
+
+    function it_gets_reference_entity_attribute_api($referenceEntityAttributeApi)
+    {
+        $this->getReferenceEntityAttributeApi()->shouldReturn($referenceEntityAttributeApi);
+    }
+
+    function it_gets_reference_entity_api($referenceEntityApi)
+    {
+        $this->getReferenceEntityApi()->shouldReturn($referenceEntityApi);
+    }
+
+    function it_gets_asset_manager_api($assetManagerApi)
+    {
+        $this->getAssetManagerApi()->shouldReturn($assetManagerApi);
+    }
+
+    function it_gets_asset_family_api($assetFamilyApi)
+    {
+        $this->getAssetFamilyApi()->shouldReturn($assetFamilyApi);
+    }
+
+    function it_gets_asset_attribute_api($assetAttributeApi)
+    {
+        $this->getAssetAttributeApi()->shouldReturn($assetAttributeApi);
+    }
+
+    function it_gets_asset_attribute_option_api($assetAttributeOptionApi)
+    {
+        $this->getAssetAttributeOptionApi()->shouldReturn($assetAttributeOptionApi);
+    }
+
+    function it_gets_asset_media_file_api($assetMediaFileApi)
+    {
+        $this->getAssetMediaFileApi()->shouldReturn($assetMediaFileApi);
     }
 }

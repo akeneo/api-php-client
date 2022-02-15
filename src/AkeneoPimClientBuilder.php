@@ -2,6 +2,16 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AssetApi;
+use Akeneo\Pim\ApiClient\Api\AssetCategoryApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApi as AssetManagerApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeOptionApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApi;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetMediaFileApi;
+use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApi;
+use Akeneo\Pim\ApiClient\Api\AssetTagApi;
+use Akeneo\Pim\ApiClient\Api\AssetVariationFileApi;
 use Akeneo\Pim\ApiClient\Api\AssociationTypeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeApi;
 use Akeneo\Pim\ApiClient\Api\AttributeGroupApi;
@@ -16,8 +26,16 @@ use Akeneo\Pim\ApiClient\Api\LocaleApi;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApi;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
+use Akeneo\Pim\ApiClient\Api\ProductDraftApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Akeneo\Pim\ApiClient\Api\ProductModelDraftApi;
+use Akeneo\Pim\ApiClient\Api\PublishedProductApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApi;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use Akeneo\Pim\ApiClient\Cache\LRUCache;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
@@ -181,7 +199,7 @@ class AkeneoPimClientBuilder
     {
         [$resourceClient, $pageFactory, $cursorFactory, $fileSystem] = $this->setUp($authentication);
 
-        $resourceClientWithCache = !$this->cacheEnabled ? $resourceClient : new CachedResourceClient($resourceClient, new Cache());
+        $resourceClientWithCache = !$this->cacheEnabled ? $resourceClient : new CachedResourceClient($resourceClient, new LRUCache());
 
         return new AkeneoPimClient(
             $authentication,
@@ -199,7 +217,25 @@ class AkeneoPimClientBuilder
             new MeasurementFamilyApi($resourceClientWithCache),
             new AssociationTypeApi($resourceClientWithCache, $pageFactory, $cursorFactory),
             new FamilyVariantApi($resourceClientWithCache, $pageFactory, $cursorFactory),
-            new ProductModelApi($resourceClient, $pageFactory, $cursorFactory)
+            new ProductModelApi($resourceClient, $pageFactory, $cursorFactory),
+            new ProductModelDraftApi($resourceClient, $pageFactory, $cursorFactory),
+            new PublishedProductApi($resourceClient, $pageFactory, $cursorFactory),
+            new ProductDraftApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetCategoryApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetTagApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetReferenceFileApi($resourceClient, $fileSystem),
+            new AssetVariationFileApi($resourceClient, $fileSystem),
+            new ReferenceEntityRecordApi($resourceClient, $pageFactory, $cursorFactory),
+            new ReferenceEntityMediaFileApi($resourceClient, $fileSystem),
+            new ReferenceEntityAttributeApi($resourceClient),
+            new ReferenceEntityAttributeOptionApi($resourceClient),
+            new ReferenceEntityApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetManagerApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetFamilyApi($resourceClient, $pageFactory, $cursorFactory),
+            new AssetAttributeApi($resourceClient),
+            new AssetAttributeOptionApi($resourceClient),
+            new AssetMediaFileApi($resourceClient, $fileSystem)
         );
     }
 

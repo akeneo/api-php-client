@@ -4,14 +4,7 @@ namespace spec\Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApi;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
-use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
-use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
-use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
-use Akeneo\Pim\ApiClient\Pagination\PageInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
-use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use PhpSpec\ObjectBehavior;
 
 class MeasurementFamilyApiSpec extends ObjectBehavior

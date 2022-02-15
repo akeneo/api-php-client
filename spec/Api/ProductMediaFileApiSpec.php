@@ -2,16 +2,16 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Api;
 
+use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
-use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
-use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
+use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use PhpSpec\ObjectBehavior;
