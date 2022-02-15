@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 
 /**
  * API to manage the products.
@@ -24,4 +25,15 @@ interface ProductApiInterface extends
     UpsertableResourceListInterface,
     DeletableResourceInterface
 {
+    /**
+     * Gets a resource by its code
+     *
+     * @param string $code Code of the resource
+     * @param array $queryParameters Additional query parameters to pass in the request.
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return array
+     */
+    public function get(string $code, array $queryParameters = []): array;
 }
