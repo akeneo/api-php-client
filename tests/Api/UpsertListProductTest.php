@@ -7,7 +7,6 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\StreamFactoryDiscovery;
 use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase

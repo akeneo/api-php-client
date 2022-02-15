@@ -2,6 +2,16 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeOptionApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetManager\AssetMediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetTagApiInterface;
+use Akeneo\Pim\ApiClient\Api\AssetVariationFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssociationTypeApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeGroupApiInterface;
@@ -16,7 +26,15 @@ use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApiInterface;
 
 /**
  * Client to use the Akeneo PIM API.
@@ -60,4 +78,40 @@ interface AkeneoPimClientInterface
     public function getFamilyVariantApi(): FamilyVariantApiInterface;
 
     public function getProductModelApi(): ProductModelApiInterface;
+
+    public function getPublishedProductApi(): PublishedProductApiInterface;
+
+    public function getProductModelDraftApi(): ProductModelDraftApiInterface;
+
+    public function getProductDraftApi(): ProductDraftApiInterface;
+
+    public function getAssetApi(): AssetApiInterface;
+
+    public function getAssetCategoryApi(): AssetCategoryApiInterface;
+
+    public function getAssetTagApi(): AssetTagApiInterface;
+
+    public function getAssetReferenceFileApi(): AssetReferenceFileApiInterface;
+
+    public function getAssetVariationFileApi(): AssetVariationFileApiInterface;
+
+    public function getReferenceEntityRecordApi(): ReferenceEntityRecordApiInterface;
+
+    public function getReferenceEntityMediaFileApi(): ReferenceEntityMediaFileApiInterface;
+
+    public function getReferenceEntityAttributeApi(): ReferenceEntityAttributeApiInterface;
+
+    public function getReferenceEntityAttributeOptionApi(): ReferenceEntityAttributeOptionApiInterface;
+
+    public function getReferenceEntityApi(): ReferenceEntityApiInterface;
+
+    public function getAssetManagerApi(): AssetManagerApiInterface;
+
+    public function getAssetFamilyApi(): AssetFamilyApiInterface;
+
+    public function getAssetAttributeApi(): AssetAttributeApiInterface;
+
+    public function getAssetAttributeOptionApi(): AssetAttributeOptionApiInterface;
+
+    public function getAssetMediaFileApi(): AssetMediaFileApiInterface;
 }

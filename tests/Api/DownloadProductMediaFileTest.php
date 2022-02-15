@@ -8,7 +8,6 @@ use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 class DownloadProductMediaFileTest extends ApiTestCase
 {

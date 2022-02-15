@@ -2,14 +2,14 @@
 
 namespace spec\Akeneo\Pim\ApiClient\Client;
 
+use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
-use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\MultipartStream\MultipartStreamBuilder;
-use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
+use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponse;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use PhpSpec\ObjectBehavior;

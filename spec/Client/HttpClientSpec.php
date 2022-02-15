@@ -3,8 +3,8 @@
 namespace spec\Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Client\HttpClient;
-use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
