@@ -48,9 +48,9 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get(string $code): array
+    public function get(string $code, array $queryParameters = []): array
     {
-        return $this->resourceClient->getResource(static::PRODUCT_URI, [$code]);
+        return $this->resourceClient->getResource(static::PRODUCT_URI, [$code], $queryParameters);
     }
 
     /**

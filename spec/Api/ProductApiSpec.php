@@ -54,10 +54,29 @@ class ProductApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ProductApi::PRODUCT_URI, [$productCode])
+            ->getResource(ProductApi::PRODUCT_URI, [$productCode], [])
             ->willReturn($product);
 
         $this->get($productCode)->shouldReturn($product);
+    }
+
+    function it_returns_a_product_with_query_parameters($resourceClient)
+    {
+        $productCode = 'foo';
+        $product = [
+            'identifier' => 'foo',
+            'family' => 'tshirts',
+            'enabled' => true,
+            'categories' => [
+                'bar'
+            ],
+        ];
+
+        $resourceClient
+            ->getResource(ProductApi::PRODUCT_URI, [$productCode], ['with_attribute_options' => true])
+            ->willReturn($product);
+
+        $this->get($productCode, ['with_attribute_options' => true])->shouldReturn($product);
     }
 
     function it_returns_a_list_of_products_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
