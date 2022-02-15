@@ -18,7 +18,9 @@ use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApi;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
+use Akeneo\Pim\ApiClient\Cache\LRUCache;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
+use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
 use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
@@ -59,6 +61,8 @@ class AkeneoPimClientBuilder
 
     /** @var FileSystemInterface */
     protected $fileSystem;
+
+    protected bool $cacheEnabled = false;
 
     /**
      * @param string $baseUri Base uri to request the API
@@ -147,6 +151,28 @@ class AkeneoPimClientBuilder
     }
 
     /**
+     * Enable Caching
+     * Disabled by default
+     */
+    public function enableCache(): self
+    {
+        $this->cacheEnabled = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable Caching
+     * Disabled by default
+     */
+    public function disableCache(): self
+    {
+        $this->cacheEnabled = false;
+
+        return $this;
+    }
+
+    /**
      * @param Authentication $authentication
      *
      * @return AkeneoPimClientInterface
@@ -155,26 +181,26 @@ class AkeneoPimClientBuilder
     {
         [$resourceClient, $pageFactory, $cursorFactory, $fileSystem] = $this->setUp($authentication);
 
-        $client = new AkeneoPimClient(
+        $resourceClientWithCache = !$this->cacheEnabled ? $resourceClient : new CachedResourceClient($resourceClient, new Cache());
+
+        return new AkeneoPimClient(
             $authentication,
             new ProductApi($resourceClient, $pageFactory, $cursorFactory),
-            new CategoryApi($resourceClient, $pageFactory, $cursorFactory),
-            new AttributeApi($resourceClient, $pageFactory, $cursorFactory),
-            new AttributeOptionApi($resourceClient, $pageFactory, $cursorFactory),
-            new AttributeGroupApi($resourceClient, $pageFactory, $cursorFactory),
-            new FamilyApi($resourceClient, $pageFactory, $cursorFactory),
+            new CategoryApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new AttributeApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new AttributeOptionApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new AttributeGroupApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new FamilyApi($resourceClientWithCache, $pageFactory, $cursorFactory),
             new ProductMediaFileApi($resourceClient, $pageFactory, $cursorFactory, $fileSystem),
-            new LocaleApi($resourceClient, $pageFactory, $cursorFactory),
-            new ChannelApi($resourceClient, $pageFactory, $cursorFactory),
-            new CurrencyApi($resourceClient, $pageFactory, $cursorFactory),
-            new MeasureFamilyApi($resourceClient, $pageFactory, $cursorFactory),
-            new MeasurementFamilyApi($resourceClient),
-            new AssociationTypeApi($resourceClient, $pageFactory, $cursorFactory),
-            new FamilyVariantApi($resourceClient, $pageFactory, $cursorFactory),
+            new LocaleApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new ChannelApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new CurrencyApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new MeasureFamilyApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new MeasurementFamilyApi($resourceClientWithCache),
+            new AssociationTypeApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new FamilyVariantApi($resourceClientWithCache, $pageFactory, $cursorFactory),
             new ProductModelApi($resourceClient, $pageFactory, $cursorFactory)
         );
-
-        return $client;
     }
 
     /**
