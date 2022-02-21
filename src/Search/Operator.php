@@ -36,4 +36,8 @@ final class Operator
     const ENDS_WITH = 'ENDS WITH';
     const CONTAINS = 'CONTAINS';
     const DOES_NOT_CONTAIN = 'DOES NOT CONTAIN';
+    const AT_LEAST_COMPLETE = 'AT LEAST COMPLETE';
+    const AT_LEAST_INCOMPLETE = 'AT LEAST INCOMPLETE';
+    const ALL_COMPLETE = 'ALL COMPLETE';
+    const ALL_INCOMPLETE = 'ALL INCOMPLETE';
 }
