@@ -4,6 +4,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Security\Authentication;
 use Psr\Http\Message\ResponseInterface;
 
@@ -62,11 +63,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
             $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
             $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
-            $tokens = $this->authenticationApi->authenticateByRefreshToken(
-                $this->authentication->getClientId(),
-                $this->authentication->getSecret(),
-                $this->authentication->getRefreshToken()
-            );
+            $tokens = $this->renewTokens($e);
 
             $this->authentication
                 ->setAccessToken($tokens['access_token'])
@@ -77,5 +74,18 @@ class AuthenticatedHttpClient implements HttpClientInterface
         }
 
         return $response;
+    }
+
+    private function renewTokens(UnauthorizedHttpException $unauthorizedHttpException): array
+    {
+        try {
+            return $this->authenticationApi->authenticateByRefreshToken(
+                $this->authentication->getClientId(),
+                $this->authentication->getSecret(),
+                $this->authentication->getRefreshToken()
+            );
+        } catch (UnprocessableEntityHttpException $e) {
+            throw $unauthorizedHttpException;
+        }
     }
 }
