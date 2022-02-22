@@ -50,7 +50,7 @@ Full documentation is available on the [API website](https://api.akeneo.com/php-
 ### Initialise the client
 You first need to initialise the client with your credentials client id/secret and with your user/password.
 
-If you don't have any client id, let's take a look at [this page](https://api.akeneo.com/documentation/security.html#authentication) to create it.
+If you don't have any client id, let's take a look at [this page](https://api.akeneo.com/documentation/authentication.html) to create it.
 
 ```php
 <?php
