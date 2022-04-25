@@ -31,4 +31,17 @@ class AuthenticationSpec extends ObjectBehavior
         $this->getAccessToken()->shouldReturn('token');
         $this->getRefreshToken()->shouldReturn('refresh_token');
     }
+
+    function it_is_initializable_from_an_app_token()
+    {
+        $this->beConstructedThrough('fromAppToken', ['a_token']);
+        $this->shouldHaveType('Akeneo\Pim\ApiClient\Security\Authentication');
+
+        $this->getClientId()->shouldReturn(null);
+        $this->getSecret()->shouldReturn(null);
+        $this->getUsername()->shouldReturn(null);
+        $this->getPassword()->shouldReturn(null);
+        $this->getAccessToken()->shouldReturn('a_token');
+        $this->getRefreshToken()->shouldReturn(null);
+    }
 }

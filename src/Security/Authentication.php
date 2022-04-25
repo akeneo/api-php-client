@@ -55,12 +55,20 @@ class Authentication
         return $authentication;
     }
 
-    public function getClientId(): string
+    public static function fromAppToken(string $accessToken): Authentication
+    {
+        $authentication = new static();
+        $authentication->accessToken = $accessToken;
+
+        return $authentication;
+    }
+
+    public function getClientId(): ?string
     {
         return $this->clientId;
     }
 
-    public function getSecret(): string
+    public function getSecret(): ?string
     {
         return $this->secret;
     }
