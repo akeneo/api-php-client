@@ -24,7 +24,7 @@ class UpsertListProductTest extends ApiTestCase
 
     public function test_upsert_list()
     {
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
         $response = $api->upsertList($this->getProductToUpsert());
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], $this->getProductToUpsertJson());
@@ -54,7 +54,7 @@ class UpsertListProductTest extends ApiTestCase
         rewind($resources);
 
         $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
-        $api = $this->createClient()->getProductAPi();
+        $api = $this->createClientByPassword()->getProductAPi();
         $response = $api->upsertList($streamedResources);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], $this->getProductToUpsertJson());

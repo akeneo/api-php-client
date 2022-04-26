@@ -21,7 +21,7 @@ class ListPerPageProductTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
         $firstPage = $api->listPerPage(10, true, []);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET], ['limit' => '10', 'with_count' => 'true']);

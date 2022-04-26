@@ -22,7 +22,7 @@ class ListAllAssetsIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetManagerApi();
+        $api = $this->createClientByPassword()->getAssetManagerApi();
         $assetCursor = $api->all('packshot');
         $assets = iterator_to_array($assetCursor);
 

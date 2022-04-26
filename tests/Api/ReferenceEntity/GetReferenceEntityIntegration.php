@@ -22,7 +22,7 @@ class GetReferenceEntityIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getReferenceEntityApi();
+        $api = $this->createClientByPassword()->getReferenceEntityApi();
         $product = $api->get('brand');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -41,7 +41,7 @@ class GetReferenceEntityIntegration extends ApiTestCase
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->expectExceptionMessage('Reference entity "foo" does not exist.');
 
-        $api = $this->createClient()->getReferenceEntityApi();
+        $api = $this->createClientByPassword()->getReferenceEntityApi();
         $api->get('foo');
     }
 

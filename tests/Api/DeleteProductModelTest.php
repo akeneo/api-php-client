@@ -19,7 +19,7 @@ class DeleteProductModelTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductModelApi();
+        $api = $this->createClientByPassword()->getProductModelApi();
 
         $response = $api->delete('docks_white');
 

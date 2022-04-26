@@ -33,7 +33,7 @@ class UpsertReferenceEntityRecordIntegration extends ApiTestCase
             ]
         ];
 
-        $api = $this->createClient()->getReferenceEntityRecordApi();
+        $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $response = $api->upsert('designer', 'starck', $recordData);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($recordData));

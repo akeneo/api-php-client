@@ -24,7 +24,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $downloadResponse = $api->downloadFromLocalizableAsset('ziggy', 'ecommerce', 'en_US');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -45,7 +45,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $downloadResponse = $api->downloadFromNotLocalizableAsset('ziggy_certif', 'ecommerce');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -66,7 +66,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $api->downloadFromLocalizableAsset('ziggy', 'mobile', 'en_US');
     }
 
@@ -82,7 +82,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $api->downloadFromNotLocalizableAsset('ziggy_certif', 'mobile');
     }
 }

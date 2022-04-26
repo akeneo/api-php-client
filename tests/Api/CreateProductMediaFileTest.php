@@ -20,7 +20,7 @@ class CreateProductMediaFileTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductMediaFileApi();
+        $api = $this->createClientByPassword()->getProductMediaFileApi();
         $mediaFile = realpath(__DIR__ . '/../fixtures/akeneo.png');
 
         $productInfos = [
@@ -53,7 +53,7 @@ class CreateProductMediaFileTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductMediaFileApi();
+        $api = $this->createClientByPassword()->getProductMediaFileApi();
         $mediaFile = realpath(__DIR__ . '/../fixtures/akeneo.png');
 
         $productInfos = [

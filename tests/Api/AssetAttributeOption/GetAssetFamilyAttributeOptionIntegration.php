@@ -22,7 +22,7 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetAttributeOptionApi();
+        $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $familyAttributeOption = $api->get('packshot', 'wearing_model_size', 'small');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -42,7 +42,7 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetAttributeOptionApi();
+        $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $api->get('packshot', 'wearing_model_size', 'XLS');
     }
 

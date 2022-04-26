@@ -26,7 +26,7 @@ class CreateReferenceEntityMediaFileIntegration extends ApiTestCase
             )
         );
         $mediaFile = realpath(__DIR__ . '/../../fixtures/unicorn.png');
-        $response = $this->createClient()->getReferenceEntityMediaFileApi()->create($mediaFile);
+        $response = $this->createClientByPassword()->getReferenceEntityMediaFileApi()->create($mediaFile);
 
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
         Assert::assertSame(
@@ -53,7 +53,7 @@ class CreateReferenceEntityMediaFileIntegration extends ApiTestCase
             )
         );
         $mediaFile = realpath(__DIR__ . '/../../fixtures/unicorn.png');
-        $response = $this->createClient()->getReferenceEntityMediaFileApi()->create($mediaFile);
+        $response = $this->createClientByPassword()->getReferenceEntityMediaFileApi()->create($mediaFile);
 
         Assert::assertSame('my-media-code', $response);
     }

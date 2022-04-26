@@ -35,7 +35,7 @@ class UpsertAssetFamilyAttributeOptionIntegration extends ApiTestCase
             ]
         ];
 
-        $api = $this->createClient()->getAssetAttributeOptionApi();
+        $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $response = $api->upsert('packshot', 'wearing_model_size', 'size_27', $assetFamilyAttributeOption);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assetFamilyAttributeOption));

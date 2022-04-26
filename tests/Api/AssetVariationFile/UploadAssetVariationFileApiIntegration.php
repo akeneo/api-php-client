@@ -23,7 +23,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForLocalizableAsset($filePath, 'ziggy', 'ecommerce', 'en_US');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -53,7 +53,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForNotLocalizableAsset($filePath, 'ziggy_certif', 'ecommerce');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -83,7 +83,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForLocalizableAsset($file, 'ziggy', 'ecommerce', 'en_US');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -114,7 +114,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
 
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'ecommerce', 'en_US');
     }
@@ -133,7 +133,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetVariationFileApi();
+        $api = $this->createClientByPassword()->getAssetVariationFileApi();
 
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn', 'ecommerce');
     }

@@ -22,7 +22,7 @@ class ListAllAssetFamiliesIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetFamilyApi();
+        $api = $this->createClientByPassword()->getAssetFamilyApi();
         $assetFamilyCursor = $api->all();
         $assetFamilies = iterator_to_array($assetFamilyCursor);
 

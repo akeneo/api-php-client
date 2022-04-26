@@ -22,7 +22,7 @@ class GetAssetIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetManagerApi();
+        $api = $this->createClientByPassword()->getAssetManagerApi();
         $asset = $api->get('packshot', 'battleship');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -41,7 +41,7 @@ class GetAssetIntegration extends ApiTestCase
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->expectExceptionMessage('Asset "peace-sheep" does not exist.');
 
-        $api = $this->createClient()->getAssetManagerApi();
+        $api = $this->createClientByPassword()->getAssetManagerApi();
         $api->get('packshot', 'peace-sheep');
     }
 

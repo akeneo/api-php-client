@@ -36,7 +36,7 @@ class UpsertAssetFamilyAttributeIntegration extends ApiTestCase
             "media_type" => "image"
         ];
 
-        $api = $this->createClient()->getAssetAttributeApi();
+        $api = $this->createClientByPassword()->getAssetAttributeApi();
         $response = $api->upsert('packshot', 'media_preview', $assetFamilyAttribute);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assetFamilyAttribute));

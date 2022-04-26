@@ -87,7 +87,7 @@ JSON;
             ],
         ];
 
-        $api = $this->createClient()->getAssetManagerApi();
+        $api = $this->createClientByPassword()->getAssetManagerApi();
         $responses = $api->upsertList('packshot', $assets);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assets));

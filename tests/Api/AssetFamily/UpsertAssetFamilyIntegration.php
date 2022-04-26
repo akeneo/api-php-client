@@ -27,7 +27,7 @@ class UpsertAssetFamilyIntegration extends ApiTestCase
             ]
         ];
 
-        $api = $this->createClient()->getAssetFamilyApi();
+        $api = $this->createClientByPassword()->getAssetFamilyApi();
         $response = $api->upsert('packshot', $assetFamily);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assetFamily));

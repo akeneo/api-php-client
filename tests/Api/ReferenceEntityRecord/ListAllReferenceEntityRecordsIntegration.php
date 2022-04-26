@@ -22,7 +22,7 @@ class ListAllReferenceEntityRecordsIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getReferenceEntityRecordApi();
+        $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $recordCursor = $api->all('designer');
         $records = iterator_to_array($recordCursor);
 

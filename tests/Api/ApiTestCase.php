@@ -47,7 +47,7 @@ abstract class ApiTestCase extends TestCase
     /**
      * @return AkeneoPimClientInterface
      */
-    protected function createClient()
+    protected function createClientByPassword()
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
 
@@ -57,6 +57,25 @@ abstract class ApiTestCase extends TestCase
             'username',
             'password'
         );
+    }
+
+    protected function createClientByToken()
+    {
+        $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
+
+        return $clientBuilder->buildAuthenticatedByToken(
+            'client_id',
+            'secret',
+            'a_token',
+            'a_refresh_token'
+        );
+    }
+
+    protected function createClientByAppToken()
+    {
+        $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
+
+        return $clientBuilder->buildAuthenticatedByAppToken('a_token');
     }
 
     private function getAuthenticatedJson()
