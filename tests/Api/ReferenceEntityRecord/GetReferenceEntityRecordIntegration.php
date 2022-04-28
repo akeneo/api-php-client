@@ -22,7 +22,7 @@ class GetReferenceEntityRecordIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getReferenceEntityRecordApi();
+        $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $product = $api->get('designer', 'starck');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -42,7 +42,7 @@ class GetReferenceEntityRecordIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getReferenceEntityRecordApi();
+        $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $api->get('designer', 'foo');
     }
 

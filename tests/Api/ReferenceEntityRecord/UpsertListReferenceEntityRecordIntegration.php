@@ -71,7 +71,7 @@ JSON;
             ],
         ];
 
-        $api = $this->createClient()->getReferenceEntityRecordApi();
+        $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $responses = $api->upsertList('designer', $records);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($records));

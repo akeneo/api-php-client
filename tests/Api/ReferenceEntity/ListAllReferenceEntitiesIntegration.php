@@ -22,7 +22,7 @@ class ListAllReferenceEntitiesIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getReferenceEntityApi();
+        $api = $this->createClientByPassword()->getReferenceEntityApi();
         $referenceEntityCursor = $api->all();
         $referenceEntities = iterator_to_array($referenceEntityCursor);
 

@@ -19,7 +19,7 @@ class CreateProductTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
         $response = $api->create('new_shoes', $this->newProduct());
 
         Assert::assertSame(json_encode($this->expectedProduct()), $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT]);
@@ -39,7 +39,7 @@ class CreateProductTest extends ApiTestCase
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException::class);
         $this->expectExceptionMessage('The value black_sneakers is already set on another product for the unique attribute sku');
         
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
         $api->create('black_sneakers', $this->newProduct());
     }
 

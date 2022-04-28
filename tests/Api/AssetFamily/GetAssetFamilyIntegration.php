@@ -22,7 +22,7 @@ class GetAssetFamilyIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetFamilyApi();
+        $api = $this->createClientByPassword()->getAssetFamilyApi();
         $product = $api->get('packshot');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
@@ -42,7 +42,7 @@ class GetAssetFamilyIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetFamilyApi();
+        $api = $this->createClientByPassword()->getAssetFamilyApi();
         $api->get('foo');
     }
 

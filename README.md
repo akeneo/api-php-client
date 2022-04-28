@@ -72,6 +72,11 @@ $client->getToken();
 $client->getRefreshToken();
 ```
 
+If you are developing an App, authenticate with your app token.
+```php
+$client = $clientBuilder->buildAuthenticatedByAppToken('app_token');
+```
+
 ### Get a product
 
 ```php

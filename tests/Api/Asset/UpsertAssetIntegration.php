@@ -42,7 +42,7 @@ class UpsertAssetIntegration extends ApiTestCase
             ]
         ];
 
-        $api = $this->createClient()->getAssetManagerApi();
+        $api = $this->createClientByPassword()->getAssetManagerApi();
         $response = $api->upsert('packshot', 'sku_54628_telescope', $asset);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($asset));

@@ -27,7 +27,7 @@ class UpsertReferenceEntityIntegration extends ApiTestCase
             ]
         ];
 
-        $api = $this->createClient()->getReferenceEntityApi();
+        $api = $this->createClientByPassword()->getReferenceEntityApi();
         $response = $api->upsert('brand', $referenceEntity);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($referenceEntity));

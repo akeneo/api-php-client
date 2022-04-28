@@ -19,7 +19,7 @@ class GetProductTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
 
         $product = $api->get('black_sneakers');
 
@@ -39,7 +39,7 @@ class GetProductTest extends ApiTestCase
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->expectExceptionMessage('Resource `black_sneakers` does not exist.');
 
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
         $api->get('black_sneakers');
     }
 

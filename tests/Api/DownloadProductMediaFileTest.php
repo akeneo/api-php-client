@@ -22,7 +22,7 @@ class DownloadProductMediaFileTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductMediaFileApi();
+        $api = $this->createClientByPassword()->getProductMediaFileApi();
         $mediaFile = $api->download('/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');

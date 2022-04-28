@@ -20,7 +20,7 @@ class CreateAssetMediaFileIntegration extends ApiTestCase
             )
         );
         $mediaFile = realpath(__DIR__ . '/../../fixtures/unicorn.png');
-        $response = $this->createClient()->getAssetMediaFileApi()->create($mediaFile);
+        $response = $this->createClientByPassword()->getAssetMediaFileApi()->create($mediaFile);
 
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
         Assert::assertSame(
@@ -47,7 +47,7 @@ class CreateAssetMediaFileIntegration extends ApiTestCase
             )
         );
         $mediaFile = realpath(__DIR__ . '/../../fixtures/unicorn.png');
-        $response = $this->createClient()->getAssetMediaFileApi()->create($mediaFile);
+        $response = $this->createClientByPassword()->getAssetMediaFileApi()->create($mediaFile);
 
         Assert::assertSame('my-asset-media-code', $response);
     }

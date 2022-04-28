@@ -19,7 +19,7 @@ class UpsertProductTest extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getProductApi();
+        $api = $this->createClientByPassword()->getProductApi();
 
         $parameters = [
             'enabled' => false,

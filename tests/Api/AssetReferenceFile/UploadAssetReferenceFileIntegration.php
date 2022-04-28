@@ -23,7 +23,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetReferenceFileApi();
+        $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForLocalizableAsset($filePath, 'ziggy', 'en_US');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -52,7 +52,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetReferenceFileApi();
+        $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForNotLocalizableAsset($filePath, 'ziggy-certification');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -82,7 +82,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetReferenceFileApi();
+        $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForLocalizableAsset($file, 'ziggy', 'en_US');
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
@@ -113,7 +113,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetReferenceFileApi();
+        $api = $this->createClientByPassword()->getAssetReferenceFileApi();
 
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'en_US');
     }
@@ -132,7 +132,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
             )
         );
 
-        $api = $this->createClient()->getAssetReferenceFileApi();
+        $api = $this->createClientByPassword()->getAssetReferenceFileApi();
 
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn');
     }

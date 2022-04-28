@@ -151,6 +151,13 @@ class AkeneoPimClientBuilder
         return $this->buildAuthenticatedClient($authentication);
     }
 
+    public function buildAuthenticatedByAppToken(string $token): AkeneoPimClientInterface
+    {
+        $authentication = Authentication::fromAppToken($token);
+
+        return $this->buildAuthenticatedClient($authentication);
+    }
+
     /**
      * Build the Akeneo PIM client authenticated by token.
      *

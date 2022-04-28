@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Akeneo\Pim\ApiClient\Builder;
+namespace spec\Akeneo\Pim\ApiClient\Search;
 
 use Akeneo\Pim\ApiClient\Search\Operator;
 use Akeneo\Pim\ApiClient\Search\SearchBuilder;
