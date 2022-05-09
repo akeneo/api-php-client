@@ -29,6 +29,7 @@ class ResourceCursor implements ResourceCursorInterface
      * {@inheritdoc}
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->currentPage->getItems()[$this->currentIndex];
@@ -53,6 +54,7 @@ class ResourceCursor implements ResourceCursorInterface
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->totalIndex;
