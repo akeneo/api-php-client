@@ -127,6 +127,7 @@ class ProductMediaFileApi implements MediaFileApiInterface
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     protected function extractCodeFromCreationResponse(ResponseInterface $response)
     {
         if (!$response->hasHeader('location')) {
