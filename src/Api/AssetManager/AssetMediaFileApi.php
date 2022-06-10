@@ -28,7 +28,7 @@ class AssetMediaFileApi implements AssetMediaFileApiInterface
     /**
      * {@inheritdoc}
      */
-    public function download($code): ResponseInterface
+    public function download(string $code): ResponseInterface
     {
         return $this->resourceClient->getStreamedResource(static::MEDIA_FILE_DOWNLOAD_URI, [$code]);
     }

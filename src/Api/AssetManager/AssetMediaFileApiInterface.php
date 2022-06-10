@@ -3,22 +3,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
-use Psr\Http\Message\ResponseInterface;
 
-interface AssetMediaFileApiInterface
+interface AssetMediaFileApiInterface extends DownloadableResourceInterface
 {
-    /**
-     * Downloads an asset media file by its code
-     *
-     * @param string $code Code of the media file
-     *
-     * @throws HttpException If the request failed.
-     *
-     * @return ResponseInterface
-     */
-    public function download($code): ResponseInterface;
 
     /**
      * Creates a new asset media file.
