@@ -24,6 +24,7 @@ class ListAllReferenceEntitiesIntegration extends ApiTestCase
 
         $api = $this->createClientByPassword()->getReferenceEntityApi();
         $referenceEntityCursor = $api->all();
+        //var_dump($referenceEntityCursor);
         $referenceEntities = iterator_to_array($referenceEntityCursor);
 
         Assert::assertCount(3, $referenceEntities);

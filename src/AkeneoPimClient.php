@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApiInterface;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
@@ -148,6 +150,12 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var AssetMediaFileApiInterface */
     private $assetMediaFileApi;
 
+    /** @var AppCatalogApiInterface */
+    private $appCatalogApi;
+
+    /** @var AppCatalogProductApiInterface */
+    private $appCatalogProductApi;
+
     public function __construct(
         Authentication $authentication,
         ProductApiInterface $productApi,
@@ -182,7 +190,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AssetFamilyApiInterface $assetFamilyApi,
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
-        AssetMediaFileApiInterface $assetMediaFileApi
+        AssetMediaFileApiInterface $assetMediaFileApi,
+        AppCatalogApiInterface $appCatalogApi,
+        AppCatalogProductApiInterface $appCatalogProductApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -218,6 +228,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->assetAttributeApi = $assetAttributeApi;
         $this->assetAttributeOptionApi = $assetAttributeOptionApi;
         $this->assetMediaFileApi = $assetMediaFileApi;
+        $this->appCatalogApi = $appCatalogApi;
+        $this->appCatalogProductApi = $appCatalogProductApi;
     }
 
     /**
@@ -498,5 +510,21 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface
     {
         return $this->assetMediaFileApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAppCatalogApi(): AppCatalogApiInterface
+    {
+        return $this->appCatalogApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAppCatalogProductApi(): AppCatalogProductApiInterface
+    {
+        return $this->appCatalogProductApi;
     }
 }

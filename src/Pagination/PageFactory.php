@@ -26,6 +26,9 @@ class PageFactory implements PageFactoryInterface
      */
     public function createPage(array $data): PageInterface
     {
+        var_dump("createPage");
+        var_dump($data);
+
         $nextLink = isset($data['_links']['next']['href']) ? $data['_links']['next']['href'] : null;
         $previousLink = isset($data['_links']['previous']['href']) ? $data['_links']['previous']['href'] : null;
         $firstLink = $data['_links']['first']['href'];

@@ -129,8 +129,16 @@ class Page implements PageInterface
      */
     protected function getPage(string $uri): PageInterface
     {
+        var_dump("getPage");
+        var_dump("uri");
+        var_dump($uri);
+
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
+
         $data = json_decode($response->getBody()->getContents(), true);
+
+        var_dump("data");
+        var_dump(json_decode($response->getBody()->getContents()));
 
         return $this->pageFactory->createPage($data);
     }
