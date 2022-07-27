@@ -20,5 +20,4 @@ interface AppCatalogApiInterface extends
     UpsertableResourceInterface,
     DeletableResourceInterface
 {
-
 }
