@@ -23,8 +23,6 @@ class ListAppCatalogProductIntegration extends ApiTestCase
     {
         $aCatalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
 
-        //var_dump(sprintf(AppCatalogProductApi::APP_CATALOG_PRODUCT_URI, $aCatalogId));
-
         $this->server->setResponseOfPath(
             sprintf(AppCatalogProductApi::APP_CATALOG_PRODUCT_URI, $aCatalogId),
             new ResponseStack(
@@ -35,7 +33,6 @@ class ListAppCatalogProductIntegration extends ApiTestCase
 
         $api = $this->createClientByPassword()->getAppCatalogProductApi();
         $recordCursor = $api->all($aCatalogId);
-        //var_dump($recordCursor);
         $records = iterator_to_array($recordCursor);
 
         Assert::assertCount(4, $records);
@@ -43,7 +40,6 @@ class ListAppCatalogProductIntegration extends ApiTestCase
 
     private function getFirstPage(): string
     {
-        //var_dump("premiere page");
         $baseUri = $this->server->getServerRoot();
 
         return <<<JSON
@@ -72,7 +68,6 @@ JSON;
 
     private function getSecondPage(): string
     {
-        //var_dump("seconde page");
         $baseUri = $this->server->getServerRoot();
 
         return <<<JSON
@@ -83,7 +78,7 @@ JSON;
         },
         "first": {
           "href": "$baseUri/api/rest/v1/catalogs/12351d98-200e-4bbc-aa19-7fdda1bd14f2/product-uuids"
-        },
+        }
       },
       "_embedded": {
         "items": [

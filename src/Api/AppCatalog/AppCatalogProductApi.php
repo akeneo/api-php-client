@@ -43,8 +43,6 @@ class AppCatalogProductApi implements AppCatalogProductApiInterface
             $queryParameters
         );
 
-        //var_dump($data);
-
         $firstPage = $this->pageFactory->createPage($data);
 
         return $this->cursorFactory->createCursor(null, $firstPage);

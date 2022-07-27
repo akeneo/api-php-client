@@ -59,9 +59,6 @@ class ReferenceEntityApi implements ReferenceEntityApiInterface
             $queryParameters
         );
 
-        //var_dump('ref');
-        //var_dump($data);
-
         $firstPage = $this->pageFactory->createPage($data);
 
         return $this->cursorFactory->createCursor(null, $firstPage);
