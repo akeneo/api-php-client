@@ -17,19 +17,19 @@ use PHPUnit\Framework\Assert;
  */
 class GetAppCatalogIntegration extends ApiTestCase
 {
-    private string $aCatalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
-
-    public function test_get_asset()
+    public function test_get_catalog()
     {
+        $aCatalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
+
         $this->server->setResponseOfPath(
-            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $this->aCatalogId),
+            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $aCatalogId),
             new ResponseStack(
                 new Response($this->getACatalog(), [], HttpClient::HTTP_OK)
             )
         );
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
-        $asset = $api->get($this->aCatalogId);
+        $asset = $api->get($aCatalogId);
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($asset, json_decode($this->getACatalog(), true));
@@ -39,7 +39,7 @@ class GetAppCatalogIntegration extends ApiTestCase
     {
         return <<<JSON
 {
-    "id": "$this->aCatalogId",
+    "id": "12351d98-200e-4bbc-aa19-7fdda1bd14f2",
      "name": "A catalog name",
      "enabled": false
 }
