@@ -31,7 +31,7 @@ class DeleteAppCatalogIntegration  extends ApiTestCase
         $api = $this->createClientByPassword()->getAppCatalogApi();
         $response = $api->delete($aCatalogId);
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'DELETE');
+        Assert::assertSame('DELETE', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertSame(HttpClient::HTTP_NO_CONTENT, $response);
     }
 }

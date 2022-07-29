@@ -31,7 +31,7 @@ class GetAppCatalogIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAppCatalogApi();
         $asset = $api->get($aCatalogId);
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($asset, json_decode($this->getACatalog(), true));
     }
 
