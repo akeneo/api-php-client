@@ -29,6 +29,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductUUIDApiInterface;
 use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
@@ -148,6 +149,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /** @var AssetMediaFileApiInterface */
     private $assetMediaFileApi;
 
+    private ProductUUIDApiInterface $productUUIDApi;
+
     public function __construct(
         Authentication $authentication,
         ProductApiInterface $productApi,
@@ -182,7 +185,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AssetFamilyApiInterface $assetFamilyApi,
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
-        AssetMediaFileApiInterface $assetMediaFileApi
+        AssetMediaFileApiInterface $assetMediaFileApi,
+        ProductUUIDApiInterface $productUUIDApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -218,6 +222,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->assetAttributeApi = $assetAttributeApi;
         $this->assetAttributeOptionApi = $assetAttributeOptionApi;
         $this->assetMediaFileApi = $assetMediaFileApi;
+        $this->productUUIDApi = $productUUIDApi;
     }
 
     /**
@@ -498,5 +503,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface
     {
         return $this->assetMediaFileApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProductUUIDApi() : ProductUUIDApiInterface
+    {
+        return $this->productUUIDApi;
     }
 }

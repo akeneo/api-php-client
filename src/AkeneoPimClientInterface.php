@@ -29,6 +29,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductUUIDApiInterface;
 use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
@@ -114,4 +115,6 @@ interface AkeneoPimClientInterface
     public function getAssetAttributeOptionApi(): AssetAttributeOptionApiInterface;
 
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface;
+
+    public function getProductUUIDApi() : ProductUUIDApiInterface;
 }

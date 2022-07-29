@@ -31,6 +31,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductUUIDApiInterface;
 use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
@@ -76,7 +77,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
         AssetFamilyApiInterface $assetFamilyApi,
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
-        AssetMediaFileApiInterface $assetMediaFileApi
+        AssetMediaFileApiInterface $assetMediaFileApi,
+        ProductUUIDApiInterface $productUUIDApi
     ) {
         $this->beConstructedWith(
             $authentication,
@@ -112,7 +114,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $assetFamilyApi,
             $assetAttributeApi,
             $assetAttributeOptionApi,
-            $assetMediaFileApi
+            $assetMediaFileApi,
+            $productUUIDApi
         );
     }
 
@@ -284,5 +287,10 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_asset_media_file_api($assetMediaFileApi)
     {
         $this->getAssetMediaFileApi()->shouldReturn($assetMediaFileApi);
+    }
+
+    function it_gets_product_uuid_api(ProductUUIDApiInterface $productUUIDApi)
+    {
+        $this->getProductUUIDApi()->shouldReturn($productUUIDApi);
     }
 }
