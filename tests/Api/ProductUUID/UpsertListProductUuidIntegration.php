@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApi;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -14,13 +14,13 @@ use PHPUnit\Framework\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class UpsertListProductUUIDIntegration extends ApiTestCase
+class UpsertListProductUuidIntegration extends ApiTestCase
 {
     public function setUp(): void
     {
         parent::setUp();
         $this->server->setResponseOfPath(
-            '/'.ProductUUIDApi::PRODUCTS_UUID_URI,
+            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response($this->getResults(), [], HttpClient::HTTP_OK)
             )
@@ -29,7 +29,7 @@ class UpsertListProductUUIDIntegration extends ApiTestCase
 
     public function test_upsert_list()
     {
-        $api = $this->createClientByPassword()->getProductUUIDApi();
+        $api = $this->createClientByPassword()->getProductUuidApi();
         $response = $api->upsertList($this->getProductToUpsert());
 
         Assert::assertSame(
@@ -62,7 +62,7 @@ class UpsertListProductUUIDIntegration extends ApiTestCase
         rewind($resources);
 
         $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
-        $api = $this->createClientByPassword()->getProductUUIDApi();
+        $api = $this->createClientByPassword()->getProductUuidApi();
         $response = $api->upsertList($streamedResources);
 
         Assert::assertSame(

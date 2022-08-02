@@ -98,8 +98,8 @@ class AttributeApi implements AttributeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($attributes): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTES_URI, [], $attributes);
+        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTES_URI, [], $resources);
     }
 }

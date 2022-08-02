@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApi;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use donatj\MockWebServer\RequestInfo;
@@ -14,18 +14,18 @@ use PHPUnit\Framework\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class CreateProductUUIDIntegration extends ApiTestCase
+class CreateProductUuidIntegration extends ApiTestCase
 {
     public function test_create_product()
     {
         $this->server->setResponseOfPath(
-            '/'.ProductUUIDApi::PRODUCTS_UUID_URI,
+            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response('', [], HttpClient::HTTP_CREATED)
             )
         );
 
-        $api = $this->createClientByPassword()->getProductUUIDApi();
+        $api = $this->createClientByPassword()->getProductUuidApi();
         $response = $api->create('12951d98-210e-4bRC-ab18-7fdgf1bd14f3', $this->newProduct());
 
         Assert::assertSame(
@@ -39,7 +39,7 @@ class CreateProductUUIDIntegration extends ApiTestCase
     public function test_create_invalid_product()
     {
         $this->server->setResponseOfPath(
-            '/'.ProductUUIDApi::PRODUCTS_UUID_URI,
+            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response(
                     '{"code": 422, "message":"The value 12951d98-210e-4bRC-ab18-7fdgf1bd14f3 is already set on another product for the uuid"}',
@@ -54,7 +54,7 @@ class CreateProductUUIDIntegration extends ApiTestCase
             'The value 12951d98-210e-4bRC-ab18-7fdgf1bd14f3 is already set on another product for the uuid'
         );
 
-        $api = $this->createClientByPassword()->getProductUUIDApi();
+        $api = $this->createClientByPassword()->getProductUuidApi();
         $api->create('12951d98-210e-4bRC-ab18-7fdgf1bd14f3', $this->newProduct());
     }
 

@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApi;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use donatj\MockWebServer\RequestInfo;
@@ -14,19 +14,19 @@ use PHPUnit\Framework\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ListPerPageProductUUIDIntegration extends ApiTestCase
+class ListPerPageProductUuidIntegration extends ApiTestCase
 {
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/'. ProductUUIDApi::PRODUCTS_UUID_URI,
+            '/'. ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response($this->getFirstPage(), [], HttpClient::HTTP_OK),
                 new Response($this->getSecondPage(), [], HttpClient::HTTP_OK)
             )
         );
 
-        $api = $this->createClientByPassword()->getProductUUIDApi();
+        $api = $this->createClientByPassword()->getProductUuidApi();
         $firstPage = $api->listPerPage(10, true, []);
 
         Assert::assertSame(['limit' => '10', 'with_count' => 'true'],

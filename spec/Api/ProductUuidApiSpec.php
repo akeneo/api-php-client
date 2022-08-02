@@ -4,8 +4,8 @@ namespace spec\Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApi;
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApiInterface;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
@@ -20,7 +20,7 @@ use PhpSpec\ObjectBehavior;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ProductUUIDApiSpec extends ObjectBehavior
+class ProductUuidApiSpec extends ObjectBehavior
 {
     function let(
         ResourceClientInterface $resourceClient,
@@ -32,8 +32,8 @@ class ProductUUIDApiSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ProductUUIDApi::class);
-        $this->shouldImplement(ProductUUIDApiInterface::class);
+        $this->shouldHaveType(ProductUuidApi::class);
+        $this->shouldImplement(ProductUuidApiInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
         $this->shouldImplement(UpsertableResourceListInterface::class);
     }
@@ -52,7 +52,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ProductUUIDApi::PRODUCT_UUID_URI, [$uuid], [])
+            ->getResource(ProductUuidApi::PRODUCT_UUID_URI, [$uuid], [])
             ->willReturn($product);
 
         $this->get($uuid)->shouldReturn($product);
@@ -72,7 +72,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         ];
 
         $resourceClient
-            ->getResource(ProductUUIDApi::PRODUCT_UUID_URI, [$uuid], ['with_attribute_options' => true])
+            ->getResource(ProductUuidApi::PRODUCT_UUID_URI, [$uuid], ['with_attribute_options' => true])
             ->willReturn($product);
 
         $this->get($uuid, ['with_attribute_options' => true])->shouldReturn($product);
@@ -84,7 +84,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductUUIDApi::PRODUCTS_UUID_URI, [], 10, false, [])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -99,7 +99,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductUUIDApi::PRODUCTS_UUID_URI, [], 10, true, [])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, true, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -115,7 +115,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         ResourceCursorInterface $cursor
     ) {
         $resourceClient
-            ->getResources(ProductUUIDApi::PRODUCTS_UUID_URI, [], 10, false, ['pagination_type' => 'search_after'])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, false, ['pagination_type' => 'search_after'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -131,7 +131,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductUUIDApi::PRODUCTS_UUID_URI, [], 10, false, ['foo' => 'bar'])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -143,7 +143,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->createResource(
-                ProductUUIDApi::PRODUCTS_UUID_URI,
+                ProductUuidApi::PRODUCTS_UUID_URI,
                 [],
                 ['uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f3', 'family' => 'bar']
             )
@@ -173,7 +173,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
     {
         $resourceClient
             ->upsertResource(
-                ProductUUIDApi::PRODUCT_UUID_URI,
+                ProductUuidApi::PRODUCT_UUID_URI,
                 ['12951d98-210e-4bRC-ab18-7fdgf1bd14f3'],
                 ['uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f3', 'identifier' => 'foo', 'family' => 'bar']
             )
@@ -189,7 +189,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
     function it_deletes_a_product(ResourceClientInterface $resourceClient)
     {
         $resourceClient
-            ->deleteResource(ProductUUIDApi::PRODUCT_UUID_URI, ['12951d98-210e-4bRC-ab18-7fdgf1bd14f3'])
+            ->deleteResource(ProductUuidApi::PRODUCT_UUID_URI, ['12951d98-210e-4bRC-ab18-7fdgf1bd14f3'])
             ->willReturn(HttpClient::HTTP_NO_CONTENT);
 
         $this->delete('12951d98-210e-4bRC-ab18-7fdgf1bd14f3')->shouldReturn(HttpClient::HTTP_NO_CONTENT);
@@ -201,7 +201,7 @@ class ProductUUIDApiSpec extends ObjectBehavior
     ) {
         $resourceClient
             ->upsertStreamResourceList(
-                ProductUUIDApi::PRODUCTS_UUID_URI,
+                ProductUuidApi::PRODUCTS_UUID_URI,
                 [],
                 [
                     ['uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'],

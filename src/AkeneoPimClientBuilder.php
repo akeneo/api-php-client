@@ -30,7 +30,7 @@ use Akeneo\Pim\ApiClient\Api\ProductDraftApi;
 use Akeneo\Pim\ApiClient\Api\ProductMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelApi;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApi;
-use Akeneo\Pim\ApiClient\Api\ProductUUIDApi;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Api\PublishedProductApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApi;
@@ -244,7 +244,7 @@ class AkeneoPimClientBuilder
             new AssetAttributeApi($resourceClient),
             new AssetAttributeOptionApi($resourceClient),
             new AssetMediaFileApi($resourceClient, $fileSystem),
-            new ProductUUIDApi($resourceClient, $pageFactory, $cursorFactory)
+            new ProductUuidApi($resourceClient, $pageFactory, $cursorFactory)
         );
     }
 

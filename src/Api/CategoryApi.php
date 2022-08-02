@@ -98,8 +98,8 @@ class CategoryApi implements CategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($categories): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::CATEGORIES_URI, [], $categories);
+        return $this->resourceClient->upsertStreamResourceList(static::CATEGORIES_URI, [], $resources);
     }
 }

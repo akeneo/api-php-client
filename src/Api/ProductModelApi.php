@@ -118,9 +118,9 @@ class ProductModelApi implements ProductModelApiInterface
      *
      * {@inheritdoc}
      */
-    public function upsertList($productModels): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::PRODUCT_MODELS_URI, [], $productModels);
+        return $this->resourceClient->upsertStreamResourceList(static::PRODUCT_MODELS_URI, [], $resources);
     }
 
     /**

@@ -14,7 +14,7 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ProductUUIDApi implements ProductUUIDApiInterface
+class ProductUuidApi implements ProductUuidApiInterface
 {
     const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
     const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';

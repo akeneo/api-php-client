@@ -98,8 +98,8 @@ class AttributeGroupApi implements AttributeGroupApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($attributeGroups): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $attributeGroups);
+        return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $resources);
     }
 }
