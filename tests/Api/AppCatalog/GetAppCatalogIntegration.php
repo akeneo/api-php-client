@@ -19,17 +19,17 @@ class GetAppCatalogIntegration extends ApiTestCase
 {
     public function test_get_catalog()
     {
-        $aCatalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
+        $catalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
 
         $this->server->setResponseOfPath(
-            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $aCatalogId),
+            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
             new ResponseStack(
                 new Response($this->getACatalog(), [], HttpClient::HTTP_OK)
             )
         );
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
-        $asset = $api->get($aCatalogId);
+        $asset = $api->get($catalogId);
 
         Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($asset, json_decode($this->getACatalog(), true));

@@ -19,17 +19,17 @@ class DeleteAppCatalogIntegration  extends ApiTestCase
 {
     public function test_delete_catalog()
     {
-        $aCatalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
+        $catalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
 
         $this->server->setResponseOfPath(
-            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $aCatalogId),
+            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
             new ResponseStack(
                 new Response('', [], HttpClient::HTTP_NO_CONTENT)
             )
         );
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
-        $response = $api->delete($aCatalogId);
+        $response = $api->delete($catalogId);
 
         Assert::assertSame('DELETE', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertSame(HttpClient::HTTP_NO_CONTENT, $response);
