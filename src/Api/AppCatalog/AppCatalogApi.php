@@ -18,7 +18,6 @@ class AppCatalogApi implements AppCatalogApiInterface
 {
     const APP_CATALOGS_URI = 'api/rest/v1/catalogs';
     const APP_CATALOG_URI = 'api/rest/v1/catalogs/%s';
-    const ID_MUST_BE_DEFINED_EXCEPTION_MESSAGE = 'The parameter "id" should not be defined in the data parameter';
 
     protected ResourceClientInterface $resourceClient;
     protected PageFactoryInterface $pageFactory;
@@ -51,7 +50,7 @@ class AppCatalogApi implements AppCatalogApiInterface
     public function create(string $code, array $data = []): int
     {
         if (array_key_exists('id', $data)) {
-            throw new InvalidArgumentException(self::ID_MUST_BE_DEFINED_EXCEPTION_MESSAGE);
+            throw new InvalidArgumentException('The parameter "id" should not be defined in the data parameter');
         }
 
         $data['id'] = $code;

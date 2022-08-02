@@ -126,7 +126,7 @@ class AppCatalogApiSpec extends ObjectBehavior
         $aCatalogName = 'A catalog name';
 
         $this
-            ->shouldThrow(new InvalidArgumentException(AppCatalogApi::ID_MUST_BE_DEFINED_EXCEPTION_MESSAGE))
+            ->shouldThrow(new InvalidArgumentException('The parameter "id" should not be defined in the data parameter'))
             ->during('create', [$aCatalogId, ['id' => $aCatalogId, 'name' => $aCatalogName]]);
     }
 
