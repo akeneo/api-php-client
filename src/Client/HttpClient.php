@@ -34,16 +34,19 @@ class HttpClient implements HttpClientInterface
     protected RequestFactoryInterface $requestFactory;
     protected HttpExceptionHandler $httpExceptionHandler;
     private StreamFactoryInterface $streamFactory;
+    private Options $options;
 
     public function __construct(
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory
+        StreamFactoryInterface $streamFactory,
+        Options $options
     ) {
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
         $this->httpExceptionHandler = new HttpExceptionHandler();
+        $this->options = $options;
     }
 
     /**
@@ -62,6 +65,12 @@ class HttpClient implements HttpClientInterface
 
         foreach ($headers as $header => $content) {
             $request = $request->withHeader($header, $content);
+        }
+
+        if ($this->options->hasHeaders()) {
+            foreach ($this->options->getHeaders() as $header => $content) {
+                $request = $request->withHeader($header, $content);
+            }
         }
 
         $response = $this->httpClient->sendRequest($request);

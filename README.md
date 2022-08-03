@@ -148,6 +148,18 @@ $client->getProductApi()->upsertList([
 ]);
 ```
 
+### Headers option
+
+You can make the client send requests with additional headers. Default client headers can be overriden.
+
+```php
+$clientBuilder = new \Akeneo\Pim\ApiClient\AkeneoPimClientBuilder(
+    'http://localhost',
+    ['headers' => ['X-HEADER-NAME' => 'content']]
+);
+$client = $clientBuilder->buildAuthenticatedByToken('token');
+```
+
 ## Testing
 
 Do note that you have to delete the `composer.lock` because Doctrine dependencies are loaded.
