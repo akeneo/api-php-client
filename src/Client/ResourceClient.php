@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Client;
 
+use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
@@ -223,5 +224,41 @@ class ResourceClient implements ResourceClientInterface
         $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
 
         return $response;
+    }
+
+    // TODO: object with response code ?
+    // TODO: refactoring of createResource/createAndReturnResource with mutual code in private function
+    // TODO: Tests (Integration + Specs)
+
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'POST',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        // TODO: refactoring of upsertResource/upsertAndReturnResource with mutual code in private function
+        
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

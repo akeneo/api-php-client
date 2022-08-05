@@ -16,8 +16,9 @@ use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceInterface;
 interface AppCatalogApiInterface extends
     ListableResourceInterface,
     GettableResourceInterface,
-    CreatableResourceInterface,
-    UpsertableResourceInterface,
     DeletableResourceInterface
 {
+    public function create(array $data): array;
+
+    public function upsert(string $code, array $data = []): array;
 }

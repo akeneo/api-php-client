@@ -100,4 +100,34 @@ class CachedResourceClient implements ResourceClientInterface
     {
         return $this->resourceClient->getStreamedResource($uri, $uriParameters);
     }
+
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'POST',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        $response = $this->httpClient->sendRequest(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
 }

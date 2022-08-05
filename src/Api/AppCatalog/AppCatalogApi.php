@@ -47,15 +47,10 @@ class AppCatalogApi implements AppCatalogApiInterface
         return $this->cursorFactory->createCursor($pageSize, $firstPage);
     }
 
-    public function create(string $code, array $data = []): int
+    public function create(array $data): array
     {
-        if (array_key_exists('id', $data)) {
-            throw new InvalidArgumentException('The parameter "id" should not be defined in the data parameter');
-        }
-
-        $data['id'] = $code;
-
-        return $this->resourceClient->createResource(static::APP_CATALOGS_URI, [], $data);
+        // TODO: New createRessource that returned created data
+        return $this->resourceClient->createAndReturnResource(static::APP_CATALOGS_URI, [], $data);
     }
 
     public function get(string $code): array
@@ -63,9 +58,10 @@ class AppCatalogApi implements AppCatalogApiInterface
         return $this->resourceClient->getResource(static::APP_CATALOG_URI, [$code]);
     }
 
-    public function upsert(string $code, array $data = []): int
+    public function upsert(string $code, array $data = []): array
     {
-        return $this->resourceClient->upsertResource(static::APP_CATALOG_URI, [$code], $data);
+        // TODO: New upsertRessource that returned upserted data
+        return $this->resourceClient->upsertAndReturnResource(static::APP_CATALOG_URI, [$code], $data);
     }
 
     public function delete(string $code): int
