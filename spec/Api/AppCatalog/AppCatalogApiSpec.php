@@ -39,8 +39,6 @@ class AppCatalogApiSpec extends ObjectBehavior
         $this->shouldImplement(AppCatalogApiInterface::class);
         $this->shouldImplement(ListableResourceInterface::class);
         $this->shouldImplement(GettableResourceInterface::class);
-        $this->shouldImplement(CreatableResourceInterface::class);
-        $this->shouldImplement(UpsertableResourceInterface::class);
         $this->shouldImplement(DeletableResourceInterface::class);
     }
 
@@ -84,9 +82,9 @@ class AppCatalogApiSpec extends ObjectBehavior
 
     function it_returns_a_catalog(ResourceClientInterface $resourceClient)
     {
-        $aCatalogId = 'a_catalog_id';
-        $aCatalog = [
-            'id' => $aCatalogId,
+        $catalogId = 'a_catalog_id';
+        $catalog = [
+            'id' => $catalogId,
             'name' => 'A catalog name',
             'enabled' => true,
         ];
@@ -94,67 +92,67 @@ class AppCatalogApiSpec extends ObjectBehavior
         $resourceClient
             ->getResource(
                 AppCatalogApi::APP_CATALOG_URI,
-                [$aCatalogId]
+                [$catalogId]
             )
-            ->willReturn($aCatalog);
+            ->willReturn($catalog);
 
-        $this->get($aCatalogId)->shouldReturn($aCatalog);
+        $this->get($catalogId)->shouldReturn($catalog);
     }
 
     function it_creates_a_catalog(ResourceClientInterface $resourceClient)
     {
-        $aCatalogId = 'a_catalog_id';
-        $aCatalogName = 'A catalog name';
+        $catalogName = 'A catalog name';
+
+        $expectedCatalog = [
+            'id' => '12351d98-200e-4bbc-aa19-7fdda1bd14f2',
+            'name' => $catalogName,
+            'enabled' => false,
+        ];
 
         $resourceClient
-            ->createResource(
+            ->createAndReturnResource(
                 AppCatalogApi::APP_CATALOGS_URI,
                 [],
                 [
-                    'id' => $aCatalogId,
-                    'name' => $aCatalogName,
+                    'name' => $catalogName,
                 ]
             )
-            ->willReturn(HttpClient::HTTP_CREATED);
+            ->willReturn($expectedCatalog);
 
-        $this->create($aCatalogId, ['name' => $aCatalogName])->shouldReturn(HttpClient::HTTP_CREATED);
-    }
+        $this->create(['name' => $catalogName])->shouldReturn($expectedCatalog);
 
-    function it_throws_an_exception_if_provided_catalog_id_is_in_data_when_creating_a_catalog()
-    {
-        $aCatalogId = 'a_catalog_id';
-        $aCatalogName = 'A catalog name';
-
-        $this
-            ->shouldThrow(new InvalidArgumentException('The parameter "id" should not be defined in the data parameter'))
-            ->during('create', [$aCatalogId, ['id' => $aCatalogId, 'name' => $aCatalogName]]);
     }
 
     function it_upserts_a_catalog(ResourceClientInterface $resourceClient)
     {
-        $aCatalogId = 'a_catalog_id';
-        $aCatalogName = 'A catalog name';
+        $catalogId = 'a_catalog_id';
+        $catalogName = 'A catalog name';
+
+        $expectedCatalog = [
+            'id' => $catalogId,
+            'name' => $catalogName,
+            'enabled' => false,
+        ];
 
         $resourceClient
-            ->upsertResource(
+            ->upsertAndReturnResource(
                 AppCatalogApi::APP_CATALOG_URI,
-                [$aCatalogId],
-                ['id' => $aCatalogId, 'name' => $aCatalogName]
+                [$catalogId],
+                ['name' => $catalogName]
             )
-            ->willReturn(HttpClient::HTTP_OK);
+            ->willReturn($expectedCatalog);
 
-        $this->upsert($aCatalogId, ['id' => $aCatalogId, 'name' => $aCatalogName])
-            ->shouldReturn(HttpClient::HTTP_OK);
+        $this->upsert($catalogId, ['name' => $catalogName])->shouldReturn($expectedCatalog);
     }
 
     function it_deletes_a_catalog(ResourceClientInterface $resourceClient)
     {
-        $aCatalogId = 'a_catalog_id';
+        $catalogId = 'a_catalog_id';
 
         $resourceClient
-            ->deleteResource(AppCatalogApi::APP_CATALOG_URI, [$aCatalogId])
+            ->deleteResource(AppCatalogApi::APP_CATALOG_URI, [$catalogId])
             ->willReturn(HttpClient::HTTP_NO_CONTENT);
 
-        $this->delete($aCatalogId)->shouldReturn(HttpClient::HTTP_NO_CONTENT);
+        $this->delete($catalogId)->shouldReturn(HttpClient::HTTP_NO_CONTENT);
     }
 }
