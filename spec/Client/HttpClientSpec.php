@@ -4,6 +4,7 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
+use Akeneo\Pim\ApiClient\Client\Options;
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Client\ClientInterface;
@@ -18,9 +19,10 @@ class HttpClientSpec extends ObjectBehavior
     function let(
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory
+        StreamFactoryInterface $streamFactory,
+        Options $options
     ) {
-        $this->beConstructedWith($httpClient, $requestFactory, $streamFactory);
+        $this->beConstructedWith($httpClient, $requestFactory, $streamFactory, $options);
     }
 
     function it_is_initializable()
@@ -35,7 +37,8 @@ class HttpClientSpec extends ObjectBehavior
         StreamFactoryInterface $streamFactory,
         StreamInterface $stream,
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        Options $options
     ) {
         $requestFactory->createRequest(
             'POST',
@@ -53,6 +56,7 @@ class HttpClientSpec extends ObjectBehavior
 
         $response->getStatusCode()->willReturn(HttpClient::HTTP_OK);
 
+        $options->hasHeaders()->willReturn(false);
         $request->withBody($stream)->willReturn($request);
         $request->withHeader('Content-Type', 'application/json')->willReturn($request);
 
@@ -73,7 +77,8 @@ class HttpClientSpec extends ObjectBehavior
         StreamInterface $stream,
         RequestInterface $request,
         ResponseInterface $response,
-        StreamInterface $responseBody
+        StreamInterface $responseBody,
+        Options $options
     ) {
         $requestFactory->createRequest(
             'POST',
@@ -89,6 +94,7 @@ class HttpClientSpec extends ObjectBehavior
             'http://akeneo.com/api/rest/v1/products/foo'
         )->willReturn($request);
 
+        $options->hasHeaders()->willReturn(false);
         $request->withBody($stream)->willReturn($request);
         $request->withHeader('Content-Type', 'application/json')->willReturn($request);
 
