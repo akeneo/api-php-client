@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
@@ -22,17 +21,10 @@ use Psr\Http\Message\StreamInterface;
  */
 class ResourceClient implements ResourceClientInterface
 {
-    /** @var HttpClientInterface */
-    protected $httpClient;
-
-    /** @var UriGeneratorInterface */
-    protected $uriGenerator;
-
-    /** @var MultipartStreamBuilderFactory */
-    protected $multipartStreamBuilderFactory;
-
-    /** @var UpsertResourceListResponseFactory */
-    protected $upsertListResponseFactory;
+    protected HttpClientInterface $httpClient;
+    protected UriGeneratorInterface $uriGenerator;
+    protected MultipartStreamBuilderFactory $multipartStreamBuilderFactory;
+    protected UpsertResourceListResponseFactory $upsertListResponseFactory;
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -92,15 +84,7 @@ class ResourceClient implements ResourceClientInterface
      */
     public function createResource(string $uri, array $uriParameters = [], array $body = []): int
     {
-        unset($body['_links']);
-
-        $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
-            'POST',
-            $uri,
-            ['Content-Type' => 'application/json'],
-            json_encode($body)
-        );
+        $response = $this->sendCreateRequest($uri, $uriParameters, $body);
 
         return $response->getStatusCode();
     }
@@ -108,9 +92,19 @@ class ResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        $response = $this->sendCreateRequest($uri, $uriParameters, $body);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function createMultipartResource(string $uri, array $uriParameters = [], array $requestParts = []): ResponseInterface
     {
-        $streamBuilder =  $this->multipartStreamBuilderFactory->create();
+        $streamBuilder = $this->multipartStreamBuilderFactory->create();
 
         foreach ($requestParts as $requestPart) {
             if (!isset($requestPart['name']) || !isset($requestPart['contents'])) {
@@ -134,17 +128,19 @@ class ResourceClient implements ResourceClientInterface
      */
     public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int
     {
-        unset($body['_links']);
-
-        $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
-            'PATCH',
-            $uri,
-            ['Content-Type' => 'application/json'],
-            json_encode($body)
-        );
+        $response = $this->sendUpsertRequest($uri, $uriParameters, $body);
 
         return $response->getStatusCode();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        $response = $this->sendUpsertRequest($uri, $uriParameters, $body);
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -221,44 +217,35 @@ class ResourceClient implements ResourceClientInterface
     public function getStreamedResource(string $uri, array $uriParameters = []): ResponseInterface
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
 
-        return $response;
+        return $this->httpClient->sendRequest('GET', $uri, ['Accept' => '*/*']);
     }
 
-    // TODO: object with response code ?
-    // TODO: refactoring of createResource/createAndReturnResource with mutual code in private function
-    // TODO: Tests (Integration + Specs)
-
-    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    private function sendCreateRequest(string $uri, array $uriParameters = [], array $body = []): ResponseInterface
     {
         unset($body['_links']);
 
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
+
+        return $this->httpClient->sendRequest(
             'POST',
             $uri,
             ['Content-Type' => 'application/json'],
             json_encode($body)
         );
-
-        return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    private function sendUpsertRequest(string $uri, array $uriParameters = [], array $body = []): ResponseInterface
     {
-        // TODO: refactoring of upsertResource/upsertAndReturnResource with mutual code in private function
-        
         unset($body['_links']);
 
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
+
+        return $this->httpClient->sendRequest(
             'PATCH',
             $uri,
             ['Content-Type' => 'application/json'],
             json_encode($body)
         );
-
-        return json_decode($response->getBody()->getContents(), true);
     }
 }

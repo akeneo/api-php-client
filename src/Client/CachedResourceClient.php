@@ -7,6 +7,10 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Cache\CacheInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
+ * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
 class CachedResourceClient implements ResourceClientInterface
 {
     private ResourceClientInterface $resourceClient;
@@ -101,33 +105,19 @@ class CachedResourceClient implements ResourceClientInterface
         return $this->resourceClient->getStreamedResource($uri, $uriParameters);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
     {
-        unset($body['_links']);
-
-        $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
-            'POST',
-            $uri,
-            ['Content-Type' => 'application/json'],
-            json_encode($body)
-        );
-
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->resourceClient->createAndReturnResource($uri, $uriParameters, $body);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
     {
-        unset($body['_links']);
-
-        $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        $response = $this->httpClient->sendRequest(
-            'PATCH',
-            $uri,
-            ['Content-Type' => 'application/json'],
-            json_encode($body)
-        );
-
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->resourceClient->upsertAndReturnResource($uri, $uriParameters, $body);
     }
 }

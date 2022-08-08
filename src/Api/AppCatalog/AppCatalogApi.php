@@ -49,7 +49,6 @@ class AppCatalogApi implements AppCatalogApiInterface
 
     public function create(array $data): array
     {
-        // TODO: New createRessource that returned created data
         return $this->resourceClient->createAndReturnResource(static::APP_CATALOGS_URI, [], $data);
     }
 
@@ -60,7 +59,6 @@ class AppCatalogApi implements AppCatalogApiInterface
 
     public function upsert(string $code, array $data = []): array
     {
-        // TODO: New upsertRessource that returned upserted data
         return $this->resourceClient->upsertAndReturnResource(static::APP_CATALOG_URI, [$code], $data);
     }
 

@@ -21,21 +21,24 @@ class UpsertAppCatalogIntegration extends ApiTestCase
     {
         $catalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
         $catalogData = ['name' => 'A catalog name'];
+        $expectedJson = <<<JSON
+{
+    "id": "12351d98-200e-4bbc-aa19-7fdda1bd14f2",
+     "name": "A catalog name",
+     "enabled": false
+}
+JSON;
 
         $this->server->setResponseOfPath(
             '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
             new ResponseStack(
-                new Response('', [], HttpClient::HTTP_OK)
+                new Response($expectedJson, [], HttpClient::HTTP_OK)
             )
         );
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
         $response = $api->upsert($catalogId, $catalogData);
 
-        Assert::assertSame(
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],
-            json_encode($catalogData)
-        );
-        Assert::assertSame(HttpClient::HTTP_OK, $response);
+        Assert::assertSame(json_decode($expectedJson, true), $response);
     }
 }
