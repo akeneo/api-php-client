@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApi;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApi;
 use Akeneo\Pim\ApiClient\Api\AssetApi;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApi;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApi as AssetManagerApi;
@@ -246,7 +248,9 @@ class AkeneoPimClientBuilder
             new AssetFamilyApi($resourceClient, $pageFactory, $cursorFactory),
             new AssetAttributeApi($resourceClient),
             new AssetAttributeOptionApi($resourceClient),
-            new AssetMediaFileApi($resourceClient, $fileSystem)
+            new AssetMediaFileApi($resourceClient, $fileSystem),
+            new AppCatalogApi($resourceClient, $pageFactory, $cursorFactory),
+            new AppCatalogProductApi($resourceClient, $pageFactory, $cursorFactory)
         );
     }
 

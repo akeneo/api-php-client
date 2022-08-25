@@ -4,6 +4,8 @@ namespace spec\Akeneo\Pim\ApiClient;
 
 use Akeneo\Pim\ApiClient\AkeneoPimClient;
 use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApiInterface;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
@@ -76,7 +78,9 @@ class AkeneoPimClientSpec extends ObjectBehavior
         AssetFamilyApiInterface $assetFamilyApi,
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
-        AssetMediaFileApiInterface $assetMediaFileApi
+        AssetMediaFileApiInterface $assetMediaFileApi,
+        AppCatalogApiInterface $appCatalogApi,
+        AppCatalogProductApiInterface $appCatalogProductApi
     ) {
         $this->beConstructedWith(
             $authentication,
@@ -112,7 +116,9 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $assetFamilyApi,
             $assetAttributeApi,
             $assetAttributeOptionApi,
-            $assetMediaFileApi
+            $assetMediaFileApi,
+            $appCatalogApi,
+            $appCatalogProductApi
         );
     }
 
@@ -284,5 +290,15 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_asset_media_file_api($assetMediaFileApi)
     {
         $this->getAssetMediaFileApi()->shouldReturn($assetMediaFileApi);
+    }
+
+    function it_gets_app_catalog_api(AppCatalogApiInterface $appCatalogApi)
+    {
+        $this->getAppCatalogApi()->shouldReturn($appCatalogApi);
+    }
+
+    function it_gets_app_catalog_product_api(AppCatalogProductApiInterface $appCatalogProductApi)
+    {
+        $this->getAppCatalogProductApi()->shouldReturn($appCatalogProductApi);
     }
 }

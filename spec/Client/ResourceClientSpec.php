@@ -163,6 +163,46 @@ JSON;
         );
     }
 
+    function it_creates_and_returns_a_resource(
+        $httpClient,
+        $uriGenerator,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $uri = 'https://akeneo.com/api/rest/v1/catalogs';
+
+        $uriGenerator
+            ->generate('api/rest/v1/catalogs', [])
+            ->willReturn($uri);
+
+        $body = <<<JSON
+{"id": "12351d98-200e-4bbc-aa19-7fdda1bd14f2","name": "a_catalog_name","enabled": false}
+JSON;
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn($body);
+
+        $httpClient
+            ->sendRequest('POST', $uri, ['Content-Type' => 'application/json'], '{"name":"a_catalog_name"}')
+            ->willReturn($response);
+
+        $this->createAndReturnResource(
+            'api/rest/v1/catalogs',
+            [],
+            [
+                '_links' => [
+                    'self' => [
+                        'href' => 'https://akeneo.com/self',
+                    ],
+                ],
+                'name'   => 'a_catalog_name',
+            ]
+        )->shouldReturn([
+            'id' => '12351d98-200e-4bbc-aa19-7fdda1bd14f2',
+            'name' => 'a_catalog_name',
+            'enabled' => false
+        ]);
+    }
+
     function it_upserts_a_resource(
         $httpClient,
         $uriGenerator,
@@ -196,6 +236,48 @@ JSON;
                 ]
             )
             ->shouldReturn(201);
+    }
+
+    function it_upserts_and_returns_a_resource(
+        $httpClient,
+        $uriGenerator,
+        ResponseInterface $response,
+        StreamInterface $responseBody
+    ) {
+        $uri = 'https://akeneo.com/api/rest/v1/catalogs';
+
+        $uriGenerator
+            ->generate('api/rest/v1/catalogs/%s', ['12351d98-200e-4bbc-aa19-7fdda1bd14f2'])
+            ->willReturn($uri);
+
+        $httpClient
+            ->sendRequest('PATCH', $uri, ['Content-Type' => 'application/json'], '{"name":"a_catalog_name"}')
+            ->willReturn($response);
+
+        $body = <<<JSON
+{"id": "12351d98-200e-4bbc-aa19-7fdda1bd14f2","name": "a_catalog_name","enabled": false}
+JSON;
+        $response->getBody()->willReturn($responseBody);
+        $responseBody->getContents()->willReturn($body);
+
+        $this
+            ->upsertAndReturnResource(
+                'api/rest/v1/catalogs/%s',
+                ['12351d98-200e-4bbc-aa19-7fdda1bd14f2'],
+                [
+                    '_links' => [
+                        'self' => [
+                            'href' => 'http://akeneo.com/self',
+                        ],
+                    ],
+                    'name' => 'a_catalog_name'
+                ]
+            )
+            ->shouldReturn([
+                'id' => '12351d98-200e-4bbc-aa19-7fdda1bd14f2',
+                'name' => 'a_catalog_name',
+                'enabled' => false
+            ]);
     }
 
     function it_upserts_a_list_of_streamed_resources_from_an_array(

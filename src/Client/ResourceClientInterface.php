@@ -64,6 +64,18 @@ interface ResourceClientInterface
     public function createResource(string $uri, array $uriParameters = [], array $body = []): int;
 
     /**
+     * Creates a resource and returns it.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException If the request failed.
+     *
+     */
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array;
+
+    /**
      * Creates a resource using a multipart request.
      *
      * @param string $uri           URI of the resource
@@ -90,6 +102,18 @@ interface ResourceClientInterface
      *             Status code 204 indicating that the resource has been well updated.
      */
     public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int;
+
+    /**
+     * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException If the request failed.
+     *
+     */
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.

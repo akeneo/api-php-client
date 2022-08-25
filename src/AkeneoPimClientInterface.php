@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApiInterface;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
@@ -114,4 +116,8 @@ interface AkeneoPimClientInterface
     public function getAssetAttributeOptionApi(): AssetAttributeOptionApiInterface;
 
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface;
+
+    public function getAppCatalogApi(): AppCatalogApiInterface;
+
+    public function getAppCatalogProductApi(): AppCatalogProductApiInterface;
 }
