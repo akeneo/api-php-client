@@ -49,7 +49,7 @@ class AssetTagApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(AssetTagApi::ASSET_TAGS_URI, [], 10, false, [])
+            ->getResources(AssetTagApi::ASSET_TAGS_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

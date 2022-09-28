@@ -61,7 +61,7 @@ class MeasureFamilyApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(MeasureFamilyApi::MEASURE_FAMILIES_URI, [], 10, false, [])
+            ->getResources(MeasureFamilyApi::MEASURE_FAMILIES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

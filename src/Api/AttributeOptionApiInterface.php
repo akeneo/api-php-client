@@ -43,7 +43,7 @@ interface AttributeOptionApiInterface
      *
      * @return PageInterface
      */
-    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface;
+    public function listPerPage($attributeCode, $limit = 100, $withCount = false, array $queryParameters = []): PageInterface;
 
     /**
      * Gets a cursor to iterate over a list of attribute options.

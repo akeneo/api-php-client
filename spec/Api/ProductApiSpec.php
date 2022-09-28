@@ -82,7 +82,7 @@ class ProductApiSpec extends ObjectBehavior
     function it_returns_a_list_of_products_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductApi::PRODUCTS_URI, [], 10, false, [])
+            ->getResources(ProductApi::PRODUCTS_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
