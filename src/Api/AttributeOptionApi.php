@@ -56,7 +56,7 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($attributeCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface
+    public function listPerPage($attributeCode, $limit = 100, $withCount = false, array $queryParameters = []): PageInterface
     {
         $uri = sprintf(static::ATTRIBUTE_OPTIONS_URI, $attributeCode);
         $data = $this->resourceClient->getResources($uri, [], $limit, $withCount, $queryParameters);

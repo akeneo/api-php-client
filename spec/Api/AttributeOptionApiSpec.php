@@ -55,7 +55,7 @@ class AttributeOptionApiSpec extends ObjectBehavior
         $attributeCode = 'foo_1';
 
         $resourceClient
-            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 10, false, [])
+            ->getResources(sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, $attributeCode), [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

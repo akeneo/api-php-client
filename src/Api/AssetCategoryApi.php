@@ -53,7 +53,7 @@ class AssetCategoryApi implements AssetCategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all(int $pageSize = 10, array $queryParameters = []): ResourceCursorInterface
+    public function all(int $pageSize = 100, array $queryParameters = []): ResourceCursorInterface
     {
         $firstPage = $this->listPerPage($pageSize, false, $queryParameters);
 
@@ -63,7 +63,7 @@ class AssetCategoryApi implements AssetCategoryApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage(int $limit = 10, bool $withCount = false, array $queryParameters = []): PageInterface
+    public function listPerPage(int $limit = 100, bool $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(
             static::ASSET_CATEGORIES_URI,

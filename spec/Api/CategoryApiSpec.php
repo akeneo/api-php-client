@@ -59,7 +59,7 @@ class CategoryApiSpec extends ObjectBehavior
     function it_returns_a_list_of_categories_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(CategoryApi::CATEGORIES_URI, [], 10, false, [])
+            ->getResources(CategoryApi::CATEGORIES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

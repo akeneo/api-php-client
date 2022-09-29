@@ -58,7 +58,7 @@ class ProductMediaFileApiSpec extends ObjectBehavior
     function it_returns_a_list_of_media_files_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], 10, false, [])
+            ->getResources(ProductMediaFileApi::MEDIA_FILES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

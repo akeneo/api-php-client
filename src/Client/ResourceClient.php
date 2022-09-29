@@ -56,7 +56,7 @@ class ResourceClient implements ResourceClientInterface
     public function getResources(
         string $uri,
         array $uriParameters = [],
-        ?int $limit = 10,
+        ?int $limit = 100,
         ?bool $withCount = false,
         array $queryParameters = []
     ): array {

@@ -61,7 +61,7 @@ class AttributeApiSpec extends ObjectBehavior
     function it_returns_a_list_of_attributes_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(AttributeApi::ATTRIBUTES_URI, [], 10, false, [])
+            ->getResources(AttributeApi::ATTRIBUTES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

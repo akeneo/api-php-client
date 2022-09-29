@@ -88,7 +88,7 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface
+    public function listPerPage($familyCode, $limit = 100, $withCount = false, array $queryParameters = []): PageInterface
     {
         $data = $this->resourceClient->getResources(
             static::FAMILY_VARIANTS_URI,

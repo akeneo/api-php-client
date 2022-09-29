@@ -33,7 +33,7 @@ class AppCatalogProductApi implements AppCatalogProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function all(string $catalogId, int $limit = 10, array $queryParameters = []): ResourceCursorInterface
+    public function all(string $catalogId, int $limit = 100, array $queryParameters = []): ResourceCursorInterface
     {
         $data = $this->resourceClient->getResources(
             static::APP_CATALOG_PRODUCT_URI,

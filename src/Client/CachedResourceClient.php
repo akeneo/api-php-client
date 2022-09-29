@@ -44,7 +44,7 @@ class CachedResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 10, ?bool $withCount = false, array $queryParameters = []): array
+    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 100, ?bool $withCount = false, array $queryParameters = []): array
     {
         return $this->resourceClient->getResources($uri, $uriParameters, $limit, $withCount, $queryParameters);
     }

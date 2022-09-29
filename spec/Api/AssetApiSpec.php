@@ -51,7 +51,7 @@ class AssetApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(AssetApi::ASSETS_URI, [], 10, false, [])
+            ->getResources(AssetApi::ASSETS_URI, [], 100, false, [])
             ->willReturn([]);
         $pageFactory->createPage([])->willReturn($page);
         $this->listPerPage()->shouldReturn($page);

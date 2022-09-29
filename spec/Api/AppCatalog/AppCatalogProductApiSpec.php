@@ -45,7 +45,7 @@ class AppCatalogProductApiSpec extends ObjectBehavior
             ->getResources(
                 AppCatalogProductApi::APP_CATALOG_PRODUCT_URI,
                 [$aCatalogId],
-                10,
+                100,
                 false,
                 []
             )

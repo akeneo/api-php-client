@@ -54,7 +54,7 @@ class AssetCategoryApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(AssetCategoryApi::ASSET_CATEGORIES_URI, [], 10, false, [])
+            ->getResources(AssetCategoryApi::ASSET_CATEGORIES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

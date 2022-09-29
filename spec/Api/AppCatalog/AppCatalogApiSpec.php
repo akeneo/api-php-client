@@ -51,7 +51,7 @@ class AppCatalogApiSpec extends ObjectBehavior
             ->getResources(
                 AppCatalogApi::APP_CATALOGS_URI,
                 [],
-                10,
+                100,
                 false,
                 []
             )
