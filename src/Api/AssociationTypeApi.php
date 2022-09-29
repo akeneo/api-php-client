@@ -95,8 +95,8 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($associationTypes): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $associationTypes);
+        return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
     }
 }

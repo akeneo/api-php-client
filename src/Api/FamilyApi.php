@@ -98,8 +98,8 @@ class FamilyApi implements FamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($families): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::FAMILIES_URI, [], $families);
+        return $this->resourceClient->upsertStreamResourceList(static::FAMILIES_URI, [], $resources);
     }
 }

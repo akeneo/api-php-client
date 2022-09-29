@@ -31,6 +31,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductUuidApiInterface;
 use Akeneo\Pim\ApiClient\Api\PublishedProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
@@ -85,6 +86,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     private AppCatalogApiInterface $appCatalogApi;
     private AppCatalogProductApiInterface $appCatalogProductApi;
 
+    private ProductUuidApiInterface $productUuidApi;
+
     public function __construct(
         Authentication $authentication,
         ProductApiInterface $productApi,
@@ -120,6 +123,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
         AssetMediaFileApiInterface $assetMediaFileApi,
+        ProductUuidApiInterface $productUuidApi,
         AppCatalogApiInterface $appCatalogApi,
         AppCatalogProductApiInterface $appCatalogProductApi
     ) {
@@ -157,6 +161,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->assetAttributeApi = $assetAttributeApi;
         $this->assetAttributeOptionApi = $assetAttributeOptionApi;
         $this->assetMediaFileApi = $assetMediaFileApi;
+        $this->productUuidApi = $productUuidApi;
         $this->appCatalogApi = $appCatalogApi;
         $this->appCatalogProductApi = $appCatalogProductApi;
     }
@@ -439,6 +444,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface
     {
         return $this->assetMediaFileApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProductUuidApi(): ProductUuidApiInterface
+    {
+        return $this->productUuidApi;
     }
 
     /**

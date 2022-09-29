@@ -108,8 +108,8 @@ class ProductApi implements ProductApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($products): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_URI, [], $products);
+        return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_URI, [], $resources);
     }
 }

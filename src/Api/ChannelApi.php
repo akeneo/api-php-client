@@ -98,8 +98,8 @@ class ChannelApi implements ChannelApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertList($channels): \Traversable
+    public function upsertList($resources): \Traversable
     {
-        return $this->resourceClient->upsertStreamResourceList(static::CHANNELS_URI, [], $channels);
+        return $this->resourceClient->upsertStreamResourceList(static::CHANNELS_URI, [], $resources);
     }
 }
