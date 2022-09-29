@@ -87,7 +87,7 @@ class FamilyVariantApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(FamilyVariantApi::FAMILY_VARIANTS_URI, ['books'], 10, false, [])
+            ->getResources(FamilyVariantApi::FAMILY_VARIANTS_URI, ['books'], 100, false, [])
             ->willReturn([]);
         $pageFactory->createPage([])->willReturn($page);
 

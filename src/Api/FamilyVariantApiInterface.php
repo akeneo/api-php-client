@@ -77,7 +77,7 @@ interface FamilyVariantApiInterface
      *
      * @return PageInterface
      */
-    public function listPerPage($familyCode, $limit = 10, $withCount = false, array $queryParameters = []): PageInterface;
+    public function listPerPage($familyCode, $limit = 100, $withCount = false, array $queryParameters = []): PageInterface;
 
     /**
      * Available since Akeneo PIM 2.0.

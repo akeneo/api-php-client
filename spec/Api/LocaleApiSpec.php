@@ -47,7 +47,7 @@ class LocaleApiSpec extends ObjectBehavior
     function it_returns_a_list_of_locales_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(LocaleApi::LOCALES_URI, [], 10, false, [])
+            ->getResources(LocaleApi::LOCALES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

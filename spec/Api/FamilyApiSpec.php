@@ -61,7 +61,7 @@ class FamilyApiSpec extends ObjectBehavior
     function it_returns_a_list_of_families_with_default_parameters($resourceClient, $pageFactory, PageInterface $page)
     {
         $resourceClient
-            ->getResources(FamilyApi::FAMILIES_URI, [], 10, false, [])
+            ->getResources(FamilyApi::FAMILIES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

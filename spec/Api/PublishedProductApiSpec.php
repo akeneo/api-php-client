@@ -56,7 +56,7 @@ class PublishedProductApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(PublishedProductApi::PUBLISHED_PRODUCTS_URI, [], 10, false, [])
+            ->getResources(PublishedProductApi::PUBLISHED_PRODUCTS_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

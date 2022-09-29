@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApi;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApi;
 use Akeneo\Pim\ApiClient\Api\AssetApi;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApi;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApi as AssetManagerApi;
@@ -41,6 +43,7 @@ use Akeneo\Pim\ApiClient\Cache\LRUCache;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
+use Akeneo\Pim\ApiClient\Client\Options;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
 use Akeneo\Pim\ApiClient\FileSystem\FileSystemInterface;
 use Akeneo\Pim\ApiClient\FileSystem\LocalFileSystem;
@@ -81,14 +84,17 @@ class AkeneoPimClientBuilder
     /** @var FileSystemInterface */
     protected $fileSystem;
 
+    protected Options $options;
+
     protected bool $cacheEnabled = false;
 
     /**
      * @param string $baseUri Base uri to request the API
      */
-    public function __construct(string $baseUri)
+    public function __construct(string $baseUri, array $options = [])
     {
         $this->baseUri = $baseUri;
+        $this->options = Options::fromArray($options);
     }
 
     /**
@@ -244,7 +250,9 @@ class AkeneoPimClientBuilder
             new AssetAttributeApi($resourceClient),
             new AssetAttributeOptionApi($resourceClient),
             new AssetMediaFileApi($resourceClient, $fileSystem),
-            new ProductUuidApi($resourceClient, $pageFactory, $cursorFactory)
+            new ProductUuidApi($resourceClient, $pageFactory, $cursorFactory),
+            new AppCatalogApi($resourceClient, $pageFactory, $cursorFactory),
+            new AppCatalogProductApi($resourceClient, $pageFactory, $cursorFactory)
         );
     }
 
@@ -257,7 +265,7 @@ class AkeneoPimClientBuilder
     {
         $uriGenerator = new UriGenerator($this->baseUri);
 
-        $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory(), $this->getStreamFactory());
+        $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory(), $this->getStreamFactory(), $this->options);
         $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
 

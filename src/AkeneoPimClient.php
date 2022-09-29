@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient;
 
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApiInterface;
+use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetCategoryApiInterface;
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApiInterface as AssetManagerApiInterface;
@@ -47,107 +49,42 @@ use Akeneo\Pim\ApiClient\Security\Authentication;
  */
 class AkeneoPimClient implements AkeneoPimClientInterface
 {
-    /** @var Authentication */
-    protected $authentication;
-
-    /** @var ProductApiInterface */
-    protected $productApi;
-
-    /** @var CategoryApiInterface */
-    protected $categoryApi;
-
-    /** @var AttributeApiInterface */
-    protected $attributeApi;
-
-    /** @var AttributeOptionApiInterface */
-    protected $attributeOptionApi;
-
-    /** @var AttributeGroupApiInterface */
-    protected $attributeGroupApi;
-
-    /** @var FamilyApiInterface */
-    protected $familyApi;
-
-    /** @var MediaFileApiInterface */
-    protected $productMediaFileApi;
-
-    /** @var LocaleApiInterface */
-    protected $localeApi;
-
-    /** @var ChannelApiInterface */
-    protected $channelApi;
-
-    /** @var CurrencyApiInterface */
-    protected $currencyApi;
-
-    /** @var MeasureFamilyApiInterface */
-    protected $measureFamilyApi;
-
-    /** @var AssociationTypeApiInterface */
-    protected $associationTypeApi;
-
-    /** @var FamilyVariantApiInterface */
-    protected $familyVariantApi;
-
-    /** @var ProductModelApiInterface */
-    protected $productModelApi;
-
-    /** @var MeasurementFamilyApiInterface */
-    private $measurementFamilyApi;
-
-    /** @var PublishedProductApiInterface */
-    private $publishedProductApi;
-
-    /** @var ProductModelDraftApiInterface */
-    private $productModelDraftApi;
-
-    /** @var ProductDraftApiInterface */
-    private $productDraftApi;
-
-    /** @var AssetApiInterface */
-    private $assetApi;
-
-    /** @var AssetCategoryApiInterface */
-    private $assetCategoryApi;
-
-    /** @var AssetTagApiInterface */
-    private $assetTagApi;
-
-    /** @var AssetReferenceFileApiInterface */
-    private $assetReferenceFileApi;
-
-    /** @var AssetVariationFileApiInterface */
-    private $assetVariationFileApi;
-
-    /** @var ReferenceEntityRecordApiInterface */
-    private $referenceEntityRecordApi;
-
-    /** @var ReferenceEntityMediaFileApiInterface */
-    private $referenceEntityMediaFileApi;
-
-    /** @var ReferenceEntityAttributeApiInterface */
-    private $referenceEntityAttributeApi;
-
-    /** @var ReferenceEntityAttributeOptionApiInterface */
-    private $referenceEntityAttributeOptionApi;
-
-    /** @var ReferenceEntityApiInterface */
-    private $referenceEntityApi;
-
-    /** @var AssetManagerApiInterface */
-    private $assetManagerApi;
-
-    /** @var AssetFamilyApiInterface */
-    private $assetFamilyApi;
-
-    /** @var AssetAttributeApiInterface */
-    private $assetAttributeApi;
-
-    /** @var AssetAttributeOptionApiInterface */
-    private $assetAttributeOptionApi;
-
-    /** @var AssetMediaFileApiInterface */
-    private $assetMediaFileApi;
+    protected Authentication $authentication;
+    protected ProductApiInterface $productApi;
+    protected CategoryApiInterface $categoryApi;
+    protected AttributeApiInterface $attributeApi;
+    protected AttributeOptionApiInterface $attributeOptionApi;
+    protected AttributeGroupApiInterface $attributeGroupApi;
+    protected FamilyApiInterface $familyApi;
+    protected MediaFileApiInterface $productMediaFileApi;
+    protected LocaleApiInterface $localeApi;
+    protected ChannelApiInterface $channelApi;
+    protected CurrencyApiInterface $currencyApi;
+    protected MeasureFamilyApiInterface $measureFamilyApi;
+    protected AssociationTypeApiInterface $associationTypeApi;
+    protected FamilyVariantApiInterface $familyVariantApi;
+    protected ProductModelApiInterface $productModelApi;
+    private MeasurementFamilyApiInterface $measurementFamilyApi;
+    private PublishedProductApiInterface $publishedProductApi;
+    private ProductModelDraftApiInterface $productModelDraftApi;
+    private ProductDraftApiInterface $productDraftApi;
+    private AssetApiInterface $assetApi;
+    private AssetCategoryApiInterface $assetCategoryApi;
+    private AssetTagApiInterface $assetTagApi;
+    private AssetReferenceFileApiInterface $assetReferenceFileApi;
+    private AssetVariationFileApiInterface $assetVariationFileApi;
+    private ReferenceEntityRecordApiInterface $referenceEntityRecordApi;
+    private ReferenceEntityMediaFileApiInterface $referenceEntityMediaFileApi;
+    private ReferenceEntityAttributeApiInterface $referenceEntityAttributeApi;
+    private ReferenceEntityAttributeOptionApiInterface $referenceEntityAttributeOptionApi;
+    private ReferenceEntityApiInterface $referenceEntityApi;
+    private AssetManagerApiInterface $assetManagerApi;
+    private AssetFamilyApiInterface $assetFamilyApi;
+    private AssetAttributeApiInterface $assetAttributeApi;
+    private AssetAttributeOptionApiInterface $assetAttributeOptionApi;
+    private AssetMediaFileApiInterface $assetMediaFileApi;
+    private AppCatalogApiInterface $appCatalogApi;
+    private AppCatalogProductApiInterface $appCatalogProductApi;
 
     private ProductUuidApiInterface $productUuidApi;
 
@@ -186,7 +123,9 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AssetAttributeApiInterface $assetAttributeApi,
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
         AssetMediaFileApiInterface $assetMediaFileApi,
-        ProductUuidApiInterface $productUuidApi
+        ProductUuidApiInterface $productUuidApi,
+        AppCatalogApiInterface $appCatalogApi,
+        AppCatalogProductApiInterface $appCatalogProductApi
     ) {
         $this->authentication = $authentication;
         $this->productApi = $productApi;
@@ -223,6 +162,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->assetAttributeOptionApi = $assetAttributeOptionApi;
         $this->assetMediaFileApi = $assetMediaFileApi;
         $this->productUuidApi = $productUuidApi;
+        $this->appCatalogApi = $appCatalogApi;
+        $this->appCatalogProductApi = $appCatalogProductApi;
     }
 
     /**
@@ -508,8 +449,24 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     /**
      * {@inheritDoc}
      */
-    public function getProductUuidApi() : ProductUuidApiInterface
+    public function getProductUuidApi(): ProductUuidApiInterface
     {
         return $this->productUuidApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAppCatalogApi(): AppCatalogApiInterface
+    {
+        return $this->appCatalogApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAppCatalogProductApi(): AppCatalogProductApiInterface
+    {
+        return $this->appCatalogProductApi;
     }
 }

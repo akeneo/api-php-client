@@ -84,7 +84,7 @@ class ProductUuidApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, false, [])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
@@ -131,12 +131,12 @@ class ProductUuidApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 10, false, ['foo' => 'bar'])
+            ->getResources(ProductUuidApi::PRODUCTS_UUID_URI, [], 100, false, ['foo' => 'bar'])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);
 
-        $this->listPerPage(10, false, ['foo' => 'bar'])->shouldReturn($page);
+        $this->listPerPage(100, false, ['foo' => 'bar'])->shouldReturn($page);
     }
 
     function it_creates_a_product(ResourceClientInterface $resourceClient)

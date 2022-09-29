@@ -63,7 +63,7 @@ class AssociationTypeApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(AssociationTypeApi::ASSOCIATION_TYPES_URI, [], 10, false, [])
+            ->getResources(AssociationTypeApi::ASSOCIATION_TYPES_URI, [], 100, false, [])
             ->willReturn([]);
 
         $pageFactory->createPage([])->willReturn($page);

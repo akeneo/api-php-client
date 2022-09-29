@@ -59,7 +59,7 @@ class ProductModelApiSpec extends ObjectBehavior
         PageInterface $page
     ) {
         $resourceClient
-            ->getResources(ProductModelApi::PRODUCT_MODELS_URI, [], 10, false, [])
+            ->getResources(ProductModelApi::PRODUCT_MODELS_URI, [], 100, false, [])
             ->willReturn([]);
         $pageFactory->createPage([])->willReturn($page);
 

@@ -7,6 +7,10 @@ namespace Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Cache\CacheInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
+ * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
 class CachedResourceClient implements ResourceClientInterface
 {
     private ResourceClientInterface $resourceClient;
@@ -40,7 +44,7 @@ class CachedResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 10, ?bool $withCount = false, array $queryParameters = []): array
+    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 100, ?bool $withCount = false, array $queryParameters = []): array
     {
         return $this->resourceClient->getResources($uri, $uriParameters, $limit, $withCount, $queryParameters);
     }
@@ -99,5 +103,21 @@ class CachedResourceClient implements ResourceClientInterface
     public function getStreamedResource(string $uri, array $uriParameters = []): ResponseInterface
     {
         return $this->resourceClient->getStreamedResource($uri, $uriParameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        return $this->resourceClient->createAndReturnResource($uri, $uriParameters, $body);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
+    {
+        return $this->resourceClient->upsertAndReturnResource($uri, $uriParameters, $body);
     }
 }

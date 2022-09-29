@@ -48,7 +48,7 @@ interface ResourceClientInterface
      *
      * @return array
      */
-    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 10, ?bool $withCount = false, array $queryParameters = []): array;
+    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 100, ?bool $withCount = false, array $queryParameters = []): array;
 
     /**
      * Creates a resource.
@@ -62,6 +62,18 @@ interface ResourceClientInterface
      * @return int Status code 201 indicating that the resource has been well created.
      */
     public function createResource(string $uri, array $uriParameters = [], array $body = []): int;
+
+    /**
+     * Creates a resource and returns it.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException If the request failed.
+     *
+     */
+    public function createAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array;
 
     /**
      * Creates a resource using a multipart request.
@@ -90,6 +102,18 @@ interface ResourceClientInterface
      *             Status code 204 indicating that the resource has been well updated.
      */
     public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int;
+
+    /**
+     * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     *
+     * @throws HttpException If the request failed.
+     *
+     */
+    public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
