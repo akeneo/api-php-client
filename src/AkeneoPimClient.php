@@ -29,6 +29,7 @@ use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductDraftUuidApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductUuidApiInterface;
@@ -87,6 +88,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     private AppCatalogProductApiInterface $appCatalogProductApi;
 
     private ProductUuidApiInterface $productUuidApi;
+    private ProductDraftUuidApiInterface $productDraftUuidApi;
 
     public function __construct(
         Authentication $authentication,
@@ -124,6 +126,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
         AssetMediaFileApiInterface $assetMediaFileApi,
         ProductUuidApiInterface $productUuidApi,
+        ProductDraftUuidApiInterface $productDraftUuidApi,
         AppCatalogApiInterface $appCatalogApi,
         AppCatalogProductApiInterface $appCatalogProductApi
     ) {
@@ -162,6 +165,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         $this->assetAttributeOptionApi = $assetAttributeOptionApi;
         $this->assetMediaFileApi = $assetMediaFileApi;
         $this->productUuidApi = $productUuidApi;
+        $this->productDraftUuidApi = $productDraftUuidApi;
         $this->appCatalogApi = $appCatalogApi;
         $this->appCatalogProductApi = $appCatalogProductApi;
     }
@@ -452,6 +456,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getProductUuidApi(): ProductUuidApiInterface
     {
         return $this->productUuidApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProductDraftUuidApi(): ProductDraftUuidApiInterface
+    {
+        return $this->productDraftUuidApi;
     }
 
     /**
