@@ -29,6 +29,7 @@ use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductDraftUuidApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductUuidApiInterface;
@@ -119,6 +120,8 @@ interface AkeneoPimClientInterface
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface;
 
     public function getProductUuidApi() : ProductUuidApiInterface;
+
+    public function getProductDraftUuidApi() : ProductDraftUuidApiInterface;
 
     public function getAppCatalogApi(): AppCatalogApiInterface;
 

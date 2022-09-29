@@ -31,6 +31,7 @@ use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
+use Akeneo\Pim\ApiClient\Api\ProductDraftUuidApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductModelDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductUuidApiInterface;
@@ -81,6 +82,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
         AssetAttributeOptionApiInterface $assetAttributeOptionApi,
         AssetMediaFileApiInterface $assetMediaFileApi,
         ProductUuidApiInterface $productUuidApi,
+        ProductDraftUuidApiInterface $productDraftUuidApi,
         AppCatalogApiInterface $appCatalogApi,
         AppCatalogProductApiInterface $appCatalogProductApi
     ) {
@@ -120,6 +122,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $assetAttributeOptionApi,
             $assetMediaFileApi,
             $productUuidApi,
+            $productDraftUuidApi,
             $appCatalogApi,
             $appCatalogProductApi
         );
@@ -298,6 +301,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_product_uuid_api(ProductUuidApiInterface $productUuidApi)
     {
         $this->getProductUuidApi()->shouldReturn($productUuidApi);
+    }
+
+    function it_gets_product_draft_uuid_api(ProductDraftUuidApiInterface $productDraftUuidApi)
+    {
+        $this->getProductDraftUuidApi()->shouldReturn($productDraftUuidApi);
     }
 
     function it_gets_app_catalog_api(AppCatalogApiInterface $appCatalogApi)
