@@ -14,17 +14,12 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
  */
 class ProductDraftUuidApi implements ProductDraftUuidApiInterface
 {
-    const PRODUCT_DRAFT_UUID_URI = '/api/rest/v1/products-uuid/%s/draft';
-    const PRODUCT_PROPOSAL_UUID_URI = '/api/rest/v1/products-uuid/%s/proposal';
+    public const PRODUCT_DRAFT_UUID_URI = '/api/rest/v1/products-uuid/%s/draft';
+    public const PRODUCT_PROPOSAL_UUID_URI = '/api/rest/v1/products-uuid/%s/proposal';
 
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
+    protected ResourceClientInterface $resourceClient;
+    protected PageFactoryInterface $pageFactory;
+    protected ResourceCursorFactoryInterface $cursorFactory;
 
     public function __construct(
         ResourceClientInterface $resourceClient,
