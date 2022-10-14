@@ -43,7 +43,7 @@ class CreateProductTest extends ApiTestCase
         $api->create('black_sneakers', $this->newProduct());
     }
 
-    private function newProduct()
+    private function newProduct(): array
     {
         return [
             'enabled'    => false,
@@ -66,7 +66,7 @@ class CreateProductTest extends ApiTestCase
         ];
     }
 
-    private function expectedProduct()
+    private function expectedProduct(): array
     {
         return [
             'enabled'    => false,

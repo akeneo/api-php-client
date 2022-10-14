@@ -25,16 +25,14 @@ class GetAssetFamilyIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetFamilyApi();
         $product = $api->get('packshot');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getPackshot(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Asset family "foo" does not exist.
-     */
     public function test_get_unknown_asset_family()
     {
+        $this->expectExceptionMessage("Asset family \"foo\" does not exist.");
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'foo'),
             new ResponseStack(

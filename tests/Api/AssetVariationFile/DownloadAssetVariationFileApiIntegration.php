@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\ApiClient\tests\v2_1\Api\AssetVariationFile;
+namespace Akeneo\Pim\ApiClient\tests\Api\AssetVariationFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetVariationFileApi;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
@@ -27,7 +27,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $downloadResponse = $api->downloadFromLocalizableAsset('ziggy', 'ecommerce', 'en_US');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
 
         Assert::assertInstanceOf(ResponseInterface::class, $downloadResponse);
         Assert::assertSame(file_get_contents($expectedFilePath), $downloadResponse->getBody()->getContents());
@@ -48,17 +48,15 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $downloadResponse = $api->downloadFromNotLocalizableAsset('ziggy_certif', 'ecommerce');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
 
         Assert::assertInstanceOf(ResponseInterface::class, $downloadResponse);
         Assert::assertSame(file_get_contents($expectedFilePath), $downloadResponse->getBody()->getContents());
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_download_from_localizable_asset_not_found()
     {
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy', 'mobile', 'en_US'),
             new ResponseStack(
@@ -70,11 +68,9 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
         $api->downloadFromLocalizableAsset('ziggy', 'mobile', 'en_US');
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_download_from_not_localizable_asset_not_found()
     {
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy_certif', 'mobile', AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
             new ResponseStack(

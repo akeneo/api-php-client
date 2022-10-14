@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\ApiClient\tests\v2_1\Api\AssetVariationFile;
+namespace Akeneo\Pim\ApiClient\tests\Api\AssetVariationFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetVariationFileApi;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
@@ -26,17 +26,17 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForLocalizableAsset($filePath, 'ziggy', 'ecommerce', 'en_US');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
+        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy.png');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/png');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 25685);
+        Assert::assertSame('ziggy.png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
+        Assert::assertSame('image/png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
+        Assert::assertSame(25685, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
 
         Assert::assertSame(201, $responseCode);
 
         $assetVariationFile = $api->getFromLocalizableAsset('ziggy', 'ecommerce', 'en_US');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetVariationFile);
     }
 
@@ -56,17 +56,17 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForNotLocalizableAsset($filePath, 'ziggy_certif', 'ecommerce');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
+        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy-certification.jpg');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/jpeg');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 10513);
+        Assert::assertSame('ziggy-certification.jpg', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
+        Assert::assertSame('image/jpeg', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
+        Assert::assertSame(10513, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
 
         Assert::assertSame(201, $responseCode);
 
         $assetVariationFile = $api->getFromNotLocalizableAsset('ziggy_certif', 'ecommerce');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($this->fakeUploadNotLocalizableInformations(), $assetVariationFile);
     }
 
@@ -86,25 +86,23 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetVariationFileApi();
         $responseCode = $api->uploadForLocalizableAsset($file, 'ziggy', 'ecommerce', 'en_US');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
+        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy.png');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/png');
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 25685);
+        Assert::assertSame('ziggy.png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
+        Assert::assertSame('image/png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
+        Assert::assertSame(25685, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
 
         Assert::assertSame(201, $responseCode);
 
         $assetReferenceFile = $api->getFromLocalizableAsset('ziggy', 'ecommerce', 'en_US');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetReferenceFile);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_upload_for_an_unknown_asset()
     {
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
@@ -119,11 +117,9 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'ecommerce', 'en_US');
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
-     */
     public function test_upload_for_an_asset_that_should_be_localizable()
     {
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException::class);
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(
@@ -138,7 +134,8 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn', 'ecommerce');
     }
 
-    protected function fakeUploadLocalizableInformations(){
+    protected function fakeUploadLocalizableInformations(): array
+    {
         return [
             'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_ecommerce.jpg',
             'locale' => 'en_US',
@@ -150,7 +147,8 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         ];
     }
 
-    protected function fakeUploadNotLocalizableInformations(){
+    protected function fakeUploadNotLocalizableInformations(): array
+    {
         return [
             'code'   => '2/9/b/f/29bfa18ced500c5fca2072dab978737576ca47ca_ziggy_certification_ecommerce.jpg',
             'locale' => null,

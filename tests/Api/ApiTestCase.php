@@ -17,8 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ApiTestCase extends TestCase
 {
-    /** @var MockWebServer */
-    protected $server;
+    protected MockWebServer $server;
 
     /**
      * {@inheritdoc}
@@ -47,7 +46,7 @@ abstract class ApiTestCase extends TestCase
     /**
      * @return AkeneoPimClientInterface
      */
-    protected function createClientByPassword()
+    protected function createClientByPassword(): AkeneoPimClientInterface
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
 
@@ -59,7 +58,7 @@ abstract class ApiTestCase extends TestCase
         );
     }
 
-    protected function createClientByToken()
+    protected function createClientByToken(): AkeneoPimClientInterface
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
 
@@ -71,14 +70,14 @@ abstract class ApiTestCase extends TestCase
         );
     }
 
-    protected function createClientByAppToken()
+    protected function createClientByAppToken(): AkeneoPimClientInterface
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());
 
         return $clientBuilder->buildAuthenticatedByAppToken('a_token');
     }
 
-    private function getAuthenticatedJson()
+    private function getAuthenticatedJson(): string
     {
         return <<<JSON
             {

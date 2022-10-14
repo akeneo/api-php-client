@@ -25,7 +25,7 @@ class GetAssetIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetManagerApi();
         $asset = $api->get('packshot', 'battleship');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($asset, json_decode($this->getAsset(), true));
     }
 

@@ -25,16 +25,14 @@ class GetReferenceEntityRecordIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $product = $api->get('designer', 'starck');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getStarckRecord(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Record "foo" does not exist for the reference entity "designer".
-     */
     public function test_get_unknow_product()
     {
+        $this->expectExceptionMessage("Record \"foo\" does not exist for the reference entity \"designer\".");
+        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'foo'),
             new ResponseStack(

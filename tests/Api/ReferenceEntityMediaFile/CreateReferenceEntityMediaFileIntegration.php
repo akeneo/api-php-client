@@ -30,16 +30,16 @@ class CreateReferenceEntityMediaFileIntegration extends ApiTestCase
 
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
         Assert::assertSame(
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'],
-            'unicorn.png'
+            'unicorn.png',
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']
         );
         Assert::assertSame(
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'],
-            'image/png'
+            'image/png',
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']
         );
         Assert::assertSame(
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'],
-            11255
+            11255,
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']
         );
         Assert::assertSame('my-media-code', $response);
     }
