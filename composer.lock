@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8f1aa13a098971e273ffb1db83eabd1",
+    "content-hash": "3cefacf2fe30935f2cc12721009f2e83",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -1418,6 +1418,95 @@
                 }
             ],
             "time": "2022-07-17T04:27:21+00:00"
+        },
+        {
+            "name": "friends-of-phpspec/phpspec-code-coverage",
+            "version": "v5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/friends-of-phpspec/phpspec-code-coverage.git",
+                "reference": "251503979b24a940712134a005f25b3d05ed82bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/friends-of-phpspec/phpspec-code-coverage/zipball/251503979b24a940712134a005f25b3d05ed82bb",
+                "reference": "251503979b24a940712134a005f25b3d05ed82bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.2",
+                "phpspec/phpspec": "^5.0 || ^6.0 || ^7.0",
+                "phpunit/php-code-coverage": "^6.0 || ^7.0 || ^8.0"
+            },
+            "conflict": {
+                "sebastian/comparator": "< 2.0"
+            },
+            "require-dev": {
+                "drupol/php-conventions": "^1.7.1 || ^1.8.16"
+            },
+            "suggest": {
+                "ext-pcov": "Install PCov extension to generate code coverage.",
+                "ext-xdebug": "Install Xdebug to generate phpspec code coverage."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/bootstrap.php"
+                ],
+                "psr-4": {
+                    "FriendsOfPhpSpec\\PhpSpec\\CodeCoverage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ek9",
+                    "email": "dev@ek9.co",
+                    "homepage": "https://ek9.co"
+                },
+                {
+                    "name": "Henrik Bjornskov"
+                },
+                {
+                    "name": "Stéphane Hulard",
+                    "email": "s.hulard@chstudio.fr",
+                    "homepage": "https://chstudio.fr"
+                },
+                {
+                    "name": "Pol Dellaiera",
+                    "email": "pol.dellaiera@protonmail.com",
+                    "homepage": "https://not-a-number.io/"
+                },
+                {
+                    "name": "Jay Linski",
+                    "homepage": "https://twitter.com/jay_linski"
+                }
+            ],
+            "description": "Generate Code Coverage reports for PhpSpec tests",
+            "homepage": "https://github.com/friends-of-phpspec/phpspec-code-coverage",
+            "keywords": [
+                "code-coverage",
+                "coverage",
+                "phpspec",
+                "report",
+                "spec",
+                "test",
+                "tests"
+            ],
+            "support": {
+                "docs": "https://github.com/friends-of-phpspec/phpspec-code-coverage#phpspec-code-coverage",
+                "issues": "https://github.com/friends-of-phpspec/phpspec-code-coverage/issues",
+                "source": "https://github.com/friends-of-phpspec/phpspec-code-coverage"
+            },
+            "time": "2020-11-16T16:19:51+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",

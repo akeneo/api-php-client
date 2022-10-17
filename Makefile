@@ -25,6 +25,13 @@ spec: ## Run PHPSpec tests
 	@echo "-----------"
 	@echo "- PHPSpec -"
 	@echo "-----------"
+	$(DOCKER_RUN) bin/phpspec run --no-coverage
+
+.PHONY: spec-cov
+	@echo "--------------"
+	@echo "- PHPSpec cov-"
+	@echo "--------------"
+spec-cov: ## Run PHPSpec tests
 	$(DOCKER_RUN) bin/phpspec run
 
 .PHONY: cs
@@ -37,3 +44,7 @@ cs: ## Run code style check
 .PHONY: fix-cs
 fix-cs: ## Fix PHP code style
 	$(DOCKER_RUN) bin/php-cs-fixer fix --config=.php_cs.php
+
+.PHONY: ssh
+ssh: ## Fix PHP code style
+	$(DOCKER_RUN) bash
