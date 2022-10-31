@@ -25,7 +25,7 @@ class GetReferenceEntityIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getReferenceEntityApi();
         $product = $api->get('brand');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getBrand(), true));
     }
 

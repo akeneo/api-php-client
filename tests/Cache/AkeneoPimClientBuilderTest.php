@@ -19,7 +19,7 @@ class AkeneoPimClientBuilderTest extends ApiTestCase
 
         $product = $api->get('black_sneakers');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getProduct(), true));
     }
 
@@ -30,7 +30,7 @@ class AkeneoPimClientBuilderTest extends ApiTestCase
 
         $product = $api->get('black_sneakers');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getProduct(), true));
     }
 
@@ -41,7 +41,7 @@ class AkeneoPimClientBuilderTest extends ApiTestCase
 
         $product = $api->get('black_sneakers');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
+        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertEquals($product, json_decode($this->getProduct(), true));
     }
 
@@ -55,7 +55,7 @@ class AkeneoPimClientBuilderTest extends ApiTestCase
         );
     }
 
-    private function getProduct()
+    private function getProduct(): string
     {
         return <<<JSON
             [

@@ -35,9 +35,9 @@ class CreateProductMediaFileTest extends ApiTestCase
         $lastRequest = $this->server->getLastRequest()->jsonSerialize();
         Assert::assertSame($lastRequest[RequestInfo::JSON_KEY_POST]['product'], json_encode($productInfos));
         Assert::assertNotEmpty($lastRequest[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($lastRequest[RequestInfo::JSON_KEY_FILES]['file']['name'], 'akeneo.png');
-        Assert::assertSame($lastRequest[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/png');
-        Assert::assertSame($lastRequest[RequestInfo::JSON_KEY_FILES]['file']['size'], 8073);
+        Assert::assertSame('akeneo.png', $lastRequest[RequestInfo::JSON_KEY_FILES]['file']['name']);
+        Assert::assertSame('image/png', $lastRequest[RequestInfo::JSON_KEY_FILES]['file']['type']);
+        Assert::assertSame(8073, $lastRequest[RequestInfo::JSON_KEY_FILES]['file']['size']);
 
         Assert::assertSame('f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png', $response);
     }

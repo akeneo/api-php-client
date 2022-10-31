@@ -23,7 +23,7 @@ class DeleteProductTest extends ApiTestCase
 
         $response = $api->delete('docks_white');
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'DELETE');
+        Assert::assertSame('DELETE', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
         Assert::assertSame(204, $response);
     }
 }

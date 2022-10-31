@@ -24,37 +24,37 @@ class ListPerPageProductTest extends ApiTestCase
         $api = $this->createClientByPassword()->getProductApi();
         $firstPage = $api->listPerPage(10, true, []);
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET], ['limit' => '10', 'with_count' => 'true']);
+        Assert::assertSame(['limit' => '10', 'with_count' => 'true'], $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET]);
 
         Assert::assertInstanceOf(PageInterface::class, $firstPage);
-        Assert::assertEquals($firstPage->getCount(), 11);
+        Assert::assertEquals(11, $firstPage->getCount());
         Assert::assertNull($firstPage->getPreviousLink());
         Assert::assertNull($firstPage->getPreviousPage());
         Assert::assertFalse($firstPage->hasPreviousPage());
         Assert::assertTrue($firstPage->hasNextPage());
         Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=2&with_count=true&pagination_type=page&limit=10', $firstPage->getNextLink());
-        Assert::assertEquals(count($firstPage->getItems()), 10);
+        Assert::assertEquals(10, count($firstPage->getItems()));
 
         $secondPage = $firstPage->getNextPage();
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET], [
+        Assert::assertSame([
             'page' => '2',
             'with_count' => 'true',
             'pagination_type' => 'page',
             'limit' => '10'
-        ]);
+        ], $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET]);
 
         Assert::assertInstanceOf(PageInterface::class, $secondPage);
-        Assert::assertEquals($secondPage->getCount(), 11);
+        Assert::assertEquals(11, $secondPage->getCount());
         Assert::assertNull($secondPage->getNextLink());
         Assert::assertNull($secondPage->getNextPage());
         Assert::assertFalse($secondPage->hasNextPage());
         Assert::assertTrue($secondPage->hasPreviousPage());
         Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products?page=1&with_count=true&pagination_type=page&limit=10', $secondPage->getPreviousLink());
-        Assert::assertEquals(count($secondPage->getItems()), 1);
+        Assert::assertEquals(1, count($secondPage->getItems()));
     }
 
-    private function getFirstPage()
+    private function getFirstPage(): string
     {
         $baseUri = $this->server->getServerRoot();
 
@@ -338,7 +338,7 @@ class ListPerPageProductTest extends ApiTestCase
 JSON;
     }
 
-    private function getSecondPage()
+    private function getSecondPage(): string
     {
         $baseUri = $this->server->getServerRoot();
 

@@ -1,10 +1,12 @@
 <?php
 
-namespace Akeneo\Pim\ApiClient\tests\Api;
+namespace Akeneo\Pim\ApiClient\tests\Api\ProductUuid;
+
 
 use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
+use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;

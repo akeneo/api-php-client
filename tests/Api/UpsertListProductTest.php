@@ -77,14 +77,16 @@ class UpsertListProductTest extends ApiTestCase
         ], $responseLines[2]);
     }
 
-    private function getProductToUpsertJson(){
+    private function getProductToUpsertJson(): string
+    {
         return <<<JSON
 {"identifier":"docks_black","enabled":false,"values":{"name":[{"locale":"en_US","scope":null,"data":"Black Docks"}]}}
 {"identifier":"pumps","enabled":false,"family":"sandals","categories":["summer_collection"],"values":{"name":[{"data":"The pumps","locale":"en_US","scope":null},{"data":"Les pumps","locale":"fr_FR","scope":null}]}}
 JSON;
     }
 
-    private function getProductToUpsert(){
+    private function getProductToUpsert(): array
+    {
         return [
             [
                 'identifier' => 'docks_black',
@@ -122,7 +124,7 @@ JSON;
         ];
     }
 
-    private function getResults()
+    private function getResults(): string
     {
         return <<<JSON
         {"line": 1,"identifier": "docks_black","status_code": 204}

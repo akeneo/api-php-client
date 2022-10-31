@@ -15,7 +15,7 @@ class ListAllReferenceEntitiesIntegration extends ApiTestCase
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityApi::REFERENCE_ENTITIES_URI),
+            '/'. ReferenceEntityApi::REFERENCE_ENTITIES_URI,
             new ResponseStack(
                 new Response($this->getFirstPage(), [], 200),
                 new Response($this->getSecondPage(), [], 200)
