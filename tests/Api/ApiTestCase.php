@@ -43,9 +43,6 @@ abstract class ApiTestCase extends TestCase
         $this->server->stop();
     }
 
-    /**
-     * @return AkeneoPimClientInterface
-     */
     protected function createClientByPassword(): AkeneoPimClientInterface
     {
         $clientBuilder = new AkeneoPimClientBuilder($this->server->getServerRoot());

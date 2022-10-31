@@ -25,14 +25,16 @@ class GetAssetFamilyAttributeIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeApi();
         $familyAttribute = $api->get('packshot', 'media_preview');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($familyAttribute, json_decode($this->getPackshotPreviewAttribute(), true));
     }
 
+    /**
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
+     * @expectedExceptionMessage Resource `foo` does not exist.
+     */
     public function test_get_unknown_asset_family_attribute()
     {
-        $this->expectExceptionMessage("Resource `foo` does not exist.");
-        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'foo'),
             new ResponseStack(

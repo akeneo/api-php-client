@@ -25,7 +25,7 @@ class ListAllAssetFamilyAttributesIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeApi();
         $assetFamilyAttributes = $api->all('packshot');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($assetFamilyAttributes, json_decode($this->getAssetFamilyAttributes(), true));
     }
 

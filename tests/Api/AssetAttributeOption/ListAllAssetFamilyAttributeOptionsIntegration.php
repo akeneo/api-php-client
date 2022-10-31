@@ -29,7 +29,7 @@ class ListAllAssetFamilyAttributeOptionsIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $assetFamilyAttributeOptions = $api->all('packshot', 'wearing_model_size');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($assetFamilyAttributeOptions, json_decode($this->getAssetFamilyAttributeOptions(), true));
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Akeneo\Pim\ApiClient\tests\Api\AssetReferenceFile;
+namespace Akeneo\Pim\ApiClient\tests\v2_1\Api\AssetReferenceFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApi;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
@@ -26,17 +26,17 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForLocalizableAsset($filePath, 'ziggy', 'en_US');
 
-        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame('ziggy.png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
-        Assert::assertSame('image/png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
-        Assert::assertSame(25685, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy.png');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/png');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 25685);
 
         Assert::assertSame(201, $responseCode);
 
         $assetReferenceFile = $api->getFromLocalizableAsset('ziggy', 'en_US');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetReferenceFile);
     }
 
@@ -55,17 +55,17 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForNotLocalizableAsset($filePath, 'ziggy-certification');
 
-        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame('ziggy-certification.jpg', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
-        Assert::assertSame('image/jpeg', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
-        Assert::assertSame(10513, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy-certification.jpg');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/jpeg');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 10513);
 
         Assert::assertSame(201, $responseCode);
 
         $assetReferenceFile = $api->getFromNotLocalizableAsset('ziggy-certification');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($this->fakeUploadNotLocalizableInformations(), $assetReferenceFile);
     }
 
@@ -85,23 +85,25 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetReferenceFileApi();
         $responseCode = $api->uploadForLocalizableAsset($file, 'ziggy', 'en_US');
 
-        Assert::assertSame('POST', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame('ziggy.png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']);
-        Assert::assertSame('image/png', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']);
-        Assert::assertSame(25685, $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy.png');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/png');
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 25685);
 
         Assert::assertSame(201, $responseCode);
 
         $assetReferenceFile = $api->getFromLocalizableAsset('ziggy', 'en_US');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetReferenceFile);
     }
 
+    /**
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
+     */
     public function test_upload_for_an_unknown_asset()
     {
-        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
@@ -116,9 +118,11 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'en_US');
     }
 
+    /**
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\UploadAssetReferenceFileErrorException
+     */
     public function test_upload_a_file_that_cannot_be_transformed_for_the_variations()
     {
-        $this->expectException(\Akeneo\Pim\ApiClient\Exception\UploadAssetReferenceFileErrorException::class);
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(
@@ -133,8 +137,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn');
     }
 
-    protected function fakeUploadLocalizableInformations(): array
-    {
+    protected function fakeUploadLocalizableInformations(){
         return [
             'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy.jpg',
             'locale' => 'en_US',
@@ -146,8 +149,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         ];
     }
 
-    protected function fakeUploadNotLocalizableInformations(): array
-    {
+    protected function fakeUploadNotLocalizableInformations(){
         return [
             'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_certification.jpg',
             'locale' => null,
@@ -159,8 +161,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         ];
     }
 
-    protected function generateMessageForUploadAssetReferenceFileErrorException(): array
-    {
+    protected function generateMessageForUploadAssetReferenceFileErrorException(){
         return [
             'message' => 'Some variation files were not generated properly.',
             'errors' => [

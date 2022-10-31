@@ -15,7 +15,7 @@ class ListAllAssetFamiliesIntegration extends ApiTestCase
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/' . AssetFamilyApi::ASSET_FAMILIES_URI,
+            '/' . sprintf(AssetFamilyApi::ASSET_FAMILIES_URI),
             new ResponseStack(
                 new Response($this->getFirstPage(), [], 200),
                 new Response($this->getSecondPage(), [], 200)

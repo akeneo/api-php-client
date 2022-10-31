@@ -25,14 +25,16 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $familyAttributeOption = $api->get('packshot', 'wearing_model_size', 'small');
 
-        Assert::assertSame('GET', $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD]);
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertEquals($familyAttributeOption, json_decode($this->getPackshotAttributeOption(), true));
     }
 
+    /**
+     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
+     * @expectedExceptionMessage Resource `XLS` does not exist.
+     */
     public function test_get_unknown_asset_family_attribute_option()
     {
-        $this->expectExceptionMessage("Resource `XLS` does not exist.");
-        $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/'. sprintf(AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI, 'packshot', 'wearing_model_size', 'XLS'),
             new ResponseStack(

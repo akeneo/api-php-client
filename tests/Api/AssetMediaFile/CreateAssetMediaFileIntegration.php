@@ -24,16 +24,16 @@ class CreateAssetMediaFileIntegration extends ApiTestCase
 
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
         Assert::assertSame(
-            'unicorn.png',
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name']
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'],
+            'unicorn.png'
         );
         Assert::assertSame(
-            'image/png',
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type']
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'],
+            'image/png'
         );
         Assert::assertSame(
-            11255,
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size']
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'],
+            11255
         );
         Assert::assertSame('my-asset-media-code', $response);
     }
