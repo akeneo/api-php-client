@@ -331,7 +331,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     }
 
     /**
-     * @return AssetApiInterface
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     * @see getAssetManagerApi instead.
      */
     public function getAssetApi(): AssetApiInterface
     {
@@ -339,7 +340,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     * @see getAssetFamilyApi instead.
      */
     public function getAssetCategoryApi(): AssetCategoryApiInterface
     {
@@ -347,7 +349,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
      */
     public function getAssetTagApi(): AssetTagApiInterface
     {
@@ -355,7 +357,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
      */
     public function getAssetReferenceFileApi(): AssetReferenceFileApiInterface
     {
@@ -363,7 +365,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
      */
     public function getAssetVariationFileApi(): AssetVariationFileApiInterface
     {

@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author    Laurent Petard <laurent.petard@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @deprecated Route unavailable in latest PIM versions. Class will be removed in v12.0.0.
  */
 class AssetVariationFileApi implements AssetVariationFileApiInterface
 {

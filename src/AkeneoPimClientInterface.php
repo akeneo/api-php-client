@@ -89,14 +89,31 @@ interface AkeneoPimClientInterface
 
     public function getProductDraftApi(): ProductDraftApiInterface;
 
+    /**
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     * @see getAssetManagerApi instead.
+     */
     public function getAssetApi(): AssetApiInterface;
 
+    /**
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     * @see getAssetFamilyApi instead.
+     */
     public function getAssetCategoryApi(): AssetCategoryApiInterface;
 
+    /**
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     */
     public function getAssetTagApi(): AssetTagApiInterface;
 
+    /**
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     */
     public function getAssetReferenceFileApi(): AssetReferenceFileApiInterface;
 
+    /**
+     * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
+     */
     public function getAssetVariationFileApi(): AssetVariationFileApiInterface;
 
     public function getReferenceEntityRecordApi(): ReferenceEntityRecordApiInterface;
