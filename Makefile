@@ -37,3 +37,7 @@ cs: ## Run code style check
 .PHONY: fix-cs
 fix-cs: ## Fix PHP code style
 	$(DOCKER_RUN) bin/php-cs-fixer fix --config=.php_cs.php
+
+.PHONY: rector
+rector: ## Run rector
+	$(DOCKER_RUN) bin/rector
