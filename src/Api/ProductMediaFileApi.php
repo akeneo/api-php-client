@@ -20,10 +20,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ProductMediaFileApi implements MediaFileApiInterface
 {
-    const MEDIA_FILES_URI = 'api/rest/v1/media-files';
-    const MEDIA_FILE_URI = 'api/rest/v1/media-files/%s';
-    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/media-files/%s/download';
-    const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
+    public const MEDIA_FILES_URI = 'api/rest/v1/media-files';
+    public const MEDIA_FILE_URI = 'api/rest/v1/media-files/%s';
+    public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/media-files/%s/download';
+    public const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

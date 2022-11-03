@@ -17,8 +17,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
  */
 class ProductDraftApi implements ProductDraftApiInterface
 {
-    const PRODUCT_DRAFT_URI = '/api/rest/v1/products/%s/draft';
-    const PRODUCT_PROPOSAL_URI = '/api/rest/v1/products/%s/proposal';
+    public const PRODUCT_DRAFT_URI = '/api/rest/v1/products/%s/draft';
+    public const PRODUCT_PROPOSAL_URI = '/api/rest/v1/products/%s/proposal';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

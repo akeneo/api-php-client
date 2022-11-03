@@ -2,7 +2,7 @@
 
 return (new PhpCsFixer\Config())
     ->setRules(array(
-        '@PSR2' => true,
+        '@PSR12' => true,
         'linebreak_after_opening_tag' => true,
         'ordered_imports' => true,
     ))

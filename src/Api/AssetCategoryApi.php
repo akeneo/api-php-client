@@ -22,8 +22,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AssetCategoryApi implements AssetCategoryApiInterface
 {
-    const ASSET_CATEGORIES_URI = '/api/rest/v1/asset-categories';
-    const ASSET_CATEGORY_URI = '/api/rest/v1/asset-categories/%s';
+    public const ASSET_CATEGORIES_URI = '/api/rest/v1/asset-categories';
+    public const ASSET_CATEGORY_URI = '/api/rest/v1/asset-categories/%s';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

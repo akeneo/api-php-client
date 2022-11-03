@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class CategoryApi implements CategoryApiInterface
 {
-    const CATEGORY_URI = 'api/rest/v1/categories/%s';
-    const CATEGORIES_URI = 'api/rest/v1/categories';
+    public const CATEGORY_URI = 'api/rest/v1/categories/%s';
+    public const CATEGORIES_URI = 'api/rest/v1/categories';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

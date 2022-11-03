@@ -16,8 +16,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ReferenceEntityApi implements ReferenceEntityApiInterface
 {
-    const REFERENCE_ENTITY_URI = 'api/rest/v1/reference-entities/%s';
-    const REFERENCE_ENTITIES_URI= 'api/rest/v1/reference-entities';
+    public const REFERENCE_ENTITY_URI = 'api/rest/v1/reference-entities/%s';
+    public const REFERENCE_ENTITIES_URI= 'api/rest/v1/reference-entities';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

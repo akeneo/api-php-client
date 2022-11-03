@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Api\AssetManager;
@@ -10,8 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class AssetMediaFileApi implements AssetMediaFileApiInterface
 {
-    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/asset-media-files/%s';
-    const MEDIA_FILE_CREATE_URI = 'api/rest/v1/asset-media-files';
+    public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/asset-media-files/%s';
+    public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/asset-media-files';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

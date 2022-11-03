@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Api;
@@ -16,8 +17,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ProductUuidApi implements ProductUuidApiInterface
 {
-    const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
-    const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';
+    public const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
+    public const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';
 
     protected ResourceClientInterface $resourceClient;
     protected PageFactoryInterface $pageFactory;

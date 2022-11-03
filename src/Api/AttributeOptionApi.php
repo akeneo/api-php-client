@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AttributeOptionApi implements AttributeOptionApiInterface
 {
-    const ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/attributes/%s/options';
-    const ATTRIBUTE_OPTION_URI = 'api/rest/v1/attributes/%s/options/%s';
+    public const ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/attributes/%s/options';
+    public const ATTRIBUTE_OPTION_URI = 'api/rest/v1/attributes/%s/options/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

@@ -14,7 +14,7 @@ use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
  */
 class AuthenticationApi implements AuthenticationApiInterface
 {
-    const TOKEN_URI = 'api/oauth/v1/token';
+    public const TOKEN_URI = 'api/oauth/v1/token';
 
     /** @var HttpClient */
     protected $httpClient;

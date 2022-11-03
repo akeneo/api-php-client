@@ -13,7 +13,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
  */
 class MeasurementFamilyApi implements MeasurementFamilyApiInterface
 {
-    const MEASUREMENT_FAMILIES_URI = 'api/rest/v1/measurement-families';
+    public const MEASUREMENT_FAMILIES_URI = 'api/rest/v1/measurement-families';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

@@ -128,7 +128,7 @@ interface ResourceClientInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []) : \Traversable;
+    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []): \Traversable;
 
     /**
      * Updates or creates several resources using a single JSON string for the request and the response.

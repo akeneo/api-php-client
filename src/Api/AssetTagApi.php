@@ -20,8 +20,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AssetTagApi implements AssetTagApiInterface
 {
-    const ASSET_TAGS_URI = '/api/rest/v1/asset-tags';
-    const ASSET_TAG_URI = '/api/rest/v1/asset-tags/%s';
+    public const ASSET_TAGS_URI = '/api/rest/v1/asset-tags';
+    public const ASSET_TAG_URI = '/api/rest/v1/asset-tags/%s';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

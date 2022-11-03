@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Api\AppCatalog;
@@ -14,7 +15,7 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AppCatalogProductApi implements AppCatalogProductApiInterface
 {
-    const APP_CATALOG_PRODUCT_URI = '/api/rest/v1/catalogs/%s/product-uuids';
+    public const APP_CATALOG_PRODUCT_URI = '/api/rest/v1/catalogs/%s/product-uuids';
 
     protected ResourceClientInterface $resourceClient;
     protected PageFactoryInterface $pageFactory;

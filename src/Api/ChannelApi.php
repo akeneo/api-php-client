@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ChannelApi implements ChannelApiInterface
 {
-    const CHANNELS_URI = 'api/rest/v1/channels';
-    const CHANNEL_URI = 'api/rest/v1/channels/%s';
+    public const CHANNELS_URI = 'api/rest/v1/channels';
+    public const CHANNEL_URI = 'api/rest/v1/channels/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

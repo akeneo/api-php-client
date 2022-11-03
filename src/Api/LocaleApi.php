@@ -17,8 +17,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class LocaleApi implements LocaleApiInterface
 {
-    const LOCALES_URI = 'api/rest/v1/locales';
-    const LOCALE_URI = 'api/rest/v1/locales/%s';
+    public const LOCALES_URI = 'api/rest/v1/locales';
+    public const LOCALE_URI = 'api/rest/v1/locales/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

@@ -20,9 +20,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AssetReferenceFileApi implements AssetReferenceFileApiInterface
 {
-    const ASSET_REFERENCE_FILE_URI = '/api/rest/v1/assets/%s/reference-files/%s';
-    const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
-    const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
+    public const ASSET_REFERENCE_FILE_URI = '/api/rest/v1/assets/%s/reference-files/%s';
+    public const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
+    public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

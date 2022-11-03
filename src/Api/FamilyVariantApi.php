@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class FamilyVariantApi implements FamilyVariantApiInterface
 {
-    const FAMILY_VARIANT_URI = 'api/rest/v1/families/%s/variants/%s';
-    const FAMILY_VARIANTS_URI = 'api/rest/v1/families/%s/variants';
+    public const FAMILY_VARIANT_URI = 'api/rest/v1/families/%s/variants/%s';
+    public const FAMILY_VARIANTS_URI = 'api/rest/v1/families/%s/variants';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

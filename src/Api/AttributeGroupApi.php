@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AttributeGroupApi implements AttributeGroupApiInterface
 {
-    const ATTRIBUTE_GROUP_URI = 'api/rest/v1/attribute-groups/%s';
-    const ATTRIBUTE_GROUPS_URI = 'api/rest/v1/attribute-groups';
+    public const ATTRIBUTE_GROUP_URI = 'api/rest/v1/attribute-groups/%s';
+    public const ATTRIBUTE_GROUPS_URI = 'api/rest/v1/attribute-groups';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

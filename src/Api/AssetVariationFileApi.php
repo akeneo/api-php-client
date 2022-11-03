@@ -18,9 +18,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AssetVariationFileApi implements AssetVariationFileApiInterface
 {
-    const ASSET_VARIATION_FILE_URI = '/api/rest/v1/assets/%s/variation-files/%s/%s';
-    const ASSET_VARIATION_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/variation-files/%s/%s/download';
-    const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
+    public const ASSET_VARIATION_FILE_URI = '/api/rest/v1/assets/%s/variation-files/%s/%s';
+    public const ASSET_VARIATION_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/variation-files/%s/%s/download';
+    public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

@@ -18,8 +18,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ProductApi implements ProductApiInterface
 {
-    const PRODUCTS_URI = 'api/rest/v1/products';
-    const PRODUCT_URI = 'api/rest/v1/products/%s';
+    public const PRODUCTS_URI = 'api/rest/v1/products';
+    public const PRODUCT_URI = 'api/rest/v1/products/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;

@@ -16,8 +16,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ReferenceEntityMediaFileApi implements ReferenceEntityMediaFileApiInterface
 {
-    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/reference-entities-media-files/%s';
-    const MEDIA_FILE_CREATE_URI = 'api/rest/v1/reference-entities-media-files';
+    public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/reference-entities-media-files/%s';
+    public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/reference-entities-media-files';
 
     /** @var ResourceClientInterface */
     private $resourceClient;

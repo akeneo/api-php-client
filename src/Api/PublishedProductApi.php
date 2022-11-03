@@ -19,8 +19,8 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class PublishedProductApi implements PublishedProductApiInterface
 {
-    const PUBLISHED_PRODUCTS_URI = 'api/rest/v1/published-products';
-    const PUBLISHED_PRODUCT_URI = 'api/rest/v1/published-products/%s';
+    public const PUBLISHED_PRODUCTS_URI = 'api/rest/v1/published-products';
+    public const PUBLISHED_PRODUCT_URI = 'api/rest/v1/published-products/%s';
 
     /** @var ResourceClientInterface */
     protected $resourceClient;
