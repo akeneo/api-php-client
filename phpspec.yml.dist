@@ -3,3 +3,6 @@ suites:
     AkeneoPimClient:
         namespace: Akeneo\Pim\ApiClient
         psr4_prefix: Akeneo\Pim\ApiClient
+
+extensions:
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension: ~
