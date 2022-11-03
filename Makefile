@@ -4,6 +4,11 @@ DOCKER_RUN = DOCKER_BUILDKIT=1 docker-compose run php_client
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-25s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
+.PHONY: build-image
+build-image: ## Build docker image
+	DOCKER_BUILDKIT=1 docker-compose build
+
+.PHONY:
 .PHONY: dependencies
 dependencies: ## Install composer dependencies
 	cp docker-compose.yml.dist docker-compose.yml
