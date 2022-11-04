@@ -37,11 +37,11 @@ cs: ## Run code style check
 	@echo "------------------"
 	@echo "- PHP code style -"
 	@echo "------------------"
-	$(DOCKER_RUN) bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php -vvv
+	$(DOCKER_RUN) bin/ecs
 
 .PHONY: fix-cs
 fix-cs: ## Fix PHP code style
-	$(DOCKER_RUN) bin/php-cs-fixer fix --config=.php_cs.php
+	$(DOCKER_RUN) bin/ecs --fix
 
 .PHONY: rector
 rector: ## Run rector
