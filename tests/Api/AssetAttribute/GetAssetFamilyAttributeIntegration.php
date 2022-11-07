@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\tests\Api\AssetAttribute;
 
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -29,10 +30,6 @@ class GetAssetFamilyAttributeIntegration extends ApiTestCase
         Assert::assertEquals($familyAttribute, json_decode($this->getPackshotPreviewAttribute(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Resource `foo` does not exist.
-     */
     public function test_get_unknown_asset_family_attribute()
     {
         $this->server->setResponseOfPath(
@@ -43,6 +40,10 @@ class GetAssetFamilyAttributeIntegration extends ApiTestCase
         );
 
         $api = $this->createClientByPassword()->getAssetAttributeApi();
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->expectExceptionMessage('Resource `foo` does not exist.');
+
         $api->get('packshot', 'foo');
     }
 

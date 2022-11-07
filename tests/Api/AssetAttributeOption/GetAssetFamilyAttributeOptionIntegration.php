@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\tests\Api\AssetAttributeOption;
 
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetAttributeOptionApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -29,10 +30,6 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
         Assert::assertEquals($familyAttributeOption, json_decode($this->getPackshotAttributeOption(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Resource `XLS` does not exist.
-     */
     public function test_get_unknown_asset_family_attribute_option()
     {
         $this->server->setResponseOfPath(
@@ -43,6 +40,10 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
         );
 
         $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->expectExceptionMessage('Resource `XLS` does not exist.');
+
         $api->get('packshot', 'wearing_model_size', 'XLS');
     }
 

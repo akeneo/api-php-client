@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\tests\Api\AssetFamily;
 
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetFamilyApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -29,10 +30,6 @@ class GetAssetFamilyIntegration extends ApiTestCase
         Assert::assertEquals($product, json_decode($this->getPackshot(), true));
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     * @expectedExceptionMessage Asset family "foo" does not exist.
-     */
     public function test_get_unknown_asset_family()
     {
         $this->server->setResponseOfPath(
@@ -43,6 +40,10 @@ class GetAssetFamilyIntegration extends ApiTestCase
         );
 
         $api = $this->createClientByPassword()->getAssetFamilyApi();
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->expectExceptionMessage('Asset family "foo" does not exist.');
+
         $api->get('foo');
     }
 
