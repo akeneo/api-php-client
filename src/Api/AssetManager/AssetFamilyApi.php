@@ -14,23 +14,8 @@ class AssetFamilyApi implements AssetFamilyApiInterface
     public const ASSET_FAMILY_URI = 'api/rest/v1/asset-families/%s';
     public const ASSET_FAMILIES_URI= 'api/rest/v1/asset-families';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(private ResourceClientInterface $resourceClient, private PageFactoryInterface $pageFactory, private ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

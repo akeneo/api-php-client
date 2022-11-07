@@ -25,23 +25,8 @@ class AssetCategoryApi implements AssetCategoryApiInterface
     public const ASSET_CATEGORIES_URI = '/api/rest/v1/asset-categories';
     public const ASSET_CATEGORY_URI = '/api/rest/v1/asset-categories/%s';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(private ResourceClientInterface $resourceClient, private PageFactoryInterface $pageFactory, private ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

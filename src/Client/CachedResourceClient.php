@@ -13,15 +13,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CachedResourceClient implements ResourceClientInterface
 {
-    private ResourceClientInterface $resourceClient;
-    private CacheInterface $cache;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        CacheInterface $cache
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->cache = $cache;
+    public function __construct(private ResourceClientInterface $resourceClient, private CacheInterface $cache)
+    {
     }
 
     /**

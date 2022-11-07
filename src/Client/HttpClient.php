@@ -29,24 +29,15 @@ class HttpClient implements HttpClientInterface
     public const HTTP_UNSUPPORTED_MEDIA_TYPE = 415;
     public const HTTP_UNPROCESSABLE_ENTITY = 422;
     public const HTTP_TOO_MANY_REQUESTS = 429;
-
-    protected ClientInterface $httpClient;
-    protected RequestFactoryInterface $requestFactory;
     protected HttpExceptionHandler $httpExceptionHandler;
-    private StreamFactoryInterface $streamFactory;
-    private Options $options;
 
     public function __construct(
-        ClientInterface $httpClient,
-        RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
-        Options $options
+        protected ClientInterface $httpClient,
+        protected RequestFactoryInterface $requestFactory,
+        private StreamFactoryInterface $streamFactory,
+        private Options $options
     ) {
-        $this->httpClient = $httpClient;
-        $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
         $this->httpExceptionHandler = new HttpExceptionHandler();
-        $this->options = $options;
     }
 
     /**
@@ -74,8 +65,7 @@ class HttpClient implements HttpClientInterface
         }
 
         $response = $this->httpClient->sendRequest($request);
-        $response = $this->httpExceptionHandler->transformResponseToException($request, $response);
 
-        return $response;
+        return $this->httpExceptionHandler->transformResponseToException($request, $response);
     }
 }

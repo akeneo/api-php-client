@@ -16,20 +16,8 @@ class AuthenticationApi implements AuthenticationApiInterface
 {
     public const TOKEN_URI = 'api/oauth/v1/token';
 
-    /** @var HttpClient */
-    protected $httpClient;
-
-    /** @var UriGeneratorInterface */
-    protected $uriGenerator;
-
-    /**
-     * @param HttpClient            $httpClient
-     * @param UriGeneratorInterface $uriGenerator
-     */
-    public function __construct(HttpClient $httpClient, UriGeneratorInterface $uriGenerator)
+    public function __construct(protected HttpClient $httpClient, protected UriGeneratorInterface $uriGenerator)
     {
-        $this->httpClient = $httpClient;
-        $this->uriGenerator = $uriGenerator;
     }
 
     /**
@@ -79,8 +67,6 @@ class AuthenticationApi implements AuthenticationApiInterface
 
         $response = $this->httpClient->sendRequest('POST', $uri, $headers, json_encode($requestBody));
 
-        $responseBody = json_decode($response->getBody()->getContents(), true);
-
-        return $responseBody;
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

@@ -19,23 +19,8 @@ class ReferenceEntityRecordApi implements ReferenceEntityRecordApiInterface
     public const REFERENCE_ENTITY_RECORD_URI = 'api/rest/v1/reference-entities/%s/records/%s';
     public const REFERENCE_ENTITY_RECORDS_URI = 'api/rest/v1/reference-entities/%s/records';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(private ResourceClientInterface $resourceClient, private PageFactoryInterface $pageFactory, private ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

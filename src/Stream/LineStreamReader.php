@@ -16,8 +16,6 @@ class LineStreamReader
     /**
      * Gets the next line of a stream.
      *
-     * @param StreamInterface $stream
-     *
      * @return string|null returns the line, or null if the stream is not readable or at the end
      */
     public function getNextLine(StreamInterface $stream): ?string

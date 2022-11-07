@@ -22,23 +22,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AuthenticatedHttpClient implements HttpClientInterface
 {
-    /** @var HttpClient */
-    protected $basicHttpClient;
-
-    /** @var AuthenticationApiInterface */
-    protected $authenticationApi;
-
-    /** @var Authentication */
-    protected $authentication;
-
-    public function __construct(
-        HttpClient $basicHttpClient,
-        AuthenticationApiInterface $authenticationApi,
-        Authentication $authentication
-    ) {
-        $this->basicHttpClient = $basicHttpClient;
-        $this->authenticationApi = $authenticationApi;
-        $this->authentication = $authentication;
+    public function __construct(protected HttpClient $basicHttpClient, protected AuthenticationApiInterface $authenticationApi, protected Authentication $authentication)
+    {
     }
 
     /**
@@ -84,7 +69,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 $this->authentication->getSecret(),
                 $this->authentication->getRefreshToken()
             );
-        } catch (UnprocessableEntityHttpException $e) {
+        } catch (UnprocessableEntityHttpException) {
             throw $unauthorizedHttpException;
         }
     }

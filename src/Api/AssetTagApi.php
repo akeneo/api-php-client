@@ -23,23 +23,8 @@ class AssetTagApi implements AssetTagApiInterface
     public const ASSET_TAGS_URI = '/api/rest/v1/asset-tags';
     public const ASSET_TAG_URI = '/api/rest/v1/asset-tags/%s';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(private ResourceClientInterface $resourceClient, private PageFactoryInterface $pageFactory, private ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

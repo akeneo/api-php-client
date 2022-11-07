@@ -17,18 +17,8 @@ class AppCatalogProductApi implements AppCatalogProductApiInterface
 {
     public const APP_CATALOG_PRODUCT_URI = '/api/rest/v1/catalogs/%s/product-uuids';
 
-    protected ResourceClientInterface $resourceClient;
-    protected PageFactoryInterface $pageFactory;
-    protected ResourceCursorFactoryInterface $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

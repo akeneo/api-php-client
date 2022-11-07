@@ -20,23 +20,8 @@ class ProductModelDraftApi implements ProductModelDraftApiInterface
     public const PRODUCT_MODEL_DRAFT_URI = '/api/rest/v1/product-models/%s/draft';
     public const PRODUCT_MODEL_PROPOSAL_URI = '/api/rest/v1/product-models/%s/proposal';
 
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
 
     /**

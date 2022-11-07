@@ -49,8 +49,6 @@ class UriGenerator implements UriGeneratorInterface
     /**
      * Transforms boolean query parameters as string 'true' or 'false' instead of 0 or 1.
      *
-     * @param array $queryParameters
-     *
      * @return array
      */
     protected function booleanQueryParametersAsString(array $queryParameters)

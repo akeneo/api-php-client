@@ -11,12 +11,8 @@ class AssetAttributeApi implements AssetAttributeApiInterface
     public const ASSET_ATTRIBUTE_URI = 'api/rest/v1/asset-families/%s/attributes/%s';
     public const ASSET_ATTRIBUTES_URI = 'api/rest/v1/asset-families/%s/attributes';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    public function __construct(ResourceClientInterface $resourceClient)
+    public function __construct(private ResourceClientInterface $resourceClient)
     {
-        $this->resourceClient = $resourceClient;
     }
 
     /**

@@ -24,16 +24,8 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
     public const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
     public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var FileSystemInterface */
-    private $fileSystem;
-
-    public function __construct(ResourceClientInterface $resourceClient, FileSystemInterface $fileSystem)
+    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
     {
-        $this->resourceClient = $resourceClient;
-        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -88,10 +80,6 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
 
     /**
      * @param string|resource $referenceFile
-     * @param string          $assetCode
-     * @param string          $localeCode
-     *
-     * @return int
      */
     private function upload($referenceFile, string $assetCode, string $localeCode): int
     {

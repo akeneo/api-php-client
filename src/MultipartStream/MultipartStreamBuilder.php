@@ -14,24 +14,19 @@ use Psr\Http\Message\StreamInterface;
  */
 class MultipartStreamBuilder
 {
-    /** @var StreamFactoryInterface */
-    private $streamFactory;
-
     /** @var MimetypeHelper */
     private $mimetypeHelper;
 
-    /** @var string */
-    private $boundary;
+    private ?string $boundary = null;
 
     /**
      * @var array Element where each Element is an array with keys ['contents', 'headers', 'filename']
      */
-    private $data = [];
+    private array $data = [];
 
 
-    public function __construct(StreamFactoryInterface $streamFactory)
+    public function __construct(private StreamFactoryInterface $streamFactory)
     {
-        $this->streamFactory = $streamFactory;
     }
 
     /**
@@ -68,7 +63,7 @@ class MultipartStreamBuilder
         if (empty($options['filename'])) {
             $options['filename'] = null;
             $uri = $stream->getMetadata('uri');
-            if (substr($uri, 0, 6) !== 'php://') {
+            if (!str_starts_with($uri, 'php://')) {
                 $options['filename'] = $uri;
             }
         }
@@ -131,24 +126,18 @@ class MultipartStreamBuilder
         }
 
         // Set a default content-length header if one was not provided
-        if (!$this->hasHeader($headers, 'content-length')) {
-            if ($length = $stream->getSize()) {
-                $headers['Content-Length'] = (string) $length;
-            }
+        if (!$this->hasHeader($headers, 'content-length') && ($length = $stream->getSize())) {
+            $headers['Content-Length'] = (string) $length;
         }
 
         // Set a default Content-Type if one was not provided
-        if (!$this->hasHeader($headers, 'content-type') && $hasFilename) {
-            if ($type = $this->getMimetypeHelper()->getMimetypeFromFilename($filename)) {
-                $headers['Content-Type'] = $type;
-            }
+        if (!$this->hasHeader($headers, 'content-type') && $hasFilename && ($type = $this->getMimetypeHelper()->getMimetypeFromFilename($filename))) {
+            $headers['Content-Type'] = $type;
         }
     }
 
     /**
      * Get the headers formatted for the HTTP message.
-     *
-     * @param array $headers
      *
      * @return string
      */
@@ -165,9 +154,7 @@ class MultipartStreamBuilder
     /**
      * Check if header exist.
      *
-     * @param array  $headers
      * @param string $key     case insensitive
-     *
      * @return bool
      */
     private function hasHeader(array $headers, $key)
@@ -222,8 +209,6 @@ class MultipartStreamBuilder
 
     /**
      * If you have custom file extension you may overwrite the default MimetypeHelper with your own.
-     *
-     * @param MimetypeHelper $mimetypeHelper
      *
      * @return MultipartStreamBuilder
      */

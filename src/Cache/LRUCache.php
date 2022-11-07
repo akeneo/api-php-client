@@ -6,15 +6,13 @@ namespace Akeneo\Pim\ApiClient\Cache;
 
 class LRUCache implements CacheInterface
 {
-    private int $maxItems;
     private array $items = [];
 
     /**
      * @param int $maxItems Maximum number of allowed cache items.
      */
-    public function __construct(int $maxItems = 100)
+    public function __construct(private int $maxItems = 100)
     {
-        $this->maxItems = $maxItems;
     }
 
     /**
@@ -46,10 +44,8 @@ class LRUCache implements CacheInterface
         if ($diff <= 0) {
             return;
         }
-
-        reset($this->items);
         for ($i = 0; $i < $diff; $i++) {
-            unset($this->items[key($this->items)]);
+            unset($this->items[array_key_first($this->items)]);
             next($this->items);
         }
     }

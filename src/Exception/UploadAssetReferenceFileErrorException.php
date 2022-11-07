@@ -14,18 +14,12 @@ namespace Akeneo\Pim\ApiClient\Exception;
  */
 class UploadAssetReferenceFileErrorException extends RuntimeException
 {
-    /** @var array */
-    private $errors;
-
     /**
      * @param string $message
-     * @param array  $errors
      */
-    public function __construct($message, array $errors)
+    public function __construct($message, private array $errors)
     {
         parent::__construct($message);
-
-        $this->errors = $errors;
     }
 
     public function getErrors(): array

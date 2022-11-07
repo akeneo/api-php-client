@@ -20,18 +20,8 @@ class ProductUuidApi implements ProductUuidApiInterface
     public const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
     public const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';
 
-    protected ResourceClientInterface $resourceClient;
-    protected PageFactoryInterface $pageFactory;
-    protected ResourceCursorFactoryInterface $cursorFactory;
-
-    public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
-    ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
+    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
+    {
     }
     public function listPerPage(int $limit = 100, bool $withCount = false, array $queryParameters = []): PageInterface
     {

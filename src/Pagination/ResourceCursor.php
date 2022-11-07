@@ -12,17 +12,12 @@ namespace Akeneo\Pim\ApiClient\Pagination;
 class ResourceCursor implements ResourceCursorInterface
 {
     protected PageInterface $currentPage;
-    protected PageInterface $firstPage;
-    /** @var null|int */
-    protected $pageSize;
     protected int $currentIndex = 0;
     protected int $totalIndex = 0;
 
-    public function __construct(?int $pageSize, PageInterface $firstPage)
+    public function __construct(protected ?int $pageSize, protected PageInterface $firstPage)
     {
-        $this->firstPage = $firstPage;
         $this->currentPage = $firstPage;
-        $this->pageSize = $pageSize;
     }
 
     /**

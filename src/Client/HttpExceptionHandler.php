@@ -94,10 +94,6 @@ class HttpExceptionHandler
 
     /**
      * Returns the response message, or the reason phrase if there is none.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return string
      */
     protected function getResponseMessage(ResponseInterface $response): string
     {

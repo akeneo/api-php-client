@@ -14,16 +14,8 @@ class AssetMediaFileApi implements AssetMediaFileApiInterface
     public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/asset-media-files/%s';
     public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/asset-media-files';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var FileSystemInterface */
-    private $fileSystem;
-
-    public function __construct(ResourceClientInterface $resourceClient, FileSystemInterface $fileSystem)
+    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
     {
-        $this->resourceClient = $resourceClient;
-        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -58,11 +50,7 @@ class AssetMediaFileApi implements AssetMediaFileApiInterface
     /**
      * Extracts the code of a media-file from a creation response.
      *
-     * @param ResponseInterface $response
-     *
      * @throws RuntimeException if unable to extract the code
-     *
-     * @return string
      */
     private function extractCodeFromCreationResponse(ResponseInterface $response): string
     {

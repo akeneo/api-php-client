@@ -14,12 +14,8 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 class MultipartStreamBuilderFactory
 {
-    /** @var StreamFactoryInterface */
-    protected $streamFactory;
-
-    public function __construct(StreamFactoryInterface $streamFactory)
+    public function __construct(protected StreamFactoryInterface $streamFactory)
     {
-        $this->streamFactory = $streamFactory;
     }
 
     public function create(): MultipartStreamBuilder

@@ -24,8 +24,6 @@ class SearchBuilder
      * @param string      $operator operator of the filter.
      * @param mixed|null  $value    value of the filter. Should not be defined for certain specifics operators.
      * @param array       $options  optionals parameters to apply to the filter (as scope or locale).
-     *
-     * @return SearchBuilder
      */
     public function addFilter(string $property, string $operator, $value = null, array $options = []): self
     {

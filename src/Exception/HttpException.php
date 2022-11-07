@@ -14,19 +14,14 @@ use Psr\Http\Message\ResponseInterface;
  */
 class HttpException extends RuntimeException
 {
-    /** @var RequestInterface */
-    protected $request;
-
     /** @var ResponseInterface */
     protected $response;
 
-    public function __construct(string $message, RequestInterface $request, ResponseInterface $response, ?\Exception $previous = null)
+    public function __construct(string $message, protected RequestInterface $request, ResponseInterface $response, ?\Exception $previous = null)
     {
         $message .= ' ' . $this->getAdditionalInformationMessage();
 
         parent::__construct($message, $response->getStatusCode(), $previous);
-
-        $this->request = $request;
         $this->response = $response;
     }
 

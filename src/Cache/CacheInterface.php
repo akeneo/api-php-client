@@ -16,8 +16,6 @@ interface CacheInterface
     /**
      * @param string $key   Key of the cached resource
      * @param mixed  $value The cached resource
-     *
-     * @return void
      */
-    public function set(string $key, $value): void;
+    public function set(string $key, mixed $value): void;
 }

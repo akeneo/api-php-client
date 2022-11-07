@@ -13,43 +13,8 @@ use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
  */
 class Page implements PageInterface
 {
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var HttpClientInterface */
-    protected $httpClient;
-
-    /** @var string */
-    protected $firstLink;
-
-    /** @var string */
-    protected $previousLink;
-
-    /** @var string */
-    protected $nextLink;
-
-    /** @var integer */
-    protected $count;
-
-    /** @var array */
-    protected $items;
-
-    public function __construct(
-        PageFactoryInterface $pageFactory,
-        HttpClientInterface $httpClient,
-        string $firstLink,
-        ?string$previousLink,
-        ?string $nextLink,
-        ?int $count,
-        array $items
-    ) {
-        $this->pageFactory = $pageFactory;
-        $this->httpClient = $httpClient;
-        $this->firstLink = $firstLink;
-        $this->previousLink = $previousLink;
-        $this->nextLink = $nextLink;
-        $this->count = $count;
-        $this->items = $items;
+    public function __construct(protected PageFactoryInterface $pageFactory, protected HttpClientInterface $httpClient, protected string $firstLink, protected ?string$previousLink, protected ?string $nextLink, protected ?int $count, protected array $items)
+    {
     }
 
     /**
