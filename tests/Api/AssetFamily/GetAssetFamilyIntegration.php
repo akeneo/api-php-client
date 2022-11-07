@@ -17,7 +17,7 @@ class GetAssetFamilyIntegration extends ApiTestCase
     public function test_get_asset_family()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'packshot'),
+            '/' . sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'packshot'),
             new ResponseStack(
                 new Response($this->getPackshot(), [], 200)
             )
@@ -33,7 +33,7 @@ class GetAssetFamilyIntegration extends ApiTestCase
     public function test_get_unknown_asset_family()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'foo'),
+            '/' . sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'foo'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Asset family \"foo\" does not exist."}', [], 404)
             )

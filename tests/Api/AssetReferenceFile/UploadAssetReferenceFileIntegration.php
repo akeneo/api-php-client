@@ -16,7 +16,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'ziggy', 'en_US'),
+            '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'ziggy', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadLocalizableInformations()), [], 201)
@@ -45,7 +45,11 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy-certification.jpg');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'ziggy-certification', AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI,
+                'ziggy-certification',
+                AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadNotLocalizableInformations()), [], 201)
@@ -57,7 +61,10 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy-certification.jpg');
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'],
+            'ziggy-certification.jpg'
+        );
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/jpeg');
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 10513);
 
@@ -75,7 +82,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $file = fopen($filePath, 'rb');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'ziggy', 'en_US'),
+            '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'ziggy', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadLocalizableInformations()), [], 201)
@@ -107,7 +114,7 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'unknown_asset', 'en_US'),
+            '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'unknown_asset', 'en_US'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )
@@ -126,7 +133,11 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI, 'unicorn', AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetReferenceFileApi::ASSET_REFERENCE_FILE_URI,
+                'unicorn',
+                AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response(json_encode($this->generateMessageForUploadAssetReferenceFileErrorException()))
             )
@@ -137,23 +148,25 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn');
     }
 
-    protected function fakeUploadLocalizableInformations(){
+    protected function fakeUploadLocalizableInformations()
+    {
         return [
-            'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy.jpg',
+            'code' => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy.jpg',
             'locale' => 'en_US',
-            '_link'  => [
+            '_link' => [
                 'download' => [
-                    'href' =>  '/api/rest/v1/assets/ziggy/reference-files/en_US/download'
+                    'href' => '/api/rest/v1/assets/ziggy/reference-files/en_US/download'
                 ]
             ],
         ];
     }
 
-    protected function fakeUploadNotLocalizableInformations(){
+    protected function fakeUploadNotLocalizableInformations()
+    {
         return [
-            'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_certification.jpg',
+            'code' => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_certification.jpg',
             'locale' => null,
-            '_link'  => [
+            '_link' => [
                 'download' => [
                     'href' => '/api/rest/v1/assets/ziggy_certif/reference-files/no-locale/download'
                 ]
@@ -161,7 +174,8 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         ];
     }
 
-    protected function generateMessageForUploadAssetReferenceFileErrorException(){
+    protected function generateMessageForUploadAssetReferenceFileErrorException()
+    {
         return [
             'message' => 'Some variation files were not generated properly.',
             'errors' => [

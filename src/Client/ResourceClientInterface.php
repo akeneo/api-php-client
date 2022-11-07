@@ -48,7 +48,13 @@ interface ResourceClientInterface
      *
      * @return array
      */
-    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 100, ?bool $withCount = false, array $queryParameters = []): array;
+    public function getResources(
+        string $uri,
+        array $uriParameters = [],
+        ?int $limit = 100,
+        ?bool $withCount = false,
+        array $queryParameters = []
+    ): array;
 
     /**
      * Creates a resource.

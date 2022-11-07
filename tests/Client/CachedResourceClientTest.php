@@ -19,7 +19,7 @@ class CachedResourceClientTest extends ApiTestCase
         $uri = 'uri';
         $uriParameters = ['uriParameter'];
 
-        $cacheKey = md5($uri.implode('', $uriParameters));
+        $cacheKey = md5($uri . implode('', $uriParameters));
 
         $mockCache
             ->expects(self::exactly(2))

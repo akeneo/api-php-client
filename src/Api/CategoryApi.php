@@ -21,8 +21,11 @@ class CategoryApi implements CategoryApiInterface
     public const CATEGORY_URI = 'api/rest/v1/categories/%s';
     public const CATEGORIES_URI = 'api/rest/v1/categories';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

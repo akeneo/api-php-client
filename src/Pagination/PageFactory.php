@@ -13,8 +13,9 @@ use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
  */
 class PageFactory implements PageFactoryInterface
 {
-    public function __construct(protected HttpClientInterface $httpClient)
-    {
+    public function __construct(
+        protected HttpClientInterface $httpClient
+    ) {
     }
 
     /**

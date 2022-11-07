@@ -22,8 +22,11 @@ class PublishedProductApi implements PublishedProductApiInterface
     public const PUBLISHED_PRODUCTS_URI = 'api/rest/v1/published-products';
     public const PUBLISHED_PRODUCT_URI = 'api/rest/v1/published-products/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

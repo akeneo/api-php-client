@@ -27,7 +27,7 @@ class SearchBuilder
      */
     public function addFilter(string $property, string $operator, $value = null, array $options = []): self
     {
-        $filter = ['operator'=> $operator];
+        $filter = ['operator' => $operator];
 
         if (null !== $value) {
             $filter['value'] = $value;

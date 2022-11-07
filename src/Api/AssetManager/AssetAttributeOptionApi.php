@@ -11,8 +11,9 @@ class AssetAttributeOptionApi implements AssetAttributeOptionApiInterface
     public const ASSET_ATTRIBUTE_OPTION_URI = 'api/rest/v1/asset-families/%s/attributes/%s/options/%s';
     public const ASSET_ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/asset-families/%s/attributes/%s/options';
 
-    public function __construct(private ResourceClientInterface $resourceClient)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient
+    ) {
     }
 
     /**

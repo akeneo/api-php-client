@@ -15,8 +15,9 @@ class MeasurementFamilyApi implements MeasurementFamilyApiInterface
 {
     public const MEASUREMENT_FAMILIES_URI = 'api/rest/v1/measurement-families';
 
-    public function __construct(protected ResourceClientInterface $resourceClient)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient
+    ) {
     }
 
     /**

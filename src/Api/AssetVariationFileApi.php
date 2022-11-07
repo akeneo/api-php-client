@@ -22,8 +22,10 @@ class AssetVariationFileApi implements AssetVariationFileApiInterface
     public const ASSET_VARIATION_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/variation-files/%s/%s/download';
     public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
-    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**

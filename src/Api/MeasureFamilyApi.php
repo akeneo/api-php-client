@@ -20,8 +20,11 @@ class MeasureFamilyApi implements MeasureFamilyApiInterface
     public const MEASURE_FAMILY_URI = 'api/rest/v1/measure-families/%s';
     public const MEASURE_FAMILIES_URI = 'api/rest/v1/measure-families';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

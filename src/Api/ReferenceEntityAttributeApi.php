@@ -16,8 +16,9 @@ class ReferenceEntityAttributeApi implements ReferenceEntityAttributeApiInterfac
     public const REFERENCE_ENTITY_ATTRIBUTE_URI = 'api/rest/v1/reference-entities/%s/attributes/%s';
     public const REFERENCE_ENTITY_ATTRIBUTES_URI = 'api/rest/v1/reference-entities/%s/attributes';
 
-    public function __construct(private ResourceClientInterface $resourceClient)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient
+    ) {
     }
 
     /**

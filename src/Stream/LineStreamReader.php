@@ -24,7 +24,7 @@ class LineStreamReader
             return null;
         }
 
-        $line  = '';
+        $line = '';
         $isEol = false;
         while (!$stream->eof() && !$isEol) {
             $character = $stream->read(1);

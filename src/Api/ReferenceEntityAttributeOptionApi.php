@@ -16,8 +16,9 @@ class ReferenceEntityAttributeOptionApi implements ReferenceEntityAttributeOptio
     public const REFERENCE_ENTITY_ATTRIBUTE_OPTION_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options/%s';
     public const REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options';
 
-    public function __construct(private ResourceClientInterface $resourceClient)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient
+    ) {
     }
 
     /**

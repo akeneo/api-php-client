@@ -20,8 +20,11 @@ class AppCatalogApi implements AppCatalogApiInterface
     public const APP_CATALOGS_URI = 'api/rest/v1/catalogs';
     public const APP_CATALOG_URI = 'api/rest/v1/catalogs/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     public function listPerPage(int $limit = 100, bool $withCount = false, array $queryParameters = []): PageInterface

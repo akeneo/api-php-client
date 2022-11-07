@@ -21,8 +21,11 @@ class AttributeApi implements AttributeApiInterface
     public const ATTRIBUTES_URI = 'api/rest/v1/attributes';
     public const ATTRIBUTE_URI = 'api/rest/v1/attributes/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

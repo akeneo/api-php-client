@@ -16,7 +16,7 @@ class GetAssetIntegration extends ApiTestCase
     public function test_get_asset()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetApi::ASSET_URI, 'packshot', 'battleship'),
+            '/' . sprintf(AssetApi::ASSET_URI, 'packshot', 'battleship'),
             new ResponseStack(
                 new Response($this->getAsset(), [], 200)
             )
@@ -32,7 +32,7 @@ class GetAssetIntegration extends ApiTestCase
     public function test_get_unknown_asset()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetApi::ASSET_URI, 'packshot', 'peace-sheep'),
+            '/' . sprintf(AssetApi::ASSET_URI, 'packshot', 'peace-sheep'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Asset \"peace-sheep\" does not exist."}', [], 404)
             )

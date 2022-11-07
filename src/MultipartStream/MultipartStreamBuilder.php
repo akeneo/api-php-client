@@ -25,8 +25,9 @@ class MultipartStreamBuilder
     private array $data = [];
 
 
-    public function __construct(private StreamFactoryInterface $streamFactory)
-    {
+    public function __construct(
+        private StreamFactoryInterface $streamFactory
+    ) {
     }
 
     /**
@@ -84,8 +85,8 @@ class MultipartStreamBuilder
         $streams = '';
         foreach ($this->data as $data) {
             // Add start and headers
-            $streams .= "--{$this->getBoundary()}\r\n".
-                $this->getHeaders($data['headers'])."\r\n";
+            $streams .= "--{$this->getBoundary()}\r\n" .
+                $this->getHeaders($data['headers']) . "\r\n";
 
             // Convert the stream to string
             /* @var $contentStream StreamInterface */
@@ -131,7 +132,9 @@ class MultipartStreamBuilder
         }
 
         // Set a default Content-Type if one was not provided
-        if (!$this->hasHeader($headers, 'content-type') && $hasFilename && ($type = $this->getMimetypeHelper()->getMimetypeFromFilename($filename))) {
+        if (!$this->hasHeader($headers, 'content-type') && $hasFilename && ($type = $this->getMimetypeHelper()->getMimetypeFromFilename(
+            $filename
+        ))) {
             $headers['Content-Type'] = $type;
         }
     }
@@ -255,7 +258,7 @@ class MultipartStreamBuilder
         $path = rtrim($path, $separators);
 
         // Returns the trailing part of the $path starting after one of the directory separators.
-        $filename = preg_match('@[^'.preg_quote($separators, '@').']+$@', $path, $matches) ? $matches[0] : '';
+        $filename = preg_match('@[^' . preg_quote($separators, '@') . ']+$@', $path, $matches) ? $matches[0] : '';
 
         return $filename;
     }

@@ -21,8 +21,11 @@ class FamilyApi implements FamilyApiInterface
     public const FAMILIES_URI = 'api/rest/v1/families';
     public const FAMILY_URI = 'api/rest/v1/families/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

@@ -16,7 +16,7 @@ class GetReferenceEntityRecordIntegration extends ApiTestCase
     public function test_get_reference_entity_record()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'starck'),
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'starck'),
             new ResponseStack(
                 new Response($this->getStarckRecord(), [], 200)
             )
@@ -34,7 +34,7 @@ class GetReferenceEntityRecordIntegration extends ApiTestCase
         $this->expectExceptionMessage("Record \"foo\" does not exist for the reference entity \"designer\".");
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\NotFoundHttpException::class);
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'foo'),
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'foo'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Record \"foo\" does not exist for the reference entity \"designer\"."}', [], 404)
             )

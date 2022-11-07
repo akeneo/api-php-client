@@ -15,8 +15,10 @@ class ResourceCursor implements ResourceCursorInterface
     protected int $currentIndex = 0;
     protected int $totalIndex = 0;
 
-    public function __construct(protected ?int $pageSize, protected PageInterface $firstPage)
-    {
+    public function __construct(
+        protected ?int $pageSize,
+        protected PageInterface $firstPage
+    ) {
         $this->currentPage = $firstPage;
     }
 

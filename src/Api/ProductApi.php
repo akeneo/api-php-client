@@ -21,8 +21,11 @@ class ProductApi implements ProductApiInterface
     public const PRODUCTS_URI = 'api/rest/v1/products';
     public const PRODUCT_URI = 'api/rest/v1/products/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

@@ -89,8 +89,10 @@ class AkeneoPimClientBuilder
     /**
      * @param string $baseUri Base uri to request the API
      */
-    public function __construct(protected string $baseUri, array $options = [])
-    {
+    public function __construct(
+        protected string $baseUri,
+        array $options = []
+    ) {
         $this->options = Options::fromArray($options);
     }
 
@@ -142,8 +144,12 @@ class AkeneoPimClientBuilder
      * @param string $username Username to use for the authentication
      * @param string $password Password associated to the username
      */
-    public function buildAuthenticatedByPassword(string $clientId, string $secret, string $username, string $password): AkeneoPimClientInterface
-    {
+    public function buildAuthenticatedByPassword(
+        string $clientId,
+        string $secret,
+        string $username,
+        string $password
+    ): AkeneoPimClientInterface {
         $authentication = Authentication::fromPassword($clientId, $secret, $username, $password);
 
         return $this->buildAuthenticatedClient($authentication);
@@ -164,8 +170,12 @@ class AkeneoPimClientBuilder
      * @param string $token        Token to use for the authentication
      * @param string $refreshToken Token to use to refresh the access token
      */
-    public function buildAuthenticatedByToken(string $clientId, string $secret, string $token, string $refreshToken): AkeneoPimClientInterface
-    {
+    public function buildAuthenticatedByToken(
+        string $clientId,
+        string $secret,
+        string $token,
+        string $refreshToken
+    ): AkeneoPimClientInterface {
         $authentication = Authentication::fromToken($clientId, $secret, $token, $refreshToken);
 
         return $this->buildAuthenticatedClient($authentication);

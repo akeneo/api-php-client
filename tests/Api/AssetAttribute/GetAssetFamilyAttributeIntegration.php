@@ -17,7 +17,7 @@ class GetAssetFamilyAttributeIntegration extends ApiTestCase
     public function test_get_asset_family_attribute()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'media_preview'),
+            '/' . sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'media_preview'),
             new ResponseStack(
                 new Response($this->getPackshotPreviewAttribute(), [], 200)
             )
@@ -33,7 +33,7 @@ class GetAssetFamilyAttributeIntegration extends ApiTestCase
     public function test_get_unknown_asset_family_attribute()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'foo'),
+            '/' . sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'foo'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Resource `foo` does not exist."}', [], 404)
             )

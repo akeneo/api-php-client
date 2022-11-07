@@ -20,8 +20,11 @@ class CurrencyApi implements CurrencyApiInterface
     public const CURRENCY_URI = 'api/rest/v1/currencies/%s';
     public const CURRENCIES_URI = 'api/rest/v1/currencies';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

@@ -13,7 +13,7 @@ class CreateProductTest extends ApiTestCase
     public function test_create_product()
     {
         $this->server->setResponseOfPath(
-            '/'. ProductApi::PRODUCTS_URI,
+            '/' . ProductApi::PRODUCTS_URI,
             new ResponseStack(
                 new Response('', [], 201)
             )
@@ -22,7 +22,10 @@ class CreateProductTest extends ApiTestCase
         $api = $this->createClientByPassword()->getProductApi();
         $response = $api->create('new_shoes', $this->newProduct());
 
-        Assert::assertSame(json_encode($this->expectedProduct()), $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT]);
+        Assert::assertSame(
+            json_encode($this->expectedProduct()),
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT]
+        );
 
         Assert::assertSame(201, $response);
     }
@@ -30,11 +33,15 @@ class CreateProductTest extends ApiTestCase
     public function test_create_invalid_product()
     {
         $this->server->setResponseOfPath(
-            '/'. ProductApi::PRODUCTS_URI,
+            '/' . ProductApi::PRODUCTS_URI,
             new ResponseStack(
-                new Response('{"code": 422, "message":"The value black_sneakers is already set on another product for the unique attribute sku"}', [], 422)
+                new Response(
+                    '{"code": 422, "message":"The value black_sneakers is already set on another product for the unique attribute sku"}',
+                    [],
+                    422
                 )
-            );
+            )
+        );
             
         $this->expectException(\Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException::class);
         $this->expectExceptionMessage('The value black_sneakers is already set on another product for the unique attribute sku');
@@ -46,20 +53,20 @@ class CreateProductTest extends ApiTestCase
     private function newProduct(): array
     {
         return [
-            'enabled'    => false,
-            'family'     => 'sandals',
+            'enabled' => false,
+            'family' => 'sandals',
             'categories' => ['summer_collection'],
-            'values'     => [
+            'values' => [
                 'name' => [
                     [
-                        'data'   => 'The pumps',
+                        'data' => 'The pumps',
                         'locale' => 'en_US',
-                        'scope'  => null,
+                        'scope' => null,
                     ],
                     [
-                        'data'   => 'Les pumps',
+                        'data' => 'Les pumps',
                         'locale' => 'fr_FR',
-                        'scope'  => null,
+                        'scope' => null,
                     ]
                 ]
             ]
@@ -69,20 +76,20 @@ class CreateProductTest extends ApiTestCase
     private function expectedProduct(): array
     {
         return [
-            'enabled'    => false,
-            'family'     => 'sandals',
+            'enabled' => false,
+            'family' => 'sandals',
             'categories' => ['summer_collection'],
-            'values'     => [
+            'values' => [
                 'name' => [
                     [
-                        'data'   => 'The pumps',
+                        'data' => 'The pumps',
                         'locale' => 'en_US',
-                        'scope'  => null,
+                        'scope' => null,
                     ],
                     [
-                        'data'   => 'Les pumps',
+                        'data' => 'Les pumps',
                         'locale' => 'fr_FR',
-                        'scope'  => null,
+                        'scope' => null,
                     ]
                 ]
             ],

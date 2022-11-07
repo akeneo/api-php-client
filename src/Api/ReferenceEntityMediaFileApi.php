@@ -19,8 +19,10 @@ class ReferenceEntityMediaFileApi implements ReferenceEntityMediaFileApiInterfac
     public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/reference-entities-media-files/%s';
     public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/reference-entities-media-files';
 
-    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**

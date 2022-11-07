@@ -21,8 +21,11 @@ class ProductModelApi implements ProductModelApiInterface
     public const PRODUCT_MODEL_URI = 'api/rest/v1/product-models/%s';
     public const PRODUCT_MODELS_URI = 'api/rest/v1/product-models';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

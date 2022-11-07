@@ -21,8 +21,11 @@ class ChannelApi implements ChannelApiInterface
     public const CHANNELS_URI = 'api/rest/v1/channels';
     public const CHANNEL_URI = 'api/rest/v1/channels/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

@@ -24,8 +24,10 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
     public const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
     public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
-    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**
@@ -92,7 +94,11 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
             'contents' => $referenceFile,
         ]];
 
-        $response = $this->resourceClient->createMultipartResource(static::ASSET_REFERENCE_FILE_URI, [$assetCode, $localeCode], $requestParts);
+        $response = $this->resourceClient->createMultipartResource(
+            static::ASSET_REFERENCE_FILE_URI,
+            [$assetCode, $localeCode],
+            $requestParts
+        );
         $this->handleUploadErrors($response);
 
         return $response->getStatusCode();

@@ -22,8 +22,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AuthenticatedHttpClient implements HttpClientInterface
 {
-    public function __construct(protected HttpClient $basicHttpClient, protected AuthenticationApiInterface $authenticationApi, protected Authentication $authentication)
-    {
+    public function __construct(
+        protected HttpClient $basicHttpClient,
+        protected AuthenticationApiInterface $authenticationApi,
+        protected Authentication $authentication
+    ) {
     }
 
     /**
@@ -45,7 +48,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
         }
 
         try {
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
             $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
             $tokens = $this->renewTokens($e);
@@ -54,8 +57,8 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 ->setAccessToken($tokens['access_token'])
                 ->setRefreshToken($tokens['refresh_token']);
 
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
-            $response =  $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
+            $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         }
 
         return $response;

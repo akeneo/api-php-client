@@ -16,8 +16,10 @@ class AuthenticationApi implements AuthenticationApiInterface
 {
     public const TOKEN_URI = 'api/oauth/v1/token';
 
-    public function __construct(protected HttpClient $httpClient, protected UriGeneratorInterface $uriGenerator)
-    {
+    public function __construct(
+        protected HttpClient $httpClient,
+        protected UriGeneratorInterface $uriGenerator
+    ) {
     }
 
     /**
@@ -27,8 +29,8 @@ class AuthenticationApi implements AuthenticationApiInterface
     {
         $requestBody = [
             'grant_type' => 'password',
-            'username'   => $username,
-            'password'   => $password,
+            'username' => $username,
+            'password' => $password,
         ];
 
         return $this->authenticate($clientId, $secret, $requestBody);
@@ -40,7 +42,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     public function authenticateByRefreshToken($clientId, $secret, $refreshToken): array
     {
         $requestBody = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => $refreshToken
         ];
 
@@ -59,7 +61,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     protected function authenticate($clientId, $secret, array $requestBody): array
     {
         $headers = [
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
             'Authorization' => sprintf('Basic %s', base64_encode($clientId . ':' . $secret)),
         ];
 

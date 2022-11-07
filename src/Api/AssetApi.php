@@ -25,8 +25,11 @@ class AssetApi implements AssetApiInterface
     public const ASSETS_URI = '/api/rest/v1/assets';
     public const ASSET_URI = '/api/rest/v1/assets/%s';
 
-    public function __construct(private ResourceClientInterface $resourceClient, private PageFactoryInterface $pageFactory, private ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private PageFactoryInterface $pageFactory,
+        private ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

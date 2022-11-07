@@ -20,8 +20,11 @@ class LocaleApi implements LocaleApiInterface
     public const LOCALES_URI = 'api/rest/v1/locales';
     public const LOCALE_URI = 'api/rest/v1/locales/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

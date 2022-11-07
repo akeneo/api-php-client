@@ -12,9 +12,9 @@ class CreateProductMediaFileTest extends ApiTestCase
 {
     public function test_create_media_file()
     {
-        $mediaFileURI = $this->server->getServerRoot(). '/' . ProductMediaFileApi::MEDIA_FILES_URI.'/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png';
+        $mediaFileURI = $this->server->getServerRoot() . '/' . ProductMediaFileApi::MEDIA_FILES_URI . '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png';
         $this->server->setResponseOfPath(
-            '/'. ProductMediaFileApi::MEDIA_FILES_URI,
+            '/' . ProductMediaFileApi::MEDIA_FILES_URI,
             new ResponseStack(
                 new Response('', ['Location' => $mediaFileURI], 201)
             )
@@ -25,9 +25,9 @@ class CreateProductMediaFileTest extends ApiTestCase
 
         $productInfos = [
             'identifier' => 'medium_boot',
-            'attribute'  => 'side_view',
-            'scope'      => null,
-            'locale'     => null,
+            'attribute' => 'side_view',
+            'scope' => null,
+            'locale' => null,
         ];
 
         $response = $api->create($mediaFile, $productInfos);
@@ -45,7 +45,7 @@ class CreateProductMediaFileTest extends ApiTestCase
     public function test_get_created_media_file_location_regardless_of_the_header_case()
     {
         $mediaFileURI = $this->server->getServerRoot(
-            ) . '/' . ProductMediaFileApi::MEDIA_FILES_URI . '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png';
+        ) . '/' . ProductMediaFileApi::MEDIA_FILES_URI . '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png';
         $this->server->setResponseOfPath(
             '/' . ProductMediaFileApi::MEDIA_FILES_URI,
             new ResponseStack(

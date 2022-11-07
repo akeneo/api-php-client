@@ -21,8 +21,11 @@ class AttributeGroupApi implements AttributeGroupApiInterface
     public const ATTRIBUTE_GROUP_URI = 'api/rest/v1/attribute-groups/%s';
     public const ATTRIBUTE_GROUPS_URI = 'api/rest/v1/attribute-groups';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

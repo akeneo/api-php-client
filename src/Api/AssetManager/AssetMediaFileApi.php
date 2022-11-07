@@ -14,8 +14,10 @@ class AssetMediaFileApi implements AssetMediaFileApiInterface
     public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/asset-media-files/%s';
     public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/asset-media-files';
 
-    public function __construct(private ResourceClientInterface $resourceClient, private FileSystemInterface $fileSystem)
-    {
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**

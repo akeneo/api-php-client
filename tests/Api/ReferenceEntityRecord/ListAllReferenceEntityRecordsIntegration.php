@@ -15,7 +15,7 @@ class ListAllReferenceEntityRecordsIntegration extends ApiTestCase
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'designer'),
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'designer'),
             new ResponseStack(
                 new Response($this->getFirstPage(), [], 200),
                 new Response($this->getSecondPage(), [], 200)
@@ -86,7 +86,6 @@ class ListAllReferenceEntityRecordsIntegration extends ApiTestCase
             }
         }
 JSON;
-
     }
 
     private function getSecondPage(): string
@@ -126,6 +125,5 @@ JSON;
             }
         }
 JSON;
-
     }
 }

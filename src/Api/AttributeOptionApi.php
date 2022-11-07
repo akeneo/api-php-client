@@ -21,8 +21,11 @@ class AttributeOptionApi implements AttributeOptionApiInterface
     public const ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/attributes/%s/options';
     public const ATTRIBUTE_OPTION_URI = 'api/rest/v1/attributes/%s/options/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

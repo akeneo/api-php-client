@@ -14,7 +14,7 @@ class UpsertReferenceEntityIntegration extends ApiTestCase
     public function test_upsert_reference_entity()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'brand'),
+            '/' . sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'brand'),
             new ResponseStack(
                 new Response('', [], 204)
             )

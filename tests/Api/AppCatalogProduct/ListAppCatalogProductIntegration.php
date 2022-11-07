@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\tests\Api\AppCatalogProduct;
@@ -16,7 +17,6 @@ use PHPUnit\Framework\Assert;
  */
 class ListAppCatalogProductIntegration extends ApiTestCase
 {
-
     // Refaire avec l'exemple dans la doc Octopus
 
     public function test_list_per_page()

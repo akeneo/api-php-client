@@ -11,8 +11,9 @@ class LRUCache implements CacheInterface
     /**
      * @param int $maxItems Maximum number of allowed cache items.
      */
-    public function __construct(private int $maxItems = 100)
-    {
+    public function __construct(
+        private int $maxItems = 100
+    ) {
     }
 
     /**

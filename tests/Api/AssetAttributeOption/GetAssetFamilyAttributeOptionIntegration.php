@@ -17,7 +17,7 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
     public function test_get_asset_family_attribute_option()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI, 'packshot', 'wearing_model_size', 'small'),
+            '/' . sprintf(AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI, 'packshot', 'wearing_model_size', 'small'),
             new ResponseStack(
                 new Response($this->getPackshotAttributeOption(), [], 200)
             )
@@ -33,7 +33,7 @@ class GetAssetFamilyAttributeOptionIntegration extends ApiTestCase
     public function test_get_unknown_asset_family_attribute_option()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI, 'packshot', 'wearing_model_size', 'XLS'),
+            '/' . sprintf(AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI, 'packshot', 'wearing_model_size', 'XLS'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Resource `XLS` does not exist."}', [], 404)
             )

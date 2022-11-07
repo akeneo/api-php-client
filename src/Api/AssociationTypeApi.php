@@ -19,8 +19,11 @@ class AssociationTypeApi implements AssociationTypeApiInterface
     public const ASSOCIATION_TYPES_URI = 'api/rest/v1/association-types';
     public const ASSOCIATION_TYPE_URI = 'api/rest/v1/association-types/%s';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
     /**
      * {@inheritdoc}

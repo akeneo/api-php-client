@@ -17,8 +17,10 @@ class UploadAssetReferenceFileErrorException extends RuntimeException
     /**
      * @param string $message
      */
-    public function __construct($message, private array $errors)
-    {
+    public function __construct(
+        $message,
+        private array $errors
+    ) {
         parent::__construct($message);
     }
 

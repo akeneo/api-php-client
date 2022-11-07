@@ -50,8 +50,46 @@ use Akeneo\Pim\ApiClient\Security\Authentication;
  */
 class AkeneoPimClient implements AkeneoPimClientInterface
 {
-    public function __construct(protected Authentication $authentication, protected ProductApiInterface $productApi, protected CategoryApiInterface $categoryApi, protected AttributeApiInterface $attributeApi, protected AttributeOptionApiInterface $attributeOptionApi, protected AttributeGroupApiInterface $attributeGroupApi, protected FamilyApiInterface $familyApi, protected MediaFileApiInterface $productMediaFileApi, protected LocaleApiInterface $localeApi, protected ChannelApiInterface $channelApi, protected CurrencyApiInterface $currencyApi, protected MeasureFamilyApiInterface $measureFamilyApi, private MeasurementFamilyApiInterface $measurementFamilyApi, protected AssociationTypeApiInterface $associationTypeApi, protected FamilyVariantApiInterface $familyVariantApi, protected ProductModelApiInterface $productModelApi, private ProductModelDraftApiInterface $productModelDraftApi, private PublishedProductApiInterface $publishedProductApi, private ProductDraftApiInterface $productDraftApi, private AssetApiInterface $assetApi, private AssetCategoryApiInterface $assetCategoryApi, private AssetTagApiInterface $assetTagApi, private AssetReferenceFileApiInterface $assetReferenceFileApi, private AssetVariationFileApiInterface $assetVariationFileApi, private ReferenceEntityRecordApiInterface $referenceEntityRecordApi, private ReferenceEntityMediaFileApiInterface $referenceEntityMediaFileApi, private ReferenceEntityAttributeApiInterface $referenceEntityAttributeApi, private ReferenceEntityAttributeOptionApiInterface $referenceEntityAttributeOptionApi, private ReferenceEntityApiInterface $referenceEntityApi, private AssetManagerApiInterface $assetManagerApi, private AssetFamilyApiInterface $assetFamilyApi, private AssetAttributeApiInterface $assetAttributeApi, private AssetAttributeOptionApiInterface $assetAttributeOptionApi, private AssetMediaFileApiInterface $assetMediaFileApi, private ProductUuidApiInterface $productUuidApi, private ProductDraftUuidApiInterface $productDraftUuidApi, private AppCatalogApiInterface $appCatalogApi, private AppCatalogProductApiInterface $appCatalogProductApi)
-    {
+    public function __construct(
+        protected Authentication $authentication,
+        protected ProductApiInterface $productApi,
+        protected CategoryApiInterface $categoryApi,
+        protected AttributeApiInterface $attributeApi,
+        protected AttributeOptionApiInterface $attributeOptionApi,
+        protected AttributeGroupApiInterface $attributeGroupApi,
+        protected FamilyApiInterface $familyApi,
+        protected MediaFileApiInterface $productMediaFileApi,
+        protected LocaleApiInterface $localeApi,
+        protected ChannelApiInterface $channelApi,
+        protected CurrencyApiInterface $currencyApi,
+        protected MeasureFamilyApiInterface $measureFamilyApi,
+        private MeasurementFamilyApiInterface $measurementFamilyApi,
+        protected AssociationTypeApiInterface $associationTypeApi,
+        protected FamilyVariantApiInterface $familyVariantApi,
+        protected ProductModelApiInterface $productModelApi,
+        private ProductModelDraftApiInterface $productModelDraftApi,
+        private PublishedProductApiInterface $publishedProductApi,
+        private ProductDraftApiInterface $productDraftApi,
+        private AssetApiInterface $assetApi,
+        private AssetCategoryApiInterface $assetCategoryApi,
+        private AssetTagApiInterface $assetTagApi,
+        private AssetReferenceFileApiInterface $assetReferenceFileApi,
+        private AssetVariationFileApiInterface $assetVariationFileApi,
+        private ReferenceEntityRecordApiInterface $referenceEntityRecordApi,
+        private ReferenceEntityMediaFileApiInterface $referenceEntityMediaFileApi,
+        private ReferenceEntityAttributeApiInterface $referenceEntityAttributeApi,
+        private ReferenceEntityAttributeOptionApiInterface $referenceEntityAttributeOptionApi,
+        private ReferenceEntityApiInterface $referenceEntityApi,
+        private AssetManagerApiInterface $assetManagerApi,
+        private AssetFamilyApiInterface $assetFamilyApi,
+        private AssetAttributeApiInterface $assetAttributeApi,
+        private AssetAttributeOptionApiInterface $assetAttributeOptionApi,
+        private AssetMediaFileApiInterface $assetMediaFileApi,
+        private ProductUuidApiInterface $productUuidApi,
+        private ProductDraftUuidApiInterface $productDraftUuidApi,
+        private AppCatalogApiInterface $appCatalogApi,
+        private AppCatalogProductApiInterface $appCatalogProductApi
+    ) {
     }
 
     /**

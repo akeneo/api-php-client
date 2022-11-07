@@ -21,8 +21,11 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     public const FAMILY_VARIANT_URI = 'api/rest/v1/families/%s/variants/%s';
     public const FAMILY_VARIANTS_URI = 'api/rest/v1/families/%s/variants';
 
-    public function __construct(protected ResourceClientInterface $resourceClient, protected PageFactoryInterface $pageFactory, protected ResourceCursorFactoryInterface $cursorFactory)
-    {
+    public function __construct(
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
+    ) {
     }
 
     /**

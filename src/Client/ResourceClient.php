@@ -21,8 +21,12 @@ use Psr\Http\Message\StreamInterface;
  */
 class ResourceClient implements ResourceClientInterface
 {
-    public function __construct(protected HttpClientInterface $httpClient, protected UriGeneratorInterface $uriGenerator, protected MultipartStreamBuilderFactory $multipartStreamBuilderFactory, protected UpsertResourceListResponseFactory $upsertListResponseFactory)
-    {
+    public function __construct(
+        protected HttpClientInterface $httpClient,
+        protected UriGeneratorInterface $uriGenerator,
+        protected MultipartStreamBuilderFactory $multipartStreamBuilderFactory,
+        protected UpsertResourceListResponseFactory $upsertListResponseFactory
+    ) {
     }
 
     /**
