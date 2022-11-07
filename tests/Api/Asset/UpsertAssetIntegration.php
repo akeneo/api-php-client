@@ -16,7 +16,7 @@ class UpsertAssetIntegration extends ApiTestCase
     public function test_upsert_asset()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetApi::ASSET_URI, 'packshot', 'sku_54628_telescope'),
+            '/' . sprintf(AssetApi::ASSET_URI, 'packshot', 'sku_54628_telescope'),
             new ResponseStack(
                 new Response('', [], 204)
             )

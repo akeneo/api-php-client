@@ -14,22 +14,12 @@ use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
  */
 class AuthenticationApi implements AuthenticationApiInterface
 {
-    const TOKEN_URI = 'api/oauth/v1/token';
+    public const TOKEN_URI = 'api/oauth/v1/token';
 
-    /** @var HttpClient */
-    protected $httpClient;
-
-    /** @var UriGeneratorInterface */
-    protected $uriGenerator;
-
-    /**
-     * @param HttpClient            $httpClient
-     * @param UriGeneratorInterface $uriGenerator
-     */
-    public function __construct(HttpClient $httpClient, UriGeneratorInterface $uriGenerator)
-    {
-        $this->httpClient = $httpClient;
-        $this->uriGenerator = $uriGenerator;
+    public function __construct(
+        protected HttpClient $httpClient,
+        protected UriGeneratorInterface $uriGenerator
+    ) {
     }
 
     /**
@@ -39,8 +29,8 @@ class AuthenticationApi implements AuthenticationApiInterface
     {
         $requestBody = [
             'grant_type' => 'password',
-            'username'   => $username,
-            'password'   => $password,
+            'username' => $username,
+            'password' => $password,
         ];
 
         return $this->authenticate($clientId, $secret, $requestBody);
@@ -52,7 +42,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     public function authenticateByRefreshToken($clientId, $secret, $refreshToken): array
     {
         $requestBody = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => $refreshToken
         ];
 
@@ -71,7 +61,7 @@ class AuthenticationApi implements AuthenticationApiInterface
     protected function authenticate($clientId, $secret, array $requestBody): array
     {
         $headers = [
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
             'Authorization' => sprintf('Basic %s', base64_encode($clientId . ':' . $secret)),
         ];
 
@@ -79,8 +69,6 @@ class AuthenticationApi implements AuthenticationApiInterface
 
         $response = $this->httpClient->sendRequest('POST', $uri, $headers, json_encode($requestBody));
 
-        $responseBody = json_decode($response->getBody()->getContents(), true);
-
-        return $responseBody;
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

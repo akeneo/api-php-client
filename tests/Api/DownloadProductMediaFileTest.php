@@ -16,7 +16,7 @@ class DownloadProductMediaFileTest extends ApiTestCase
         $expectedMediaFilePath = realpath(__DIR__ . '/../fixtures/akeneo.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png'),
+            '/' . sprintf(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, '/f/b/0/6/fb068ccc9e3c5609d73c28d852812ba5faeeab28_akeneo.png'),
             new ResponseStack(
                 new Response(file_get_contents($expectedMediaFilePath), [], 201)
             )

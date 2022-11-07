@@ -11,7 +11,7 @@ namespace Akeneo\Pim\ApiClient\Pagination;
  */
 final class PaginationParameter
 {
-    const SEARCH = 'search';
-    const LIMIT = 'limit';
-    const WITH_COUNT = 'with_count';
+    public const SEARCH = 'search';
+    public const LIMIT = 'limit';
+    public const WITH_COUNT = 'with_count';
 }

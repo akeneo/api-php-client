@@ -23,5 +23,5 @@ interface UpsertableResourceListInterface
      *
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
-    public function upsertList($resources): \Traversable;
+    public function upsertList(array|StreamInterface $resources): \Traversable;
 }

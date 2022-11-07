@@ -17,31 +17,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class MeasureFamilyApi implements MeasureFamilyApiInterface
 {
-    const MEASURE_FAMILY_URI = 'api/rest/v1/measure-families/%s';
-    const MEASURE_FAMILIES_URI = 'api/rest/v1/measure-families';
+    public const MEASURE_FAMILY_URI = 'api/rest/v1/measure-families/%s';
+    public const MEASURE_FAMILIES_URI = 'api/rest/v1/measure-families';
 
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
-
-    /**
-     * @param ResourceClientInterface        $resourceClient
-     * @param PageFactoryInterface           $pageFactory
-     * @param ResourceCursorFactoryInterface $cursorFactory
-     */
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

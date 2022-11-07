@@ -17,26 +17,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
  */
 class ProductModelDraftApi implements ProductModelDraftApiInterface
 {
-    const PRODUCT_MODEL_DRAFT_URI = '/api/rest/v1/product-models/%s/draft';
-    const PRODUCT_MODEL_PROPOSAL_URI = '/api/rest/v1/product-models/%s/proposal';
-
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
+    public const PRODUCT_MODEL_DRAFT_URI = '/api/rest/v1/product-models/%s/draft';
+    public const PRODUCT_MODEL_PROPOSAL_URI = '/api/rest/v1/product-models/%s/proposal';
 
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

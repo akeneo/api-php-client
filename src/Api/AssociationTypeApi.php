@@ -16,31 +16,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AssociationTypeApi implements AssociationTypeApiInterface
 {
-    const ASSOCIATION_TYPES_URI = 'api/rest/v1/association-types';
-    const ASSOCIATION_TYPE_URI = 'api/rest/v1/association-types/%s';
+    public const ASSOCIATION_TYPES_URI = 'api/rest/v1/association-types';
+    public const ASSOCIATION_TYPE_URI = 'api/rest/v1/association-types/%s';
 
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
-
-    /**
-     * @param ResourceClientInterface        $resourceClient
-     * @param PageFactoryInterface           $pageFactory
-     * @param ResourceCursorFactoryInterface $cursorFactory
-     */
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
     /**
      * {@inheritdoc}

@@ -17,7 +17,7 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
         $expectedFilePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy', 'en_US'),
+            '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($expectedFilePath), [], 201)
             )
@@ -37,7 +37,11 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
         $expectedFilePath = realpath(__DIR__ . '/../../fixtures/ziggy-certification.jpg');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy_certif', AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI,
+                'ziggy_certif',
+                AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response(file_get_contents($expectedFilePath), [], 201)
             )
@@ -58,7 +62,7 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
     public function test_download_from_localizable_asset_not_found()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy', 'en_US'),
+            '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy', 'en_US'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )
@@ -74,7 +78,11 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
     public function test_download_from_not_localizable_asset_not_found()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy_certif', AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI,
+                'ziggy_certif',
+                AssetReferenceFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )

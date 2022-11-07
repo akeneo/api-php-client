@@ -16,7 +16,7 @@ class UpsertAssetFamilyAttributeIntegration extends ApiTestCase
     public function test_upsert_asset_family_attribute()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'media_preview'),
+            '/' . sprintf(AssetAttributeApi::ASSET_ATTRIBUTE_URI, 'packshot', 'media_preview'),
             new ResponseStack(
                 new Response('', [], 204)
             )
@@ -39,7 +39,10 @@ class UpsertAssetFamilyAttributeIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeApi();
         $response = $api->upsert('packshot', 'media_preview', $assetFamilyAttribute);
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assetFamilyAttribute));
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],
+            json_encode($assetFamilyAttribute)
+        );
         Assert::assertSame(204, $response);
     }
 }

@@ -19,7 +19,7 @@ class UpsertProductUuidIntegration extends ApiTestCase
     public function test_upsert_product()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductUuidApi::PRODUCT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
+            '/' . sprintf(ProductUuidApi::PRODUCT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
             new ResponseStack(
                 new Response('', [], HttpClient::HTTP_NO_CONTENT)
             )
@@ -30,12 +30,12 @@ class UpsertProductUuidIntegration extends ApiTestCase
         $parameters = [
             'identifier' => 'black_docks',
             'enabled' => false,
-            'values'  => [
+            'values' => [
                 'name' => [
                     [
                         'locale' => 'en_US',
-                        'scope'  => null,
-                        'data'   => 'Black Docks',
+                        'scope' => null,
+                        'data' => 'Black Docks',
                     ],
                 ],
             ]
@@ -46,5 +46,4 @@ class UpsertProductUuidIntegration extends ApiTestCase
 
         Assert::assertSame(HttpClient::HTTP_NO_CONTENT, $response);
     }
-
 }

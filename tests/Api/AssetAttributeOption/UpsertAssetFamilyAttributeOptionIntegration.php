@@ -16,7 +16,7 @@ class UpsertAssetFamilyAttributeOptionIntegration extends ApiTestCase
     public function test_upsert_asset_family_attribute_option()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(
+            '/' . sprintf(
                 AssetAttributeOptionApi::ASSET_ATTRIBUTE_OPTION_URI,
                 'packshot',
                 'wearing_model_size',
@@ -38,7 +38,10 @@ class UpsertAssetFamilyAttributeOptionIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $response = $api->upsert('packshot', 'wearing_model_size', 'size_27', $assetFamilyAttributeOption);
 
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($assetFamilyAttributeOption));
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],
+            json_encode($assetFamilyAttributeOption)
+        );
         Assert::assertSame(204, $response);
     }
 }

@@ -11,26 +11,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 
 class AssetFamilyApi implements AssetFamilyApiInterface
 {
-    const ASSET_FAMILY_URI = 'api/rest/v1/asset-families/%s';
-    const ASSET_FAMILIES_URI= 'api/rest/v1/asset-families';
-
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
+    public const ASSET_FAMILY_URI = 'api/rest/v1/asset-families/%s';
+    public const ASSET_FAMILIES_URI = 'api/rest/v1/asset-families';
 
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        private ResourceClientInterface $resourceClient,
+        private PageFactoryInterface $pageFactory,
+        private ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

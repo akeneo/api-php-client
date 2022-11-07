@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\tests\Api\AppCatalog;
@@ -22,7 +23,7 @@ class GetAppCatalogIntegration extends ApiTestCase
         $catalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
 
         $this->server->setResponseOfPath(
-            '/'.sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
+            '/' . sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
             new ResponseStack(
                 new Response($this->getACatalog(), [], HttpClient::HTTP_OK)
             )

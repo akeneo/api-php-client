@@ -13,15 +13,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CachedResourceClient implements ResourceClientInterface
 {
-    private ResourceClientInterface $resourceClient;
-    private CacheInterface $cache;
-
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        CacheInterface $cache
+        private ResourceClientInterface $resourceClient,
+        private CacheInterface $cache
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->cache = $cache;
     }
 
     /**
@@ -29,7 +24,7 @@ class CachedResourceClient implements ResourceClientInterface
      */
     public function getResource(string $uri, array $uriParameters = [], array $queryParameters = []): array
     {
-        $cacheKey = md5($uri.implode('', $uriParameters));
+        $cacheKey = md5($uri . implode('', $uriParameters));
 
         if ($cachedItem = $this->cache->get($cacheKey)) {
             return $cachedItem;
@@ -44,8 +39,13 @@ class CachedResourceClient implements ResourceClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getResources(string $uri, array $uriParameters = [], ?int $limit = 100, ?bool $withCount = false, array $queryParameters = []): array
-    {
+    public function getResources(
+        string $uri,
+        array $uriParameters = [],
+        ?int $limit = 100,
+        ?bool $withCount = false,
+        array $queryParameters = []
+    ): array {
         return $this->resourceClient->getResources($uri, $uriParameters, $limit, $withCount, $queryParameters);
     }
 

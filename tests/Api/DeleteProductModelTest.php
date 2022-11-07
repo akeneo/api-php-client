@@ -13,7 +13,7 @@ class DeleteProductModelTest extends ApiTestCase
     public function test_delete_product_model()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductModelApi::PRODUCT_MODEL_URI, 'docks_white'),
+            '/' . sprintf(ProductModelApi::PRODUCT_MODEL_URI, 'docks_white'),
             new ResponseStack(
                 new Response('', [], 204)
             )

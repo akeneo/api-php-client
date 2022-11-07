@@ -16,26 +16,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ReferenceEntityApi implements ReferenceEntityApiInterface
 {
-    const REFERENCE_ENTITY_URI = 'api/rest/v1/reference-entities/%s';
-    const REFERENCE_ENTITIES_URI= 'api/rest/v1/reference-entities';
-
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
+    public const REFERENCE_ENTITY_URI = 'api/rest/v1/reference-entities/%s';
+    public const REFERENCE_ENTITIES_URI = 'api/rest/v1/reference-entities';
 
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        private ResourceClientInterface $resourceClient,
+        private PageFactoryInterface $pageFactory,
+        private ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

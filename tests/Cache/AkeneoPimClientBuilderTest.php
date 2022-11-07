@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\tests\Cache;
@@ -48,7 +49,7 @@ class AkeneoPimClientBuilderTest extends ApiTestCase
     private function setGetProductResponse(): void
     {
         $this->server->setResponseOfPath(
-            '/'.sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
+            '/' . sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
             new ResponseStack(
                 new Response($this->getProduct(), [], 200)
             )

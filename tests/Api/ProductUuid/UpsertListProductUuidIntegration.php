@@ -21,7 +21,7 @@ class UpsertListProductUuidIntegration extends ApiTestCase
     {
         parent::setUp();
         $this->server->setResponseOfPath(
-            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
+            '/' . ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response($this->getResults(), [], HttpClient::HTTP_OK)
             )

@@ -13,7 +13,7 @@ class GetProductTest extends ApiTestCase
     public function test_get_product()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
+            '/' . sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
             new ResponseStack(
                 new Response($this->getProduct(), [], 200)
             )
@@ -30,7 +30,7 @@ class GetProductTest extends ApiTestCase
     public function test_get_unknow_product()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
+            '/' . sprintf(ProductApi::PRODUCT_URI, 'black_sneakers'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Resource `black_sneakers` does not exist."}', [], 404)
             )

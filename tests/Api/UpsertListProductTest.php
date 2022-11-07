@@ -15,7 +15,7 @@ class UpsertListProductTest extends ApiTestCase
     {
         parent::setUp();
         $this->server->setResponseOfPath(
-            '/'. ProductApi::PRODUCTS_URI,
+            '/' . ProductApi::PRODUCTS_URI,
             new ResponseStack(
                 new Response($this->getResults(), [], 200)
             )
@@ -35,14 +35,14 @@ class UpsertListProductTest extends ApiTestCase
         Assert::assertCount(2, $responseLines);
 
         Assert::assertSame([
-            'line'        => 1,
-            'identifier'  => 'docks_black',
+            'line' => 1,
+            'identifier' => 'docks_black',
             'status_code' => 204,
         ], $responseLines[1]);
 
         Assert::assertSame([
-            'line'        => 2,
-            'identifier'  => 'pumps',
+            'line' => 2,
+            'identifier' => 'pumps',
             'status_code' => 201,
         ], $responseLines[2]);
     }
@@ -65,14 +65,14 @@ class UpsertListProductTest extends ApiTestCase
         Assert::assertCount(2, $responseLines);
 
         Assert::assertSame([
-            'line'        => 1,
-            'identifier'  => 'docks_black',
+            'line' => 1,
+            'identifier' => 'docks_black',
             'status_code' => 204,
         ], $responseLines[1]);
 
         Assert::assertSame([
-            'line'        => 2,
-            'identifier'  => 'pumps',
+            'line' => 2,
+            'identifier' => 'pumps',
             'status_code' => 201,
         ], $responseLines[2]);
     }
@@ -90,33 +90,33 @@ JSON;
         return [
             [
                 'identifier' => 'docks_black',
-                'enabled'    => false,
-                'values'     => [
+                'enabled' => false,
+                'values' => [
                     'name' => [
                         [
                             'locale' => 'en_US',
-                            'scope'  => null,
-                            'data'   => 'Black Docks',
+                            'scope' => null,
+                            'data' => 'Black Docks',
                         ],
                     ],
                 ]
             ],
             [
                 'identifier' => 'pumps',
-                'enabled'    => false,
-                'family'     => 'sandals',
+                'enabled' => false,
+                'family' => 'sandals',
                 'categories' => ['summer_collection'],
-                'values'     => [
+                'values' => [
                     'name' => [
                         [
-                            'data'   => 'The pumps',
+                            'data' => 'The pumps',
                             'locale' => 'en_US',
-                            'scope'  => null,
+                            'scope' => null,
                         ],
                         [
-                            'data'   => 'Les pumps',
+                            'data' => 'Les pumps',
                             'locale' => 'fr_FR',
-                            'scope'  => null,
+                            'scope' => null,
                         ]
                     ],
                 ]
@@ -131,5 +131,4 @@ JSON;
         {"line": 2,"identifier": "pumps","status_code": 201}
 JSON;
     }
-
 }

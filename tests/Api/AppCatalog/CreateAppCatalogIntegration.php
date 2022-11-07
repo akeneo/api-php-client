@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\tests\Api\AppCatalog;
@@ -28,7 +29,7 @@ class CreateAppCatalogIntegration extends ApiTestCase
 JSON;
 
         $this->server->setResponseOfPath(
-            '/'.AppCatalogApi::APP_CATALOGS_URI,
+            '/' . AppCatalogApi::APP_CATALOGS_URI,
             new ResponseStack(
                 new Response($expectedJson, [], HttpClient::HTTP_CREATED)
             )

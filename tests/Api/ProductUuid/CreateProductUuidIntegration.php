@@ -20,7 +20,7 @@ class CreateProductUuidIntegration extends ApiTestCase
     public function test_create_product()
     {
         $this->server->setResponseOfPath(
-            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
+            '/' . ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response('', [], HttpClient::HTTP_CREATED)
             )
@@ -40,7 +40,7 @@ class CreateProductUuidIntegration extends ApiTestCase
     public function test_create_invalid_product()
     {
         $this->server->setResponseOfPath(
-            '/'.ProductUuidApi::PRODUCTS_UUID_URI,
+            '/' . ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response(
                     '{"code": 422, "message":"The value 12951d98-210e-4bRC-ab18-7fdgf1bd14f3 is already set on another product for the uuid"}',

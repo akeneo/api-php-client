@@ -17,18 +17,11 @@ class ProductDraftUuidApi implements ProductDraftUuidApiInterface
     public const PRODUCT_DRAFT_UUID_URI = '/api/rest/v1/products-uuid/%s/draft';
     public const PRODUCT_PROPOSAL_UUID_URI = '/api/rest/v1/products-uuid/%s/proposal';
 
-    protected ResourceClientInterface $resourceClient;
-    protected PageFactoryInterface $pageFactory;
-    protected ResourceCursorFactoryInterface $cursorFactory;
-
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

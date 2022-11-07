@@ -27,7 +27,7 @@ class UpsertListReferenceEntityRecordIntegration extends ApiTestCase
 JSON;
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'designer'),
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'designer'),
             new ResponseStack(
                 new Response($responseBody, [], 200)
             )
@@ -40,8 +40,8 @@ JSON;
                     'label' => [
                         [
                             'channel' => null,
-                            'locale'  => 'en_US',
-                            'data'    => 'Philippe Starck'
+                            'locale' => 'en_US',
+                            'data' => 'Philippe Starck'
                         ],
                     ]
                 ]
@@ -52,8 +52,8 @@ JSON;
                     'label' => [
                         [
                             'channel' => null,
-                            'locale'  => 'en_US',
-                            'data'    => 'James Dyson'
+                            'locale' => 'en_US',
+                            'data' => 'James Dyson'
                         ],
                     ]
                 ]
@@ -63,11 +63,11 @@ JSON;
         $expectedResponses = [
             [
                 'code' => 'starck',
-                'status_code' =>204
+                'status_code' => 204
             ],
             [
                 'code' => 'dyson',
-                'status_code' =>201
+                'status_code' => 201
             ],
         ];
 

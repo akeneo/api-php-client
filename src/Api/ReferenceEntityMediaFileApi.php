@@ -16,19 +16,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ReferenceEntityMediaFileApi implements ReferenceEntityMediaFileApiInterface
 {
-    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/reference-entities-media-files/%s';
-    const MEDIA_FILE_CREATE_URI = 'api/rest/v1/reference-entities-media-files';
+    public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/reference-entities-media-files/%s';
+    public const MEDIA_FILE_CREATE_URI = 'api/rest/v1/reference-entities-media-files';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var FileSystemInterface */
-    private $fileSystem;
-
-    public function __construct(ResourceClientInterface $resourceClient, FileSystemInterface $fileSystem)
-    {
-        $this->resourceClient = $resourceClient;
-        $this->fileSystem = $fileSystem;
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**
@@ -63,11 +57,7 @@ class ReferenceEntityMediaFileApi implements ReferenceEntityMediaFileApiInterfac
     /**
      * Extracts the code of a media-file from a creation response.
      *
-     * @param ResponseInterface $response
-     *
      * @throws RuntimeException if unable to extract the code
-     *
-     * @return string
      */
     private function extractCodeFromCreationResponse(ResponseInterface $response): string
     {

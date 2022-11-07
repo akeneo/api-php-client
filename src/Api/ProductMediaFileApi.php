@@ -20,39 +20,17 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ProductMediaFileApi implements MediaFileApiInterface
 {
-    const MEDIA_FILES_URI = 'api/rest/v1/media-files';
-    const MEDIA_FILE_URI = 'api/rest/v1/media-files/%s';
-    const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/media-files/%s/download';
-    const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
+    public const MEDIA_FILES_URI = 'api/rest/v1/media-files';
+    public const MEDIA_FILE_URI = 'api/rest/v1/media-files/%s';
+    public const MEDIA_FILE_DOWNLOAD_URI = 'api/rest/v1/media-files/%s/download';
+    public const MEDIA_FILE_URI_CODE_REGEX = '~/api/rest/v1/media\-files/(?P<code>.*)$~';
 
-    /** @var ResourceClientInterface */
-    protected $resourceClient;
-
-    /** @var PageFactoryInterface */
-    protected $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    protected $cursorFactory;
-
-    /** @var FileSystemInterface */
-    private $fileSystem;
-
-    /**
-     * @param ResourceClientInterface        $resourceClient
-     * @param PageFactoryInterface           $pageFactory
-     * @param ResourceCursorFactoryInterface $cursorFactory
-     * @param FileSystemInterface            $fileSystem
-     */
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory,
-        FileSystemInterface $fileSystem
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory,
+        private FileSystemInterface $fileSystem
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
-        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -120,8 +98,6 @@ class ProductMediaFileApi implements MediaFileApiInterface
 
     /**
      * Extracts the code of a media-file from a creation response.
-     *
-     * @param ResponseInterface $response
      *
      * @throws RuntimeException if unable to extract the code
      *

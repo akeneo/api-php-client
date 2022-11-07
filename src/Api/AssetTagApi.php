@@ -20,26 +20,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class AssetTagApi implements AssetTagApiInterface
 {
-    const ASSET_TAGS_URI = '/api/rest/v1/asset-tags';
-    const ASSET_TAG_URI = '/api/rest/v1/asset-tags/%s';
-
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var PageFactoryInterface */
-    private $pageFactory;
-
-    /** @var ResourceCursorFactoryInterface */
-    private $cursorFactory;
+    public const ASSET_TAGS_URI = '/api/rest/v1/asset-tags';
+    public const ASSET_TAG_URI = '/api/rest/v1/asset-tags/%s';
 
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        private ResourceClientInterface $resourceClient,
+        private PageFactoryInterface $pageFactory,
+        private ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
 
     /**

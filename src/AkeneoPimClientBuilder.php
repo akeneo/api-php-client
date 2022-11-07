@@ -70,9 +70,6 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 class AkeneoPimClientBuilder
 {
-    /** @var string */
-    protected $baseUri;
-
     /** @var ClientInterface */
     protected $httpClient;
 
@@ -92,9 +89,10 @@ class AkeneoPimClientBuilder
     /**
      * @param string $baseUri Base uri to request the API
      */
-    public function __construct(string $baseUri, array $options = [])
-    {
-        $this->baseUri = $baseUri;
+    public function __construct(
+        protected string $baseUri,
+        array $options = []
+    ) {
         $this->options = Options::fromArray($options);
     }
 
@@ -130,10 +128,6 @@ class AkeneoPimClientBuilder
 
     /**
      * Allows to define another implementation than LocalFileSystem
-     *
-     * @param FileSystemInterface $fileSystem
-     *
-     * @return AkeneoPimClientBuilder
      */
     public function setFileSystem(FileSystemInterface $fileSystem): self
     {
@@ -149,11 +143,13 @@ class AkeneoPimClientBuilder
      * @param string $secret   Secret associated to the client
      * @param string $username Username to use for the authentication
      * @param string $password Password associated to the username
-     *
-     * @return AkeneoPimClientInterface
      */
-    public function buildAuthenticatedByPassword(string $clientId, string $secret, string $username, string $password): AkeneoPimClientInterface
-    {
+    public function buildAuthenticatedByPassword(
+        string $clientId,
+        string $secret,
+        string $username,
+        string $password
+    ): AkeneoPimClientInterface {
         $authentication = Authentication::fromPassword($clientId, $secret, $username, $password);
 
         return $this->buildAuthenticatedClient($authentication);
@@ -173,11 +169,13 @@ class AkeneoPimClientBuilder
      * @param string $secret       Secret associated to the client
      * @param string $token        Token to use for the authentication
      * @param string $refreshToken Token to use to refresh the access token
-     *
-     * @return AkeneoPimClientInterface
      */
-    public function buildAuthenticatedByToken(string $clientId, string $secret, string $token, string $refreshToken): AkeneoPimClientInterface
-    {
+    public function buildAuthenticatedByToken(
+        string $clientId,
+        string $secret,
+        string $token,
+        string $refreshToken
+    ): AkeneoPimClientInterface {
         $authentication = Authentication::fromToken($clientId, $secret, $token, $refreshToken);
 
         return $this->buildAuthenticatedClient($authentication);
@@ -205,16 +203,11 @@ class AkeneoPimClientBuilder
         return $this;
     }
 
-    /**
-     * @param Authentication $authentication
-     *
-     * @return AkeneoPimClientInterface
-     */
     protected function buildAuthenticatedClient(Authentication $authentication): AkeneoPimClientInterface
     {
         [$resourceClient, $pageFactory, $cursorFactory, $fileSystem] = $this->setUp($authentication);
 
-        $resourceClientWithCache = !$this->cacheEnabled ? $resourceClient : new CachedResourceClient($resourceClient, new LRUCache());
+        $resourceClientWithCache = $this->cacheEnabled ? new CachedResourceClient($resourceClient, new LRUCache()) : $resourceClient;
 
         return new AkeneoPimClient(
             $authentication,
@@ -258,11 +251,6 @@ class AkeneoPimClientBuilder
         );
     }
 
-    /**
-     * @param Authentication $authentication
-     *
-     * @return array
-     */
     protected function setUp(Authentication $authentication): array
     {
         $uriGenerator = new UriGenerator($this->baseUri);

@@ -29,7 +29,7 @@ class UpsertListAssetIntegration extends ApiTestCase
 JSON;
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetApi::ASSETS_URI, 'packshot'),
+            '/' . sprintf(AssetApi::ASSETS_URI, 'packshot'),
             new ResponseStack(
                 new Response($responseBody, [], 200)
             )

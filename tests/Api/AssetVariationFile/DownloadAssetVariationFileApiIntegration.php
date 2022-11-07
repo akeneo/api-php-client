@@ -12,13 +12,12 @@ use Psr\Http\Message\ResponseInterface;
 
 class DownloadAssetVariationFileApiIntegration extends ApiTestCase
 {
-
     public function test_download_a_localizable_asset_variation_file()
     {
         $expectedFilePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy', 'ecommerce', 'en_US'),
+            '/' . sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy', 'ecommerce', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($expectedFilePath), [], 201)
             )
@@ -39,7 +38,12 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
         $expectedFilePath = realpath(__DIR__ . '/../../fixtures/ziggy-certification.jpg');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy_certif', 'ecommerce', AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI,
+                'ziggy_certif',
+                'ecommerce',
+                AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response(file_get_contents($expectedFilePath), [], 201)
             )
@@ -60,7 +64,7 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
     public function test_download_from_localizable_asset_not_found()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy', 'mobile', 'en_US'),
+            '/' . sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy', 'mobile', 'en_US'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )
@@ -76,7 +80,12 @@ class DownloadAssetVariationFileApiIntegration extends ApiTestCase
     public function test_download_from_not_localizable_asset_not_found()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI, 'ziggy_certif', 'mobile', AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetVariationFileApi::ASSET_VARIATION_FILE_DOWNLOAD_URI,
+                'ziggy_certif',
+                'mobile',
+                AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )

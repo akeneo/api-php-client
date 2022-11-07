@@ -136,9 +136,9 @@ interface AkeneoPimClientInterface
 
     public function getAssetMediaFileApi(): AssetMediaFileApiInterface;
 
-    public function getProductUuidApi() : ProductUuidApiInterface;
+    public function getProductUuidApi(): ProductUuidApiInterface;
 
-    public function getProductDraftUuidApi() : ProductDraftUuidApiInterface;
+    public function getProductDraftUuidApi(): ProductDraftUuidApiInterface;
 
     public function getAppCatalogApi(): AppCatalogApiInterface;
 

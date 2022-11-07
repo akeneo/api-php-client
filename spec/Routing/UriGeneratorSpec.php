@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class UriGeneratorSpec extends ObjectBehavior
 {
-    const BASE_URI = 'http://akeneo-pim.local/';
+    public const BASE_URI = 'http://akeneo-pim.local/';
 
     function let()
     {

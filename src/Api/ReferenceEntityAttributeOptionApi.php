@@ -13,15 +13,12 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
  */
 class ReferenceEntityAttributeOptionApi implements ReferenceEntityAttributeOptionApiInterface
 {
-    const REFERENCE_ENTITY_ATTRIBUTE_OPTION_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options/%s';
-    const REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options';
+    public const REFERENCE_ENTITY_ATTRIBUTE_OPTION_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options/%s';
+    public const REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI = 'api/rest/v1/reference-entities/%s/attributes/%s/options';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    public function __construct(ResourceClientInterface $resourceClient)
-    {
-        $this->resourceClient = $resourceClient;
+    public function __construct(
+        private ResourceClientInterface $resourceClient
+    ) {
     }
 
     /**

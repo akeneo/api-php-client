@@ -8,11 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Options
 {
-    private array $options;
-
-    private function __construct(array $options)
-    {
-        $this->options = $options;
+    private function __construct(
+        private array $options
+    ) {
     }
 
     public static function fromArray(array $options): self

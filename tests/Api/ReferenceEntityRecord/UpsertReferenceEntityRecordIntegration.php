@@ -14,7 +14,7 @@ class UpsertReferenceEntityRecordIntegration extends ApiTestCase
     public function test_upsert_reference_entity_record()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'starck'),
+            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'designer', 'starck'),
             new ResponseStack(
                 new Response('', [], 204)
             )
@@ -26,8 +26,8 @@ class UpsertReferenceEntityRecordIntegration extends ApiTestCase
                 'label' => [
                     [
                         'channel' => null,
-                        'locale'  => 'en_US',
-                        'data'    => 'Philippe Starck'
+                        'locale' => 'en_US',
+                        'data' => 'Philippe Starck'
                     ],
                 ]
             ]

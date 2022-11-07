@@ -16,7 +16,7 @@ class GetReferenceEntityIntegration extends ApiTestCase
     public function test_get_reference_entity()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'brand'),
+            '/' . sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'brand'),
             new ResponseStack(
                 new Response($this->getBrand(), [], 200)
             )
@@ -32,7 +32,7 @@ class GetReferenceEntityIntegration extends ApiTestCase
     public function test_get_unknown_reference_entity()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'foo'),
+            '/' . sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'foo'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Reference entity \"foo\" does not exist."}', [], 404)
             )

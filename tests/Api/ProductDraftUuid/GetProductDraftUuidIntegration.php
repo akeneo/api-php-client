@@ -19,7 +19,7 @@ class GetProductDraftUuidIntegration extends ApiTestCase
     public function test_get_product()
     {
         $this->server->setResponseOfPath(
-            '/'.sprintf(ProductDraftUuidApi::PRODUCT_DRAFT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
+            '/' . sprintf(ProductDraftUuidApi::PRODUCT_DRAFT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
             new ResponseStack(
                 new Response($this->getProductDraft(), [], HttpClient::HTTP_OK)
             )
@@ -35,7 +35,7 @@ class GetProductDraftUuidIntegration extends ApiTestCase
     public function test_get_unknown_product()
     {
         $this->server->setResponseOfPath(
-            '/'.sprintf(ProductDraftUuidApi::PRODUCT_DRAFT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
+            '/' . sprintf(ProductDraftUuidApi::PRODUCT_DRAFT_UUID_URI, '12951d98-210e-4bRC-ab18-7fdgf1bd14f3'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Resource `12951d98-210e-4bRC-ab18-7fdgf1bd14f3` does not exist."}', [], 404)
             )

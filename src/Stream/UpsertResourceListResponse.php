@@ -18,22 +18,16 @@ use Psr\Http\Message\StreamInterface;
  */
 class UpsertResourceListResponse implements \Iterator
 {
-    /** @var StreamInterface */
-    protected $bodyStream;
-
-    /** @var LineStreamReader */
-    protected $streamReader;
-
     /** @var int */
     protected $lineNumber = 1;
 
     /** @var string */
     protected $line;
 
-    public function __construct(StreamInterface $bodyStream, LineStreamReader $streamReader)
-    {
-        $this->bodyStream = $bodyStream;
-        $this->streamReader = $streamReader;
+    public function __construct(
+        protected StreamInterface $bodyStream,
+        protected LineStreamReader $streamReader
+    ) {
     }
 
     /**

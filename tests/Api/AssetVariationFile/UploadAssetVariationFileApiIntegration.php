@@ -16,7 +16,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'ziggy', 'ecommerce', 'en_US'),
+            '/' . sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'ziggy', 'ecommerce', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadLocalizableInformations()), [], 201)
@@ -46,7 +46,12 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy-certification.jpg');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'ziggy_certif', 'ecommerce', AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetVariationFileApi::ASSET_VARIATION_FILE_URI,
+                'ziggy_certif',
+                'ecommerce',
+                AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadNotLocalizableInformations()), [], 201)
@@ -58,7 +63,10 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'POST');
         Assert::assertNotEmpty($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']);
-        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'], 'ziggy-certification.jpg');
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['name'],
+            'ziggy-certification.jpg'
+        );
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['type'], 'image/jpeg');
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_FILES]['file']['size'], 10513);
 
@@ -76,7 +84,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $file = fopen($filePath, 'rb');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'ziggy', 'ecommerce', 'en_US'),
+            '/' . sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'ziggy', 'ecommerce', 'en_US'),
             new ResponseStack(
                 new Response(file_get_contents($filePath), [], 201),
                 new Response(json_encode($this->fakeUploadLocalizableInformations()), [], 201)
@@ -108,7 +116,7 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'unknown_asset', 'ecommerce', 'en_US'),
+            '/' . sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'unknown_asset', 'ecommerce', 'en_US'),
             new ResponseStack(
                 new Response('{"code": 404, "message":"Not found"}', [], 404)
             )
@@ -127,7 +135,12 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetVariationFileApi::ASSET_VARIATION_FILE_URI, 'unicorn', 'ecommerce', AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE),
+            '/' . sprintf(
+                AssetVariationFileApi::ASSET_VARIATION_FILE_URI,
+                'unicorn',
+                'ecommerce',
+                AssetVariationFileApi::NOT_LOCALIZABLE_ASSET_LOCALE_CODE
+            ),
             new ResponseStack(
                 new Response('{"code": 422, "message":"Unprocessable Entity"}', [], 422)
             )
@@ -138,11 +151,12 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api->uploadForNotLocalizableAsset($filePath, 'unicorn', 'ecommerce');
     }
 
-    protected function fakeUploadLocalizableInformations(){
+    protected function fakeUploadLocalizableInformations()
+    {
         return [
-            'code'   => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_ecommerce.jpg',
+            'code' => '5/c/8/3/5c835e7785cb174d8e7e39d7ee63be559f233be0_ziggy_ecommerce.jpg',
             'locale' => 'en_US',
-            '_link'  => [
+            '_link' => [
                 'download' => [
                     'href' => '/api/rest/v1/assets/ziggy/variation-files/ecommerce/en_US/download'
                 ]
@@ -150,11 +164,12 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         ];
     }
 
-    protected function fakeUploadNotLocalizableInformations(){
+    protected function fakeUploadNotLocalizableInformations()
+    {
         return [
-            'code'   => '2/9/b/f/29bfa18ced500c5fca2072dab978737576ca47ca_ziggy_certification_ecommerce.jpg',
+            'code' => '2/9/b/f/29bfa18ced500c5fca2072dab978737576ca47ca_ziggy_certification_ecommerce.jpg',
             'locale' => null,
-            '_link'  => [
+            '_link' => [
                 'download' => [
                     'href' => '/api/rest/v1/assets/ziggy_certif/variation-files/ecommerce/no-locale/download'
                 ]

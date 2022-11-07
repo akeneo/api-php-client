@@ -14,7 +14,7 @@ class UpsertAssetFamilyIntegration extends ApiTestCase
     public function test_upsert_asset_family()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'packshot'),
+            '/' . sprintf(AssetFamilyApi::ASSET_FAMILY_URI, 'packshot'),
             new ResponseStack(
                 new Response('', [], 201)
             )

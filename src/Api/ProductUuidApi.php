@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\ApiClient\Api;
@@ -16,21 +17,14 @@ use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
  */
 class ProductUuidApi implements ProductUuidApiInterface
 {
-    const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
-    const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';
-
-    protected ResourceClientInterface $resourceClient;
-    protected PageFactoryInterface $pageFactory;
-    protected ResourceCursorFactoryInterface $cursorFactory;
+    public const PRODUCTS_UUID_URI = 'api/rest/v1/products-uuid';
+    public const PRODUCT_UUID_URI = 'api/rest/v1/products-uuid/%s';
 
     public function __construct(
-        ResourceClientInterface $resourceClient,
-        PageFactoryInterface $pageFactory,
-        ResourceCursorFactoryInterface $cursorFactory
+        protected ResourceClientInterface $resourceClient,
+        protected PageFactoryInterface $pageFactory,
+        protected ResourceCursorFactoryInterface $cursorFactory
     ) {
-        $this->resourceClient = $resourceClient;
-        $this->pageFactory = $pageFactory;
-        $this->cursorFactory = $cursorFactory;
     }
     public function listPerPage(int $limit = 100, bool $withCount = false, array $queryParameters = []): PageInterface
     {

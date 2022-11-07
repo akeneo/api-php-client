@@ -15,7 +15,7 @@ class ListAllAssetsIntegration extends ApiTestCase
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(AssetApi::ASSETS_URI, 'packshot'),
+            '/' . sprintf(AssetApi::ASSETS_URI, 'packshot'),
             new ResponseStack(
                 new Response($this->getFirstPage(), [], 200),
                 new Response($this->getSecondPage(), [], 200)

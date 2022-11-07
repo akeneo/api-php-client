@@ -13,7 +13,7 @@ class UpsertProductTest extends ApiTestCase
     public function test_upsert_product()
     {
         $this->server->setResponseOfPath(
-            '/'. sprintf(ProductApi::PRODUCT_URI, 'docks_black'),
+            '/' . sprintf(ProductApi::PRODUCT_URI, 'docks_black'),
             new ResponseStack(
                 new Response('', [], 204)
             )
@@ -23,12 +23,12 @@ class UpsertProductTest extends ApiTestCase
 
         $parameters = [
             'enabled' => false,
-            'values'  => [
+            'values' => [
                 'name' => [
                     [
                         'locale' => 'en_US',
-                        'scope'  => null,
-                        'data'   => 'Black Docks',
+                        'scope' => null,
+                        'data' => 'Black Docks',
                     ],
                 ],
             ]
@@ -39,5 +39,4 @@ class UpsertProductTest extends ApiTestCase
 
         Assert::assertSame(204, $response);
     }
-
 }

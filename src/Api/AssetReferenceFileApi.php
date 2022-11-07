@@ -20,20 +20,14 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AssetReferenceFileApi implements AssetReferenceFileApiInterface
 {
-    const ASSET_REFERENCE_FILE_URI = '/api/rest/v1/assets/%s/reference-files/%s';
-    const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
-    const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
+    public const ASSET_REFERENCE_FILE_URI = '/api/rest/v1/assets/%s/reference-files/%s';
+    public const ASSET_REFERENCE_FILE_DOWNLOAD_URI = '/api/rest/v1/assets/%s/reference-files/%s/download';
+    public const NOT_LOCALIZABLE_ASSET_LOCALE_CODE = 'no-locale';
 
-    /** @var ResourceClientInterface */
-    private $resourceClient;
-
-    /** @var FileSystemInterface */
-    private $fileSystem;
-
-    public function __construct(ResourceClientInterface $resourceClient, FileSystemInterface $fileSystem)
-    {
-        $this->resourceClient = $resourceClient;
-        $this->fileSystem = $fileSystem;
+    public function __construct(
+        private ResourceClientInterface $resourceClient,
+        private FileSystemInterface $fileSystem
+    ) {
     }
 
     /**
@@ -88,10 +82,6 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
 
     /**
      * @param string|resource $referenceFile
-     * @param string          $assetCode
-     * @param string          $localeCode
-     *
-     * @return int
      */
     private function upload($referenceFile, string $assetCode, string $localeCode): int
     {
@@ -104,7 +94,11 @@ class AssetReferenceFileApi implements AssetReferenceFileApiInterface
             'contents' => $referenceFile,
         ]];
 
-        $response = $this->resourceClient->createMultipartResource(static::ASSET_REFERENCE_FILE_URI, [$assetCode, $localeCode], $requestParts);
+        $response = $this->resourceClient->createMultipartResource(
+            static::ASSET_REFERENCE_FILE_URI,
+            [$assetCode, $localeCode],
+            $requestParts
+        );
         $this->handleUploadErrors($response);
 
         return $response->getStatusCode();

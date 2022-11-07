@@ -22,23 +22,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AuthenticatedHttpClient implements HttpClientInterface
 {
-    /** @var HttpClient */
-    protected $basicHttpClient;
-
-    /** @var AuthenticationApiInterface */
-    protected $authenticationApi;
-
-    /** @var Authentication */
-    protected $authentication;
-
     public function __construct(
-        HttpClient $basicHttpClient,
-        AuthenticationApiInterface $authenticationApi,
-        Authentication $authentication
+        protected HttpClient $basicHttpClient,
+        protected AuthenticationApiInterface $authenticationApi,
+        protected Authentication $authentication
     ) {
-        $this->basicHttpClient = $basicHttpClient;
-        $this->authenticationApi = $authenticationApi;
-        $this->authentication = $authentication;
     }
 
     /**
@@ -60,7 +48,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
         }
 
         try {
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
             $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
             $tokens = $this->renewTokens($e);
@@ -69,8 +57,8 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 ->setAccessToken($tokens['access_token'])
                 ->setRefreshToken($tokens['refresh_token']);
 
-            $headers['Authorization'] =  sprintf('Bearer %s', $this->authentication->getAccessToken());
-            $response =  $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
+            $response = $this->basicHttpClient->sendRequest($httpMethod, $uri, $headers, $body);
         }
 
         return $response;
@@ -84,7 +72,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 $this->authentication->getSecret(),
                 $this->authentication->getRefreshToken()
             );
-        } catch (UnprocessableEntityHttpException $e) {
+        } catch (UnprocessableEntityHttpException) {
             throw $unauthorizedHttpException;
         }
     }

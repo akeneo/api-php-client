@@ -2,7 +2,6 @@
 
 namespace Akeneo\Pim\ApiClient\tests\Api\ProductUuid;
 
-
 use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
@@ -21,7 +20,7 @@ class ListPerPageProductUuidIntegration extends ApiTestCase
     public function test_list_per_page()
     {
         $this->server->setResponseOfPath(
-            '/'. ProductUuidApi::PRODUCTS_UUID_URI,
+            '/' . ProductUuidApi::PRODUCTS_UUID_URI,
             new ResponseStack(
                 new Response($this->getFirstPage(), [], HttpClient::HTTP_OK),
                 new Response($this->getSecondPage(), [], HttpClient::HTTP_OK)
@@ -31,8 +30,10 @@ class ListPerPageProductUuidIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getProductUuidApi();
         $firstPage = $api->listPerPage(10, true, []);
 
-        Assert::assertSame(['limit' => '10', 'with_count' => 'true'],
-            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET]);
+        Assert::assertSame(
+            ['limit' => '10', 'with_count' => 'true'],
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_GET]
+        );
 
         Assert::assertInstanceOf(PageInterface::class, $firstPage);
         Assert::assertEquals(11, $firstPage->getCount());
@@ -40,7 +41,10 @@ class ListPerPageProductUuidIntegration extends ApiTestCase
         Assert::assertNull($firstPage->getPreviousPage());
         Assert::assertFalse($firstPage->hasPreviousPage());
         Assert::assertTrue($firstPage->hasNextPage());
-        Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products-uuid?page=2&with_count=true&pagination_type=page&limit=10', $firstPage->getNextLink());
+        Assert::assertSame(
+            $this->server->getServerRoot() . '/api/rest/v1/products-uuid?page=2&with_count=true&pagination_type=page&limit=10',
+            $firstPage->getNextLink()
+        );
         Assert::assertCount(10, $firstPage->getItems());
 
         $secondPage = $firstPage->getNextPage();
@@ -58,7 +62,10 @@ class ListPerPageProductUuidIntegration extends ApiTestCase
         Assert::assertNull($secondPage->getNextPage());
         Assert::assertFalse($secondPage->hasNextPage());
         Assert::assertTrue($secondPage->hasPreviousPage());
-        Assert::assertSame($this->server->getServerRoot() . '/api/rest/v1/products-uuid?page=1&with_count=true&pagination_type=page&limit=10', $secondPage->getPreviousLink());
+        Assert::assertSame(
+            $this->server->getServerRoot() . '/api/rest/v1/products-uuid?page=1&with_count=true&pagination_type=page&limit=10',
+            $secondPage->getPreviousLink()
+        );
         Assert::assertCount(1, $secondPage->getItems());
     }
 

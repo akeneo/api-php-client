@@ -28,7 +28,7 @@ abstract class ApiTestCase extends TestCase
         $this->server->start();
 
         $this->server->setResponseOfPath(
-            '/'. AuthenticationApi::TOKEN_URI,
+            '/' . AuthenticationApi::TOKEN_URI,
             new ResponseStack(
                 new Response($this->getAuthenticatedJson())
             )
