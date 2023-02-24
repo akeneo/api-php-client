@@ -257,6 +257,24 @@ class AkeneoPimClientBuilder
 
         $httpClient = new HttpClient($this->getHttpClient(), $this->getRequestFactory(), $this->getStreamFactory(), $this->options);
         $authenticationApi = new AuthenticationApi($httpClient, $uriGenerator);
+
+        if (
+            null === $authentication->getAccessToken()
+            && null !== $authentication->getUsername()
+            && null !== $authentication->getPassword()
+        ) {
+            $tokens = $authenticationApi->authenticateByPassword(
+                $authentication->getClientId(),
+                $authentication->getSecret(),
+                $authentication->getUsername(),
+                $authentication->getPassword()
+            );
+
+            $authentication
+                ->setAccessToken($tokens['access_token'])
+                ->setRefreshToken($tokens['refresh_token']);
+        }
+
         $authenticatedHttpClient = new AuthenticatedHttpClient($httpClient, $authenticationApi, $authentication);
 
         $multipartStreamBuilderFactory = new MultipartStreamBuilderFactory($this->getStreamFactory());
