@@ -33,7 +33,7 @@ class UpsertResourceListResponse implements \Iterator
     /**
      * {@inheritdoc}
      */
-    public function current()
+    public function current(): array
     {
         return json_decode($this->line, true);
     }
@@ -41,7 +41,7 @@ class UpsertResourceListResponse implements \Iterator
     /**
      * {@inheritdoc}
      */
-    public function next()
+    public function next(): void
     {
         $this->line = $this->streamReader->getNextLine($this->bodyStream);
         $this->lineNumber++;
@@ -50,7 +50,7 @@ class UpsertResourceListResponse implements \Iterator
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function key(): int
     {
         return $this->lineNumber;
     }
@@ -58,7 +58,7 @@ class UpsertResourceListResponse implements \Iterator
     /**
      * {@inheritdoc}
      */
-    public function valid()
+    public function valid(): bool
     {
         return null !== $this->line;
     }
@@ -66,7 +66,7 @@ class UpsertResourceListResponse implements \Iterator
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->bodyStream->rewind();
         $this->lineNumber = 1;
