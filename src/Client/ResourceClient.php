@@ -190,7 +190,7 @@ class ResourceClient implements ResourceClientInterface
     {
         $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        return $this->httpClient->sendAsyncRequest(
+        return $this->httpClient->sendAsync(
             'PATCH',
             $uri,
             ['Content-Type' => 'application/vnd.akeneo.collection+json'],
@@ -222,7 +222,7 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncJsonResourceList(string $uri, array $uriParameters = [], array $resources = []): PromiseInterface
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
-        return $this->httpClient->sendAsyncRequest(
+        return $this->httpClient->sendAsync(
             'PATCH',
             $uri,
             ['Content-Type' => 'application/json'],
@@ -286,7 +286,7 @@ class ResourceClient implements ResourceClientInterface
 
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
 
-        return $this->httpClient->sendAsyncRequest(
+        return $this->httpClient->sendAsync(
             'PATCH',
             $uri,
             ['Content-Type' => 'application/json'],

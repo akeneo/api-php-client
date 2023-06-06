@@ -43,5 +43,5 @@ interface HttpClientInterface
      *
      * @return PromiseInterface
      */
-    public function sendAsyncRequest(string $httpMethod, $uri, array $headers = [], $body = null): PromiseInterface;
+    public function sendAsync(string $httpMethod, $uri, array $headers = [], $body = null): PromiseInterface;
 }
