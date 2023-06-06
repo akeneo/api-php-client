@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Api\Operation;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * API that can "upsert" a resource.
@@ -25,4 +26,16 @@ interface UpsertableResourceInterface
      *             Status code 204 indicating that the resource has been well updated.
      */
     public function upsert(string $code, array $data = []): int;
+
+    /**
+     * Creates a resource if it does not exist yet, otherwise updates partially the resource.
+     *
+     * @param string $code code of the resource to create or update
+     * @param array  $data data of the resource to create or update
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $code, array $data = []): PromiseInterface;
 }

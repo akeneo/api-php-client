@@ -8,6 +8,8 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API implementation to manage the attributes.
@@ -78,11 +80,21 @@ class AttributeApi implements AttributeApiInterface
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_URI, [$code], $data);
     }
 
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_URI, [$code], $data);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function upsertList($resources): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTES_URI, [], $resources);
+    }
+
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTES_URI, [], $resources);
     }
 }

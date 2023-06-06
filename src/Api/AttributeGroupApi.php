@@ -8,6 +8,8 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API implementation to manage attribute groups.
@@ -78,11 +80,21 @@ class AttributeGroupApi implements AttributeGroupApiInterface
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_GROUP_URI, [$code], $data);
     }
 
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_GROUP_URI, [$code], $data);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function upsertList($resources): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $resources);
+    }
+
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $resources);
     }
 }

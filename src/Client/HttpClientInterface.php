@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -29,4 +30,18 @@ interface HttpClientInterface
      * @return ResponseInterface
      */
     public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface;
+
+    /**
+     * Sends a request.
+     *
+     * @param string                      $httpMethod HTTP method to use
+     * @param string|UriInterface         $uri        URI of the request
+     * @param array                       $headers    headers of the request
+     * @param string|StreamInterface|null $body       body of the request
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return PromiseInterface
+     */
+    public function sendAsyncRequest(string $httpMethod, $uri, array $headers = [], $body = null): PromiseInterface;
 }
