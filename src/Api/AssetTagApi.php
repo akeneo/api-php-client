@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * API implementation to manage asset tags.
@@ -70,5 +71,10 @@ class AssetTagApi implements AssetTagApiInterface
         );
 
         return $this->pageFactory->createPage($data);
+    }
+
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_TAG_URI, [$code], $data);
     }
 }
