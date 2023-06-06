@@ -2,7 +2,6 @@
 
 namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\ApiClient\Client\ClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;

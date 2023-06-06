@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Security\Authentication;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -75,5 +76,10 @@ class AuthenticatedHttpClient implements HttpClientInterface
         } catch (UnprocessableEntityHttpException) {
             throw $unauthorizedHttpException;
         }
+    }
+
+    public function sendAsync(string $httpMethod, $uri, array $headers = [], $body = null): PromiseInterface
+    {
+        // TODO: Implement sendAsync() method.
     }
 }
