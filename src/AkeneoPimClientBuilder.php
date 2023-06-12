@@ -20,6 +20,7 @@ use Akeneo\Pim\ApiClient\Api\AttributeGroupApi;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\AuthenticationApi;
 use Akeneo\Pim\ApiClient\Api\CategoryApi;
+use Akeneo\Pim\ApiClient\Api\CategoryMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ChannelApi;
 use Akeneo\Pim\ApiClient\Api\CurrencyApi;
 use Akeneo\Pim\ApiClient\Api\FamilyApi;
@@ -213,6 +214,7 @@ class AkeneoPimClientBuilder
             $authentication,
             new ProductApi($resourceClient, $pageFactory, $cursorFactory),
             new CategoryApi($resourceClientWithCache, $pageFactory, $cursorFactory),
+            new CategoryMediaFileApi($resourceClientWithCache),
             new AttributeApi($resourceClientWithCache, $pageFactory, $cursorFactory),
             new AttributeOptionApi($resourceClientWithCache, $pageFactory, $cursorFactory),
             new AttributeGroupApi($resourceClientWithCache, $pageFactory, $cursorFactory),

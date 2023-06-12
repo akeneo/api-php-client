@@ -19,6 +19,7 @@ use Akeneo\Pim\ApiClient\Api\AttributeApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeGroupApiInterface;
 use Akeneo\Pim\ApiClient\Api\AttributeOptionApiInterface;
 use Akeneo\Pim\ApiClient\Api\CategoryApiInterface;
+use Akeneo\Pim\ApiClient\Api\CategoryMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ChannelApiInterface;
 use Akeneo\Pim\ApiClient\Api\CurrencyApiInterface;
 use Akeneo\Pim\ApiClient\Api\FamilyApiInterface;
@@ -27,6 +28,7 @@ use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftUuidApiInterface;
@@ -54,6 +56,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         protected Authentication $authentication,
         protected ProductApiInterface $productApi,
         protected CategoryApiInterface $categoryApi,
+        protected DownloadableResourceInterface $categoryMediaFileApi,
         protected AttributeApiInterface $attributeApi,
         protected AttributeOptionApiInterface $attributeOptionApi,
         protected AttributeGroupApiInterface $attributeGroupApi,
@@ -122,6 +125,14 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getCategoryApi(): CategoryApiInterface
     {
         return $this->categoryApi;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCategoryMediaFileApi(): DownloadableResourceInterface
+    {
+        return $this->categoryMediaFileApi;
     }
 
     /**
