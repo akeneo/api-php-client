@@ -7,10 +7,9 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * API implementation to manage the media files for the products.
+ * API implementation to manage enriched categories media files.
  *
- * @author    Laurent Petard <laurent.petard@akeneo.com>
- * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
+ * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class CategoryMediaFileApi implements DownloadableResourceInterface
