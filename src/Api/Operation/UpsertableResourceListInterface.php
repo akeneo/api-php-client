@@ -35,5 +35,5 @@ interface UpsertableResourceListInterface
      *
      * @return PromiseInterface returns a Promise
      */
-    public function upsertAsyncList(array|StreamInterface $resources): PromiseInterface;
+    public function upsertAsync(array|StreamInterface $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

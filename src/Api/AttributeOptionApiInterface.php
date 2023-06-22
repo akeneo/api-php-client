@@ -99,7 +99,7 @@ interface AttributeOptionApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = []): PromiseInterface;
+    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 
     /**
      * Updates or creates several attribute options at once.
@@ -123,5 +123,5 @@ interface AttributeOptionApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsyncList($attributeCode, $attributeOptions): PromiseInterface;
+    public function upsertAsyncList($attributeCode, $attributeOptions, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

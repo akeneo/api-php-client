@@ -75,7 +75,7 @@ interface FamilyVariantApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsync($familyCode, $familyVariantCode, array $data = []): PromiseInterface;
+    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -134,5 +134,5 @@ interface FamilyVariantApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsyncList($familyCode, $familyVariants): PromiseInterface;
+    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

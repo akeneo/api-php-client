@@ -62,5 +62,5 @@ interface ReferenceEntityApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsync(string $referenceEntityCode, array $data = []): PromiseInterface;
+    public function upsertAsync(string $referenceEntityCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

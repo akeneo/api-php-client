@@ -66,7 +66,7 @@ interface ReferenceEntityRecordApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = []): PromiseInterface;
+    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 
     /**
      * Updates or creates several reference entity records.
@@ -90,5 +90,5 @@ interface ReferenceEntityRecordApiInterface
      *
      * @return PromiseInterface
      */
-    public function upsertAsyncList(string $referenceEntityCode, array $records): PromiseInterface;
+    public function upsertAsyncList(string $referenceEntityCode, array $records, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }
