@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface AssetAttributeApiInterface
 {
@@ -23,7 +24,7 @@ interface AssetAttributeApiInterface
     public function all(string $assetFamilyCode, array $queryParameters = []): array;
 
     /**
-     * Creates a asset attribute if it does not exist yet, otherwise updates partially the attribute.
+     * Creates an asset attribute if it does not exist yet, otherwise updates partially the attribute.
      *
      * @throws HttpException
      *
@@ -31,4 +32,13 @@ interface AssetAttributeApiInterface
      *             Status code 204 indicating that the asset attribute has been well updated.
      */
     public function upsert(string $assetFamilyCode, string $attributeCode, array $data = []): int;
+
+    /**
+     * Creates an asset attribute if it does not exist yet, otherwise updates partially the attribute.
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $assetFamilyCode, string $attributeCode, array $data = []): PromiseInterface;
 }

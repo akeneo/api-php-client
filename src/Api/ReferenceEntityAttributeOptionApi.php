@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -49,6 +50,18 @@ class ReferenceEntityAttributeOptionApi implements ReferenceEntityAttributeOptio
     public function upsert(string $referenceEntityCode, string $attributeCode, string $attributeOptionCode, array $data = []): int
     {
         return $this->resourceClient->upsertResource(
+            static::REFERENCE_ENTITY_ATTRIBUTE_OPTION_URI,
+            [$referenceEntityCode, $attributeCode, $attributeOptionCode],
+            $data
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAsync(string $referenceEntityCode, string $attributeCode, string $attributeOptionCode, array $data = []): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(
             static::REFERENCE_ENTITY_ATTRIBUTE_OPTION_URI,
             [$referenceEntityCode, $attributeCode, $attributeOptionCode],
             $data

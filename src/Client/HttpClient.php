@@ -2,8 +2,9 @@
 
 namespace Akeneo\Pim\ApiClient\Client;
 
-use Psr\Http\Client\ClientInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
@@ -40,10 +41,7 @@ class HttpClient implements HttpClientInterface
         $this->httpExceptionHandler = new HttpExceptionHandler();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface
+    private function prepareRequest(string $httpMethod, $uri, array $headers = [], $body = null): RequestInterface
     {
         $request = $this->requestFactory->createRequest($httpMethod, $uri);
 
@@ -64,8 +62,31 @@ class HttpClient implements HttpClientInterface
             }
         }
 
+        return $request;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface
+    {
+        $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
+
         $response = $this->httpClient->sendRequest($request);
 
         return $this->httpExceptionHandler->transformResponseToException($request, $response);
+    }
+
+    public function sendAsync(
+        string $httpMethod,
+        $uri,
+        array $headers = [],
+        $body = null,
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
+
+        return $this->httpClient->sendAsync($request)->then($onSuccess, $onFail);
     }
 }

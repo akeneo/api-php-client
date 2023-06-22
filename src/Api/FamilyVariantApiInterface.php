@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -63,6 +64,21 @@ interface FamilyVariantApiInterface
 
     /**
      * Available since Akeneo PIM 2.0.
+     * Creates a family variant if it does not exist yet, otherwise updates it partially.
+     *
+     * @param string $familyCode        code of the family parent of the family variant to create or update
+     * @param string $familyVariantCode code of the family variant to create or update
+     * @param array  $data              data of the family variant to create or update
+     *
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the parameter "familyCode" is defined in the data parameter.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync($familyCode, $familyVariantCode, array $data = []): PromiseInterface;
+
+    /**
+     * Available since Akeneo PIM 2.0.
      * Gets a list of family variants by returning the first page.
      * Consequently, this method does not return all the family variants.
      *
@@ -106,4 +122,17 @@ interface FamilyVariantApiInterface
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
     public function upsertList($familyCode, $familyVariants): \Traversable;
+
+    /**
+     * Available since Akeneo PIM 2.0.
+     * Updates or creates several resources.
+     *
+     * @param string                $familyCode code of the family parent of family variants to create or update
+     * @param array|StreamInterface $familyVariants array or StreamInterface object containing the family variants to create or update
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsyncList($familyCode, $familyVariants): PromiseInterface;
 }

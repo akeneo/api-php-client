@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface AssetApiInterface
 {
@@ -55,6 +56,27 @@ interface AssetApiInterface
      * @return array returns the list of the responses of each created or updated asset.
      */
     public function upsertList(string $assetFamilyCode, array $assets): array;
+
+    /**
+     * Creates an asset family if it does not exist yet, otherwise updates partially the asset family.
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = []): PromiseInterface;
+
+    /**
+     * Updates or creates several assets.
+     *
+     * @param string $assetFamilyCode Code of the asset family
+     * @param array  $assets          Array containing the assets to create or update
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsyncList(string $assetFamilyCode, array $assets): PromiseInterface;
 
     /**
      * Deletes an asset.

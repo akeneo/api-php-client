@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -124,6 +125,16 @@ class ResourceClient implements ResourceClientInterface
         return $response->getStatusCode();
     }
 
+    public function upsertAsyncResource(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -134,10 +145,17 @@ class ResourceClient implements ResourceClientInterface
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []): \Traversable
+    public function upsertAsyncAndReturnPromise(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
+    }
+
+    public function prepareResourceListRequest(array $resources): string
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
@@ -158,6 +176,15 @@ class ResourceClient implements ResourceClientInterface
             $body = $resources;
         }
 
+        return $body;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []): \Traversable
+    {
+        $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         $response = $this->httpClient->sendRequest(
             'PATCH',
@@ -167,6 +194,25 @@ class ResourceClient implements ResourceClientInterface
         );
 
         return $this->upsertListResponseFactory->create($response->getBody());
+    }
+
+    public function upsertAsyncStreamResourceList(
+        string $uri,
+        array $uriParameters = [],
+        $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        $body = $this->prepareResourceListRequest($resources);
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        return $this->httpClient->sendAsync(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/vnd.akeneo.collection+json'],
+            $body,
+            $onSuccess,
+            $onFail
+        );
     }
 
     /**
@@ -188,6 +234,24 @@ class ResourceClient implements ResourceClientInterface
         }
 
         return $response;
+    }
+
+    public function upsertAsyncJsonResourceList(
+        string $uri,
+        array $uriParameters = [],
+        array $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+        return $this->httpClient->sendAsync(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($resources),
+            $onSuccess,
+            $onFail
+        );
     }
 
     /**
@@ -237,6 +301,27 @@ class ResourceClient implements ResourceClientInterface
             $uri,
             ['Content-Type' => 'application/json'],
             json_encode($body)
+        );
+    }
+
+    private function sendAsyncUpsertRequest(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        unset($body['_links']);
+
+        $uri = $this->uriGenerator->generate($uri, $uriParameters);
+
+        return $this->httpClient->sendAsync(
+            'PATCH',
+            $uri,
+            ['Content-Type' => 'application/json'],
+            json_encode($body),
+            $onSuccess,
+            $onFail
         );
     }
 }

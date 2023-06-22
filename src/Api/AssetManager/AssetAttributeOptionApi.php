@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class AssetAttributeOptionApi implements AssetAttributeOptionApiInterface
 {
@@ -44,6 +45,15 @@ class AssetAttributeOptionApi implements AssetAttributeOptionApiInterface
     public function upsert(string $assetFamilyCode, string $attributeCode, string $attributeOptionCode, array $data = []): int
     {
         return $this->resourceClient->upsertResource(
+            static::ASSET_ATTRIBUTE_OPTION_URI,
+            [$assetFamilyCode, $attributeCode, $attributeOptionCode],
+            $data
+        );
+    }
+
+    public function upsertAsync(string $assetFamilyCode, string $attributeCode, string $attributeOptionCode, array $data = []): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(
             static::ASSET_ATTRIBUTE_OPTION_URI,
             [$assetFamilyCode, $attributeCode, $attributeOptionCode],
             $data

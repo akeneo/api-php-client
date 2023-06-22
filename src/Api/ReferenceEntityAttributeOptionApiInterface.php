@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -52,4 +53,18 @@ interface ReferenceEntityAttributeOptionApiInterface
      *             Status code 204 indicating that the reference entity attribute option has been well updated.
      */
     public function upsert(string $referenceEntityCode, string $attributeCode, string $attributeOptionCode, array $data = []): int;
+
+    /**
+     * Creates a reference entity attribute option if it does not exist yet, otherwise updates partially the attribute option.
+     *
+     * @param string $referenceEntityCode Code of the reference entity
+     * @param string $attributeCode       Code of the attribute
+     * @param string $attributeOptionCode Code of the attribute option
+     * @param array  $data                Data of the attribute option to create or update
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $referenceEntityCode, string $attributeCode, string $attributeOptionCode, array $data = []): PromiseInterface;
 }

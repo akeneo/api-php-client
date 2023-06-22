@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -110,6 +111,26 @@ interface ResourceClientInterface
     public function upsertResource(string $uri, array $uriParameters = [], array $body = []): int;
 
     /**
+     * Creates a resource if it does not exist yet, otherwise updates partially the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     * @param ?callable $onSuccess   Callback in case of success
+     * @param ?callable $onFail      Callback in case of fail
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsyncResource(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface;
+
+    /**
      * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
      *
      * @param string $uri           URI of the resource
@@ -120,6 +141,25 @@ interface ResourceClientInterface
      *
      */
     public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array;
+
+    /**
+     * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $body          Body of the request
+     * @param ?callable $onSuccess   Callback in case of success
+     * @param ?callable $onFail      Callback in case of fail
+     *
+     * @throws HttpException If the request failed.
+     *
+     */
+    public function upsertAsyncAndReturnPromise(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
@@ -137,6 +177,28 @@ interface ResourceClientInterface
     public function upsertStreamResourceList(string $uri, array $uriParameters = [], $resources = []): \Traversable;
 
     /**
+     * Updates or creates several resources using a stream for the request and the response.
+     *
+     * @param string                $uri           URI of the resource
+     * @param array                 $uriParameters URI parameters of the resource
+     * @param array|StreamInterface $resources     array of resources to create or update.
+     *                                             You can pass your own StreamInterface implementation as well.
+     * @param ?callable $onSuccess   Callback in case of success
+     * @param ?callable $onFail      Callback in case of fail
+     *
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the resources or any part thereof are invalid.
+     *
+     * @return PromiseInterface returns a Promise
+     */
+    public function upsertAsyncStreamResourceList(
+        string $uri,
+        array $uriParameters = [],
+        $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface;
+
+    /**
      * Updates or creates several resources using a single JSON string for the request and the response.
      *
      * @param string $uri           URI of the resource
@@ -149,6 +211,27 @@ interface ResourceClientInterface
      * @return array
      */
     public function upsertJsonResourceList(string $uri, array $uriParameters = [], array $resources = []): array;
+
+    /**
+     * Updates or creates several resources using a single JSON string for the request and the response.
+     *
+     * @param string $uri           URI of the resource
+     * @param array  $uriParameters URI parameters of the resource
+     * @param array  $resources     array of resources to create or update.
+     * @param ?callable $onSuccess   Callback in case of success
+     * @param ?callable $onFail      Callback in case of fail
+     *
+     * @throws HttpException            If the request failed.
+     * @throws InvalidArgumentException If the resources or any part thereof are invalid.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsyncJsonResourceList(
+        string $uri,
+        array $uriParameters = [],
+        array $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Deletes a resource.

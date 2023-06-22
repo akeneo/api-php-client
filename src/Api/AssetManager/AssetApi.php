@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class AssetApi implements AssetApiInterface
 {
@@ -69,5 +70,21 @@ class AssetApi implements AssetApiInterface
     public function delete(string $assetFamilyCode, string $assetCode): int
     {
         return $this->resourceClient->deleteResource(static::ASSET_URI, [$assetFamilyCode, $assetCode]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAsync (string $assetFamilyCode, string $assetCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$assetFamilyCode, $assetCode], $data, $onSuccess, $onFail);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAsyncList (string $assetFamilyCode, array $assets, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncJsonResourceList(static::ASSETS_URI, [$assetFamilyCode], $assets, $onSuccess, $onFail);
     }
 }

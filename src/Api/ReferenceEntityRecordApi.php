@@ -8,6 +8,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -66,5 +67,15 @@ class ReferenceEntityRecordApi implements ReferenceEntityRecordApiInterface
     public function upsertList(string $referenceEntityCode, array $records): array
     {
         return $this->resourceClient->upsertJsonResourceList(static::REFERENCE_ENTITY_RECORDS_URI, [$referenceEntityCode], $records);
+    }
+
+    public function upsertAsync (string $referenceEntityCode, string $recordCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_RECORD_URI, [$referenceEntityCode, $recordCode], $data, $onSuccess, $onFail);
+    }
+
+    public function upsertAsyncList (string $referenceEntityCode, array $records, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncJsonResourceList(static::REFERENCE_ENTITY_RECORDS_URI, [$referenceEntityCode], $records, $onSuccess, $onFail);
     }
 }

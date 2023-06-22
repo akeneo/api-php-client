@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Cache\CacheInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -73,6 +74,16 @@ class CachedResourceClient implements ResourceClientInterface
         return $this->resourceClient->upsertResource($uri, $uriParameters, $body);
     }
 
+    public function upsertAsyncResource(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource($uri, $uriParameters, $body, $onSuccess, $onFail);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -81,12 +92,32 @@ class CachedResourceClient implements ResourceClientInterface
         return $this->resourceClient->upsertStreamResourceList($uri, $uriParameters, $resources);
     }
 
+    public function upsertAsyncStreamResourceList(
+        string $uri,
+        array $uriParameters = [],
+        $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncStreamResourceList($uri, $uriParameters, $resources, $onSuccess, $onFail);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function upsertJsonResourceList(string $uri, array $uriParameters = [], array $resources = []): array
     {
         return $this->resourceClient->upsertJsonResourceList($uri, $uriParameters, $resources);
+    }
+
+    public function upsertAsyncJsonResourceList(
+        string $uri,
+        array $uriParameters = [],
+        array $resources = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncJsonResourceList($uri, $uriParameters, $resources, $onSuccess, $onFail);
     }
 
     /**
@@ -119,5 +150,15 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAndReturnResource(string $uri, array $uriParameters = [], array $body = []): array
     {
         return $this->resourceClient->upsertAndReturnResource($uri, $uriParameters, $body);
+    }
+
+    public function upsertAsyncAndReturnPromise(
+        string $uri,
+        array $uriParameters = [],
+        array $body = [],
+        callable $onSuccess = null,
+        callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncAndReturnPromise($uri, $uriParameters, $body, $onSuccess, $onFail);
     }
 }

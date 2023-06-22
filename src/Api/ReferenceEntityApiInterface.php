@@ -6,9 +6,10 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * API to mange the reference entities.
+ * API to manage the reference entities.
  *
  * @author    Tamara Robichet <tamara.robichet@akeneo.com>
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
@@ -50,4 +51,16 @@ interface ReferenceEntityApiInterface
      *             Status code 204 indicating that the reference entity has been well updated.
      */
     public function upsert(string $referenceEntityCode, array $data = []): int;
+
+    /**
+     * Creates a reference entity if it does not exist yet, otherwise updates partially the reference entity.
+     *
+     * @param string $referenceEntityCode Code of the reference entity
+     * @param array  $data                Data of the reference entity to create or update
+     *
+     * @throws HttpException If the request failed.
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $referenceEntityCode, array $data = []): PromiseInterface;
 }

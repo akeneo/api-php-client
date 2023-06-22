@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Api\Operation;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -24,4 +25,15 @@ interface UpsertableResourceListInterface
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted resource
      */
     public function upsertList(array|StreamInterface $resources): \Traversable;
+
+    /**
+     * Updates or creates several resources.
+     *
+     * @param array|StreamInterface $resources array or StreamInterface object containing the resources to create or update
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface returns a Promise
+     */
+    public function upsertAsyncList(array|StreamInterface $resources): PromiseInterface;
 }

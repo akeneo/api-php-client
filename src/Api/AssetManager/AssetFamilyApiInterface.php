@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 interface AssetFamilyApiInterface
 {
@@ -32,4 +33,13 @@ interface AssetFamilyApiInterface
      *             Status code 204 indicating that the asset family has been well updated.
      */
     public function upsert(string $assetFamilyCode, array $data = []): int;
+
+    /**
+     * Creates an asset family if it does not exist yet, otherwise updates partially the asset family.
+     *
+     * @throws HttpException
+     *
+     * @return PromiseInterface
+     */
+    public function upsertAsync(string $assetFamilyCode, array $data = []): PromiseInterface;
 }

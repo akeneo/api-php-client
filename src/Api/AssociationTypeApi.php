@@ -8,6 +8,8 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @author    Philippe Mossière <philippe.mossiere@akeneo.com>
@@ -75,11 +77,21 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         return $this->resourceClient->upsertResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
 
+    public function upsertAsync (string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncResource(static::ASSOCIATION_TYPE_URI, [$code], $data, $onSuccess, $onFail);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function upsertList($resources): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
+    }
+
+    public function upsertAsyncList (StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources, $onSuccess, $onFail);
     }
 }

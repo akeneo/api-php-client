@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -59,5 +60,10 @@ class AppCatalogApi implements AppCatalogApiInterface
     public function delete(string $code): int
     {
         return $this->resourceClient->deleteResource(static::APP_CATALOG_URI, [$code]);
+    }
+
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    {
+        return $this->resourceClient->upsertAsyncAndReturnPromise(static::APP_CATALOG_URI, [$code], $data, $onSuccess, $onFail);
     }
 }
