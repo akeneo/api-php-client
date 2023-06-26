@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * Api implementation to manages Family Variants
@@ -103,7 +103,10 @@ class FamilyVariantApi implements FamilyVariantApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
     }
 
-    public function upsertAsync($familyCode, $familyVariantCode, array $data = []): PromiseInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], ?callable $onSuccess = null, ?callable $onFail = null): Promise
     {
         if (array_key_exists('family', $data)) {
             throw new InvalidArgumentException('The parameter "family" must not be defined in the data parameter');
@@ -116,7 +119,10 @@ class FamilyVariantApi implements FamilyVariantApiInterface
         return $this->resourceClient->upsertAsyncResource(static::FAMILY_VARIANT_URI, [$familyCode, $familyVariantCode], $data);
     }
 
-    public function upsertAsyncList ($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants, $onSuccess, $onFail);
     }

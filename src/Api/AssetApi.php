@@ -10,7 +10,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -91,7 +91,7 @@ class AssetApi implements AssetApiInterface
         return $this->resourceClient->upsertResource(static::ASSET_URI, [$code], $data);
     }
 
-    public function upsertAsync (string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$code], $data, $onSuccess, $onFail);
     }
@@ -104,7 +104,7 @@ class AssetApi implements AssetApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ASSETS_URI, [], $resources);
     }
 
-    public function upsertAsyncList (StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(self::ASSETS_URI, [], $resources, $onSuccess, $onFail);
     }

@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -116,7 +116,7 @@ class ProductModelApi implements ProductModelApiInterface
         return $this->resourceClient->deleteResource(static::PRODUCT_MODEL_URI, [$code]);
     }
 
-    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    public function upsertAsync(string $code, array $data = [], ?callable $onSuccess = null, ?callable $onFail = null): Promise
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');
@@ -127,7 +127,7 @@ class ProductModelApi implements ProductModelApiInterface
         return $this->resourceClient->upsertAsyncResource(static::PRODUCT_MODEL_URI, [$code], $data);
     }
 
-    public function upsertAsyncList (StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCT_MODELS_URI, [], $resources, $onSuccess, $onFail);
     }

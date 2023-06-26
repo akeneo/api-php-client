@@ -6,7 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * API to mange the reference entity records.
@@ -64,9 +64,9 @@ interface ReferenceEntityRecordApiInterface
      *
      * @throws HttpException If the request failed.
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
 
     /**
      * Updates or creates several reference entity records.
@@ -88,7 +88,7 @@ interface ReferenceEntityRecordApiInterface
      *
      * @throws HttpException
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsyncList(string $referenceEntityCode, array $records, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsyncList(string $referenceEntityCode, array $records, callable $onSuccess = null, callable $onFail = null): Promise;
 }

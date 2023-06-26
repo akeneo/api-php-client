@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -130,7 +130,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
     }
@@ -150,12 +150,12 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
     }
 
-    public function prepareResourceListRequest(array $resources): string
+    public function prepareResourceListRequest(array|StreamInterface $resources): StreamInterface|string
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
@@ -201,7 +201,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
@@ -241,7 +241,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         return $this->httpClient->sendAsync(
@@ -309,7 +309,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         unset($body['_links']);
 

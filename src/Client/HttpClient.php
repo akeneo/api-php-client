@@ -2,7 +2,7 @@
 
 namespace Akeneo\Pim\ApiClient\Client;
 
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -33,7 +33,7 @@ class HttpClient implements HttpClientInterface
     protected HttpExceptionHandler $httpExceptionHandler;
 
     public function __construct(
-        protected ClientInterface $httpClient,
+        protected ClientInterface|\Psr\Http\Client\ClientInterface $httpClient,
         protected RequestFactoryInterface $requestFactory,
         private StreamFactoryInterface $streamFactory,
         private Options $options
@@ -83,10 +83,10 @@ class HttpClient implements HttpClientInterface
         array $headers = [],
         $body = null,
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        callable $onFail = null): Promise
     {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
-        return $this->httpClient->sendAsync($request)->then($onSuccess, $onFail);
+        return $this->httpClient->sendAsyncRequest($request)->then($onSuccess, $onFail);
     }
 }

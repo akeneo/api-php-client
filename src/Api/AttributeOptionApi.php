@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * API implementation to manage the attribute options.
@@ -93,12 +93,12 @@ class AttributeOptionApi implements AttributeOptionApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 
-    public function upsertAsyncList ($attributeCode, $attributeOptions, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList($attributeCode, $attributeOptions, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions, $onSuccess, $onFail);
     }
 
-    public function upsertAsync ($attributeCode, $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode], $data, $onSuccess, $onFail);
     }
