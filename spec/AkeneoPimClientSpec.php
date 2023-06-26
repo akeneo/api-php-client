@@ -29,6 +29,7 @@ use Akeneo\Pim\ApiClient\Api\LocaleApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasureFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MeasurementFamilyApiInterface;
 use Akeneo\Pim\ApiClient\Api\MediaFileApiInterface;
+use Akeneo\Pim\ApiClient\Api\Operation\DownloadableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftApiInterface;
 use Akeneo\Pim\ApiClient\Api\ProductDraftUuidApiInterface;
@@ -50,6 +51,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
         Authentication $authentication,
         ProductApiInterface $productApi,
         CategoryApiInterface $categoryApi,
+        DownloadableResourceInterface $categoryMediaFileApi,
         AttributeApiInterface $attributeApi,
         AttributeOptionApiInterface $attributeOptionApi,
         AttributeGroupApiInterface $attributeGroupApi,
@@ -90,6 +92,7 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $authentication,
             $productApi,
             $categoryApi,
+            $categoryMediaFileApi,
             $attributeApi,
             $attributeOptionApi,
             $attributeGroupApi,
@@ -156,6 +159,11 @@ class AkeneoPimClientSpec extends ObjectBehavior
     function it_gets_category_api($categoryApi)
     {
         $this->getCategoryApi()->shouldReturn($categoryApi);
+    }
+
+    function it_gets_category_media_file_api($categoryMediaFileApi)
+    {
+        $this->getCategoryMediaFileApi()->shouldReturn($categoryMediaFileApi);
     }
 
     function it_gets_attribute_api($attributeApi)
