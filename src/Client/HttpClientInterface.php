@@ -38,8 +38,6 @@ interface HttpClientInterface
      * @param string|UriInterface         $uri        URI of the request
      * @param array                       $headers    headers of the request
      * @param string|StreamInterface|null $body       body of the request
-     * @param ?callable                   $onSuccess  Callback in case of success
-     * @param ?callable                   $onFail     Callback in case of fail
      *
      * @throws HttpException If the request failed.
      *

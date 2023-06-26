@@ -116,12 +116,10 @@ interface ResourceClientInterface
      * @param string $uri           URI of the resource
      * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
-     * @param ?callable $onSuccess   Callback in case of success
-     * @param ?callable $onFail      Callback in case of fail
      *
      * @throws HttpException If the request failed.
      *
-     * @return Promise
+     * @return PromiseInterface
      */
     public function upsertAsyncResource(
         string $uri,
@@ -146,8 +144,6 @@ interface ResourceClientInterface
      * @param string $uri           URI of the resource
      * @param array  $uriParameters URI parameters of the resource
      * @param array  $body          Body of the request
-     * @param ?callable $onSuccess   Callback in case of success
-     * @param ?callable $onFail      Callback in case of fail
      *
      * @throws HttpException If the request failed.
      *
@@ -179,13 +175,11 @@ interface ResourceClientInterface
      * @param array                 $uriParameters URI parameters of the resource
      * @param array|StreamInterface $resources     array of resources to create or update.
      *                                             You can pass your own StreamInterface implementation as well.
-     * @param ?callable $onSuccess   Callback in case of success
-     * @param ?callable $onFail      Callback in case of fail
      *
      * @throws HttpException            If the request failed.
      * @throws InvalidArgumentException If the resources or any part thereof are invalid.
      *
-     * @return Promise returns a Promise
+     * @return PromiseInterface returns a Promise
      */
     public function upsertAsyncStreamResourceList(
         string $uri,
@@ -212,13 +206,11 @@ interface ResourceClientInterface
      * @param string $uri           URI of the resource
      * @param array  $uriParameters URI parameters of the resource
      * @param array  $resources     array of resources to create or update.
-     * @param ?callable $onSuccess   Callback in case of success
-     * @param ?callable $onFail      Callback in case of fail
      *
      * @throws HttpException            If the request failed.
      * @throws InvalidArgumentException If the resources or any part thereof are invalid.
      *
-     * @return Promise
+     * @return PromiseInterface
      */
     public function upsertAsyncJsonResourceList(
         string $uri,

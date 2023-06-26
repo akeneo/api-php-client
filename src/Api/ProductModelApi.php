@@ -116,7 +116,7 @@ class ProductModelApi implements ProductModelApiInterface
         return $this->resourceClient->deleteResource(static::PRODUCT_MODEL_URI, [$code]);
     }
 
-    public function upsertAsync(string $code, array $data = [], ?callable $onSuccess = null, ?callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
         if (array_key_exists('code', $data)) {
             throw new InvalidArgumentException('The parameter "code" must not be defined in the data parameter');

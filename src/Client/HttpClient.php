@@ -85,6 +85,6 @@ class HttpClient implements HttpClientInterface
     {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
-        return $this->httpClient->sendAsyncRequest($request)->then($onSuccess, $onFail);
+        return $this->httpClient->sendAsyncRequest($request);
     }
 }
