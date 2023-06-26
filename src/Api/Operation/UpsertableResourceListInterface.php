@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Api\Operation;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -33,7 +33,7 @@ interface UpsertableResourceListInterface
      *
      * @throws HttpException
      *
-     * @return PromiseInterface returns a Promise
+     * @return Promise returns a Promise
      */
-    public function upsertAsync(array|StreamInterface $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsyncList(array|StreamInterface $resources, callable $onSuccess = null, callable $onFail = null): Promise;
 }

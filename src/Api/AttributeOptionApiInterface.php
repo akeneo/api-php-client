@@ -6,7 +6,7 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -97,9 +97,9 @@ interface AttributeOptionApiInterface
      *
      * @throws HttpException
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
 
     /**
      * Updates or creates several attribute options at once.
@@ -121,7 +121,7 @@ interface AttributeOptionApiInterface
      *
      * @throws HttpException
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsyncList($attributeCode, $attributeOptions, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsyncList($attributeCode, $attributeOptions, callable $onSuccess = null, callable $onFail = null): Promise;
 }

@@ -6,7 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\UpsertableResourceListInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -20,7 +20,7 @@ interface ProductUuidApiInterface extends ListableResourceInterface, UpsertableR
 
     public function upsert(string $uuid, array $data = []): int;
 
-    public function upsertAsync(string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
 
     public function delete(string $uuid): int;
 }

@@ -10,7 +10,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -65,7 +65,7 @@ class ProductUuidApi implements ProductUuidApiInterface
         return $this->resourceClient->upsertResource(static::PRODUCT_UUID_URI, [$uuid], $data);
     }
 
-    public function upsertAsync (string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::PRODUCT_UUID_URI, [$uuid], $data, $onSuccess, $onFail);
     }
@@ -80,7 +80,7 @@ class ProductUuidApi implements ProductUuidApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources);
     }
 
-    public function upsertAsyncList (StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources, $onSuccess, $onFail);
     }

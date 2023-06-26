@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -80,7 +80,7 @@ class AttributeGroupApi implements AttributeGroupApiInterface
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_GROUP_URI, [$code], $data);
     }
 
-    public function upsertAsync (string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_GROUP_URI, [$code], $data, $onSuccess, $onFail);
     }
@@ -93,7 +93,7 @@ class AttributeGroupApi implements AttributeGroupApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $resources);
     }
 
-    public function upsertAsyncList (StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTE_GROUPS_URI, [], $resources, $onSuccess, $onFail);
     }

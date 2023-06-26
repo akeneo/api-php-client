@@ -6,7 +6,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -121,14 +121,14 @@ interface ResourceClientInterface
      *
      * @throws HttpException If the request failed.
      *
-     * @return PromiseInterface
+     * @return Promise
      */
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        callable $onFail = null): Promise;
 
     /**
      * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
@@ -159,7 +159,7 @@ interface ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        callable $onFail = null): Promise;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
@@ -189,14 +189,14 @@ interface ResourceClientInterface
      * @throws HttpException            If the request failed.
      * @throws InvalidArgumentException If the resources or any part thereof are invalid.
      *
-     * @return PromiseInterface returns a Promise
+     * @return Promise returns a Promise
      */
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
         $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        callable $onFail = null): Promise;
 
     /**
      * Updates or creates several resources using a single JSON string for the request and the response.
@@ -224,14 +224,14 @@ interface ResourceClientInterface
      * @throws HttpException            If the request failed.
      * @throws InvalidArgumentException If the resources or any part thereof are invalid.
      *
-     * @return PromiseInterface
+     * @return Promise
      */
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
         array $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        callable $onFail = null): Promise;
 
     /**
      * Deletes a resource.

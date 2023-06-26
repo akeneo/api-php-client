@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 class AssetFamilyApi implements AssetFamilyApiInterface
 {
@@ -59,7 +59,7 @@ class AssetFamilyApi implements AssetFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync (string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ASSET_FAMILY_URI, [$code], $data, $onSuccess, $onFail);
     }

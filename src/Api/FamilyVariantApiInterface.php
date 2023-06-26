@@ -6,7 +6,7 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -73,9 +73,9 @@ interface FamilyVariantApiInterface
      * @throws HttpException            If the request failed.
      * @throws InvalidArgumentException If the parameter "familyCode" is defined in the data parameter.
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -132,7 +132,7 @@ interface FamilyVariantApiInterface
      *
      * @throws HttpException
      *
-     * @return PromiseInterface
+     * @return Promise
      */
-    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): Promise;
 }

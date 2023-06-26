@@ -6,6 +6,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use GuzzleHttp\Promise\Utils;
 use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\Assert;
 
