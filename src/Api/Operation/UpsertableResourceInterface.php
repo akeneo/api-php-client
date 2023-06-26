@@ -37,5 +37,5 @@ interface UpsertableResourceInterface
      *
      * @return Promise
      */
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $code, array $data = []): PromiseInterface;
 }

@@ -49,8 +49,8 @@ class ReferenceEntityAttributeApi implements ReferenceEntityAttributeApiInterfac
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_ATTRIBUTE_URI, [$referenceEntityCode, $attributeCode], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_ATTRIBUTE_URI, [$referenceEntityCode, $attributeCode], $data);
     }
 }

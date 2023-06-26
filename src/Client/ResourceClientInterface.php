@@ -126,9 +126,7 @@ interface ResourceClientInterface
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        array $body = []): PromiseInterface;
 
     /**
      * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
@@ -157,9 +155,7 @@ interface ResourceClientInterface
     public function upsertAsyncAndReturnPromise(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        array $body = []): PromiseInterface;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
@@ -194,9 +190,7 @@ interface ResourceClientInterface
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
-        $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        $resources = []): PromiseInterface;
 
     /**
      * Updates or creates several resources using a single JSON string for the request and the response.
@@ -229,9 +223,7 @@ interface ResourceClientInterface
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
-        array $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        array $resources = []): PromiseInterface;
 
     /**
      * Deletes a resource.

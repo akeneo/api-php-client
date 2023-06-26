@@ -62,8 +62,8 @@ class AppCatalogApi implements AppCatalogApiInterface
         return $this->resourceClient->deleteResource(static::APP_CATALOG_URI, [$code]);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncAndReturnPromise(static::APP_CATALOG_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncAndReturnPromise(static::APP_CATALOG_URI, [$code], $data);
     }
 }

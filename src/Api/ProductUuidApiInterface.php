@@ -20,7 +20,7 @@ interface ProductUuidApiInterface extends ListableResourceInterface, UpsertableR
 
     public function upsert(string $uuid, array $data = []): int;
 
-    public function upsertAsync(string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $uuid, array $data = []): PromiseInterface;
 
     public function delete(string $uuid): int;
 }

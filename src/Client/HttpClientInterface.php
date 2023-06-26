@@ -43,13 +43,11 @@ interface HttpClientInterface
      *
      * @throws HttpException If the request failed.
      *
-     * @return Promise
+     * @return PromiseInterface
      */
     public function sendAsync(
         string $httpMethod,
         $uri,
         array $headers = [],
-        $body = null,
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface;
+        $body = null): PromiseInterface;
 }

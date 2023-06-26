@@ -40,5 +40,5 @@ interface AssetAttributeOptionApiInterface
      *
      * @return Promise
      */
-    public function upsertAsync(string $assetFamilyCode, string $attributeCode, string $attributeOptionCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $assetFamilyCode, string $attributeCode, string $attributeOptionCode, array $data = []): PromiseInterface;
 }

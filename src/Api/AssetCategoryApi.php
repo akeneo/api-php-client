@@ -76,9 +76,9 @@ class AssetCategoryApi implements AssetCategoryApiInterface
         return $this->resourceClient->upsertResource(static::ASSET_CATEGORY_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_CATEGORY_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_CATEGORY_URI, [$code], $data);
     }
 
     /**
@@ -103,8 +103,8 @@ class AssetCategoryApi implements AssetCategoryApiInterface
         return $this->resourceClient->createResource(static::ASSET_CATEGORIES_URI, [], $data);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSET_CATEGORIES_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSET_CATEGORIES_URI, [], $resources);
     }
 }

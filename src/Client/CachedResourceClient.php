@@ -77,11 +77,9 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $body = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource($uri, $uriParameters, $body, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource($uri, $uriParameters, $body);
     }
 
     /**
@@ -95,11 +93,9 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
-        $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        $resources = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList($uri, $uriParameters, $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList($uri, $uriParameters, $resources);
     }
 
     /**
@@ -113,11 +109,9 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
-        array $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $resources = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncJsonResourceList($uri, $uriParameters, $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncJsonResourceList($uri, $uriParameters, $resources);
     }
 
     /**
@@ -155,10 +149,8 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncAndReturnPromise(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $body = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncAndReturnPromise($uri, $uriParameters, $body, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncAndReturnPromise($uri, $uriParameters, $body);
     }
 }

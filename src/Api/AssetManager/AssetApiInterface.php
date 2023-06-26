@@ -64,7 +64,7 @@ interface AssetApiInterface
      *
      * @return Promise
      */
-    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = []): PromiseInterface;
 
     /**
      * Updates or creates several assets.
@@ -76,7 +76,7 @@ interface AssetApiInterface
      *
      * @return Promise
      */
-    public function upsertAsyncList(string $assetFamilyCode, array $assets, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsyncList(string $assetFamilyCode, array $assets): PromiseInterface;
 
     /**
      * Deletes an asset.

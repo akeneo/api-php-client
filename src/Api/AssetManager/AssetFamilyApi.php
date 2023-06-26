@@ -59,8 +59,8 @@ class AssetFamilyApi implements AssetFamilyApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_FAMILY_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_FAMILY_URI, [$code], $data);
     }
 }

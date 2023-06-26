@@ -44,8 +44,8 @@ class AssetAttributeApi implements AssetAttributeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $assetFamilyCode, string $attributeCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $assetFamilyCode, string $attributeCode, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_ATTRIBUTE_URI, [$assetFamilyCode, $attributeCode], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_ATTRIBUTE_URI, [$assetFamilyCode, $attributeCode], $data);
     }
 }

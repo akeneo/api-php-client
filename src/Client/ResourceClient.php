@@ -128,11 +128,9 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $body = []): PromiseInterface
     {
-        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
+        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body);
     }
 
     /**
@@ -148,11 +146,9 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncAndReturnPromise(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $body = []): PromiseInterface
     {
-        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
+        return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body);
     }
 
     public function prepareResourceListRequest(array|StreamInterface $resources): StreamInterface|string
@@ -199,9 +195,7 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
-        $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        $resources = []): PromiseInterface
     {
         $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
@@ -209,9 +203,7 @@ class ResourceClient implements ResourceClientInterface
             'PATCH',
             $uri,
             ['Content-Type' => 'application/vnd.akeneo.collection+json'],
-            $body,
-            $onSuccess,
-            $onFail
+            $body
         );
     }
 
@@ -239,18 +231,14 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
-        array $resources = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $resources = []): PromiseInterface
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         return $this->httpClient->sendAsync(
             'PATCH',
             $uri,
             ['Content-Type' => 'application/json'],
-            json_encode($resources),
-            $onSuccess,
-            $onFail
+            json_encode($resources)
         );
     }
 
@@ -307,9 +295,7 @@ class ResourceClient implements ResourceClientInterface
     private function sendAsyncUpsertRequest(
         string $uri,
         array $uriParameters = [],
-        array $body = [],
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        array $body = []): PromiseInterface
     {
         unset($body['_links']);
 
@@ -319,9 +305,7 @@ class ResourceClient implements ResourceClientInterface
             'PATCH',
             $uri,
             ['Content-Type' => 'application/json'],
-            json_encode($body),
-            $onSuccess,
-            $onFail
+            json_encode($body)
         );
     }
 }

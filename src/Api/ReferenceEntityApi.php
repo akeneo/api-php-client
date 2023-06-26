@@ -61,8 +61,8 @@ class ReferenceEntityApi implements ReferenceEntityApiInterface
         return $this->resourceClient->upsertResource(static::REFERENCE_ENTITY_URI, [$referenceEntityCode], $data);
     }
 
-    public function upsertAsync(string $referenceEntityCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $referenceEntityCode, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_URI, [$referenceEntityCode], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_URI, [$referenceEntityCode], $data);
     }
 }

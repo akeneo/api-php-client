@@ -122,8 +122,8 @@ class FamilyVariantApi implements FamilyVariantApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList($familyCode, $familyVariants): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::FAMILY_VARIANTS_URI, [$familyCode], $familyVariants);
     }
 }

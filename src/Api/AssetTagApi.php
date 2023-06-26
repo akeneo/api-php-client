@@ -73,8 +73,8 @@ class AssetTagApi implements AssetTagApiInterface
         return $this->pageFactory->createPage($data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_TAG_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_TAG_URI, [$code], $data);
     }
 }

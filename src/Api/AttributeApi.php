@@ -80,9 +80,9 @@ class AttributeApi implements AttributeApiInterface
         return $this->resourceClient->upsertResource(static::ATTRIBUTE_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_URI, [$code], $data);
     }
 
     /**
@@ -93,8 +93,8 @@ class AttributeApi implements AttributeApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTES_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTES_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTES_URI, [], $resources);
     }
 }

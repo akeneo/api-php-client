@@ -21,5 +21,5 @@ interface AppCatalogApiInterface extends
     public function create(array $data): array;
 
     public function upsert(string $code, array $data = []): array;
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
+    public function upsertAsync(string $code, array $data = []): PromiseInterface;
 }

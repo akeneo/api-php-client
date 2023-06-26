@@ -65,9 +65,9 @@ class ProductUuidApi implements ProductUuidApiInterface
         return $this->resourceClient->upsertResource(static::PRODUCT_UUID_URI, [$uuid], $data);
     }
 
-    public function upsertAsync(string $uuid, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $uuid, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::PRODUCT_UUID_URI, [$uuid], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::PRODUCT_UUID_URI, [$uuid], $data);
     }
 
     public function delete(string $uuid): int
@@ -80,8 +80,8 @@ class ProductUuidApi implements ProductUuidApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources);
     }
 }

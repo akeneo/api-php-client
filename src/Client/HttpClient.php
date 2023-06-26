@@ -81,9 +81,7 @@ class HttpClient implements HttpClientInterface
         string $httpMethod,
         $uri,
         array $headers = [],
-        $body = null,
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        $body = null): PromiseInterface
     {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 

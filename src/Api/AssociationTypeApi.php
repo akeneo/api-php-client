@@ -77,9 +77,9 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         return $this->resourceClient->upsertResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSOCIATION_TYPE_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
 
     /**
@@ -90,8 +90,8 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
     }
 }

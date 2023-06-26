@@ -82,9 +82,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
         string $httpMethod,
         $uri,
         array $headers = [],
-        $body = null,
-        callable $onSuccess = null,
-        callable $onFail = null): PromiseInterface
+        $body = null): PromiseInterface
     {
         if (null === $this->authentication->getAccessToken()) {
             $tokens = $this->authenticationApi->authenticateByPassword(
@@ -101,7 +99,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
 
         try {
             $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
-            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body, $onSuccess, $onFail);
+            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body);
         } catch (UnauthorizedHttpException $e) {
             $tokens = $this->renewTokens($e);
 
@@ -110,7 +108,7 @@ class AuthenticatedHttpClient implements HttpClientInterface
                 ->setRefreshToken($tokens['refresh_token']);
 
             $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
-            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body, $onSuccess, $onFail);
+            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body);
         }
     }
 }

@@ -69,13 +69,13 @@ class ReferenceEntityRecordApi implements ReferenceEntityRecordApiInterface
         return $this->resourceClient->upsertJsonResourceList(static::REFERENCE_ENTITY_RECORDS_URI, [$referenceEntityCode], $records);
     }
 
-    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $referenceEntityCode, string $recordCode, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_RECORD_URI, [$referenceEntityCode, $recordCode], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_RECORD_URI, [$referenceEntityCode, $recordCode], $data);
     }
 
-    public function upsertAsyncList(string $referenceEntityCode, array $records, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(string $referenceEntityCode, array $records): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncJsonResourceList(static::REFERENCE_ENTITY_RECORDS_URI, [$referenceEntityCode], $records, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncJsonResourceList(static::REFERENCE_ENTITY_RECORDS_URI, [$referenceEntityCode], $records);
     }
 }

@@ -75,16 +75,16 @@ class AssetApi implements AssetApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$assetFamilyCode, $assetCode], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$assetFamilyCode, $assetCode], $data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function upsertAsyncList(string $assetFamilyCode, array $assets, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(string $assetFamilyCode, array $assets): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncJsonResourceList(static::ASSETS_URI, [$assetFamilyCode], $assets, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncJsonResourceList(static::ASSETS_URI, [$assetFamilyCode], $assets);
     }
 }

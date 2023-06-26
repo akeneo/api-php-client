@@ -91,9 +91,9 @@ class AssetApi implements AssetApiInterface
         return $this->resourceClient->upsertResource(static::ASSET_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$code], $data, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$code], $data);
     }
 
     /**
@@ -104,8 +104,8 @@ class AssetApi implements AssetApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ASSETS_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(self::ASSETS_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(self::ASSETS_URI, [], $resources);
     }
 }

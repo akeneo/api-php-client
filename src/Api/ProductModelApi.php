@@ -127,8 +127,8 @@ class ProductModelApi implements ProductModelApiInterface
         return $this->resourceClient->upsertAsyncResource(static::PRODUCT_MODEL_URI, [$code], $data);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
     {
-        return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCT_MODELS_URI, [], $resources, $onSuccess, $onFail);
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCT_MODELS_URI, [], $resources);
     }
 }
