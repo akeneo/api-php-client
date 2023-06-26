@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -63,5 +63,5 @@ interface ReferenceEntityAttributeApiInterface
      *
      * @return Promise
      */
-    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
+    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

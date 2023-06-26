@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -80,7 +80,7 @@ class ChannelApi implements ChannelApiInterface
         return $this->resourceClient->upsertResource(static::CHANNEL_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
     {
         return $this->resourceClient->upsertAsyncResource(static::CHANNEL_URI, [$code], $data, $onSuccess, $onFail);
     }
@@ -93,7 +93,7 @@ class ChannelApi implements ChannelApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::CHANNELS_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): Promise
+    public function upsertAsyncList(StreamInterface|array $resources, callable $onSuccess = null, callable $onFail = null): PromiseInterface
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::CHANNELS_URI, [], $resources, $onSuccess, $onFail);
     }

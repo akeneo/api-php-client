@@ -7,7 +7,7 @@ namespace Akeneo\Pim\ApiClient\Api\AppCatalog;
 use Akeneo\Pim\ApiClient\Api\Operation\DeletableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\GettableResourceInterface;
 use Akeneo\Pim\ApiClient\Api\Operation\ListableResourceInterface;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -21,5 +21,5 @@ interface AppCatalogApiInterface extends
     public function create(array $data): array;
 
     public function upsert(string $code, array $data = []): array;
-    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
+    public function upsertAsync(string $code, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

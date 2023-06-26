@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 class AssetApi implements AssetApiInterface
 {
@@ -75,7 +75,7 @@ class AssetApi implements AssetApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
+    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
     {
         return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$assetFamilyCode, $assetCode], $data, $onSuccess, $onFail);
     }
@@ -83,7 +83,7 @@ class AssetApi implements AssetApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsyncList(string $assetFamilyCode, array $assets, callable $onSuccess = null, callable $onFail = null): Promise
+    public function upsertAsyncList(string $assetFamilyCode, array $assets, callable $onSuccess = null, callable $onFail = null): PromiseInterface
     {
         return $this->resourceClient->upsertAsyncJsonResourceList(static::ASSETS_URI, [$assetFamilyCode], $assets, $onSuccess, $onFail);
     }

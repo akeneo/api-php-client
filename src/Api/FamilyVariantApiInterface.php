@@ -6,7 +6,7 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -75,7 +75,7 @@ interface FamilyVariantApiInterface
      *
      * @return Promise
      */
-    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise;
+    public function upsertAsync($familyCode, $familyVariantCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 
     /**
      * Available since Akeneo PIM 2.0.
@@ -134,5 +134,5 @@ interface FamilyVariantApiInterface
      *
      * @return Promise
      */
-    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): Promise;
+    public function upsertAsyncList($familyCode, $familyVariants, callable $onSuccess = null, callable $onFail = null): PromiseInterface;
 }

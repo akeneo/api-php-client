@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -51,5 +51,5 @@ interface HttpClientInterface
         array $headers = [],
         $body = null,
         callable $onSuccess = null,
-        callable $onFail = null): Promise;
+        callable $onFail = null): PromiseInterface;
 }

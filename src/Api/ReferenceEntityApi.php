@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 
 /**
  * @author    Tamara Robichet <tamara.robichet@akeneo.com>
@@ -61,7 +61,7 @@ class ReferenceEntityApi implements ReferenceEntityApiInterface
         return $this->resourceClient->upsertResource(static::REFERENCE_ENTITY_URI, [$referenceEntityCode], $data);
     }
 
-    public function upsertAsync(string $referenceEntityCode, array $data = [], callable $onSuccess = null, callable $onFail = null): Promise
+    public function upsertAsync(string $referenceEntityCode, array $data = [], callable $onSuccess = null, callable $onFail = null): PromiseInterface
     {
         return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_URI, [$referenceEntityCode], $data, $onSuccess, $onFail);
     }

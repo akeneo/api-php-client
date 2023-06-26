@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\Exception\RuntimeException;
 use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -130,7 +130,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise
+        callable $onFail = null): PromiseInterface
     {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
     }
@@ -150,7 +150,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise
+        callable $onFail = null): PromiseInterface
     {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body, $onSuccess, $onFail);
     }
@@ -201,7 +201,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise
+        callable $onFail = null): PromiseInterface
     {
         $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
@@ -241,7 +241,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise
+        callable $onFail = null): PromiseInterface
     {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         return $this->httpClient->sendAsync(
@@ -309,7 +309,7 @@ class ResourceClient implements ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise
+        callable $onFail = null): PromiseInterface
     {
         unset($body['_links']);
 

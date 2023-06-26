@@ -6,7 +6,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -128,7 +128,7 @@ interface ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise;
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Creates and returns a resource if it does not exist yet, otherwise updates partially and returns the resource.
@@ -159,7 +159,7 @@ interface ResourceClientInterface
         array $uriParameters = [],
         array $body = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise;
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Updates or creates several resources using a stream for the request and the response.
@@ -196,7 +196,7 @@ interface ResourceClientInterface
         array $uriParameters = [],
         $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise;
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Updates or creates several resources using a single JSON string for the request and the response.
@@ -231,7 +231,7 @@ interface ResourceClientInterface
         array $uriParameters = [],
         array $resources = [],
         callable $onSuccess = null,
-        callable $onFail = null): Promise;
+        callable $onFail = null): PromiseInterface;
 
     /**
      * Deletes a resource.
