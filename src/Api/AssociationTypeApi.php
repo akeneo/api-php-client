@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -77,7 +78,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         return $this->resourceClient->upsertResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ASSOCIATION_TYPE_URI, [$code], $data);
     }
@@ -90,7 +91,7 @@ class AssociationTypeApi implements AssociationTypeApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::ASSOCIATION_TYPES_URI, [], $resources);
     }

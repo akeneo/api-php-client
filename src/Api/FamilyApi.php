@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -80,7 +81,7 @@ class FamilyApi implements FamilyApiInterface
         return $this->resourceClient->upsertResource(static::FAMILY_URI, [$code], $data);
     }
 
-    public function upsertAsync(string $code, array $data = []): PromiseInterface
+    public function upsertAsync(string $code, array $data = []): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::FAMILY_URI, [$code], $data);
     }
@@ -93,7 +94,7 @@ class FamilyApi implements FamilyApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::FAMILIES_URI, [], $resources);
     }
 
-    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::FAMILIES_URI, [], $resources);
     }

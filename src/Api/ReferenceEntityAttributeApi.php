@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api;
 
 use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * @author    Laurent Petard <laurent.petard@akeneo.com>
@@ -49,8 +50,12 @@ class ReferenceEntityAttributeApi implements ReferenceEntityAttributeApiInterfac
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = []): PromiseInterface
+    public function upsertAsync(string $referenceEntityCode, string $attributeCode, array $data = []): PromiseInterface|Promise
     {
-        return $this->resourceClient->upsertAsyncResource(static::REFERENCE_ENTITY_ATTRIBUTE_URI, [$referenceEntityCode, $attributeCode], $data);
+        return $this->resourceClient->upsertAsyncResource(
+            static::REFERENCE_ENTITY_ATTRIBUTE_URI,
+            [$referenceEntityCode, $attributeCode],
+            $data
+        );
     }
 }

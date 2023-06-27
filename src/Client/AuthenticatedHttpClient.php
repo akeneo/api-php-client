@@ -7,6 +7,7 @@ use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Security\Authentication;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -82,8 +83,8 @@ class AuthenticatedHttpClient implements HttpClientInterface
         string $httpMethod,
         $uri,
         array $headers = [],
-        $body = null): PromiseInterface
-    {
+        $body = null
+    ): PromiseInterface|Promise {
         if (null === $this->authentication->getAccessToken()) {
             $tokens = $this->authenticationApi->authenticateByPassword(
                 $this->authentication->getClientId(),

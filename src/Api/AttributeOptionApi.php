@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 /**
  * API implementation to manage the attribute options.
@@ -93,12 +94,12 @@ class AttributeOptionApi implements AttributeOptionApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 
-    public function upsertAsyncList($attributeCode, $attributeOptions): PromiseInterface
+    public function upsertAsyncList($attributeCode, $attributeOptions): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 
-    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = []): PromiseInterface
+    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = []): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode], $data);
     }

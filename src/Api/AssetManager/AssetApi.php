@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 class AssetApi implements AssetApiInterface
 {
@@ -75,7 +76,7 @@ class AssetApi implements AssetApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = []): PromiseInterface
+    public function upsertAsync(string $assetFamilyCode, string $assetCode, array $data = []): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ASSET_URI, [$assetFamilyCode, $assetCode], $data);
     }
@@ -83,7 +84,7 @@ class AssetApi implements AssetApiInterface
     /**
      * {@inheritdoc}
      */
-    public function upsertAsyncList(string $assetFamilyCode, array $assets): PromiseInterface
+    public function upsertAsyncList(string $assetFamilyCode, array $assets): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncJsonResourceList(static::ASSETS_URI, [$assetFamilyCode], $assets);
     }

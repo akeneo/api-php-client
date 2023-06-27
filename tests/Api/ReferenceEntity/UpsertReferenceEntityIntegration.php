@@ -7,6 +7,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 class UpsertReferenceEntityIntegration extends ApiTestCase
@@ -32,5 +33,32 @@ class UpsertReferenceEntityIntegration extends ApiTestCase
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($referenceEntity));
         Assert::assertSame(204, $response);
+    }
+
+    public function test_upsert_async_reference_entity()
+    {
+        $this->server->setResponseOfPath(
+            '/' . sprintf(ReferenceEntityApi::REFERENCE_ENTITY_URI, 'brand'),
+            new ResponseStack(
+                new Response('', [], 204)
+            )
+        );
+
+        $referenceEntity = [
+            'code' => 'brand',
+            'labels' => [
+                'en_US' => 'Brand'
+            ]
+        ];
+
+        $api = $this->createClientByPassword()->getReferenceEntityApi();
+        $promise = $api->upsertAsync('brand', $referenceEntity);
+
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $promise->wait();
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($referenceEntity));
+        Assert::assertSame(204, $response->getStatusCode());
     }
 }

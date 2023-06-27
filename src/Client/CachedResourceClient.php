@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Cache\CacheInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -77,8 +78,8 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
-        array $body = []): PromiseInterface
-    {
+        array $body = []
+    ): PromiseInterface|Promise {
         return $this->resourceClient->upsertAsyncResource($uri, $uriParameters, $body);
     }
 
@@ -93,8 +94,8 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
-        $resources = []): PromiseInterface
-    {
+        $resources = []
+    ): PromiseInterface|Promise {
         return $this->resourceClient->upsertAsyncStreamResourceList($uri, $uriParameters, $resources);
     }
 
@@ -109,8 +110,8 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
-        array $resources = []): PromiseInterface
-    {
+        array $resources = []
+    ): PromiseInterface|Promise {
         return $this->resourceClient->upsertAsyncJsonResourceList($uri, $uriParameters, $resources);
     }
 
@@ -149,8 +150,8 @@ class CachedResourceClient implements ResourceClientInterface
     public function upsertAsyncAndReturnPromise(
         string $uri,
         array $uriParameters = [],
-        array $body = []): PromiseInterface
-    {
+        array $body = []
+    ): PromiseInterface|Promise {
         return $this->resourceClient->upsertAsyncAndReturnPromise($uri, $uriParameters, $body);
     }
 }

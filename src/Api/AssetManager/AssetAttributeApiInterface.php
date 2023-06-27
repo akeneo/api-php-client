@@ -6,6 +6,7 @@ namespace Akeneo\Pim\ApiClient\Api\AssetManager;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 
 interface AssetAttributeApiInterface
 {
@@ -40,5 +41,5 @@ interface AssetAttributeApiInterface
      *
      * @return Promise
      */
-    public function upsertAsync(string $assetFamilyCode, string $attributeCode, array $data = []): PromiseInterface;
+    public function upsertAsync(string $assetFamilyCode, string $attributeCode, array $data = []): PromiseInterface|Promise;
 }

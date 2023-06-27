@@ -4,6 +4,7 @@ namespace Akeneo\Pim\ApiClient\Client;
 
 use Akeneo\Pim\ApiClient\Exception\HttpException;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -41,11 +42,12 @@ interface HttpClientInterface
      *
      * @throws HttpException If the request failed.
      *
-     * @return PromiseInterface
+     * @return PromiseInterface|Promise
      */
     public function sendAsync(
         string $httpMethod,
         $uri,
         array $headers = [],
-        $body = null): PromiseInterface;
+        $body = null
+    ): PromiseInterface|Promise;
 }

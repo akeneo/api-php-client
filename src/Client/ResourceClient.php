@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\Routing\UriGeneratorInterface;
 use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -128,8 +129,8 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncResource(
         string $uri,
         array $uriParameters = [],
-        array $body = []): PromiseInterface
-    {
+        array $body = []
+    ): PromiseInterface|Promise {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body);
     }
 
@@ -146,12 +147,12 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncAndReturnPromise(
         string $uri,
         array $uriParameters = [],
-        array $body = []): PromiseInterface
-    {
+        array $body = []
+    ): PromiseInterface|Promise {
         return $this->sendAsyncUpsertRequest($uri, $uriParameters, $body);
     }
 
-    public function prepareResourceListRequest(array|StreamInterface $resources): StreamInterface|string
+    public function prepareResourceListRequest($resources = []): StreamInterface|string
     {
         if (!is_array($resources) && !$resources instanceof StreamInterface) {
             throw new InvalidArgumentException('The parameter "resources" must be an array or an instance of StreamInterface.');
@@ -195,8 +196,8 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncStreamResourceList(
         string $uri,
         array $uriParameters = [],
-        $resources = []): PromiseInterface
-    {
+        $resources = []
+    ): PromiseInterface|Promise {
         $body = $this->prepareResourceListRequest($resources);
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         return $this->httpClient->sendAsync(
@@ -231,8 +232,8 @@ class ResourceClient implements ResourceClientInterface
     public function upsertAsyncJsonResourceList(
         string $uri,
         array $uriParameters = [],
-        array $resources = []): PromiseInterface
-    {
+        array $resources = []
+    ): PromiseInterface|Promise {
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
         return $this->httpClient->sendAsync(
             'PATCH',
@@ -295,8 +296,8 @@ class ResourceClient implements ResourceClientInterface
     private function sendAsyncUpsertRequest(
         string $uri,
         array $uriParameters = [],
-        array $body = []): PromiseInterface
-    {
+        array $body = []
+    ): PromiseInterface|Promise {
         unset($body['_links']);
 
         $uri = $this->uriGenerator->generate($uri, $uriParameters);
