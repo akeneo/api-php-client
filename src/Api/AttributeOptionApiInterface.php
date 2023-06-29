@@ -6,6 +6,9 @@ use Akeneo\Pim\ApiClient\Exception\HttpException;
 use Akeneo\Pim\ApiClient\Exception\InvalidArgumentException;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * API to manage the attribute options.
@@ -87,6 +90,19 @@ interface AttributeOptionApiInterface
     public function upsert($attributeCode, $attributeOptionCode, array $data = []): int;
 
     /**
+     * Creates an attribute option if it does not exist yet, otherwise updates partially the attribute option.
+     *
+     * @param string $attributeCode       code of the attribute
+     * @param string $attributeOptionCode code of the attribute option to create or update
+     * @param array  $data                data of the attribute option to create or update
+     *
+     * @throws HttpException
+     *
+     * @return Promise
+     */
+    public function upsertAsync($attributeCode, $attributeOptionCode, array $data = []): PromiseInterface|Promise;
+
+    /**
      * Updates or creates several attribute options at once.
      *
      * @param string                $attributeCode    code of the attribute
@@ -97,4 +113,16 @@ interface AttributeOptionApiInterface
      * @return \Traversable returns an iterable object, each entry corresponding to the response of the upserted attribute options
      */
     public function upsertList($attributeCode, $attributeOptions): \Traversable;
+
+    /**
+     * Updates or creates several attribute options at once.
+     *
+     * @param string                $attributeCode    code of the attribute
+     * @param array|StreamInterface $attributeOptions array or StreamInterface object containing data of the attribute options to create or update
+     *
+     * @throws HttpException
+     *
+     * @return Promise
+     */
+    public function upsertAsyncList($attributeCode, $attributeOptions): PromiseInterface|Promise;
 }

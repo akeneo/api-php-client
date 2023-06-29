@@ -44,6 +44,7 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
 use Akeneo\Pim\ApiClient\Cache\LRUCache;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
+use Akeneo\Pim\ApiClient\Client\ClientInterface;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\Options;
 use Akeneo\Pim\ApiClient\Client\ResourceClient;
@@ -57,7 +58,6 @@ use Akeneo\Pim\ApiClient\Stream\MultipartStreamBuilderFactory;
 use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
-use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
@@ -295,7 +295,7 @@ class AkeneoPimClientBuilder
         return [$resourceClient, $pageFactory, $cursorFactory, $fileSystem];
     }
 
-    private function getHttpClient(): ClientInterface
+    private function getHttpClient(): ClientInterface|\Psr\Http\Client\ClientInterface
     {
         if (null === $this->httpClient) {
             $this->httpClient = Psr18ClientDiscovery::find();

@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\ApiClient\tests\Api\AssetReferenceFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -56,11 +57,9 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
         Assert::assertSame(file_get_contents($expectedFilePath), $downloadResponse->getBody()->getContents());
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_download_from_localizable_asset_not_found()
     {
+        self::expectException(NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/' . sprintf(AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI, 'ziggy', 'en_US'),
             new ResponseStack(
@@ -72,11 +71,9 @@ class DownloadAssetReferenceFileIntegration extends ApiTestCase
         $api->downloadFromLocalizableAsset('ziggy', 'en_US');
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_download_from_not_localizable_asset_not_found()
     {
+        self::expectException(NotFoundHttpException::class);
         $this->server->setResponseOfPath(
             '/' . sprintf(
                 AssetReferenceFileApi::ASSET_REFERENCE_FILE_DOWNLOAD_URI,

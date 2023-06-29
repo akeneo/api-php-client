@@ -3,6 +3,8 @@
 namespace Akeneo\Pim\ApiClient\tests\v2_1\Api\AssetVariationFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetVariationFileApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -108,11 +110,10 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetReferenceFile);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_upload_for_an_unknown_asset()
     {
+        self::expectException(NotFoundHttpException::class);
+
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
@@ -127,11 +128,9 @@ class UploadAssetVariationFileApiIntegration extends ApiTestCase
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'ecommerce', 'en_US');
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException
-     */
     public function test_upload_for_an_asset_that_should_be_localizable()
     {
+        self::expectException(UnprocessableEntityHttpException::class);
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(

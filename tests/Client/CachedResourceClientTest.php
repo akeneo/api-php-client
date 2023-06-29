@@ -6,14 +6,14 @@ namespace Akeneo\Pim\ApiClient\tests\Client;
 
 use Akeneo\Pim\ApiClient\Cache\CacheInterface;
 use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
-use Akeneo\Pim\ApiClient\Client\ResourceClient;
+use Akeneo\Pim\ApiClient\Client\ResourceClientInterface;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 
 class CachedResourceClientTest extends ApiTestCase
 {
     public function test_get_cached_resource(): void
     {
-        $resourceClient = $this->createMock(ResourceClient::class);
+        $resourceClient = $this->createMock(ResourceClientInterface::class);
         $mockCache = $this->createMock(CacheInterface::class);
 
         $uri = 'uri';

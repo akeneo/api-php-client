@@ -10,6 +10,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -39,6 +40,34 @@ JSON;
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
         $response = $api->upsert($catalogId, $catalogData);
+
+        Assert::assertSame(json_decode($expectedJson, true), $response);
+    }
+
+    public function test_upsert_async_catalog()
+    {
+        $catalogId = '12351d98-200e-4bbc-aa19-7fdda1bd14f2';
+        $catalogData = ['name' => 'A catalog name'];
+        $expectedJson = <<<JSON
+{
+    "id": "12351d98-200e-4bbc-aa19-7fdda1bd14f2",
+     "name": "A catalog name",
+     "enabled": false
+}
+JSON;
+
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AppCatalogApi::APP_CATALOG_URI, $catalogId),
+            new ResponseStack(
+                new Response($expectedJson, [], HttpClient::HTTP_OK)
+            )
+        );
+
+        $api = $this->createClientByPassword()->getAppCatalogApi();
+        $promise = $api->upsertAsync($catalogId, $catalogData);
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = json_decode($promise->wait()->getBody()->getContents(), true);
 
         Assert::assertSame(json_decode($expectedJson, true), $response);
     }

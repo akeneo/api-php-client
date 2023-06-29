@@ -3,10 +3,12 @@
 namespace Akeneo\Pim\ApiClient\tests\Api;
 
 use Akeneo\Pim\ApiClient\Api\ProductApi;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase
@@ -47,6 +49,36 @@ class UpsertListProductTest extends ApiTestCase
         ], $responseLines[2]);
     }
 
+    public function test_upsert_async_list()
+    {
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $api = $this->createClientByPassword()->getProductApi();
+        $promise = $api->upsertAsyncList($this->getProductToUpsert());
+
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $upsertListResponseFactory->create($promise->wait()->getBody());
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], $this->getProductToUpsertJson());
+
+        Assert::assertInstanceOf('\Iterator', $response);
+
+        $responseLines = iterator_to_array($response);
+        Assert::assertCount(2, $responseLines);
+
+        Assert::assertSame([
+            'line' => 1,
+            'identifier' => 'docks_black',
+            'status_code' => 204,
+        ], $responseLines[1]);
+
+        Assert::assertSame([
+            'line' => 2,
+            'identifier' => 'pumps',
+            'status_code' => 201,
+        ], $responseLines[2]);
+    }
+
     public function test_upsert_list_from_stream()
     {
         $resources = fopen('php://memory', 'w+');
@@ -56,6 +88,42 @@ class UpsertListProductTest extends ApiTestCase
         $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
         $api = $this->createClientByPassword()->getProductAPi();
         $response = $api->upsertList($streamedResources);
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], $this->getProductToUpsertJson());
+
+        Assert::assertInstanceOf('\Iterator', $response);
+
+        $responseLines = iterator_to_array($response);
+        Assert::assertCount(2, $responseLines);
+
+        Assert::assertSame([
+            'line' => 1,
+            'identifier' => 'docks_black',
+            'status_code' => 204,
+        ], $responseLines[1]);
+
+        Assert::assertSame([
+            'line' => 2,
+            'identifier' => 'pumps',
+            'status_code' => 201,
+        ], $responseLines[2]);
+    }
+
+    public function test_upsert_async_list_from_stream()
+    {
+        $resources = fopen('php://memory', 'w+');
+        fwrite($resources, $this->getProductToUpsertJson());
+        rewind($resources);
+
+        $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
+
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $api = $this->createClientByPassword()->getProductApi();
+        $promise = $api->upsertAsyncList($streamedResources);
+
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], $this->getProductToUpsertJson());
 

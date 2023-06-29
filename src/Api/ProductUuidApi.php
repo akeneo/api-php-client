@@ -10,6 +10,9 @@ use Akeneo\Pim\ApiClient\Pagination\PageFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\PageInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorFactoryInterface;
 use Akeneo\Pim\ApiClient\Pagination\ResourceCursorInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -63,6 +66,11 @@ class ProductUuidApi implements ProductUuidApiInterface
         return $this->resourceClient->upsertResource(static::PRODUCT_UUID_URI, [$uuid], $data);
     }
 
+    public function upsertAsync(string $uuid, array $data = []): PromiseInterface|Promise
+    {
+        return $this->resourceClient->upsertAsyncResource(static::PRODUCT_UUID_URI, [$uuid], $data);
+    }
+
     public function delete(string $uuid): int
     {
         return $this->resourceClient->deleteResource(static::PRODUCT_UUID_URI, [$uuid]);
@@ -71,5 +79,10 @@ class ProductUuidApi implements ProductUuidApiInterface
     public function upsertList($resources): \Traversable
     {
         return $this->resourceClient->upsertStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources);
+    }
+
+    public function upsertAsyncList(StreamInterface|array $resources): PromiseInterface|Promise
+    {
+        return $this->resourceClient->upsertAsyncStreamResourceList(static::PRODUCTS_UUID_URI, [], $resources);
     }
 }

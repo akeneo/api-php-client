@@ -6,6 +6,8 @@ use Akeneo\Pim\ApiClient\Api\AuthenticationApiInterface;
 use Akeneo\Pim\ApiClient\Exception\UnauthorizedHttpException;
 use Akeneo\Pim\ApiClient\Exception\UnprocessableEntityHttpException;
 use Akeneo\Pim\ApiClient\Security\Authentication;
+use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -74,6 +76,40 @@ class AuthenticatedHttpClient implements HttpClientInterface
             );
         } catch (UnprocessableEntityHttpException) {
             throw $unauthorizedHttpException;
+        }
+    }
+
+    public function sendAsync(
+        string $httpMethod,
+        $uri,
+        array $headers = [],
+        $body = null
+    ): PromiseInterface|Promise {
+        if (null === $this->authentication->getAccessToken()) {
+            $tokens = $this->authenticationApi->authenticateByPassword(
+                $this->authentication->getClientId(),
+                $this->authentication->getSecret(),
+                $this->authentication->getUsername(),
+                $this->authentication->getPassword()
+            );
+
+            $this->authentication
+                ->setAccessToken($tokens['access_token'])
+                ->setRefreshToken($tokens['refresh_token']);
+        }
+
+        try {
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
+            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body);
+        } catch (UnauthorizedHttpException $e) {
+            $tokens = $this->renewTokens($e);
+
+            $this->authentication
+                ->setAccessToken($tokens['access_token'])
+                ->setRefreshToken($tokens['refresh_token']);
+
+            $headers['Authorization'] = sprintf('Bearer %s', $this->authentication->getAccessToken());
+            return $this->basicHttpClient->sendAsync($httpMethod, $uri, $headers, $body);
         }
     }
 }

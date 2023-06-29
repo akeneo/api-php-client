@@ -3,6 +3,8 @@
 namespace Akeneo\Pim\ApiClient\tests\v2_1\Api\AssetReferenceFile;
 
 use Akeneo\Pim\ApiClient\Api\AssetReferenceFileApi;
+use Akeneo\Pim\ApiClient\Exception\NotFoundHttpException;
+use Akeneo\Pim\ApiClient\Exception\UploadAssetReferenceFileErrorException;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
@@ -106,11 +108,10 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         Assert::assertEquals($this->fakeUploadLocalizableInformations(), $assetReferenceFile);
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\NotFoundHttpException
-     */
     public function test_upload_for_an_unknown_asset()
     {
+        self::expectException(NotFoundHttpException::class);
+
         $filePath = realpath(__DIR__ . '/../../fixtures/ziggy.png');
 
         $this->server->setResponseOfPath(
@@ -125,11 +126,10 @@ class UploadAssetReferenceFileIntegration extends ApiTestCase
         $api->uploadForLocalizableAsset($filePath, 'unknown_asset', 'en_US');
     }
 
-    /**
-     * @expectedException \Akeneo\Pim\ApiClient\Exception\UploadAssetReferenceFileErrorException
-     */
     public function test_upload_a_file_that_cannot_be_transformed_for_the_variations()
     {
+        self::expectException(UploadAssetReferenceFileErrorException::class);
+
         $filePath = realpath(__DIR__ . '/../../fixtures/unicorn.png');
 
         $this->server->setResponseOfPath(

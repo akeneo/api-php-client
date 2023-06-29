@@ -4,11 +4,13 @@ namespace Akeneo\Pim\ApiClient\tests\Api\ProductUuid;
 
 use Akeneo\Pim\ApiClient\Api\ProductUuidApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
+use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -56,6 +58,39 @@ class UpsertListProductUuidIntegration extends ApiTestCase
         ], $responseLines[2]);
     }
 
+    public function test_upsert_async_list()
+    {
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $api = $this->createClientByPassword()->getProductUuidApi();
+        $promise = $api->upsertAsyncList($this->getProductToUpsert());
+
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $upsertListResponseFactory->create($promise->wait()->getBody());
+
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],
+            $this->getProductToUpsertJson()
+        );
+
+        Assert::assertInstanceOf('\Iterator', $response);
+
+        $responseLines = iterator_to_array($response);
+        Assert::assertCount(2, $responseLines);
+
+        Assert::assertSame([
+            'line' => 1,
+            'uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f3',
+            'status_code' => HttpClient::HTTP_NO_CONTENT,
+        ], $responseLines[1]);
+
+        Assert::assertSame([
+            'line' => 2,
+            'uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f4',
+            'status_code' => HttpClient::HTTP_CREATED,
+        ], $responseLines[2]);
+    }
+
     public function test_upsert_list_from_stream()
     {
         $resources = fopen('php://memory', 'w+');
@@ -65,6 +100,44 @@ class UpsertListProductUuidIntegration extends ApiTestCase
         $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
         $api = $this->createClientByPassword()->getProductUuidApi();
         $response = $api->upsertList($streamedResources);
+
+        Assert::assertSame(
+            $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],
+            $this->getProductToUpsertJson()
+        );
+
+        Assert::assertInstanceOf('\Iterator', $response);
+
+        $responseLines = iterator_to_array($response);
+        Assert::assertCount(2, $responseLines);
+
+        Assert::assertSame([
+            'line' => 1,
+            'uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f3',
+            'status_code' => HttpClient::HTTP_NO_CONTENT,
+        ], $responseLines[1]);
+
+        Assert::assertSame([
+            'line' => 2,
+            'uuid' => '12951d98-210e-4bRC-ab18-7fdgf1bd14f4',
+            'status_code' => HttpClient::HTTP_CREATED,
+        ], $responseLines[2]);
+    }
+
+    public function test_upsert_async_list_from_stream()
+    {
+        $upsertListResponseFactory = new UpsertResourceListResponseFactory();
+        $resources = fopen('php://memory', 'w+');
+        fwrite($resources, $this->getProductToUpsertJson());
+        rewind($resources);
+
+        $streamedResources = Psr17FactoryDiscovery::findStreamFactory()->createStreamFromResource($resources);
+        $api = $this->createClientByPassword()->getProductUuidApi();
+        $promise = $api->upsertAsyncList($streamedResources);
+
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 
         Assert::assertSame(
             $this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT],

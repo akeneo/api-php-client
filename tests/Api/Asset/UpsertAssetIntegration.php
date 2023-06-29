@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 class UpsertAssetIntegration extends ApiTestCase
@@ -47,5 +48,44 @@ class UpsertAssetIntegration extends ApiTestCase
 
         Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($asset));
         Assert::assertSame(204, $response);
+    }
+
+    public function test_upsert_async_asset()
+    {
+        $this->server->setResponseOfPath(
+            '/' . sprintf(AssetApi::ASSET_URI, 'packshot', 'sku_54628_telescope'),
+            new ResponseStack(
+                new Response('', [], 204)
+            )
+        );
+
+        $asset = [
+            "code" => "sku_54628_telescope",
+            "values" => [
+                "media_preview" => [
+                    [
+                        "locale" => null,
+                        "channel" => null,
+                        "data" => "sku_54628_picture1.jpg"
+                    ]
+                ],
+                "photographer" => [
+                    [
+                        "locale" => null,
+                        "channel" => null,
+                        "data" => "ben_levy"
+                    ]
+                ]
+            ]
+        ];
+
+        $api = $this->createClientByPassword()->getAssetManagerApi();
+        $promise = $api->upsertAsync('packshot', 'sku_54628_telescope', $asset);
+        Assert::assertInstanceOf(Promise::class, $promise);
+
+        $response = $promise->wait();
+
+        Assert::assertSame($this->server->getLastRequest()->jsonSerialize()[RequestInfo::JSON_KEY_INPUT], json_encode($asset));
+        Assert::assertSame(204, $response->getStatusCode());
     }
 }
