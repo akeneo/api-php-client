@@ -52,6 +52,9 @@ class AssetAttributeOptionApi implements AssetAttributeOptionApiInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upsertAsync(
         string $assetFamilyCode,
         string $attributeCode,

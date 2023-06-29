@@ -94,11 +94,17 @@ class AttributeOptionApi implements AttributeOptionApiInterface
         return $this->resourceClient->upsertStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upsertAsyncList($attributeCode, $attributeOptions): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncStreamResourceList(static::ATTRIBUTE_OPTIONS_URI, [$attributeCode], $attributeOptions);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upsertAsync($attributeCode, $attributeOptionCode, array $data = []): PromiseInterface|Promise
     {
         return $this->resourceClient->upsertAsyncResource(static::ATTRIBUTE_OPTION_URI, [$attributeCode, $attributeOptionCode], $data);
