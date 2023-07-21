@@ -34,23 +34,9 @@ class AttributeApi implements AttributeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get(string $code): array
+    public function get(string $code, array $queryParameters = []): array
     {
-        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code]);
-    }
-
-    /**
-     * Get attribute with table select options.
-     * This method is not part of the official API.
-     * It is used to get the table select options of an attribute.
-     *
-     * @param string $code
-     *
-     * @return array
-     */
-    public function getWithTableSelectOptions(string $code): array
-    {
-        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code], ['with_table_select_options' => true]);
+        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code], $queryParameters);
     }
 
     /**
