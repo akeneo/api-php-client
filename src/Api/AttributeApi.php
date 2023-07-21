@@ -34,9 +34,9 @@ class AttributeApi implements AttributeApiInterface
     /**
      * {@inheritdoc}
      */
-    public function get(string $code): array
+    public function get(string $code, array $queryParameters = []): array
     {
-        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code]);
+        return $this->resourceClient->getResource(static::ATTRIBUTE_URI, [$code], $queryParameters);
     }
 
     /**
