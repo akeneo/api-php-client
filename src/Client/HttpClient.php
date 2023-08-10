@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\ApiClient\Client;
 
+use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
+use ECSPrefix202306\Symfony\Component\VarDumper\VarDumper;
 use GuzzleHttp\Promise\PromiseInterface;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -9,6 +11,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
+use function ECSPrefix202306\dd;
 
 /**
  * Http client to send a request without any authentication.
@@ -75,6 +78,8 @@ class HttpClient implements HttpClientInterface
 
         $response = $this->httpClient->sendRequest($request);
 
+        $response = $this->retry($response, $request);
+
         return $this->httpExceptionHandler->transformResponseToException($request, $response);
     }
 
@@ -87,5 +92,19 @@ class HttpClient implements HttpClientInterface
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
         return $this->httpClient->sendAsyncRequest($request);
+    }
+
+    private function retry(ResponseInterface $response, RequestInterface $request, int $retryDelay = 2): ResponseInterface
+    {
+        if ($this->options->canRetry() && HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+            $retry = 0;
+            while ($this->options->getMaxRetry() > $retry && HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+                usleep($retryDelay * 1000);
+                $response = $this->httpClient->sendRequest($request);
+                $retry++;
+                var_dump($response->getStatusCode());
+            }
+        }
+        return $response;
     }
 }
