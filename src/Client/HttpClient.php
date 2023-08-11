@@ -102,7 +102,6 @@ class HttpClient implements HttpClientInterface
                 usleep($retryDelay * 1000);
                 $response = $this->httpClient->sendRequest($request);
                 $retry++;
-                var_dump($response->getStatusCode());
             }
         }
         return $response;
