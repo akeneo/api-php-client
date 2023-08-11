@@ -2,8 +2,6 @@
 
 namespace Akeneo\Pim\ApiClient\Client;
 
-use Akeneo\Pim\ApiClient\Exception\TooManyRequestsHttpException;
-use ECSPrefix202306\Symfony\Component\VarDumper\VarDumper;
 use GuzzleHttp\Promise\PromiseInterface;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -11,7 +9,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
-use function ECSPrefix202306\dd;
 
 /**
  * Http client to send a request without any authentication.
