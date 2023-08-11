@@ -9,6 +9,7 @@ use Akeneo\Pim\ApiClient\AkeneoPimClientInterface;
 use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use ECSPrefix202306\Symfony\Component\VarDumper\VarDumper;
 use PHPUnit\Framework\Assert;
 
 final class AkeneoPimClientBuilderTest extends ApiTestCase

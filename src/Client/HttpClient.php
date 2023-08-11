@@ -76,9 +76,7 @@ class HttpClient implements HttpClientInterface
     {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
-        $response = $this->httpClient->sendRequest($request);
-
-        $response = $this->retry($response, $request);
+        $response = $this->retry($this->httpClient->sendRequest($request), $request);
 
         return $this->httpExceptionHandler->transformResponseToException($request, $response);
     }
