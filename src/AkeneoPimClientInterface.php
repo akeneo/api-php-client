@@ -40,6 +40,7 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApiInterface;
+use Akeneo\Pim\ApiClient\Api\SystemInformationApi;
 
 /**
  * Client to use the Akeneo PIM API.
@@ -94,13 +95,13 @@ interface AkeneoPimClientInterface
 
     /**
      * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
-     * @see getAssetManagerApi instead.
+     * @see        getAssetManagerApi instead.
      */
     public function getAssetApi(): AssetApiInterface;
 
     /**
      * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
-     * @see getAssetFamilyApi instead.
+     * @see        getAssetFamilyApi instead.
      */
     public function getAssetCategoryApi(): AssetCategoryApiInterface;
 
@@ -146,4 +147,6 @@ interface AkeneoPimClientInterface
     public function getAppCatalogApi(): AppCatalogApiInterface;
 
     public function getAppCatalogProductApi(): AppCatalogProductApiInterface;
+
+    public function getSystemInformationApi(): SystemInformationApi;
 }
