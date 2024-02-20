@@ -3,12 +3,11 @@
 namespace Akeneo\Pim\ApiClient\tests\Api\ReferenceEntityRecord;
 
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
-use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertListReferenceEntityRecordIntegration extends ApiTestCase
@@ -142,7 +141,7 @@ JSON;
 
         $api = $this->createClientByPassword()->getReferenceEntityRecordApi();
         $promise = $api->upsertAsyncList('designer', $records);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $responses = json_decode($promise->wait()->getBody()->getContents(), true);
 

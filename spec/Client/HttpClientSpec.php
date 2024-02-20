@@ -5,7 +5,7 @@ namespace spec\Akeneo\Pim\ApiClient\Client;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\Client\HttpClientInterface;
 use Akeneo\Pim\ApiClient\Client\Options;
-use Akeneo\Pim\ApiClient\Exception\HttpException;
+use Akeneo\Pim\ApiClient\Exception\ServerErrorHttpException;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -106,7 +106,7 @@ class HttpClientSpec extends ObjectBehavior
         $responseBody->rewind()->shouldBeCalled();
 
         $this
-            ->shouldThrow(HttpException::class)
+            ->shouldThrow(ServerErrorHttpException::class)
             ->during('sendRequest', [
                 'POST',
                 'http://akeneo.com/api/rest/v1/products/foo',
