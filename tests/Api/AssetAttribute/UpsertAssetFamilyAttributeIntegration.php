@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertAssetFamilyAttributeIntegration extends ApiTestCase
@@ -72,7 +72,7 @@ class UpsertAssetFamilyAttributeIntegration extends ApiTestCase
 
         $api = $this->createClientByPassword()->getAssetAttributeApi();
         $promise = $api->upsertAsync('packshot', 'media_preview', $assetFamilyAttribute);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 

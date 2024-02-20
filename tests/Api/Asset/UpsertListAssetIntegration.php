@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Akeneo\Pim\ApiClient\tests\Api\Asset;
 
 use Akeneo\Pim\ApiClient\Api\AssetManager\AssetApi;
-use Akeneo\Pim\ApiClient\Stream\UpsertResourceListResponseFactory;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertListAssetIntegration extends ApiTestCase
@@ -173,7 +172,7 @@ JSON;
         $api = $this->createClientByPassword()->getAssetManagerApi();
         $promise = $api->upsertAsyncList('packshot', $assets);
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $responses = json_decode($promise->wait()->getBody()->getContents(), true);
 
