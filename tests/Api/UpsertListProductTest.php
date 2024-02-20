@@ -8,7 +8,7 @@ use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertListProductTest extends ApiTestCase
@@ -55,7 +55,7 @@ class UpsertListProductTest extends ApiTestCase
         $api = $this->createClientByPassword()->getProductApi();
         $promise = $api->upsertAsyncList($this->getProductToUpsert());
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 
@@ -121,7 +121,7 @@ class UpsertListProductTest extends ApiTestCase
         $api = $this->createClientByPassword()->getProductApi();
         $promise = $api->upsertAsyncList($streamedResources);
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 

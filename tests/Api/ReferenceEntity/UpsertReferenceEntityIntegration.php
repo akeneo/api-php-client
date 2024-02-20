@@ -7,7 +7,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertReferenceEntityIntegration extends ApiTestCase
@@ -54,7 +54,7 @@ class UpsertReferenceEntityIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getReferenceEntityApi();
         $promise = $api->upsertAsync('brand', $referenceEntity);
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 

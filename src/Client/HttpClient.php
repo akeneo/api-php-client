@@ -86,6 +86,6 @@ class HttpClient implements HttpClientInterface
     ): PromiseInterface|Promise {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
-        return $this->httpClient->sendAsyncRequest($request);
+        return $this->httpClient->sendAsync($request);
     }
 }
