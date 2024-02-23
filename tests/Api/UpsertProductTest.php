@@ -6,7 +6,7 @@ use Akeneo\Pim\ApiClient\Api\ProductApi;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertProductTest extends ApiTestCase
@@ -64,7 +64,7 @@ class UpsertProductTest extends ApiTestCase
         ];
 
         $promise = $api->upsertAsync('docks_black', $parameters);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 

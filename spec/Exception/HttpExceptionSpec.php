@@ -12,6 +12,9 @@ class HttpExceptionSpec extends ObjectBehavior
 {
     function let(RequestInterface $request, ResponseInterface $response)
     {
+        $aStatusCode = 1234;
+        $response->getStatusCode()->willReturn($aStatusCode);
+
         $this->beConstructedWith('message', $request, $response);
     }
 
