@@ -9,8 +9,8 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Discovery\Psr17FactoryDiscovery;
 use GuzzleHttp\Promise\PromiseInterface;
+use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\Assert;
 
 /**
