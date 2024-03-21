@@ -42,6 +42,7 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApiInterface;
+use Akeneo\Pim\ApiClient\Api\SystemInformationApiInterface;
 use Akeneo\Pim\ApiClient\Security\Authentication;
 use PhpSpec\ObjectBehavior;
 
@@ -86,7 +87,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
         ProductUuidApiInterface $productUuidApi,
         ProductDraftUuidApiInterface $productDraftUuidApi,
         AppCatalogApiInterface $appCatalogApi,
-        AppCatalogProductApiInterface $appCatalogProductApi
+        AppCatalogProductApiInterface $appCatalogProductApi,
+        SystemInformationApiInterface $systemInformationApi,
     ) {
         $this->beConstructedWith(
             $authentication,
@@ -127,7 +129,8 @@ class AkeneoPimClientSpec extends ObjectBehavior
             $productUuidApi,
             $productDraftUuidApi,
             $appCatalogApi,
-            $appCatalogProductApi
+            $appCatalogProductApi,
+            $systemInformationApi
         );
     }
 

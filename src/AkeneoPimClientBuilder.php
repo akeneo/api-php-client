@@ -41,6 +41,7 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApi;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApi;
+use Akeneo\Pim\ApiClient\Api\SystemInformationApi;
 use Akeneo\Pim\ApiClient\Cache\LRUCache;
 use Akeneo\Pim\ApiClient\Client\AuthenticatedHttpClient;
 use Akeneo\Pim\ApiClient\Client\CachedResourceClient;
@@ -249,7 +250,8 @@ class AkeneoPimClientBuilder
             new ProductUuidApi($resourceClient, $pageFactory, $cursorFactory),
             new ProductDraftUuidApi($resourceClient, $pageFactory, $cursorFactory),
             new AppCatalogApi($resourceClient, $pageFactory, $cursorFactory),
-            new AppCatalogProductApi($resourceClient, $pageFactory, $cursorFactory)
+            new AppCatalogProductApi($resourceClient, $pageFactory, $cursorFactory),
+            new SystemInformationApi($resourceClient)
         );
     }
 

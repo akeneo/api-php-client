@@ -41,6 +41,8 @@ use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityAttributeOptionApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityMediaFileApiInterface;
 use Akeneo\Pim\ApiClient\Api\ReferenceEntityRecordApiInterface;
+use Akeneo\Pim\ApiClient\Api\SystemInformationApi;
+use Akeneo\Pim\ApiClient\Api\SystemInformationApiInterface;
 use Akeneo\Pim\ApiClient\Security\Authentication;
 
 /**
@@ -91,7 +93,8 @@ class AkeneoPimClient implements AkeneoPimClientInterface
         private ProductUuidApiInterface $productUuidApi,
         private ProductDraftUuidApiInterface $productDraftUuidApi,
         private AppCatalogApiInterface $appCatalogApi,
-        private AppCatalogProductApiInterface $appCatalogProductApi
+        private AppCatalogProductApiInterface $appCatalogProductApi,
+        private SystemInformationApiInterface $systemInformationApi
     ) {
     }
 
@@ -265,7 +268,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
 
     /**
      * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
-     * @see getAssetManagerApi instead.
+     * @see        getAssetManagerApi instead.
      */
     public function getAssetApi(): AssetApiInterface
     {
@@ -274,7 +277,7 @@ class AkeneoPimClient implements AkeneoPimClientInterface
 
     /**
      * @deprecated Route unavailable in latest PIM versions. Will be removed in v12.0.0.
-     * @see getAssetFamilyApi instead.
+     * @see        getAssetFamilyApi instead.
      */
     public function getAssetCategoryApi(): AssetCategoryApiInterface
     {
@@ -415,5 +418,13 @@ class AkeneoPimClient implements AkeneoPimClientInterface
     public function getAppCatalogProductApi(): AppCatalogProductApiInterface
     {
         return $this->appCatalogProductApi;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSystemInformationApi(): SystemInformationApi
+    {
+        return $this->systemInformationApi;
     }
 }
