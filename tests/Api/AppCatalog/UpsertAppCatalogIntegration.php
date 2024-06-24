@@ -7,10 +7,9 @@ namespace Akeneo\Pim\ApiClient\tests\Api\AppCatalog;
 use Akeneo\Pim\ApiClient\Api\AppCatalog\AppCatalogApi;
 use Akeneo\Pim\ApiClient\Client\HttpClient;
 use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
-use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -65,7 +64,7 @@ JSON;
 
         $api = $this->createClientByPassword()->getAppCatalogApi();
         $promise = $api->upsertAsync($catalogId, $catalogData);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = json_decode($promise->wait()->getBody()->getContents(), true);
 
