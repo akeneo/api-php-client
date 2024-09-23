@@ -8,7 +8,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -75,7 +75,7 @@ class UpsertProductUuidIntegration extends ApiTestCase
         ];
 
         $promise = $api->upsertAsync('12951d98-210e-4bRC-ab18-7fdgf1bd14f3', $parameters);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 

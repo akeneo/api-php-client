@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertAssetIntegration extends ApiTestCase
@@ -81,7 +81,7 @@ class UpsertAssetIntegration extends ApiTestCase
 
         $api = $this->createClientByPassword()->getAssetManagerApi();
         $promise = $api->upsertAsync('packshot', 'sku_54628_telescope', $asset);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 

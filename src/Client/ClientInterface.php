@@ -11,5 +11,5 @@ use Psr\Http\Message\RequestInterface;
 
 interface ClientInterface extends BaseClientInterface
 {
-    public function sendAsyncRequest(RequestInterface $request): PromiseInterface|Promise;
+    public function sendAsync(RequestInterface $request): PromiseInterface|Promise;
 }

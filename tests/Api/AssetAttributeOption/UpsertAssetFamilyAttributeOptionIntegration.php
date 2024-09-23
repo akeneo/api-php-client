@@ -9,7 +9,7 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\Assert;
 
 class UpsertAssetFamilyAttributeOptionIntegration extends ApiTestCase
@@ -70,7 +70,7 @@ class UpsertAssetFamilyAttributeOptionIntegration extends ApiTestCase
 
         $api = $this->createClientByPassword()->getAssetAttributeOptionApi();
         $promise = $api->upsertAsync('packshot', 'wearing_model_size', 'size_27', $assetFamilyAttributeOption);
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $promise->wait();
 
