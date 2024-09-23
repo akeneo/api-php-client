@@ -11,7 +11,7 @@ Matrix compatibility:
 | v2.3           | v3.0                   | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=3.0)](https://travis-ci.org/akeneo/api-php-client)                        |
 | v3.0 - v4.0    | v4.0 - v5.0            | [![Build Status](https://travis-ci.org/akeneo/api-php-client.svg?branch=4.0)](https://travis-ci.org/akeneo/api-php-client)                        |
 | v5.0           | v6.0                   | -                                                                                                                                                 |
-| v6.0           | >= v7.0           | -                                                                                                                                                 |
+| v6.0           | >= v7.0                | -                                                                                                                                                 |
 | -              | master                 | [![CircleCI](https://circleci.com/gh/akeneo/api-php-client/tree/master.svg?style=svg)](https://circleci.com/gh/akeneo/api-php-client/tree/master) |
 
 Note that our PHP client is backward compatible.
@@ -19,7 +19,7 @@ For example, if your PIM is currently a v2.3, you can still use a 1.0 version of
 
 ## Requirements
 
-* PHP >= 8.0
+* PHP >= 8.2
 * Composer 
 
 ## Installation
