@@ -20,7 +20,7 @@
     }
   },
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.2",
     "psr/http-message": "^2.0",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.0",
@@ -44,13 +44,13 @@
   "config": {
     "bin-dir": "bin",
     "platform": {
-      "php": "8.0"
+      "php": "8.2"
     },
     "allow-plugins": {
       "php-http/discovery": false
     }
   },
   "suggest": {
-    "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
+    "php-http/guzzle7-adapter": "In order to use Guzzle v7 as the HTTP client"
   }
 }

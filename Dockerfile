@@ -24,22 +24,22 @@ RUN apt-get update && \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
             /usr/share/lintian/* /usr/share/locale/* /usr/share/man/*
 
-# Install PHP with some extensions
+# Install PHP 8.2 with some extensions
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     sh -c 'echo "deb https://packages.sury.org/php/ bullseye main" > /etc/apt/sources.list.d/php.list' && \
     apt-get update && \
     apt-get --no-install-recommends --no-install-suggests --yes --quiet install \
-        php8.0-cli \
-        php8.0-apcu \
-        php8.0-mbstring \
-        php8.0-curl \
-        php8.0-gd \
-        php8.0-imagick \
-        php8.0-intl \
-        php8.0-bcmath \
-        php8.0-xdebug \
-        php8.0-xml \
-        php8.0-zip && \
+        php8.2-cli \
+        php8.2-apcu \
+        php8.2-mbstring \
+        php8.2-curl \
+        php8.2-gd \
+        php8.2-imagick \
+        php8.2-intl \
+        php8.2-bcmath \
+        php8.2-xdebug \
+        php8.2-xml \
+        php8.2-zip && \
     apt-get clean && apt-get --yes --quiet autoremove --purge && \
     rm -rf  /var/lib/apt/lists/* /tmp/* /var/tmp/* \
             /usr/share/doc/* /usr/share/groff/* /usr/share/info/* /usr/share/linda/* \
