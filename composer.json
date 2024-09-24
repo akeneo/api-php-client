@@ -51,6 +51,6 @@
     }
   },
   "suggest": {
-    "php-http/guzzle6-adapter": "In order to use Guzzle v6 as the HTTP client"
+    "php-http/guzzle7-adapter": "In order to use Guzzle v7 as the HTTP client"
   }
 }
