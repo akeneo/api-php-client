@@ -1,4 +1,4 @@
-DOCKER_RUN ?= DOCKER_BUILDKIT=1 docker-compose run php_client
+DOCKER_RUN ?= DOCKER_BUILDKIT=1 docker compose run php_client
 
 .PHONY: help
 help:
@@ -6,7 +6,7 @@ help:
 
 .PHONY: build-image
 build-image: ## Build docker image
-	DOCKER_BUILDKIT=1 docker-compose build
+	DOCKER_BUILDKIT=1 docker compose build
 
 .PHONY:
 .PHONY: dependencies

@@ -9,8 +9,8 @@ use Akeneo\Pim\ApiClient\tests\Api\ApiTestCase;
 use donatj\MockWebServer\RequestInfo;
 use donatj\MockWebServer\Response;
 use donatj\MockWebServer\ResponseStack;
+use GuzzleHttp\Promise\PromiseInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Promise\Promise;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -64,7 +64,7 @@ class UpsertListProductUuidIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getProductUuidApi();
         $promise = $api->upsertAsyncList($this->getProductToUpsert());
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 
@@ -135,7 +135,7 @@ class UpsertListProductUuidIntegration extends ApiTestCase
         $api = $this->createClientByPassword()->getProductUuidApi();
         $promise = $api->upsertAsyncList($streamedResources);
 
-        Assert::assertInstanceOf(Promise::class, $promise);
+        Assert::assertInstanceOf(PromiseInterface::class, $promise);
 
         $response = $upsertListResponseFactory->create($promise->wait()->getBody());
 
