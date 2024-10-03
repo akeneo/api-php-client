@@ -73,7 +73,7 @@ class HttpClient implements HttpClientInterface
     {
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
-        $response = $this->httpClient->sendRequest($request);
+        $response = $this->retry($this->httpClient->sendRequest($request), $request);
 
         return $this->httpExceptionHandler->transformResponseToException($request, $response);
     }
@@ -87,5 +87,18 @@ class HttpClient implements HttpClientInterface
         $request = $this->prepareRequest($httpMethod, $uri, $headers, $body);
 
         return $this->httpClient->sendAsync($request);
+    }
+
+    private function retry(ResponseInterface $response, RequestInterface $request, int $retryDelay = 2): ResponseInterface
+    {
+        if ($this->options->canRetry() && HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+            $retry = 0;
+            while ($this->options->getMaxRetry() > $retry && HttpClient::HTTP_TOO_MANY_REQUESTS === $response->getStatusCode()) {
+                usleep($retryDelay * 1000);
+                $response = $this->httpClient->sendRequest($request);
+                $retry++;
+            }
+        }
+        return $response;
     }
 }
